@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getAssetPath } from '@/lib/assets';
+
 const navLinks = [
   { label: 'Run Loop', href: '#how-it-works' },
   { label: 'Elyndor', href: '#world' },
@@ -31,7 +33,7 @@ export default function Navigation() {
     >
       <div className="max-w-7xl mx-auto px-6 h-16 md:h-20 flex items-center justify-between">
         <a href="#" className="flex items-center gap-2.5 group">
-          <img src="/images/mythstride-app-icon.png" alt="" className="h-9 w-9 rounded-full object-cover shadow-[0_0_18px_rgba(212,168,83,0.18)]" />
+          <img src={getAssetPath('/images/mythstride-app-icon.png')} alt="" className="h-9 w-9 rounded-full object-cover shadow-[0_0_18px_rgba(212,168,83,0.18)]" />
           <span className="font-display text-gold text-lg tracking-wider sm:text-xl">
             Myth<span className="text-gold-bright">Stride</span>
           </span>

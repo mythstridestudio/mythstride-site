@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, startTransition } from 'react';
+import { getAssetPath } from '@/lib/assets';
 import ScrollReveal from './ScrollReveal';
 import { EyeIcon, ShieldIcon, SparkleIcon } from './Icons';
 
@@ -19,7 +20,10 @@ export default function AethronAI() {
 
   return (
     <section id="aethron" className="relative overflow-hidden bg-void py-24">
-      <div className="absolute inset-0 bg-[url('/images/aethronfundo.png')] bg-cover bg-center opacity-45" />
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-45"
+        style={{ backgroundImage: `url('${getAssetPath('/images/aethronfundo.png')}')` }}
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-void via-void/66 to-void" />
       <div className="absolute inset-0 bg-gradient-to-r from-void via-transparent to-void" />
       <div
@@ -35,7 +39,10 @@ export default function AethronAI() {
           <ScrollReveal direction="left">
             <div className="relative mx-auto max-w-md">
               <div className="app-panel relative min-h-[560px] overflow-hidden p-6">
-                <div className="absolute inset-0 bg-[url('/images/aethronfundo.png')] bg-cover bg-center opacity-85" />
+                <div
+                  className="absolute inset-0 bg-cover bg-center opacity-85"
+                  style={{ backgroundImage: `url('${getAssetPath('/images/aethronfundo.png')}')` }}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-void via-void/20 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-emerald/25 bg-void/82 p-4 backdrop-blur-sm">
                   <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-emerald">

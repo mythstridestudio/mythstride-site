@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/lib/assets';
 import { SwordsIcon, ScrollIcon, ShieldIcon, TrophyIcon, UsersIcon, SparkleIcon, RunIcon } from './Icons';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
@@ -92,7 +93,7 @@ export default function Features() {
                   <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-gold-dim/35 to-transparent" />
                   <div className="relative z-10 flex gap-4">
                     <div className={`rarity-well ${feature.rarity} flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden p-2`}>
-                      <img src={feature.asset} alt="" className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110" />
+                      <img src={getAssetPath(feature.asset)} alt="" className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110" />
                     </div>
                     <div className="min-w-0">
                       <div className={`mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] ${feature.accent}`}>

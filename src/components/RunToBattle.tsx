@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, startTransition } from 'react';
+import { getAssetPath } from '@/lib/assets';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
 import { RunIcon, SwordsIcon, ShieldIcon, TrophyIcon } from './Icons';
@@ -33,7 +34,10 @@ export default function RunToBattle() {
   return (
     <section id="how-it-works" className="relative overflow-hidden bg-deep-charcoal py-24">
       <div className="absolute inset-0 bg-stone-texture opacity-35" />
-      <div className="absolute inset-0 bg-[url('/images/aethron-scroll-bg.png')] bg-cover bg-center opacity-10" />
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-10"
+        style={{ backgroundImage: `url('${getAssetPath('/images/aethron-scroll-bg.png')}')` }}
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-void/20 via-deep-charcoal/80 to-void/40" />
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
 
@@ -57,13 +61,13 @@ export default function RunToBattle() {
             <div className="relative mx-auto max-w-sm">
               <div className="phone-shell overflow-hidden p-2">
                 <img
-                  src="/images/screen-run.jpg"
+                  src={getAssetPath('/images/screen-run.jpg')}
                   alt="MythStride mission screen showing a real run converted into boss progress"
                   className="phone-screen h-auto w-full object-cover"
                 />
               </div>
               <div className="absolute -bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-3 rounded-full border border-gold-dim/30 bg-void/90 px-5 py-3 shadow-2xl">
-                <img src="/images/run-button-swords.png" alt="" className="h-11 w-11 object-contain" />
+                <img src={getAssetPath('/images/run-button-swords.png')} alt="" className="h-11 w-11 object-contain" />
                 <div>
                   <div className="font-display text-sm text-gold">Run to battle</div>
                   <div className="text-xs text-text-muted">The app loop, not a dashboard</div>

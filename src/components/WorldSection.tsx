@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { useReducedMotion } from 'framer-motion';
+import { getAssetPath } from '@/lib/assets';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
 import { CrownIcon, MapIcon, ShieldIcon, SparkleIcon } from './Icons';
@@ -77,7 +78,11 @@ export default function WorldSection() {
 
   return (
     <section id="world" ref={sectionRef} className="relative overflow-hidden bg-void py-24 md:py-32">
-      <div ref={bgRef} className="absolute inset-0 bg-[url('/images/aethron-scroll-bg.png')] bg-cover bg-center opacity-32" />
+      <div
+        ref={bgRef}
+        className="absolute inset-0 bg-cover bg-center opacity-32"
+        style={{ backgroundImage: `url('${getAssetPath('/images/aethron-scroll-bg.png')}')` }}
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-void via-void/70 to-void" />
       <div className="absolute inset-0 bg-gradient-to-r from-void via-void/40 to-void" />
       <div ref={mistRef} className="absolute inset-x-[-12%] top-1/3 h-1/2 bg-[radial-gradient(ellipse_at_center,rgba(232,224,208,0.16),transparent_64%)] blur-3xl" />
@@ -94,7 +99,10 @@ export default function WorldSection() {
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <ScrollReveal direction="left">
             <div className="app-panel relative overflow-hidden p-6 md:p-8">
-              <div className="absolute inset-0 bg-[url('/images/background.png')] bg-cover bg-center opacity-45" />
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-45"
+                style={{ backgroundImage: `url('${getAssetPath('/images/background.png')}')` }}
+              />
               <div className="absolute inset-0 bg-gradient-to-r from-void via-void/82 to-void/30" />
               <div className="relative max-w-2xl">
                 <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald/25 bg-emerald/10 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-emerald">

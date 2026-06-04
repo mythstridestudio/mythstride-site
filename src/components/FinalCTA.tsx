@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, startTransition } from 'react';
+import { getAssetPath } from '@/lib/assets';
 import { SwordsIcon, SparkleIcon } from './Icons';
 import ScrollReveal from './ScrollReveal';
 
@@ -16,7 +17,7 @@ export default function FinalCTA() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/images/background.png')",
+          backgroundImage: `url('${getAssetPath('/images/background.png')}')`,
           animation: mounted ? 'cinematic-zoom 15s cubic-bezier(0.25, 0.4, 0.2, 1) forwards' : 'none',
         }}
       />

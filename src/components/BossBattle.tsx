@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, startTransition } from 'react';
+import { getAssetPath } from '@/lib/assets';
 import { SwordsIcon, ShieldIcon, EyeIcon } from './Icons';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
@@ -33,7 +34,10 @@ export default function BossBattle() {
   return (
     <section id="bosses" className="relative overflow-hidden bg-void py-24">
       <div className="absolute inset-0 bg-stone-texture opacity-20" />
-      <div className="absolute inset-0 bg-[url('/images/background.png')] bg-cover bg-center opacity-25" />
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-25"
+        style={{ backgroundImage: `url('${getAssetPath('/images/background.png')}')` }}
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-void via-void/80 to-void" />
       <div
         className="absolute left-1/2 top-1/2 h-[760px] w-[760px] -translate-x-1/2 -translate-y-1/2 rounded-full"
@@ -59,7 +63,7 @@ export default function BossBattle() {
                 {bosses.map((boss, index) => (
                   <div key={boss.name} className={`${index === 2 ? 'sm:col-span-1' : ''} relative overflow-hidden rounded-[22px] border border-gold-dim/20 bg-void/70 p-3`}>
                     <div className="relative aspect-square overflow-hidden rounded-2xl bg-rich-brown/40">
-                      <img src={boss.image} alt={boss.name} className="h-full w-full object-contain drop-shadow-[0_0_28px_rgba(232,98,42,0.22)]" />
+                      <img src={getAssetPath(boss.image)} alt={boss.name} className="h-full w-full object-contain drop-shadow-[0_0_28px_rgba(232,98,42,0.22)]" />
                     </div>
                     <div className="mt-3">
                       <h3 className="font-display text-lg text-gold">{boss.name}</h3>

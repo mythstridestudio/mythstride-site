@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { getAssetPath } from '@/lib/assets';
 import ScrollReveal from './ScrollReveal';
 import { EyeIcon, SparkleIcon, SwordsIcon } from './Icons';
 
@@ -164,7 +165,11 @@ export default function AethronLegend() {
 
   return (
     <section id="legend" ref={sectionRef} className="relative overflow-hidden bg-void py-24 md:py-32">
-      <div ref={ruinsRef} className="absolute inset-0 bg-[url('/images/aethron-scroll-bg.png')] bg-cover bg-center opacity-35" />
+      <div
+        ref={ruinsRef}
+        className="absolute inset-0 bg-cover bg-center opacity-35"
+        style={{ backgroundImage: `url('${getAssetPath('/images/aethron-scroll-bg.png')}')` }}
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-void via-void/70 to-void" />
       <div className="absolute inset-0 bg-gradient-to-r from-void via-void/45 to-void" />
       <div ref={mistRef} className="absolute inset-x-0 top-1/4 h-2/3 bg-[radial-gradient(ellipse_at_center,rgba(232,224,208,0.12),transparent_62%)] opacity-50 blur-2xl" />
@@ -212,12 +217,15 @@ export default function AethronLegend() {
         <div className="grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:gap-16">
           <div className="relative lg:sticky lg:top-28 lg:h-[calc(100vh-8rem)]">
             <div className="app-panel relative flex min-h-[560px] items-end justify-center overflow-hidden p-6">
-              <div className="absolute inset-0 bg-[url('/images/background.png')] bg-cover bg-center opacity-50" />
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-50"
+                style={{ backgroundImage: `url('${getAssetPath('/images/background.png')}')` }}
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-void/10 via-void/20 to-void" />
               <div className="absolute inset-x-0 top-12 mx-auto h-72 w-72 rounded-full bg-emerald/10 blur-3xl" />
               <img
                 ref={figureRef}
-                src="/images/aethron-full.png"
+                src={getAssetPath('/images/aethron-full.png')}
                 alt="Aethron, the ancient spirit guide of MythStride"
                 className="relative z-10 max-h-[480px] w-auto max-w-full object-contain drop-shadow-[0_0_34px_rgba(47,212,143,0.18)]"
               />
@@ -240,7 +248,10 @@ export default function AethronLegend() {
 
             <ScrollReveal direction="up">
               <div className="relative overflow-hidden rounded-[28px] border border-fiery-orange/25 bg-void/80 p-6 md:p-8">
-                <div className="absolute inset-0 bg-[url('/images/spectral-king.png')] bg-cover bg-center opacity-20" />
+                <div
+                  className="absolute inset-0 bg-cover bg-center opacity-20"
+                  style={{ backgroundImage: `url('${getAssetPath('/images/spectral-king.png')}')` }}
+                />
                 <div className="absolute inset-0 bg-gradient-to-r from-void via-void/86 to-void/45" />
                 <div className="relative max-w-xl">
                   <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-fiery-orange/30 bg-fiery-orange/10 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-fiery-orange">

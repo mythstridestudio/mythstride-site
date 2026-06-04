@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/lib/assets';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
 import { GemIcon, ScrollIcon, SwordsIcon, TrophyIcon, UsersIcon } from './Icons';
@@ -53,10 +54,10 @@ export default function AppShowcase() {
           <ScrollReveal direction="left">
             <div className="relative mx-auto grid max-w-xl grid-cols-[0.85fr_1fr] items-end gap-4">
               <div className="phone-shell -mb-4 overflow-hidden p-2 opacity-85">
-                <img src="/images/screen-dashboard.jpg" alt="MythStride dashboard screen" className="phone-screen h-auto w-full object-cover" />
+                <img src={getAssetPath('/images/screen-dashboard.jpg')} alt="MythStride dashboard screen" className="phone-screen h-auto w-full object-cover" />
               </div>
               <div className="phone-shell overflow-hidden p-2">
-                <img src="/images/screen-run.jpg" alt="MythStride run mission screen" className="phone-screen h-auto w-full object-cover" />
+                <img src={getAssetPath('/images/screen-run.jpg')} alt="MythStride run mission screen" className="phone-screen h-auto w-full object-cover" />
               </div>
             </div>
           </ScrollReveal>
@@ -70,7 +71,7 @@ export default function AppShowcase() {
                   <div className="app-panel app-panel-compact relative overflow-hidden p-4">
                     <div className="relative z-10 flex gap-4">
                       <div className="h-24 w-14 flex-shrink-0 overflow-hidden rounded-xl border border-gold-dim/25 bg-void">
-                        <img src={screen.image} alt="" className="h-full w-full object-cover" />
+                        <img src={getAssetPath(screen.image)} alt="" className="h-full w-full object-cover" />
                       </div>
                       <div>
                         <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-gold-muted">

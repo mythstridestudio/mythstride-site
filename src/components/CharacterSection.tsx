@@ -1,3 +1,4 @@
+import { getAssetPath } from '@/lib/assets';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
 import { ShieldIcon, SparkleIcon, SwordsIcon, TrophyIcon } from './Icons';
@@ -39,10 +40,10 @@ export default function CharacterSection() {
           <ScrollReveal direction="left">
             <div className="grid grid-cols-[0.9fr_1fr] items-end gap-4">
               <div className="app-panel app-panel-compact overflow-hidden p-2">
-                <img src="/images/perfil_masculino.png" alt="Male MythStride hero profile artwork" className="h-auto w-full rounded-[18px] object-cover" />
+                <img src={getAssetPath('/images/perfil_masculino.png')} alt="Male MythStride hero profile artwork" className="h-auto w-full rounded-[18px] object-cover" />
               </div>
               <div className="app-panel app-panel-compact overflow-hidden p-2">
-                <img src="/images/screen-share.jpg" alt="MythStride shareable journey card" className="h-auto w-full rounded-[18px] object-cover" />
+                <img src={getAssetPath('/images/screen-share.jpg')} alt="MythStride shareable journey card" className="h-auto w-full rounded-[18px] object-cover" />
               </div>
             </div>
           </ScrollReveal>

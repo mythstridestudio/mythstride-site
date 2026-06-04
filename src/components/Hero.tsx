@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useEffect, useState, startTransition } from 'react';
+import { getAssetPath } from '@/lib/assets';
 import { ChevronDownIcon, RunIcon } from './Icons';
 import ScrollReveal from './ScrollReveal';
 
@@ -18,7 +19,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/images/background.png')",
+          backgroundImage: `url('${getAssetPath('/images/background.png')}')`,
           animation: mounted ? 'cinematic-zoom 15s cubic-bezier(0.25, 0.4, 0.2, 1) forwards' : 'none',
         }}
       />
@@ -112,7 +113,7 @@ export default function Hero() {
       {/* Decorative accent items */}
       <div className="absolute top-1/3 left-[8%] hidden lg:block pointer-events-none">
         <img
-          src="/images/fire_sword.png"
+          src={getAssetPath('/images/fire_sword.png')}
           alt=""
           className="w-16 h-16 object-contain opacity-30"
           style={{ animation: mounted ? 'weapon-glow 4s ease-in-out infinite' : 'none' }}
@@ -120,7 +121,7 @@ export default function Hero() {
       </div>
       <div className="absolute top-2/3 right-[8%] hidden lg:block pointer-events-none">
         <img
-          src="/images/amuleto_magico.png"
+          src={getAssetPath('/images/amuleto_magico.png')}
           alt=""
           className="w-14 h-14 object-contain opacity-25"
           style={{ animation: mounted ? 'item-glow 5s ease-in-out infinite' : 'none' }}
@@ -132,7 +133,7 @@ export default function Hero() {
         <div className="text-center lg:text-left">
           <ScrollReveal delay={0} direction="none">
             <img
-              src="/images/mythstride-logo.png"
+              src={getAssetPath('/images/mythstride-logo.png')}
               alt="MythStride"
               className="mx-auto mb-5 h-auto w-64 sm:w-80 lg:mx-0 lg:w-[23rem]"
             />
@@ -207,7 +208,7 @@ export default function Hero() {
                 transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
               >
                 <img
-                  src="/images/screen-dashboard.jpg"
+                  src={getAssetPath('/images/screen-dashboard.jpg')}
                   alt="MythStride dashboard showing player progress and current boss"
                   className="phone-screen h-auto w-full object-cover"
                 />
@@ -219,7 +220,7 @@ export default function Hero() {
                 transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
               >
                 <img
-                  src="/images/screen-run.jpg"
+                  src={getAssetPath('/images/screen-run.jpg')}
                   alt="MythStride run mission screen with boss progress"
                   className="phone-screen h-auto w-full object-cover"
                 />
@@ -227,7 +228,7 @@ export default function Hero() {
             </div>
 
             <div className="absolute -bottom-4 left-1/2 hidden -translate-x-1/2 items-center gap-3 rounded-full border border-gold-dim/30 bg-void/90 px-5 py-3 shadow-2xl sm:flex">
-              <img src="/images/run-button-swords.png" alt="" className="h-12 w-12 object-contain" />
+              <img src={getAssetPath('/images/run-button-swords.png')} alt="" className="h-12 w-12 object-contain" />
               <div className="text-left">
                 <div className="font-display text-sm text-gold">Tap to run</div>
                 <div className="text-xs text-text-muted">Real running becomes fantasy progression</div>
