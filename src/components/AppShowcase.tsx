@@ -1,9 +1,17 @@
 import { getAssetPath } from '@/lib/assets';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
-import { GemIcon, ScrollIcon, SwordsIcon, TrophyIcon, UsersIcon } from './Icons';
+import { TrophyIcon, SwordsIcon, GemIcon, ScrollIcon, UsersIcon } from './Icons';
+import { useTranslations } from '@/lib/i18n';
 
-const screens = [
+interface Screen {
+  title: string;
+  copy: string;
+  image: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const screens: Screen[] = [
   {
     title: 'Home',
     copy: 'Player progress, current boss, missions, and navigation in the real app.',
@@ -37,6 +45,9 @@ const screens = [
 ];
 
 export default function AppShowcase() {
+  const { t } = useTranslations();
+  const screensData = t('appShowcase.screens'); // array of { title: string, copy: string }
+
   return (
     <section id="app" className="relative overflow-hidden bg-deep-charcoal py-24">
       <div className="absolute inset-0 bg-stone-texture opacity-30" />
@@ -45,9 +56,9 @@ export default function AppShowcase() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         <SectionHeader
-          label="App Experience"
-          title="The Actual MythStride Interface"
-          description="The website should feel like the app because it uses the app: real screens, real hierarchy, real RPG progression."
+          label={t('appShowcase.sectionHeader.label')}
+          title={t('appShowcase.sectionHeader.title')}
+          description={t('appShowcase.sectionHeader.description')}
         />
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
@@ -64,6 +75,9 @@ export default function AppShowcase() {
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
             {screens.map((screen, index) => {
+              const screenData = screensData[index];
+              const TranslatedTitle = screenData?.title ?? screen.title;
+              const TranslatedCopy = screenData?.copy ?? screen.copy;
               const Icon = screen.icon;
 
               return (
@@ -75,10 +89,10 @@ export default function AppShowcase() {
                       </div>
                       <div>
                         <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-gold-muted">
-                          <Icon className="h-3.5 w-3.5 text-gold" />
-                          {screen.title}
+                          <Icon className="h-3.5 w-3.5" />
+                          {TranslatedTitle}
                         </div>
-                        <p className="text-sm leading-relaxed text-text-secondary">{screen.copy}</p>
+                        <p className="text-sm leading-relaxed text-text-secondary">{TranslatedCopy}</p>
                       </div>
                     </div>
                   </div>

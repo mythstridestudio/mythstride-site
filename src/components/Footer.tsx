@@ -1,21 +1,16 @@
+'use client';
+
 import { SwordsIcon } from './Icons';
+import { useTranslations } from '@/lib/i18n';
 
-const footerLinks = [
-  { label: 'Privacy', href: '#' },
-  { label: 'Terms', href: '#' },
-  { label: 'Contact', href: '#' },
-  { label: 'Press Kit', href: '#' },
-  { label: 'Support', href: '#' },
-];
-
-const footerSocialLinks = [
-  { label: 'Twitter / X', href: '#' },
-  { label: 'Discord', href: '#' },
-  { label: 'Instagram', href: '#' },
-  { label: 'TikTok', href: '#' },
-];
+interface FooterLink {
+  label: string;
+  href: string;
+}
 
 export default function Footer() {
+  const { t } = useTranslations();
+
   return (
     <footer className="relative py-14 bg-abyss border-t border-gold-dim/15">
       <div className="max-w-7xl mx-auto px-6">
@@ -33,9 +28,9 @@ export default function Footer() {
 
           {/* Links */}
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm">
-            {footerLinks.map((link) => (
+            {t('footer.footerLinks').map((link: FooterLink, index: number) => (
               <a
-                key={link.label}
+                key={index}
                 href={link.href}
                 className="text-text-muted hover:text-gold transition-colors duration-300 tracking-wider"
               >
@@ -48,14 +43,14 @@ export default function Footer() {
         {/* Bottom row */}
         <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-text-muted text-xs">
-            &copy; {new Date().getFullYear()} MythStride. All rights reserved.
+            &copy; {new Date().getFullYear()} {t('footer.rights')}
           </div>
 
           {/* Social links */}
           <div className="flex items-center gap-6 text-xs">
-            {footerSocialLinks.map((link) => (
+            {t('footer.footerSocialLinks').map((link: FooterLink, index: number) => (
               <a
-                key={link.label}
+                key={index}
                 href={link.href}
                 className="text-text-muted hover:text-gold transition-colors duration-300 tracking-wider"
               >
@@ -65,7 +60,7 @@ export default function Footer() {
           </div>
 
           <div className="text-text-muted text-xs max-w-xs text-center md:text-right leading-relaxed">
-            Transform your runs. Conquer the realm.
+            {t('footer.tagline')}
           </div>
         </div>
       </div>

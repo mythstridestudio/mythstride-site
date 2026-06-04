@@ -4,14 +4,12 @@ import { useEffect, useState, startTransition } from 'react';
 import { getAssetPath } from '@/lib/assets';
 import ScrollReveal from './ScrollReveal';
 import { EyeIcon, ShieldIcon, SparkleIcon } from './Icons';
-
-const principles = [
-  'Post-run guidance that gives effort meaning',
-  'Daily counsel when discipline begins to fade',
-  'Missions shaped around consistency and recovery',
-];
+import { useTranslations } from '@/lib/i18n';
 
 export default function AethronAI() {
+  const { t } = useTranslations();
+  const principles = t('aethronAI.principles');
+
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -47,10 +45,10 @@ export default function AethronAI() {
                 <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-emerald/25 bg-void/82 p-4 backdrop-blur-sm">
                   <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-emerald">
                     <EyeIcon className="h-3.5 w-3.5" />
-                    Keeper of the Flame
+                    {t('aethronAI.keeperOfTheFlame')}
                   </div>
                   <p className="text-sm leading-relaxed text-text-secondary">
-                    Aethron does not shout orders. He interprets your effort, guards your momentum, and gives each mission a reason.
+                    {t('aethronAI.aethronDoesNotShout')}
                   </p>
                 </div>
               </div>
@@ -61,20 +59,22 @@ export default function AethronAI() {
             <div>
               <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-emerald/25 bg-emerald/10 px-4 py-2 text-xs uppercase tracking-[0.24em] text-emerald">
                 <SparkleIcon className="h-4 w-4" />
-                Aethron Companion
+                {t('aethronAI.aethronCompanion')}
               </div>
 
               <h2 className="font-display text-4xl leading-tight text-gold md:text-6xl">
-                Not a man. Not a god.
-                <span className="block text-gold-bright">A consciousness.</span>
+                {t('aethronAI.notAManNotAGod')}
+                <span className="block text-gold-bright">
+                  {t('aethronAI.aConsciousness')}
+                </span>
               </h2>
 
               <p className="mt-6 max-w-2xl text-base leading-relaxed text-text-secondary md:text-lg">
-                Inside MythStride, Aethron turns completed runs into calm counsel: what changed, what comes next, and why your progress matters beyond the numbers.
+                {t('aethronAI.insideMythStride')}
               </p>
 
               <div className="mt-8 space-y-4">
-                {principles.map((principle, index) => (
+                {principles.map((principle: string, index: number) => (
                   <ScrollReveal key={principle} delay={index * 120} direction="up">
                     <div className="flex gap-4 rounded-[22px] border border-gold-dim/20 bg-charcoal/42 p-4">
                       <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-emerald/30 bg-emerald/10">
@@ -88,8 +88,8 @@ export default function AethronAI() {
 
               <div className="mt-8 border-l border-gold-dim/30 pl-5">
                 <p className="font-display text-2xl leading-snug text-gold">
-                  He is wise, calm, protective, and inspiring.
-                  <span className="block text-emerald">A companion for the run after the run.</span>
+                  {t('aethronAI.heIsWiseCalmProtectiveInspiring')}
+                  <span className="block text-emerald">{t('aethronAI.companionForRunAfterRun')}</span>
                 </p>
               </div>
             </div>

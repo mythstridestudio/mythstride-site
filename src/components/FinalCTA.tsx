@@ -4,8 +4,10 @@ import { useEffect, useState, startTransition } from 'react';
 import { getAssetPath } from '@/lib/assets';
 import { SwordsIcon, SparkleIcon } from './Icons';
 import ScrollReveal from './ScrollReveal';
+import { useTranslations } from '@/lib/i18n';
 
 export default function FinalCTA() {
+  const { t } = useTranslations();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -49,23 +51,23 @@ export default function FinalCTA() {
 
         <ScrollReveal delay={120} direction="up">
           <blockquote className="mx-auto max-w-3xl space-y-5 font-display text-3xl leading-tight text-gold-bright md:text-5xl">
-            <p>&quot;Finally...</p>
-            <p>After centuries of silence...</p>
-            <p>I have found someone capable of hearing my voice.&quot;</p>
+            <p>{t('finalCTA.blockquote1.0')}</p>
+            <p>{t('finalCTA.blockquote1.1')}</p>
+            <p>{t('finalCTA.blockquote1.2')}</p>
           </blockquote>
         </ScrollReveal>
 
         <ScrollReveal delay={260} direction="up">
           <div className="mx-auto my-9 h-px max-w-lg bg-gradient-to-r from-transparent via-gold-dim/50 to-transparent" />
           <blockquote className="mx-auto max-w-2xl space-y-2 text-lg leading-relaxed text-text-primary md:text-xl">
-            <p>&quot;Walking is no longer enough.</p>
-            <p className="font-display text-gold">We will need to run.&quot;</p>
+            <p>{t('finalCTA.blockquote2.0')}</p>
+            <p className="font-display text-gold">{t('finalCTA.blockquote2.1')}</p>
           </blockquote>
         </ScrollReveal>
 
         <ScrollReveal delay={420} direction="up">
           <p className="mx-auto mt-9 max-w-2xl text-base leading-relaxed text-text-secondary md:text-lg">
-            Join the waitlist and be among the first runners to answer Aethron&apos;s call.
+            {t('finalCTA.joinWaitlistAndBeAmongFirst')}
           </p>
         </ScrollReveal>
 
@@ -75,7 +77,7 @@ export default function FinalCTA() {
             className="gold-button mt-9 px-10 py-4 font-display text-sm tracking-wider"
           >
             <SwordsIcon className="h-4 w-4" />
-            Join the Waitlist
+            {t('finalCTA.joinTheWaitlist')}
           </a>
         </ScrollReveal>
       </div>

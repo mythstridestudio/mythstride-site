@@ -5,31 +5,33 @@ import { getAssetPath } from '@/lib/assets';
 import { SwordsIcon, ShieldIcon, EyeIcon } from './Icons';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
-
-const bosses = [
-  {
-    name: 'Arpia',
-    source: 'Mistborn scout',
-    image: '/images/boss-arpia.png',
-  },
-  {
-    name: 'Ancestral Dragon',
-    source: 'Ember tyrant',
-    image: '/images/boss-dragao-ancestral.png',
-  },
-  {
-    name: 'Spectral King',
-    source: 'Commander of darkness',
-    image: '/images/spectral-king.png',
-  },
-];
+import { useTranslations } from '@/lib/i18n';
 
 export default function BossBattle() {
+  const { t } = useTranslations();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     startTransition(() => setMounted(true));
   }, []);
+
+  const bosses = [
+    {
+      name: t('bossBattle.bosses.0.name'),
+      source: t('bossBattle.bosses.0.source'),
+      image: '/images/boss-arpia.png',
+    },
+    {
+      name: t('bossBattle.bosses.1.name'),
+      source: t('bossBattle.bosses.1.source'),
+      image: '/images/boss-dragao-ancestral.png',
+    },
+    {
+      name: t('bossBattle.bosses.2.name'),
+      source: t('bossBattle.bosses.2.source'),
+      image: '/images/spectral-king.png',
+    },
+  ];
 
   return (
     <section id="bosses" className="relative overflow-hidden bg-void py-24">
@@ -50,9 +52,9 @@ export default function BossBattle() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         <SectionHeader
-          label="Boss Progression"
-          title="The Mist Gives Shape to Darkness"
-          description="Bosses are not random encounters. They are the Dark Mist taking form, led by shadows of the Spectral King."
+          label={t('bossBattle.sectionHeader.label')}
+          title={t('bossBattle.sectionHeader.title')}
+          description={t('bossBattle.sectionHeader.description')}
         />
 
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
@@ -80,13 +82,13 @@ export default function BossBattle() {
               <div className="rounded-[28px] border border-fiery-orange/25 bg-void/74 p-6">
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-fiery-orange/30 bg-fiery-orange/10 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-fiery-orange">
                   <EyeIcon className="h-3.5 w-3.5" />
-                  The Spectral King
+                  {t('bossBattle.theSpectralKing')}
                 </div>
                 <h3 className="font-display text-3xl leading-tight text-gold">
-                  The first commander of darkness was sealed, not destroyed.
+                  {t('bossBattle.firstCommanderSealed')}
                 </h3>
                 <p className="mt-4 leading-relaxed text-text-secondary">
-                  Every boss battle is a sign that the Mist is gathering again. Runs do more than fill bars; they help Aethron hold the seal.
+                  {t('bossBattle.everyBossBattleSign')}
                 </p>
               </div>
 
@@ -94,9 +96,9 @@ export default function BossBattle() {
                 <div className="mb-2 flex items-center justify-between gap-4 text-xs uppercase tracking-[0.18em] text-text-muted">
                   <span className="flex items-center gap-2">
                     <ShieldIcon className="h-4 w-4 text-fiery-orange" />
-                    Mist pressure
+                    {t('bossBattle.mistPressure')}
                   </span>
-                  <span className="text-fiery-orange">Rising</span>
+                  <span className="text-fiery-orange">{t('bossBattle.mistPressureRising')}</span>
                 </div>
                 <div className="h-3 overflow-hidden rounded-full border border-fiery-orange/25 bg-void">
                   <div className="h-full w-[62%] rounded-full bg-gradient-to-r from-hp-red via-fiery-orange to-amber" />
@@ -106,7 +108,7 @@ export default function BossBattle() {
               <div className="text-center text-[10px] uppercase tracking-[0.25em] text-text-muted">
                 <span className="mr-3 inline-block h-px w-10 bg-gold-dim/30 align-middle" />
                 <SwordsIcon className="mr-2 inline h-3.5 w-3.5 text-gold" />
-                Every run is a strike against the Mist
+                {t('bossBattle.everyRunStrike')}
                 <span className="ml-3 inline-block h-px w-10 bg-gold-dim/30 align-middle" />
               </div>
             </div>

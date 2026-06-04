@@ -6,26 +6,16 @@ import { getAssetPath } from '@/lib/assets';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
 import { CrownIcon, MapIcon, ShieldIcon, SparkleIcon } from './Icons';
+import { useTranslations } from '@/lib/i18n';
 
-const realms = [
-  {
-    title: 'Golden mountains',
-    copy: 'The old peaks of Elyndor once carried beacon fires from kingdom to kingdom.',
-    icon: CrownIcon,
-  },
-  {
-    title: 'Eternal forests',
-    copy: 'Ancient paths still remember the footsteps of heroes who ran before the Mist.',
-    icon: MapIcon,
-  },
-  {
-    title: 'Prosperous cities',
-    copy: 'Their gates did not fall to war. They fell silent when purpose disappeared.',
-    icon: ShieldIcon,
-  },
-];
+interface Realm {
+  title: string;
+  copy: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
 
 export default function WorldSection() {
+  const { t } = useTranslations();
   const sectionRef = useRef<HTMLElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
   const mistRef = useRef<HTMLDivElement>(null);
@@ -91,9 +81,9 @@ export default function WorldSection() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         <SectionHeader
-          label="World of Elyndor"
-          title="A Realm Waiting to Remember Its Purpose"
-          description="Long ago, Elyndor was a world of golden mountains, eternal forests, and prosperous cities. Then the Dark Mist arrived."
+          label={t('worldSection.sectionHeader.label')}
+          title={t('worldSection.sectionHeader.title')}
+          description={t('worldSection.sectionHeader.description')}
         />
 
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
@@ -107,20 +97,20 @@ export default function WorldSection() {
               <div className="relative max-w-2xl">
                 <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-emerald/25 bg-emerald/10 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-emerald">
                   <SparkleIcon className="h-3.5 w-3.5" />
-                  The Dark Mist
+                  {t('worldSection.theDarkMist')}
                 </div>
                 <h3 className="font-display text-3xl leading-tight text-gold md:text-5xl">
-                  It did not destroy cities. It destroyed purpose.
+                  {t('worldSection.itDidNotDestroyCities')}
                 </h3>
                 <p className="mt-5 max-w-xl leading-relaxed text-text-secondary">
-                  People stopped fighting, stopped exploring, stopped growing, and stopped dreaming. Through mist, ruins, and old stone roads, MythStride begins where Elyndor starts to wake again.
+                  {t('worldSection.peopleStoppedFighting')}
                 </p>
               </div>
             </div>
           </ScrollReveal>
 
           <div className="space-y-4">
-            {realms.map((realm, index) => {
+            {t('worldSection.realms').map((realm: Realm, index: number) => {
               const Icon = realm.icon;
 
               return (

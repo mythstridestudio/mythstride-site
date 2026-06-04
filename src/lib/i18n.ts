@@ -1,8 +1,10 @@
+'use client';
+
 import { useState, useEffect, useCallback } from 'react';
 
 // Load translation files
 const loadTranslations = async (lang: string) => {
-  try:
+  try {
     const res = await fetch(`/translations/${lang}.json`);
     if (!res.ok) {
       throw new Error(`Failed to load translations for ${lang}`);

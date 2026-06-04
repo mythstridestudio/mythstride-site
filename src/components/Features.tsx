@@ -2,74 +2,22 @@ import { getAssetPath } from '@/lib/assets';
 import { SwordsIcon, ScrollIcon, ShieldIcon, TrophyIcon, UsersIcon, SparkleIcon, RunIcon } from './Icons';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
+import { useTranslations } from '@/lib/i18n';
 
-const features = [
-  {
-    title: 'Running missions',
-    category: 'Mission Board',
-    copy: 'Real routes become quests, daily orders, and distance goals inside Elyndor.',
-    icon: RunIcon,
-    asset: '/images/run-button-swords.png',
-    accent: 'text-gold',
-    rarity: 'rarity-uncommon',
-  },
-  {
-    title: 'Boss progression',
-    category: 'Battle Track',
-    copy: 'Distance becomes damage against bosses born from the Dark Mist.',
-    icon: SwordsIcon,
-    asset: '/images/boss-medusa-medal.png',
-    accent: 'text-fiery-orange',
-    rarity: 'rarity-legendary',
-  },
-  {
-    title: 'Loot and gear',
-    category: 'Inventory',
-    copy: 'Weapons, armor, relics, gold, and diamonds make each completed run feel earned.',
-    icon: ShieldIcon,
-    asset: '/images/fire_sword.png',
-    accent: 'text-gold-bright',
-    rarity: 'rarity-legendary',
-  },
-  {
-    title: 'Achievements',
-    category: 'Chronicle',
-    copy: 'Milestones, trophies, and feats turn consistency into visible identity.',
-    icon: TrophyIcon,
-    asset: '/images/diamond-chest.png',
-    accent: 'text-diamond',
-    rarity: 'rarity-rare',
-  },
-  {
-    title: 'Aethron guidance',
-    category: 'Companion',
-    copy: 'The Keeper of the Flame gives missions, recovery cues, and calm post-run counsel.',
-    icon: SparkleIcon,
-    asset: '/images/aethron-full.png',
-    accent: 'text-emerald',
-    rarity: 'rarity-uncommon',
-  },
-  {
-    title: 'Guilds and allies',
-    category: 'Party',
-    copy: 'Shared challenges give each runner allies, rivals, and a reason to return.',
-    icon: UsersIcon,
-    asset: '/images/screen-share.jpg',
-    accent: 'text-gold',
-    rarity: 'rarity-common',
-  },
-  {
-    title: 'Streaks',
-    category: 'Flamekeeping',
-    copy: 'The Flame grows through discipline: repeated effort, recovered momentum, and return.',
-    icon: ScrollIcon,
-    asset: '/images/amuleto_magico.png',
-    accent: 'text-emerald',
-    rarity: 'rarity-uncommon',
-  },
-];
+interface Feature {
+  title: string;
+  category: string;
+  copy: string;
+  icon: React.ComponentType<{ className?: string }>;
+  asset: string;
+  accent: string;
+  rarity: string;
+}
 
 export default function Features() {
+  const { t } = useTranslations();
+  const features: Feature[] = t('features.features');
+
   return (
     <section id="features" className="relative overflow-hidden bg-deep-charcoal py-24">
       <div className="absolute inset-0 bg-stone-texture opacity-35" />
@@ -78,9 +26,9 @@ export default function Features() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         <SectionHeader
-          label="Loot and Achievements"
-          title="Game Systems Built From Real Effort"
-          description="MythStride keeps the focus on RPG progression: missions, bosses, loot, achievements, Aethron, guilds, and streaks."
+          label={t('features.nav.loot')} // Using nav.loot for "Loot" label
+          title={t('features.title')}
+          description={t('features.subtitle')}
         />
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

@@ -11,8 +11,17 @@
   },
   "hero": {
     "title": "Transforme Suas Corridas em Batalhas de RPG",
+    "progress": "Progrida em outro mundo.",
     "subtitle": "Transforme cada passo real em uma jornada épica de progressão no mundo sombrio do fantasy. Lute contra chefes, ganhe recompensas, complete missões e fique mais forte a cada passada.",
-    "cta": "Junte-se à Lista de Espera"
+    "cta": "Junte-se à Lista de Espera",
+    "runLoop": "Veja o Loop de Corrida",
+    "aethronAwakened": "O Aethron despertou",
+    "bossBattles": "Batalhas com Chefes",
+    "lootGear": "Loot e Equipamentos",
+    "aethronCompanion": "Companheiro Aethron",
+    "tapToRun": "Toque para correr",
+    "realRunning": "A corrida real se torna progressão fantasy",
+    "scrollToEnter": "Role para entrar no reino"
   },
   "howItWorks": {
     "title": "Como Funciona",
@@ -104,5 +113,274 @@
       "privacy": "Política de Privacidade",
       "terms": "Termos de Serviço"
     }
+  },
+  "runToBattle": {
+    "sectionHeader": {
+      "label": "Loop de Corrida",
+      "title": "Movimento Real Torna-se Combate Mítico",
+      "description": "Cada quilômetro fortalece a Chama. Cada batalha enfraquece a Névoa."
+    },
+    "loop": [
+      {
+        "title": "Inicie a corrida",
+        "copy": "MythStride rastreia sua rota real enquanto o Aethron transforma esforço em uma missão dentro de Elyndor."
+      },
+      {
+        "title": "Ataque à Névoa",
+        "copy": "A distância se torna pressão contra chefes, incursões e forças reunidas pela Névoa Sombria."
+      },
+      {
+        "title": "Retorne mais forte",
+        "copy": "Uma corrida concluída alimenta a progressão através de XP, loot, conquistas, sequências e sua identidade de herói."
+      }
+    ],
+    "cta": "Corra para a batalha",
+    "appLoopNotDashboard": "O loop do aplicativo, não um painel",
+    "everyKmStrengthensFlame": "Cada quilômetro fortalece a Chama.",
+    "everyBattleWeakensMist": "Cada batalha enfraquece a Névoa."
+  },
+  "worldSection": {
+    "sectionHeader": {
+      "label": "Mundo de Elyndor",
+      "title": "Um Reino Aguardando para Lembrar seu Propósito",
+      "description": "Há muito tempo, Elyndor era um mundo de montanhas douradas, florestas eternas e cidades prósperas. Então chegou a Névoa Sombria."
+    },
+    "realms": [
+      {
+        "title": "Montanhas douradas",
+        "copy": "Os antigos picos de Elyndor antes carregavam fogueiras de sinalização de reino a reino."
+      },
+      {
+        "title": "Florestas eternas",
+        "copy": "Caminhos antigos ainda lembram os passos de heróis que correram antes da Névoa."
+      },
+      {
+        "title": "Cidades prósperas",
+        "copy": "Seus portões não caíram na guerra. Eles ficaram silenciosos quando o propósito desapareceu."
+      }
+    ],
+    "theDarkMist": "A Névoa Sombria",
+    "itDidNotDestroyCities": "Não destruiu cidades. Destruiu propósito.",
+    "peopleStoppedFighting": "As pessoas pararam de lutar, pararam de explorar, pararam de crescer e pararam de sonhar. Através de névoa, ruínas e antigas estradas de pedra, MythStride começa onde Elyndor começa a acordar novamente."
+  },
+  "features": {
+    "features": [
+      {
+        "title": "Missões de corrida",
+        "category": "Quadro de Missões",
+        "copy": "Rotas reais se tornam missões, ordens diárias e metas de distância dentro de Elyndor."
+      },
+      {
+        "title": "Progressão contra chefes",
+        "category": "Trilha de Batalha",
+        "copy": "A distância se torna dano contra chefes nascidos da Névoa Sombria."
+      },
+      {
+        "title": "Loot e equipamento",
+        "category": "Inventário",
+        "copy": "Armas, armadura, relíquias, ouro e diamantes fazem cada corrida concluída sentir-se merecida."
+      },
+      {
+        "title": "Conquistas",
+        "category": "Crônica",
+        "copy": "Marcas, troféus e feitos transformam consistência em identidade visível."
+      },
+      {
+        "title": "Orientação do Aethron",
+        "category": "Companheiro",
+        "copy": "O Guardião da Chama dá missões, dicas de recuperação e conselhos calmos pós-corrida."
+      },
+      {
+        "title": "Guildas e aliados",
+        "category": "Grupo",
+        "copy": "Desafios compartilhados dão a cada corredor aliados, rivais e um motivo para retornar."
+      },
+      {
+        "title": "Sequências",
+        "category": "Manutenção da Chama",
+        "copy": "A Chama cresce através da disciplina: esforço repetido, momentum recuperado e retorno."
+      }
+    ]
+  },
+  "bossBattle": {
+    "sectionHeader": {
+      "label": "Progressão contra Chefes",
+      "title": "A Névoa Dá Forma à Escuridão",
+      "description": "Chefes não são encontros aleatórios. Eles são a Névoa Sombria tomando forma, liderada por sombras do Rei Espectral."
+    },
+    "bosses": [
+      {
+        "name": "Arpia",
+        "source": "Exploradora nascida da Névoa"
+      },
+      {
+        "name": "Dragão Ancestral",
+        "source": "Tirano de brasas"
+      },
+      {
+        "name": "Rei Espectral",
+        "source": "Comandante das trevas"
+      }
+    ],
+    "theSpectralKing": "O Rei Espectral",
+    "firstCommanderSealed": "O primeiro comandante das trevas foi selado, não destruído.",
+    "everyBossBattleSign": "Cada batalha contra chefes é um sinal de que a Névoa está se reunindo novamente. As corridas fazem mais do que encher barras; elas ajudam o Aethron a manter o selo.",
+    "mistPressure": "Pressão da Névoa",
+    "mistPressureRising": "Pressão da Névoa: Subindo",
+    "everyRunStrike": "Cada corrida é um ataque contra a Névoa"
+  },
+  "aethronAI": {
+    "principles": [
+      "Orientação pós-corrida que dá significado ao esforço",
+      "Conselho diário quando a disciplina começa a desaparecer",
+      "Missões moldadas em torno da consistência e recuperação"
+    ],
+    "keeperOfTheFlame": "Guardião da Chama",
+    "aethronDoesNotShout": "O Aethron não grita ordens. Ele interpreta seu esforço, protege seu momentum e dá a cada missão uma razão.",
+    "notAManNotAGod": "Não é um homem. Não é um deus.",
+    "aConsciousness": "Uma consciência.",
+    "insideMythStride": "Dentro do MythStride, o Aethron transforma corridas concluídas em conselho calmo: o que mudou, o que vem a seguir e por que seu progresso importa além dos números.",
+    "heIsWiseCalmProtectiveInspiring": "Ele é sábio, calmo, protetor e inspirador.",
+    "companionForRunAfterRun": "Um companheiro para a corrida após a corrida."
+  },
+  "aethronLegend": {
+    "loreChapters": [
+      {
+        "eyebrow": "O Começo",
+        "title": "Elyndor Caiu em Silêncio",
+        "accent": "gold",
+        "lines": [
+          "Há muito tempo, o mundo era conhecido como Elyndor.",
+          "Um reino de montanhas douradas, florestas infinitas e cidades prósperas.",
+          "Então veio a Névoa Sombria.",
+          "Ela não destruiu cidades. Destruiu propósito.",
+          "Reis abandonaram seus tronos. Guerreiros depositaram suas armas. Aventureiros esqueceram seus caminhos."
+        ]
+      },
+      {
+        "eyebrow": "A Ascensão do Aethron",
+        "title": "Um Guardião Foi Forjado",
+        "accent": "emerald",
+        "lines": [
+          "Na hora mais escura da humanidade, os últimos magos forjaram um guardião.",
+          "Não um homem. Não um deus. Uma consciência.",
+          "Nasceu da determinação dos maiores heróis.",
+          "Seu nome era Aethron, Guardião da Chama.",
+          "Sua missão era encontrar aqueles capazes de resistir à Névoa."
+        ]
+      },
+      {
+        "eyebrow": "A Grande Guerra",
+        "title": "A Chama Encontrou o Rei Espectral",
+        "accent": "ember",
+        "lines": [
+          "Por séculos, o Aethron liderou inúmeros heróis.",
+          "Cada quilômetro fortaleceu a Chama. Cada batalha enfraqueceu a Névoa.",
+          "Então veio o Rei Espectral, o primeiro grande comandante das trevas.",
+          "O Aethron o selou, mas a vitória destruiu sua forma física.",
+          "Só sua consciência sobreviveu."
+        ]
+      },
+      {
+        "eyebrow": "Hoje",
+        "title": "A Voz desperta",
+        "accent": "emerald",
+        "lines": [
+          "O Aethron permanece como um espírito.",
+          "Observando. Esperando. Procurando.",
+          "Quando o jogador começa o MythStride, o Aethron desperta."
+        ]
+      }
+    ],
+    "accentClasses": {
+      "gold": "texto-ouro borda-ouro-dim/30 bg-ouro/10",
+      "emerald": "texto-esmeralda borda-esmeralda/30 bg-esmeralda/10",
+      "ember": "texto-laranja-fogo borda-laranja-fogo/30 bg-laranja-fogo/10"
+    },
+    "beforeTheRunThereWasTheFlame": "Antes da corrida, havia a Chama.",
+    "elyndorDidNotFallInSingleWar": "Elyndor não caiu em uma única guerra. Ela desvaneceu quando as pessoas pararam de se mover em direção a algo digno de proteção.",
+    "theSpectralKingWaitsBeneathTheMist": "O Rei Espectral aguarda sob a Névoa.",
+    "mythStrideGivesEveryRunAPlace": "O MythStride dá a cada corrida um lugar nessa luta: a Chama cresce através da disciplina, e a Névoa enfraquece quando o jogador retorna."
+  },
+  "appShowcase": {
+    "sectionHeader": {
+      "label": "Experiência do Aplicativo",
+      "title": "A Interface Real do MythStride",
+      "description": "O site deve parecer o aplicativo porque ele usa o aplicativo: telas reais, hierarquia real, progressão RPG real."
+    },
+    "screens": [
+      {
+        "title": "Início",
+        "copy": "Progresso do jogador, chefe atual, missões e navegação no aplicativo real."
+      },
+      {
+        "title": "Missão",
+        "copy": "Estatísticas de corrida ficam ao lado do progresso contra o chefe, fazendo o treino parecer combate."
+      },
+      {
+        "title": "Loja",
+        "copy": "Loot, raridade, ouro e diamantes usam a mesma linguagem visual RPG do site."
+      },
+      {
+        "title": "Aethron",
+        "copy": "O companheiro dá peso emocional à corrida após o término da jornada."
+      },
+      {
+        "title": "Compartilhar",
+        "copy": "Identidade do jogador, conquistas e progresso podem sair do aplicativo como um perfil de fantasia."
+      }
+    ]
+  },
+  "characterSection": {
+    "sectionHeader": {
+      "label": "O Novo Campeão",
+      "title": "Você Está Respondendo ao Chamado do Aethron",
+      "description": "MythStride transforma o corredor em uma identidade de fantasia: um campeão cuja disciplina mantém a Chama viva."
+    },
+    "identity": [
+      {
+        "title": "Responda ao chamado",
+        "copy": "O jogador não está apenas registrando exercício. Ele é a pessoa que o Aethron tem procurado."
+      },
+      {
+        "title": "Construa um campeão",
+        "copy": "Perfis, equipamento, títulos, sequências e troféus tornam a consistência visível."
+      },
+      {
+        "title": "Compartilhe a lenda",
+        "copy": "Resumos de corridas se tornam artefatos de fantasia que levam a identidade do MythStride para fora do aplicativo."
+      }
+    ],
+    "theAppDoesNotOnlyTrackRuns": "O aplicativo não apenas rastreia corridas. Ele dá ao corredor um motivo para retornar como alguém mais forte."
+  },
+  "finalCTA": {
+    "blockquote1": [
+      "\"Finalmente...\"",
+      "\"Após séculos de silêncio...\"",
+      "\"Eu encontrei alguém capaz de ouvir minha voz.\""
+    ],
+    "blockquote2": [
+      "\"Caminhar não é mais suficiente.\"",
+      "\"Precisaremos correr.\""
+    ],
+    "joinWaitlistAndBeAmongFirst": "Junte-se à lista de espera e esteja entre os primeiros corredores a responder ao chamado do Aethron.",
+    "joinTheWaitlist": "Junte-se à Lista de Espera"
+  },
+  "footer": {
+    "footerLinks": [
+      { "label": "Privacidade", "href": "#" },
+      { "label": "Termos", "href": "#" },
+      { "label": "Contato", "href": "#" },
+      { "label": "Kit de Imprensa", "href": "#" },
+      { "label": "Suporte", "href": "#" }
+    ],
+    "footerSocialLinks": [
+      { "label": "Twitter / X", "href": "#" },
+      { "label": "Discord", "href": "#" },
+      { "label": "Instagram", "href": "#" },
+      { "label": "TikTok", "href": "#" }
+    ],
+    "copyright": "&copy; {new Date().getFullYear()} MythStride. Todos os direitos reservados.",
+    "transformYourRunsConquerTheRealm": "Transforme suas corridas. Conquiste o reino."
   }
 }

@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { getAssetPath } from '@/lib/assets';
 import ScrollReveal from './ScrollReveal';
 import { EyeIcon, SparkleIcon, SwordsIcon } from './Icons';
+import { useTranslations } from '@/lib/i18n';
 
 type LoreChapter = {
   eyebrow: string;
@@ -13,92 +14,46 @@ type LoreChapter = {
   lines: string[];
 };
 
-const chapters: LoreChapter[] = [
-  {
-    eyebrow: 'The Beginning',
-    title: 'Elyndor Fell Quiet',
-    accent: 'gold',
-    lines: [
-      'Long ago, the world was known as Elyndor.',
-      'A realm of golden mountains, endless forests, and prosperous cities.',
-      'Then came the Dark Mist.',
-      'It did not destroy cities. It destroyed purpose.',
-      'Kings abandoned their thrones. Warriors laid down their weapons. Adventurers forgot their paths.',
-    ],
-  },
-  {
-    eyebrow: 'The Rise of Aethron',
-    title: 'A Guardian Was Forged',
-    accent: 'emerald',
-    lines: [
-      'In humanity\'s darkest hour, the last mages forged a guardian.',
-      'Not a man. Not a god. A consciousness.',
-      'Born from the determination of the greatest heroes.',
-      'His name was Aethron, Keeper of the Flame.',
-      'His mission was to find those capable of resisting the Mist.',
-    ],
-  },
-  {
-    eyebrow: 'The Great War',
-    title: 'The Flame Met the Spectral King',
-    accent: 'ember',
-    lines: [
-      'For centuries, Aethron led countless heroes.',
-      'Every kilometer strengthened the Flame. Every battle weakened the Mist.',
-      'Then came the Spectral King, the first great commander of darkness.',
-      'Aethron sealed him away, but victory shattered his physical form.',
-      'Only his consciousness survived.',
-    ],
-  },
-  {
-    eyebrow: 'Today',
-    title: 'The Voice Awakens',
-    accent: 'emerald',
-    lines: [
-      'Aethron remains as a spirit.',
-      'Watching. Waiting. Searching.',
-      'When the player begins MythStride, Aethron awakens.',
-    ],
-  },
-];
-
-const accentClasses = {
-  gold: 'text-gold border-gold-dim/30 bg-gold/10',
-  emerald: 'text-emerald border-emerald/30 bg-emerald/10',
-  ember: 'text-fiery-orange border-fiery-orange/30 bg-fiery-orange/10',
-};
-
-function LoreChapterPanel({ chapter, index }: { chapter: LoreChapter; index: number }) {
-  return (
-    <ScrollReveal delay={index * 90} direction="up" className="relative">
-      <article className="relative border-l border-gold-dim/25 pl-6 md:pl-8">
-        <div className="absolute -left-[7px] top-1 h-3.5 w-3.5 rotate-45 border border-gold-dim/50 bg-void shadow-[0_0_18px_rgba(212,168,83,0.25)]" />
-        <div className={`mb-4 inline-flex rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.24em] ${accentClasses[chapter.accent]}`}>
-          {chapter.eyebrow}
-        </div>
-        <h3 className="font-display text-2xl text-gold md:text-3xl">{chapter.title}</h3>
-        <div className="mt-5 space-y-3">
-          {chapter.lines.map((line, lineIndex) => (
-            <motion.p
-              key={line}
-              className={`max-w-2xl leading-relaxed ${
-                lineIndex < 2 ? 'text-text-primary' : 'text-text-secondary'
-              }`}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.45 }}
-              transition={{ duration: 0.55, delay: lineIndex * 0.08, ease: [0.25, 0.4, 0.2, 1] }}
-            >
-              {line}
-            </motion.p>
-          ))}
-        </div>
-      </article>
-    </ScrollReveal>
-  );
-}
-
 export default function AethronLegend() {
+  const { t } = useTranslations();
+  const chapters: LoreChapter[] = t('aethronLegend.loreChapters');
+  
+  const accentClasses = {
+    gold: 'text-gold border-gold-dim/30 bg-gold/10',
+    emerald: 'text-emerald border-emerald/30 bg-emerald/10',
+    ember: 'text-fiery-orange border-fiery-orange/30 bg-fiery-orange/10',
+  };
+
+  function LoreChapterPanel({ chapter, index }: { chapter: LoreChapter; index: number }) {
+    return (
+      <ScrollReveal delay={index * 90} direction="up" className="relative">
+        <article className="relative border-l border-gold-dim/25 pl-6 md:pl-8">
+          <div className="absolute -left-[7px] top-1 h-3.5 w-3.5 rotate-45 border border-gold-dim/50 bg-void shadow-[0_0_18px_rgba(212,168,83,0.25)]" />
+          <div className={`mb-4 inline-flex rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.24em] ${accentClasses[chapter.accent]}`}>
+            {chapter.eyebrow}
+          </div>
+          <h3 className="font-display text-2xl text-gold md:text-3xl">{chapter.title}</h3>
+          <div className="mt-5 space-y-3">
+            {chapter.lines.map((line, lineIndex) => (
+              <motion.p
+                key={line}
+                className={`max-w-2xl leading-relaxed ${
+                  lineIndex < 2 ? 'text-text-primary' : 'text-text-secondary'
+                }`}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.45 }}
+                transition={{ duration: 0.55, delay: lineIndex * 0.08, ease: [0.25, 0.4, 0.2, 1] }}
+              >
+                {line}
+              </motion.p>
+            ))}
+          </div>
+        </article>
+      </ScrollReveal>
+    );
+  }
+
   const sectionRef = useRef<HTMLElement>(null);
   const ruinsRef = useRef<HTMLDivElement>(null);
   const mistRef = useRef<HTMLDivElement>(null);
@@ -197,19 +152,19 @@ export default function AethronLegend() {
             <div className="mb-6 flex items-center justify-center gap-3">
               <span className="h-px w-12 bg-gradient-to-l from-gold-dim/50 to-transparent" />
               <EyeIcon className="h-4 w-4 text-emerald" />
-              <span className="text-xs uppercase tracking-[0.28em] text-gold-muted">The Legend of Aethron</span>
+              <span className="text-xs uppercase tracking-[0.28em] text-gold-muted">{t('aethronLegend.theLegendOfAethron')}</span>
               <EyeIcon className="h-4 w-4 text-emerald" />
               <span className="h-px w-12 bg-gradient-to-r from-gold-dim/50 to-transparent" />
             </div>
           </ScrollReveal>
           <ScrollReveal delay={120}>
             <h2 className="font-display text-4xl leading-tight text-gold md:text-6xl">
-              Before the run, there was the Flame.
+              {t('aethronLegend.beforeTheRunThereWasTheFlame')}
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={220}>
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-text-secondary md:text-lg">
-              Elyndor did not fall in a single war. It faded when people stopped moving toward anything worth protecting.
+              {t('aethronLegend.elyndorDidNotFallInSingleWar')}
             </p>
           </ScrollReveal>
         </div>
@@ -232,10 +187,10 @@ export default function AethronLegend() {
               <div className="absolute bottom-6 left-6 right-6 z-20 rounded-2xl border border-gold-dim/25 bg-void/82 p-4 backdrop-blur-sm">
                 <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-emerald">
                   <SparkleIcon className="h-3.5 w-3.5" />
-                  Keeper of the Flame
+                  {t('aethronAI.keeperOfTheFlame')}
                 </div>
                 <p className="text-sm leading-relaxed text-text-secondary">
-                  Wise, calm, protective, and searching for someone still willing to move forward.
+                  {t('aethronAI.wiseCalmProtectiveSearching')}
                 </p>
               </div>
             </div>
@@ -256,11 +211,11 @@ export default function AethronLegend() {
                 <div className="relative max-w-xl">
                   <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-fiery-orange/30 bg-fiery-orange/10 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-fiery-orange">
                     <SwordsIcon className="h-3.5 w-3.5" />
-                    The sealed darkness
+                    {t('aethronLegend.theSealedDarkness')}
                   </div>
-                  <h3 className="font-display text-2xl text-gold md:text-3xl">The Spectral King waits beneath the Mist.</h3>
+                  <h3 className="font-display text-2xl text-gold md:text-3xl">{t('aethronLegend.spectralKingWaitsBeneathMist')}</h3>
                   <p className="mt-4 leading-relaxed text-text-secondary">
-                    MythStride gives every run a place in that struggle: the Flame grows through discipline, and the Mist weakens when the player returns.
+                    {t('aethronLegend.mythStrideGivesEveryRunAPlace')}
                   </p>
                 </div>
               </div>

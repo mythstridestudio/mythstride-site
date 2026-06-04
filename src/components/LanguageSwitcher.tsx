@@ -2,11 +2,15 @@
 
 import { useLanguage } from '@/contexts/LanguageContext';
 
-export default function LanguageSwitcher() {
+interface LanguageSwitcherProps {
+  className?: string;
+}
+
+export default function LanguageSwitcher({ className }: LanguageSwitcherProps) {
   const { lang, setLang } = useLanguage();
 
   return (
-    <div className="relative">
+    <div className={className}>
       <button
         onClick={() => setLang(lang === 'en' ? 'pt' : 'en')}
         className="flex items-center gap-2 text-text-secondary hover:text-gold transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"

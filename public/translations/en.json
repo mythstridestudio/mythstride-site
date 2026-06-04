@@ -1,0 +1,117 @@
+{
+  "nav": {
+    "runLoop": "Run Loop",
+    "elyndor": "Elyndor",
+    "loot": "Loot",
+    "bosses": "Bosses",
+    "aethron": "Aethron",
+    "legend": "Legend",
+    "app": "App",
+    "joinWaitlist": "Join Waitlist"
+  },
+  "hero": {
+    "title": "Turn Your Runs Into RPG Battles",
+    "progress": "Progress in another.",
+    "subtitle": "Transform every real-world step into an epic dark fantasy progression journey. Fight bosses, earn rewards, complete quests, and grow stronger with every stride.",
+    "cta": "Join the Waitlist",
+    "runLoop": "See the Run Loop",
+    "aethronAwakened": "Aethron has awakened",
+    "bossBattles": "Boss battles",
+    "lootGear": "Loot and gear",
+    "aethronCompanion": "Aethron companion",
+    "tapToRun": "Tap to run",
+    "realRunning": "Real running becomes fantasy progression",
+    "scrollToEnter": "Scroll to enter the realm"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "step1": {
+      "title": "Run in the Real World",
+      "description": "Track your runs with any fitness app or device. Every mile fuels your adventure in Elyndor."
+    },
+    "step2": {
+      "title": "Progress in Another",
+      "description": "Convert your distance into experience, defeat bosses, collect loot, and evolve your character."
+    },
+    "step3": {
+      "title": "Claim Your Rewards",
+      "description": "Earn achievements, unlock gear, and build your fantasy identity as you maintain your running streak."
+    }
+  },
+  "bosses": {
+    "title": "Face the Bosses of Elyndor",
+    "subtitle": "Each boss represents a running milestone. Defeat them to unlock new territories and powers.",
+    "boss1": {
+      "name": "The First Mile Guardian",
+      "description": "Defeat this guardian to prove your commitment to the journey."
+    },
+    "boss2": {
+      "name": "The 5K Warden",
+      "description": "Overcome this warden to unlock your first major territory."
+    },
+    "boss3": {
+      "name": "The Marathon Sovereign",
+      "description": "Conquer this sovereign to earn your place among legends."
+    }
+  },
+  "features": {
+    "title": "Loot & Achievements",
+    "subtitle": "Collect epic gear and earn prestigious achievements as you run.",
+    "lootCategories": [
+      {
+        "title": "Weapons",
+        "description": "Swords, axes, bows and more forged from mythical materials."
+      },
+      {
+        "title": "Armor",
+        "description": "Helmets, chestplates, gauntlets and greaves for every class."
+      },
+      {
+        "title": "Accessories",
+        "description": "Rings, amulets, cloaks and artifacts with special powers."
+      }
+    ],
+    "achievements": [
+      {
+        "title": "First Steps",
+        "description": "Complete your first tracked run."
+      },
+      {
+        "title": "Weekend Warrior",
+        "description": "Run 3 days in a week."
+      },
+      {
+        "title": "Monthly Champion",
+        "description": "Maintain a running streak for 30 days."
+      }
+    ]
+  },
+  "aethron": {
+    "title": "Meet Aethron, Your AI Companion",
+    "subtitle": "Your personal guide through the realms of Elyndor.",
+    "description": "Aethron analyzes your running patterns, provides personalized coaching, and narrates your journey as you progress through the world.",
+    "features": [
+      "Personalized running insights",
+      "Adaptive training recommendations",
+      "Fantasy journey narration",
+      "Goal setting and tracking"
+    ]
+  },
+  "legend": {
+    "title": "Build Your Legend",
+    "subtitle": "Create a shareable identity that showcases your running RPG journey.",
+    "description": "Your MythStride profile displays your character level, defeated bosses, collected loot, and running statistics - perfect for sharing your achievements with friends."
+  },
+  "app": {
+    "title": "See the App in Action",
+    "subtitle": "Watch MythStride transform your running experience.",
+    "description": "See how every sync with your fitness app brings your character to life in the world of Elyndor."
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    }
+  }
+}
