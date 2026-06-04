@@ -15,6 +15,8 @@ const developmentMockPlayer = (username: string): PublicPlayerProfile => ({
   level: 12,
   title: "Keeper of the Flame",
   totalDistanceKm: 245.7,
+  totalRuns: 48,
+  bossesDefeated: 3,
   currentStreakDays: 21,
   currentBoss: {
     name: "Spectral King",
@@ -23,12 +25,18 @@ const developmentMockPlayer = (username: string): PublicPlayerProfile => ({
   },
   guild: {
     name: "Cavaleiros da Aurora",
+    description: "A guild of runners who keep the eastern flame lit before dawn.",
   },
   rareAchievements: [
     {
       name: "First Boss Defeated",
       rarity: "rare",
       iconUrl: "/images/boss-medusa-medal.png",
+    },
+    {
+      name: "Flamekeeper Streak",
+      rarity: "epic",
+      iconUrl: "/images/fire_sword.png",
     },
   ],
   lastRun: {

@@ -2,20 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import { getAssetPath } from '@/lib/assets';
-
-const navLinks = [
-  { label: 'Run Loop', href: '#how-it-works' },
-  { label: 'Elyndor', href: '#world' },
-  { label: 'Loot', href: '#features' },
-  { label: 'Bosses', href: '#bosses' },
-  { label: 'Aethron', href: '#aethron' },
-  { label: 'Legend', href: '#legend' },
-  { label: 'App', href: '#app' },
-];
+import { useTranslations } from '@/lib/i18n';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function Navigation() {
+  const { t } = useTranslations();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { label: t('nav.runLoop'), href: '#how-it-works' },
+    { label: t('nav.elyndor'), href: '#world' },
+    { label: t('nav.loot'), href: '#features' },
+    { label: t('nav.bosses'), href: '#bosses' },
+    { label: t('nav.aethron'), href: '#aethron' },
+    { label: t('nav.legend'), href: '#legend' },
+    { label: t('nav.app'), href: '#app' },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -49,6 +52,7 @@ export default function Navigation() {
               {link.label}
             </a>
           ))}
+          <LanguageSwitcher />
         </div>
 
         <div className="flex items-center gap-4">
@@ -56,7 +60,7 @@ export default function Navigation() {
             href="#join"
             className="gold-button hidden min-h-0 px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
           >
-            Join Waitlist
+            {t('nav.joinWaitlist')}
           </a>
 
           <button
@@ -88,12 +92,13 @@ export default function Navigation() {
               {link.label}
             </a>
           ))}
+          <LanguageSwitcher className="mt-4" />
           <a
             href="#join"
             className="gold-button mt-2 px-6 py-3 font-display text-sm tracking-wider"
             onClick={() => setMobileOpen(false)}
           >
-            Join Waitlist
+            {t('nav.joinWaitlist')}
           </a>
         </div>
       </div>

@@ -1,4 +1,4 @@
-export type AchievementRarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
+export type AchievementRarity = "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic";
 
 export interface PublicPlayerBoss {
   name: string;
@@ -8,6 +8,8 @@ export interface PublicPlayerBoss {
 
 export interface PublicPlayerGuild {
   name: string;
+  emblemUrl?: string;
+  description?: string;
 }
 
 export interface PublicPlayerAchievement {
@@ -28,6 +30,8 @@ export interface PublicPlayerProfile {
   level: number;
   title: string;
   totalDistanceKm: number;
+  totalRuns?: number;
+  bossesDefeated?: number;
   currentStreakDays: number;
   currentBoss: PublicPlayerBoss | null;
   guild: PublicPlayerGuild | null;

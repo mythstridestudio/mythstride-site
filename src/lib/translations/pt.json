@@ -1,0 +1,108 @@
+{
+  "nav": {
+    "runLoop": "Loop de Corrida",
+    "elyndor": "Elyndor",
+    "loot": "Loot",
+    "bosses": "Chefes",
+    "aethron": "Aethron",
+    "legend": "Lenda",
+    "app": "App",
+    "joinWaitlist": "Junte-se à Lista de Espera"
+  },
+  "hero": {
+    "title": "Transforme Suas Corridas em Batalhas de RPG",
+    "subtitle": "Transforme cada passo real em uma jornada épica de progressão no mundo sombrio do fantasy. Lute contra chefes, ganhe recompensas, complete missões e fique mais forte a cada passada.",
+    "cta": "Junte-se à Lista de Espera"
+  },
+  "howItWorks": {
+    "title": "Como Funciona",
+    "step1": {
+      "title": "Corra no Mundo Real",
+      "description": "Monitore suas corridas com qualquer aplicativo ou dispositivo de fitness. Cada milha alimenta sua aventura em Elyndor."
+    },
+    "step2": {
+      "title": "Progrida em Outro Mundo",
+      "description": "Converta sua distância em experiência, derrote chefes, colete loot e evolua seu personagem."
+    },
+    "step3": {
+      "title": "Reclame Suas Recompensas",
+      "description": "Ganhe conquistas, desbloqueie equipamentos e construa sua identidade de fantasy mantendo sua sequência de corridas."
+    }
+  },
+  "bosses": {
+    "title": "Enfrente os Chefes de Elyndor",
+    "subtitle": "Cada chefe representa uma maratona de corrida. Derrote-os para desbloquear novos territórios e poderes.",
+    "boss1": {
+      "name": "O Guardião da Primeira Milha",
+      "description": "Derrote este guardião para provar seu comprometimento com a jornada."
+    },
+    "boss2": {
+      "name": "O Guardião dos 5K",
+      "description": "Supere este guardião para desbloquear seu primeiro território maior."
+    },
+    "boss3": {
+      "name": "O Soberano da Maratona",
+      "description": "Conquiste este soberano para ganhar seu lugar entre as lendas."
+    }
+  },
+  "features": {
+    "title": "Loot & Conquistas",
+    "subtitle": "Colete equipamentos épicos e ganhe conquistas prestigiadas enquanto corre.",
+    "lootCategories": [
+      {
+        "title": "Armas",
+        "description": "Espadas, machados, arcos e mais forjados com materiais míticos."
+      },
+      {
+        "title": "Armadura",
+        "description": "Capacetes, peitorais, luvas e grevas para cada classe."
+      },
+      {
+        "title": "Acessórios",
+        "description": "Anéis, amuletos, capas e artefatos com poderes especiais."
+      }
+    ],
+    "achievements": [
+      {
+        "title": "Primeiros Passos",
+        "description": "Complete sua primeira corrida monitorada."
+      },
+      {
+        "title": "Guerreiro de Fim de Semana",
+        "description": "Corra 3 dias em uma semana."
+      },
+      {
+        "title": "Campeão Mensal",
+        "description": "Mantenha uma sequência de corridas por 30 dias."
+      }
+    ]
+  },
+  "aethron": {
+    "title": "Conheça o Aethron, Seu Companheiro de IA",
+    "subtitle": "Seu guia pessoal pelos reinos de Elyndor.",
+    "description": "O Aethron analisa seus padrões de corrida, fornece coaching personalizado e narra sua jornada enquanto você progride no mundo.",
+    "features": [
+      "Insights personalizados de corrida",
+      "Recomendações de treinamento adaptativas",
+      "Narração da jornada fantasy",
+      "Definição e acompanhamento de metas"
+    ]
+  },
+  "legend": {
+    "title": "Construa Sua Lenda",
+    "subtitle": "Crie uma identidade compartilhável que mostre sua jornada de RPG de corrida.",
+    "description": "Seu perfil MythStride exibe seu nível de personagem, chefes derrotados, loot coletado e estatísticas de corrida - perfeito para compartilhar suas conquistas com amigos."
+  },
+  "app": {
+    "title": "Veja o App em Ação",
+    "subtitle": "Assista o MythStride transformando sua experiência de corrida.",
+    "description": "Veja como cada sincronização com seu aplicativo de fitness traz seu personagem à vida no mundo de Elyndor."
+  },
+  "footer": {
+    "rights": "Todos os direitos reservados.",
+    "links": {
+      "privacy": "Política de Privacidade",
+      "terms": "Termos de Serviço"
+    }
+  }
+}

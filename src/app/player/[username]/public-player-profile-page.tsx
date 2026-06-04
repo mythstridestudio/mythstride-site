@@ -5,11 +5,14 @@ import { useEffect, useMemo, useState } from "react";
 import { getAssetPath } from "@/lib/assets";
 import { ApiConfigurationError, ApiError } from "@/lib/api/client";
 import { getPublicPlayer, type PublicPlayerResult } from "@/lib/api/public-player";
-import type { AchievementRarity } from "@/lib/api/types";
+import type { AchievementRarity, PublicPlayerProfile } from "@/lib/api/types";
 import {
   ArrowRightIcon,
+  BookIcon,
   CrownIcon,
+  MapIcon,
   ShieldIcon,
+  SkullIcon,
   SparkleIcon,
   SwordsIcon,
   TrophyIcon,
@@ -21,12 +24,43 @@ type LoadState =
   | { status: "loaded"; result: PublicPlayerResult }
   | { status: "error"; message: string };
 
-const rarityStyles: Record<AchievementRarity, string> = {
-  common: "border-text-muted/30 text-text-secondary",
-  uncommon: "border-emerald/35 text-emerald",
-  rare: "border-diamond/35 text-diamond",
-  epic: "border-magic-purple/40 text-magic-purple",
-  legendary: "border-gold-bright/45 text-gold-bright",
+type RarityView = {
+  label: string;
+  className: string;
+  wellClassName: string;
+};
+
+const rarityViews: Record<AchievementRarity, RarityView> = {
+  common: {
+    label: "Common",
+    className: "border-text-muted/35 text-text-secondary",
+    wellClassName: "rarity-common",
+  },
+  uncommon: {
+    label: "Uncommon",
+    className: "border-emerald/35 text-emerald",
+    wellClassName: "rarity-uncommon",
+  },
+  rare: {
+    label: "Rare",
+    className: "border-diamond/40 text-diamond",
+    wellClassName: "rarity-rare",
+  },
+  epic: {
+    label: "Epic",
+    className: "border-magic-purple/45 text-magic-purple",
+    wellClassName: "border-magic-purple/45 [--rarity-glow:rgba(141,69,214,0.28)]",
+  },
+  legendary: {
+    label: "Legendary",
+    className: "border-gold-bright/50 text-gold-bright",
+    wellClassName: "rarity-legendary",
+  },
+  mythic: {
+    label: "Mythic",
+    className: "border-fiery-orange/55 text-fiery-orange",
+    wellClassName: "border-fiery-orange/55 [--rarity-glow:rgba(232,98,42,0.36)]",
+  },
 };
 
 function formatDistance(distanceKm: number) {
@@ -34,6 +68,10 @@ function formatDistance(distanceKm: number) {
     maximumFractionDigits: 1,
     minimumFractionDigits: 0,
   }).format(distanceKm);
+}
+
+function formatNumber(value: number) {
+  return new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(value);
 }
 
 function formatDate(value: string) {
@@ -50,14 +88,14 @@ function getErrorMessage(error: unknown) {
   }
 
   if (error instanceof ApiError && error.status === 404) {
-    return "This public profile was not found.";
+    return "This champion profile was not found.";
   }
 
   if (error instanceof ApiError) {
-    return "The MythStride API could not load this public profile.";
+    return "The MythStride API could not load this champion profile.";
   }
 
-  return "This public profile is temporarily unavailable.";
+  return "This champion profile is temporarily unavailable.";
 }
 
 function getMediaPath(path: string) {
@@ -72,17 +110,23 @@ function getMediaPath(path: string) {
   return getAssetPath(path);
 }
 
+function getSharedStat(value: number | undefined, suffix = "") {
+  return typeof value === "number" ? `${formatNumber(value)}${suffix}` : "Not shared";
+}
+
 function ProfileLoading() {
   return (
-    <div className="app-panel mx-auto grid max-w-6xl gap-8 p-6 md:grid-cols-[0.9fr_1.1fr] md:p-8">
-      <div className="min-h-[420px] animate-pulse rounded-[22px] border border-gold-dim/20 bg-charcoal/35" />
-      <div className="space-y-5">
-        <div className="h-8 w-44 animate-pulse rounded bg-gold-dim/20" />
-        <div className="h-16 w-full max-w-lg animate-pulse rounded bg-gold-dim/15" />
-        <div className="grid gap-4 sm:grid-cols-3">
-          {[0, 1, 2].map((item) => (
-            <div key={item} className="h-28 animate-pulse rounded-[20px] border border-gold-dim/15 bg-void/60" />
-          ))}
+    <div className="mx-auto max-w-7xl px-6">
+      <div className="app-panel grid gap-8 p-5 md:p-8 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="min-h-[520px] animate-pulse rounded-[24px] border border-gold-dim/20 bg-charcoal/35" />
+        <div className="space-y-5">
+          <div className="h-10 w-56 animate-pulse rounded bg-gold-dim/20" />
+          <div className="h-24 w-full max-w-2xl animate-pulse rounded bg-gold-dim/15" />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[0, 1, 2, 3].map((item) => (
+              <div key={item} className="h-28 animate-pulse rounded-[20px] border border-gold-dim/15 bg-void/60" />
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -91,33 +135,339 @@ function ProfileLoading() {
 
 function ProfileError({ message }: { message: string }) {
   return (
-    <div className="app-panel mx-auto max-w-3xl p-8 text-center">
-      <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-fiery-orange/35 bg-fiery-orange/10 text-fiery-orange">
-        <ShieldIcon className="h-6 w-6" />
+    <div className="mx-auto max-w-3xl px-6">
+      <div className="app-panel p-8 text-center">
+        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-fiery-orange/35 bg-fiery-orange/10 text-fiery-orange">
+          <ShieldIcon className="h-6 w-6" />
+        </div>
+        <h1 className="font-display text-3xl text-gold md:text-4xl">Champion profile unavailable</h1>
+        <p className="mx-auto mt-4 max-w-xl leading-relaxed text-text-secondary">{message}</p>
+        <a href={`${getAssetPath("/")}#join`} className="gold-button mt-8 px-8 py-3 font-display text-sm tracking-wider">
+          Begin Your Journey
+          <ArrowRightIcon className="h-4 w-4" />
+        </a>
       </div>
-      <h1 className="font-display text-3xl text-gold md:text-4xl">Profile unavailable</h1>
-      <p className="mx-auto mt-4 max-w-xl leading-relaxed text-text-secondary">{message}</p>
-      <a href={`${getAssetPath("/")}#join`} className="gold-button mt-8 px-8 py-3 font-display text-sm tracking-wider">
-        Begin Your Journey
-        <ArrowRightIcon className="h-4 w-4" />
-      </a>
     </div>
   );
 }
 
-function StatPanel({ label, value, detail }: { label: string; value: string; detail: string }) {
+function HeroStat({
+  label,
+  value,
+  icon: Icon,
+  tone = "gold",
+}: {
+  label: string;
+  value: string;
+  icon: React.ComponentType<{ className?: string }>;
+  tone?: "gold" | "ember" | "emerald";
+}) {
+  const toneClass = {
+    gold: "text-gold",
+    ember: "text-fiery-orange",
+    emerald: "text-emerald",
+  }[tone];
+
   return (
-    <div className="rounded-[20px] border border-gold-dim/20 bg-void/72 p-5">
-      <div className="font-display text-3xl text-gold-bright">{value}</div>
-      <div className="mt-1 text-sm font-medium text-text-primary">{label}</div>
-      <div className="mt-2 text-xs leading-relaxed text-text-muted">{detail}</div>
+    <div className="rounded-[18px] border border-gold-dim/20 bg-void/72 p-4">
+      <div className={`mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.18em] ${toneClass}`}>
+        <Icon className="h-4 w-4" />
+        {label}
+      </div>
+      <div className="font-display text-2xl leading-none text-gold-bright md:text-3xl">{value}</div>
     </div>
+  );
+}
+
+function JourneyRelic({
+  label,
+  value,
+  detail,
+  icon: Icon,
+}: {
+  label: string;
+  value: string;
+  detail: string;
+  icon: React.ComponentType<{ className?: string }>;
+}) {
+  return (
+    <div className="relative overflow-hidden rounded-[22px] border border-gold-dim/20 bg-charcoal/35 p-5">
+      <div className="absolute right-4 top-4 text-gold-dim/10">
+        <Icon className="h-14 w-14" />
+      </div>
+      <div className="relative">
+        <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-full border border-gold-dim/25 bg-void/75 text-gold">
+          <Icon className="h-5 w-5" />
+        </div>
+        <div className="font-display text-3xl text-gold-bright">{value}</div>
+        <h3 className="mt-2 font-display text-xl text-gold">{label}</h3>
+        <p className="mt-2 text-sm leading-relaxed text-text-secondary">{detail}</p>
+      </div>
+    </div>
+  );
+}
+
+function ChampionCard({ player }: { player: PublicPlayerProfile }) {
+  return (
+    <section className="app-panel app-panel-compact relative overflow-hidden p-5 md:p-7">
+      <div className="absolute inset-0 bg-stone-texture opacity-25" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-bright/45 to-transparent" />
+      <div className="relative">
+        <div className="flex items-start justify-between gap-5">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-text-muted">Champion card</p>
+            <h2 className="mt-3 font-display text-4xl leading-none text-gold-bright md:text-5xl">
+              {player.displayName}
+            </h2>
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <span className="inline-flex items-center gap-2 rounded-full border border-fiery-orange/30 bg-fiery-orange/10 px-4 py-2 text-sm text-fiery-orange">
+                <CrownIcon className="h-4 w-4" />
+                {player.title}
+              </span>
+              <span className="resource-pill text-sm text-text-secondary">@{player.username}</span>
+            </div>
+          </div>
+          <div className="min-w-20 rounded-[18px] border border-gold/35 bg-gold/10 px-4 py-3 text-center">
+            <div className="font-display text-4xl leading-none text-gold">{player.level}</div>
+            <div className="mt-1 text-[10px] uppercase tracking-[0.22em] text-text-muted">Level</div>
+          </div>
+        </div>
+
+        <div className="my-7 h-px bg-gradient-to-r from-transparent via-gold-dim/35 to-transparent" />
+
+        <div className="grid gap-4 sm:grid-cols-3">
+          <HeroStat label="Flame streak" value={`${player.currentStreakDays} days`} icon={SparkleIcon} tone="ember" />
+          <HeroStat label="Guild" value={player.guild?.name ?? "No guild"} icon={UsersIcon} tone="emerald" />
+          <HeroStat label="Distance" value={`${formatDistance(player.totalDistanceKm)} km`} icon={MapIcon} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BossProgress({ player }: { player: PublicPlayerProfile }) {
+  const boss = player.currentBoss;
+  const healthPercent = Math.max(0, Math.min(100, boss?.healthPercent ?? 0));
+  const damagePercent = 100 - healthPercent;
+
+  return (
+    <section className="app-panel app-panel-compact relative overflow-hidden p-5 md:p-7">
+      <div className="absolute inset-0 boss-halo opacity-75" />
+      <div className="absolute inset-0 bg-stone-texture opacity-20" />
+      <div className="relative grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="relative aspect-square overflow-hidden rounded-[24px] border border-fiery-orange/25 bg-rich-brown/35">
+          {boss ? (
+            <img
+              src={getMediaPath(boss.imageUrl)}
+              alt={boss.name}
+              className="h-full w-full object-contain p-8 drop-shadow-[0_0_42px_rgba(232,98,42,0.32)]"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-center text-sm text-text-muted">
+              No active boss
+            </div>
+          )}
+        </div>
+
+        <div>
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-fiery-orange/30 bg-fiery-orange/10 px-4 py-2 text-xs uppercase tracking-[0.2em] text-fiery-orange">
+            <SkullIcon className="h-4 w-4" />
+            Boss progress
+          </div>
+          <h2 className="font-display text-4xl leading-tight text-gold md:text-5xl">
+            {boss?.name ?? "The next shadow has not appeared."}
+          </h2>
+          <p className="mt-4 font-display text-2xl text-fiery-orange">The Dark Mist still advances.</p>
+
+          {boss && (
+            <div className="mt-7">
+              <div className="mb-3 flex items-center justify-between gap-4 text-sm">
+                <span className="text-text-secondary">Health remaining</span>
+                <span className="font-semibold text-fiery-orange">{healthPercent}%</span>
+              </div>
+              <div className="h-4 overflow-hidden rounded-full border border-fiery-orange/30 bg-void">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-hp-red via-fiery-orange to-amber"
+                  style={{ width: `${healthPercent}%` }}
+                />
+              </div>
+              <div className="mt-3 flex items-center justify-between gap-4 text-xs uppercase tracking-[0.18em] text-text-muted">
+                <span>{damagePercent}% weakened</span>
+                <span>{healthPercent}% remains</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
+  const achievements = player.rareAchievements;
+
+  return (
+    <section className="app-panel app-panel-compact p-5 md:p-7">
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p className="text-xs uppercase tracking-[0.24em] text-text-muted">Achievements</p>
+          <h2 className="mt-2 font-display text-3xl text-gold md:text-4xl">Relics of the Journey</h2>
+        </div>
+        <TrophyIcon className="h-8 w-8 text-gold-dim" />
+      </div>
+
+      {achievements.length > 0 ? (
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          {achievements.map((achievement) => {
+            const rarity = rarityViews[achievement.rarity];
+
+            return (
+              <div
+                key={`${achievement.name}-${achievement.rarity}`}
+                className={`relative overflow-hidden rounded-[22px] border bg-void/70 p-4 ${rarity.className}`}
+              >
+                <div className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-current to-transparent opacity-60" />
+                <div className={`rarity-well ${rarity.wellClassName} mx-auto flex h-24 w-24 items-center justify-center p-3`}>
+                  <img src={getMediaPath(achievement.iconUrl)} alt="" className="h-full w-full object-contain" />
+                </div>
+                <h3 className="mt-4 font-display text-xl text-gold">{achievement.name}</h3>
+                <p className="mt-2 text-xs uppercase tracking-[0.2em]">{rarity.label}</p>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="rounded-[22px] border border-gold-dim/20 bg-void/65 p-6 text-sm leading-relaxed text-text-muted">
+          No public achievements shared yet.
+        </div>
+      )}
+    </section>
+  );
+}
+
+function JourneyStatistics({ player }: { player: PublicPlayerProfile }) {
+  return (
+    <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <JourneyRelic
+        label="Total distance"
+        value={`${formatDistance(player.totalDistanceKm)} km`}
+        detail="Ground crossed in the real world and carried into Elyndor."
+        icon={MapIcon}
+      />
+      <JourneyRelic
+        label="Total runs"
+        value={getSharedStat(player.totalRuns)}
+        detail="Adventures recorded in the runner's public chronicle."
+        icon={BookIcon}
+      />
+      <JourneyRelic
+        label="Current streak"
+        value={`${player.currentStreakDays} days`}
+        detail="The Flame kept alive through repeated effort."
+        icon={SparkleIcon}
+      />
+      <JourneyRelic
+        label="Bosses defeated"
+        value={getSharedStat(player.bossesDefeated)}
+        detail="Shadows already driven back from the path."
+        icon={SwordsIcon}
+      />
+    </section>
+  );
+}
+
+function AdventureLog({ player }: { player: PublicPlayerProfile }) {
+  return (
+    <section className="app-panel app-panel-compact relative overflow-hidden p-5 md:p-7">
+      <div className="absolute inset-0 bg-stone-texture opacity-20" />
+      <div className="relative">
+        <div className="mb-6 flex items-center gap-3 text-fiery-orange">
+          <BookIcon className="h-6 w-6" />
+          <h2 className="font-display text-3xl text-gold md:text-4xl">Adventure Log</h2>
+        </div>
+
+        {player.lastRun ? (
+          <div className="grid gap-5 md:grid-cols-[0.45fr_1fr] md:items-center">
+            <div className="rounded-[22px] border border-fiery-orange/25 bg-fiery-orange/5 p-5">
+              <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Distance</div>
+              <div className="mt-2 font-display text-4xl text-gold-bright">
+                {formatDistance(player.lastRun.distanceKm)} km
+              </div>
+              <div className="mt-4 text-xs uppercase tracking-[0.2em] text-text-muted">Date</div>
+              <div className="mt-2 text-sm text-text-secondary">{formatDate(player.lastRun.date)}</div>
+            </div>
+            <div>
+              <p className="font-display text-2xl leading-snug text-gold md:text-3xl">{player.lastRun.summary}</p>
+              <p className="mt-4 leading-relaxed text-text-secondary">
+                The latest public adventure from {player.displayName}&apos;s chronicle.
+              </p>
+            </div>
+          </div>
+        ) : (
+          <p className="rounded-[22px] border border-gold-dim/20 bg-void/65 p-6 text-sm leading-relaxed text-text-muted">
+            No public adventure has been shared yet.
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function GuildSection({ player }: { player: PublicPlayerProfile }) {
+  if (!player.guild) {
+    return null;
+  }
+
+  return (
+    <section className="app-panel app-panel-compact relative overflow-hidden p-5 md:p-7">
+      <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-emerald/10 blur-3xl" />
+      <div className="relative grid gap-5 md:grid-cols-[auto_1fr] md:items-center">
+        <div className="flex h-24 w-24 items-center justify-center rounded-[24px] border border-emerald/30 bg-emerald/8 text-emerald">
+          {player.guild.emblemUrl ? (
+            <img src={getMediaPath(player.guild.emblemUrl)} alt="" className="h-16 w-16 object-contain" />
+          ) : (
+            <UsersIcon className="h-10 w-10" />
+          )}
+        </div>
+        <div>
+          <p className="text-xs uppercase tracking-[0.24em] text-text-muted">Guild banner</p>
+          <h2 className="mt-2 font-display text-3xl text-gold md:text-4xl">{player.guild.name}</h2>
+          <p className="mt-3 max-w-2xl leading-relaxed text-text-secondary">
+            {player.guild.description ?? "Guild description will be revealed when this banner is expanded by the realm."}
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FinalProfileCTA() {
+  return (
+    <section className="relative overflow-hidden rounded-[28px] border border-gold-dim/25 bg-void/80 p-8 text-center md:p-10">
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-25"
+        style={{ backgroundImage: `url('${getAssetPath("/images/aethron-scroll-bg.png")}')` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-void/60 via-void/76 to-void" />
+      <div className="relative">
+        <SparkleIcon className="mx-auto mb-5 h-8 w-8 text-emerald" />
+        <h2 className="font-display text-4xl leading-tight text-gold-bright md:text-5xl">
+          Answer Aethron&apos;s Call
+        </h2>
+        <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-text-secondary">
+          Begin your own journey through Elyndor and turn each run into progress against the Dark Mist.
+        </p>
+        <a href={`${getAssetPath("/")}#join`} className="gold-button mt-8 px-9 py-4 font-display text-sm tracking-wider">
+          <SwordsIcon className="h-4 w-4" />
+          Begin Your Journey
+        </a>
+      </div>
+    </section>
   );
 }
 
 function PlayerProfile({ player, source, fallbackReason }: PublicPlayerResult) {
   const boss = player.currentBoss;
-  const joinHref = `${getAssetPath("/")}#join`;
   const healthPercent = Math.max(0, Math.min(100, boss?.healthPercent ?? 0));
 
   return (
@@ -129,164 +479,90 @@ function PlayerProfile({ player, source, fallbackReason }: PublicPlayerResult) {
       )}
 
       <motion.div
-        className="app-panel relative overflow-hidden p-4 md:p-7"
+        className="space-y-6"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, ease: [0.25, 0.4, 0.2, 1] }}
       >
-        <div className="absolute inset-0 bg-stone-texture opacity-20" />
-        <div className="absolute left-1/2 top-0 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-gold/10 blur-3xl" />
-        <div className="relative grid gap-7 lg:grid-cols-[0.92fr_1.08fr]">
-          <section className="relative overflow-hidden rounded-[24px] border border-gold-dim/25 bg-void/78 p-5">
-            <div className="absolute inset-0 boss-halo opacity-80" />
-            <div className="relative flex items-center justify-between gap-4">
-              <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-text-muted">Public profile</p>
-                <h1 className="mt-2 font-display text-4xl leading-none text-gold-bright md:text-5xl">
-                  {player.displayName}
-                </h1>
-              </div>
-              <div className="rounded-full border border-gold/35 bg-gold/10 px-4 py-2 text-right">
-                <div className="font-display text-2xl text-gold">{player.level}</div>
-                <div className="text-[10px] uppercase tracking-[0.22em] text-text-muted">Level</div>
-              </div>
-            </div>
-
-            <div className="relative mt-5 inline-flex items-center gap-2 rounded-full border border-fiery-orange/30 bg-fiery-orange/10 px-4 py-2 text-sm text-fiery-orange">
-              <CrownIcon className="h-4 w-4" />
-              {player.title}
-            </div>
-
-            <div className="relative mt-7 aspect-[4/3] overflow-hidden rounded-[22px] border border-gold-dim/20 bg-rich-brown/30">
-              {boss ? (
-                <img
-                  src={getMediaPath(boss.imageUrl)}
-                  alt={boss.name}
-                  className="h-full w-full object-contain p-6 drop-shadow-[0_0_36px_rgba(232,98,42,0.28)]"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center text-center text-sm text-text-muted">
-                  No active boss
-                </div>
-              )}
-            </div>
-
-            {boss && (
-              <div className="relative mt-5">
-                <div className="mb-2 flex items-center justify-between gap-4">
-                  <div>
-                    <div className="font-display text-xl text-gold">{boss.name}</div>
-                    <div className="text-xs text-text-muted">Current boss</div>
-                  </div>
-                  <div className="text-sm font-semibold text-fiery-orange">{healthPercent}%</div>
-                </div>
-                <div className="h-3 overflow-hidden rounded-full border border-fiery-orange/25 bg-void">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-hp-red via-fiery-orange to-amber"
-                    style={{ width: `${healthPercent}%` }}
-                  />
-                </div>
-              </div>
-            )}
-          </section>
-
-          <section className="flex flex-col justify-between gap-6">
+        <section className="app-panel relative overflow-hidden p-5 md:p-8">
+          <div className="absolute inset-0 bg-stone-texture opacity-25" />
+          <div className="absolute left-1/2 top-0 h-[620px] w-[620px] -translate-x-1/2 rounded-full bg-gold/10 blur-3xl" />
+          <div className="absolute bottom-0 left-0 right-0 h-52 bg-ember-glow opacity-80" />
+          <div className="relative grid gap-7 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
             <div>
-              <a href={getAssetPath("/")} className="mb-7 inline-flex items-center gap-2">
+              <a href={getAssetPath("/")} className="mb-8 inline-flex items-center gap-2">
                 <img src={getAssetPath("/images/mythstride-app-icon.png")} alt="" className="h-9 w-9 rounded-full" />
                 <span className="font-display text-lg tracking-wider text-gold">
                   Myth<span className="text-gold-bright">Stride</span>
                 </span>
               </a>
+              <p className="text-xs uppercase tracking-[0.26em] text-fiery-orange">Legendary adventurer profile</p>
+              <h1 className="mt-4 font-display text-5xl leading-none text-gold-bright md:text-7xl">
+                {player.displayName}
+              </h1>
+              <p className="mt-4 max-w-2xl font-display text-2xl leading-snug text-gold md:text-3xl">
+                {player.title}
+              </p>
+              <p className="mt-5 max-w-2xl leading-relaxed text-text-secondary">
+                A public champion record from Elyndor, carrying the runner&apos;s level, flame streak, guild banner,
+                boss pressure, achievements, and latest adventure.
+              </p>
 
-              <p className="max-w-2xl font-display text-3xl leading-tight text-gold md:text-5xl">
-                Run in the real world. Progress in another.
-              </p>
-              <p className="mt-5 max-w-2xl text-base leading-relaxed text-text-secondary md:text-lg">
-                {player.displayName}&apos;s public legend shows the progress they have chosen to share: distance,
-                streak, guild, achievements, and the boss standing in their path.
-              </p>
+              <div className="mt-7 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                <HeroStat label="Level" value={`${player.level}`} icon={CrownIcon} />
+                <HeroStat label="Boss" value={boss?.name ?? "None"} icon={SkullIcon} tone="ember" />
+                <HeroStat label="Streak" value={`${player.currentStreakDays} days`} icon={SparkleIcon} tone="ember" />
+                <HeroStat label="Distance" value={`${formatDistance(player.totalDistanceKm)} km`} icon={MapIcon} />
+              </div>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-3">
-              <StatPanel
-                label="Distance"
-                value={`${formatDistance(player.totalDistanceKm)} km`}
-                detail="Real-world distance carried into Elyndor."
-              />
-              <StatPanel
-                label="Flame streak"
-                value={`${player.currentStreakDays}`}
-                detail="Days keeping momentum alive."
-              />
-              <StatPanel
-                label="Guild"
-                value={player.guild?.name ?? "No guild"}
-                detail="The banner this runner carries."
-              />
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-[1fr_1fr]">
-              <div className="rounded-[22px] border border-gold-dim/20 bg-charcoal/35 p-5">
-                <div className="mb-4 flex items-center gap-2 text-gold">
-                  <TrophyIcon className="h-5 w-5" />
-                  <h2 className="font-display text-xl">Rare achievements</h2>
-                </div>
-                <div className="space-y-3">
-                  {player.rareAchievements.length > 0 ? (
-                    player.rareAchievements.map((achievement) => (
-                      <div
-                        key={`${achievement.name}-${achievement.rarity}`}
-                        className={`flex items-center gap-3 rounded-[18px] border bg-void/65 p-3 ${rarityStyles[achievement.rarity]}`}
-                      >
-                        <img
-                          src={getMediaPath(achievement.iconUrl)}
-                          alt=""
-                          className="h-12 w-12 rounded-xl object-contain"
-                        />
-                        <div>
-                          <div className="font-medium text-text-primary">{achievement.name}</div>
-                          <div className="text-xs uppercase tracking-[0.18em]">{achievement.rarity}</div>
-                        </div>
-                      </div>
-                    ))
+            <div className="relative">
+              <div className="absolute -inset-6 boss-halo rounded-full blur-2xl opacity-80" />
+              <div className="relative overflow-hidden rounded-[28px] border border-gold-dim/25 bg-void/76 p-5">
+                <div className="absolute inset-0 bg-stone-texture opacity-20" />
+                <div className="relative aspect-square rounded-[24px] border border-fiery-orange/20 bg-rich-brown/35">
+                  {boss ? (
+                    <img
+                      src={getMediaPath(boss.imageUrl)}
+                      alt={boss.name}
+                      className="h-full w-full object-contain p-8 drop-shadow-[0_0_42px_rgba(232,98,42,0.3)]"
+                    />
                   ) : (
-                    <p className="text-sm leading-relaxed text-text-muted">No rare achievements shared yet.</p>
+                    <div className="flex h-full items-center justify-center text-center text-sm text-text-muted">
+                      No active boss
+                    </div>
                   )}
                 </div>
-              </div>
-
-              <div className="rounded-[22px] border border-fiery-orange/20 bg-fiery-orange/5 p-5">
-                <div className="mb-4 flex items-center gap-2 text-fiery-orange">
-                  <SparkleIcon className="h-5 w-5" />
-                  <h2 className="font-display text-xl">Last run</h2>
-                </div>
-                {player.lastRun ? (
-                  <div>
-                    <div className="font-display text-3xl text-gold-bright">
-                      {formatDistance(player.lastRun.distanceKm)} km
+                {boss && (
+                  <div className="relative mt-5">
+                    <div className="mb-2 flex items-center justify-between gap-4">
+                      <span className="font-display text-xl text-gold">{boss.name}</span>
+                      <span className="text-sm font-semibold text-fiery-orange">{healthPercent}% health</span>
                     </div>
-                    <div className="mt-2 text-sm text-text-muted">{formatDate(player.lastRun.date)}</div>
-                    <p className="mt-4 leading-relaxed text-text-secondary">{player.lastRun.summary}</p>
+                    <div className="h-3 overflow-hidden rounded-full border border-fiery-orange/25 bg-void">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-hp-red via-fiery-orange to-amber"
+                        style={{ width: `${healthPercent}%` }}
+                      />
+                    </div>
                   </div>
-                ) : (
-                  <p className="text-sm leading-relaxed text-text-muted">No public run shared yet.</p>
                 )}
               </div>
             </div>
+          </div>
+        </section>
 
-            <div className="flex flex-col gap-3 border-t border-gold-dim/20 pt-6 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-2 text-sm text-text-muted">
-                <UsersIcon className="h-4 w-4 text-emerald" />
-                @{player.username}
-              </div>
-              <a href={joinHref} className="gold-button px-8 py-3 font-display text-sm tracking-wider">
-                <SwordsIcon className="h-4 w-4" />
-                Begin Your Journey
-              </a>
-            </div>
-          </section>
+        <ChampionCard player={player} />
+        <BossProgress player={player} />
+        <JourneyStatistics player={player} />
+        <AchievementGrid player={player} />
+
+        <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+          <AdventureLog player={player} />
+          <GuildSection player={player} />
         </div>
+
+        <FinalProfileCTA />
       </motion.div>
     </div>
   );
@@ -322,10 +598,11 @@ export default function PublicPlayerProfilePage({ username }: { username: string
         className="absolute inset-0 bg-cover bg-center opacity-35"
         style={{ backgroundImage: `url('${getAssetPath("/images/background.png")}')` }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-void/90 via-void/74 to-void" />
+      <div className="absolute inset-0 bg-gradient-to-b from-void/92 via-void/78 to-void" />
       <div className="absolute inset-0 bg-gradient-to-r from-void via-transparent to-void" />
       <div className="absolute inset-0 bg-stone-texture opacity-25" />
       <div className="pointer-events-none absolute inset-4 border border-gold-dim/20 md:inset-8" />
+      <div className="pointer-events-none absolute left-1/2 top-20 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-fiery-orange/10 blur-3xl" />
 
       <div className="relative z-10">
         {loadState.status === "loading" && <ProfileLoading />}

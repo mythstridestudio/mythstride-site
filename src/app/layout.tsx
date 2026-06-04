@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cinzel, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from '@/contexts/LanguageContext';
 
 const cinzel = Cinzel({
   variable: "--font-display",
@@ -38,10 +39,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cinzel.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-void text-text-primary font-body">
-        {children}
-      </body>
-    </html>
+    <LanguageProvider>
+      <html lang="en" className={`${cinzel.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}>
+        <body className="min-h-full flex flex-col bg-void text-text-primary font-body">
+          {children}
+        </body>
+      </html>
+    </LanguageProvider>
   );
 }

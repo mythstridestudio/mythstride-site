@@ -5,8 +5,10 @@ import { useEffect, useState, startTransition } from 'react';
 import { getAssetPath } from '@/lib/assets';
 import { ChevronDownIcon, RunIcon } from './Icons';
 import ScrollReveal from './ScrollReveal';
+import { useTranslations } from '@/lib/i18n';
 
 export default function Hero() {
+  const { t } = useTranslations();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -142,21 +144,23 @@ export default function Hero() {
           <ScrollReveal delay={150} direction="up">
             <div className="inline-flex items-center gap-3 text-fiery-orange text-xs sm:text-sm tracking-[0.24em] uppercase font-body mb-5">
               <span className="w-8 h-px bg-fiery-orange/45" />
-              Aethron has awakened
+              {t('hero.aethronAwakened')}
               <span className="w-8 h-px bg-fiery-orange/45 lg:hidden" />
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={300} direction="up">
             <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-gold mb-6 leading-[1.05]">
-              Run in the real world.
-              <span className="block text-gold-bright">Progress in another.</span>
+              {t('hero.title')}
+              <span className="block text-gold-bright">
+                {t('hero.progress')}
+              </span>
             </h1>
           </ScrollReveal>
 
           <ScrollReveal delay={450} direction="up">
             <p className="text-text-secondary text-base md:text-lg lg:text-xl max-w-2xl mx-auto lg:mx-0 mb-8 leading-relaxed">
-              MythStride turns outdoor runs into fantasy progression: boss damage, XP, loot, achievements, streaks, guilds, and guidance from Aethron.
+              {t('hero.subtitle')}
             </p>
           </ScrollReveal>
 
@@ -168,7 +172,7 @@ export default function Hero() {
                 whileTap={{ scale: 0.98 }}
                 className="gold-button px-8 py-3.5 font-display text-sm tracking-wider"
               >
-                Join the Waitlist
+                {t('hero.cta')}
               </motion.a>
               <motion.a
                 href="#how-it-works"
@@ -176,7 +180,7 @@ export default function Hero() {
                 whileTap={{ scale: 0.98 }}
                 className="ghost-button px-8 py-3.5 font-display text-sm tracking-wider"
               >
-                See the Run Loop
+                {t('hero.runLoop')}
                 <ChevronDownIcon className="w-4 h-4" />
               </motion.a>
             </div>
@@ -184,8 +188,8 @@ export default function Hero() {
 
           <ScrollReveal delay={780} direction="up">
             <div className="mt-8 flex flex-wrap justify-center lg:justify-start gap-3">
-              {['Boss battles', 'Loot and gear', 'Aethron companion'].map((item) => (
-                <span key={item} className="resource-pill text-xs text-text-secondary">
+              {[t('hero.bossBattles'), t('hero.lootGear'), t('hero.aethronCompanion')].map((item, index) => (
+                <span key={index} className="resource-pill text-xs text-text-secondary">
                   <span className="h-1.5 w-1.5 rotate-45 bg-gold" />
                   {item}
                 </span>
@@ -230,8 +234,8 @@ export default function Hero() {
             <div className="absolute -bottom-4 left-1/2 hidden -translate-x-1/2 items-center gap-3 rounded-full border border-gold-dim/30 bg-void/90 px-5 py-3 shadow-2xl sm:flex">
               <img src={getAssetPath('/images/run-button-swords.png')} alt="" className="h-12 w-12 object-contain" />
               <div className="text-left">
-                <div className="font-display text-sm text-gold">Tap to run</div>
-                <div className="text-xs text-text-muted">Real running becomes fantasy progression</div>
+                <div className="font-display text-sm text-gold">{t('hero.tapToRun')}</div>
+                <div className="text-xs text-text-muted">{t('hero.realRunning')}</div>
               </div>
             </div>
           </div>
@@ -240,7 +244,7 @@ export default function Hero() {
 
       <div className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-2 text-xs uppercase tracking-[0.22em] text-text-muted md:flex">
         <RunIcon className="h-3.5 w-3.5 text-gold-dim" />
-        Scroll to enter the realm
+        {t('hero.scrollToEnter')}
       </div>
 
       {/* Bottom fade */}
