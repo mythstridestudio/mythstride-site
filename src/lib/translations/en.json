@@ -7,7 +7,10 @@
     "aethron": "Aethron",
     "legend": "Legend",
     "app": "App",
-    "joinWaitlist": "Join Waitlist"
+    "joinWaitlist": "Join Waitlist",
+    "login": "Login",
+    "dashboard": "Dashboard",
+    "logout": "Logout"
   },
   "hero": {
     "title": "Run in the real world.",
@@ -22,6 +25,26 @@
     "tapToRun": "Tap to run",
     "realRunning": "Real running becomes fantasy progression",
     "scrollToEnter": "Scroll to enter the realm"
+  },
+  "login": {
+    "kicker": "Champion access",
+    "title": "Return to Elyndor",
+    "description": "Sign in to view your profile, active boss, recent runs, and achievements.",
+    "fields": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "actions": {
+      "submit": "Login",
+      "loading": "Entering...",
+      "waitlist": "Join the Waitlist"
+    },
+    "messages": {
+      "success": "Login successful. Opening your dashboard.",
+      "invalidCredentials": "Email or password is incorrect.",
+      "serverError": "The MythStride API could not complete login. Please try again.",
+      "configError": "The MythStride API is not configured in this environment."
+    }
   },
   "howItWorks": {
     "title": "How It Works",
@@ -327,6 +350,27 @@
     ],
     "joinWaitlistAndBeAmongFirst": "Join the waitlist and be among the first runners to answer the Aethron's call.",
     "joinTheWaitlist": "Join the Waitlist"
+  },
+  "waitlist": {
+    "fields": {
+      "name": "Name",
+      "email": "Email"
+    },
+    "placeholders": {
+      "name": "Your name",
+      "email": "you@email.com"
+    },
+    "actions": {
+      "submit": "Join the Waitlist",
+      "loading": "Sending..."
+    },
+    "messages": {
+      "success": "You are on the MythStride waitlist. Aethron will call when the gates open.",
+      "alreadyJoined": "This email is already on the waitlist. Your place in Elyndor is reserved.",
+      "validationError": "Enter a valid email address to join the waitlist.",
+      "serverError": "The waitlist could not be reached. Please try again in a moment.",
+      "configError": "The waitlist API is not configured in this environment."
+    }
   },
   "footer": {
     "rights": "All rights reserved.",

@@ -7,7 +7,10 @@
     "aethron": "Aethron",
     "legend": "Lenda",
     "app": "App",
-    "joinWaitlist": "Junte-se à Lista de Espera"
+    "joinWaitlist": "Junte-se à Lista de Espera",
+    "login": "Entrar",
+    "dashboard": "Dashboard",
+    "logout": "Sair"
   },
   "hero": {
     "title": "Corra no mundo real.",
@@ -22,6 +25,26 @@
     "tapToRun": "Toque para correr",
     "realRunning": "A corrida real se torna progressão fantasy",
     "scrollToEnter": "Role para entrar no reino"
+  },
+  "login": {
+    "kicker": "Acesso do campeão",
+    "title": "Retorne a Elyndor",
+    "description": "Entre para ver seu perfil, chefe ativo, corridas recentes e conquistas.",
+    "fields": {
+      "email": "Email",
+      "password": "Senha"
+    },
+    "actions": {
+      "submit": "Entrar",
+      "loading": "Entrando...",
+      "waitlist": "Junte-se à Lista de Espera"
+    },
+    "messages": {
+      "success": "Login realizado. Abrindo seu dashboard.",
+      "invalidCredentials": "Email ou senha incorretos.",
+      "serverError": "A API do MythStride não conseguiu concluir o login. Tente novamente.",
+      "configError": "A API do MythStride não está configurada neste ambiente."
+    }
   },
   "howItWorks": {
     "title": "Como Funciona",
@@ -296,35 +319,46 @@
     "theSpectralKingWaitsBeneathTheMist": "O Rei Espectral aguarda sob a Névoa.",
     "mythStrideGivesEveryRunAPlace": "O MythStride dá a cada corrida um lugar nessa luta: a Chama cresce através da disciplina, e a Névoa enfraquece quando o jogador retorna."
   },
-  "appShowcase": {
-    "sectionHeader": {
-      "label": "Experiência do Aplicativo",
-      "title": "A Interface Real do MythStride",
-      "description": "O site deve parecer o aplicativo porque ele usa o aplicativo: telas reais, hierarquia real, progressão RPG real."
+    "appShowcase": {
+      "sectionHeader": {
+        "label": "Codex do App",
+        "title": "A Aventura Já Vive Dentro do Aplicativo",
+        "description": "Telas reais do MythStride mostram o ciclo completo: progresso, corridas, chefes, recompensas, Aethron e prova compartilhável."
+      },
+      "archiveLabel": "Arquivo da Jornada",
+      "screens": [
+        {
+          "title": "Dashboard",
+          "chapter": "Comece sua jornada",
+          "copy": "Nível do jogador, HP, XP, moedas, chefe atual, missões e navegação já aparecem na interface real do aplicativo."
+        },
+        {
+          "title": "Tela de Corrida",
+          "chapter": "Complete corridas reais",
+          "copy": "A tela de missão conecta distância, tempo, pace, calorias, XP e status ativo em uma visão de treino RPG."
+        },
+        {
+          "title": "Tela de Chefe",
+          "chapter": "Cause dano a inimigos poderosos",
+          "copy": "O progresso do chefe aparece durante a missão, transformando esforço em dano contra o inimigo semanal."
+        },
+        {
+          "title": "Inventário",
+          "chapter": "Colete recompensas",
+          "copy": "O arsenal já mostra equipamentos, preços, raridade, vendedores, ouro e diamantes em uma interface fantasy consistente."
+        },
+        {
+          "title": "Aethron",
+          "chapter": "Receba orientação",
+          "copy": "Aethron dá contexto pós-corrida e faz o aplicativo parecer guiado, não apenas rastreado."
+        },
+        {
+          "title": "Conquistas",
+          "chapter": "Torne-se uma lenda",
+          "copy": "A crônica compartilhável registra distância, pace, duração, dano ao chefe, sequência e a identidade conquistada no dia."
+        }
+      ]
     },
-    "screens": [
-      {
-        "title": "Início",
-        "copy": "Progresso do jogador, chefe atual, missões e navegação no aplicativo real."
-      },
-      {
-        "title": "Missão",
-        "copy": "Estatísticas de corrida ficam ao lado do progresso contra o chefe, fazendo o treino parecer combate."
-      },
-      {
-        "title": "Loja",
-        "copy": "Loot, raridade, ouro e diamantes usam a mesma linguagem visual RPG do site."
-      },
-      {
-        "title": "Aethron",
-        "copy": "O companheiro dá peso emocional à corrida após o término da jornada."
-      },
-      {
-        "title": "Compartilhar",
-        "copy": "Identidade do jogador, conquistas e progresso podem sair do aplicativo como um perfil de fantasia."
-      }
-    ]
-  },
   "characterSection": {
     "sectionHeader": {
       "label": "O Novo Campeão",
@@ -359,6 +393,27 @@
     ],
     "joinWaitlistAndBeAmongFirst": "Junte-se à lista de espera e esteja entre os primeiros corredores a responder ao chamado do Aethron.",
     "joinTheWaitlist": "Junte-se à Lista de Espera"
+  },
+  "waitlist": {
+    "fields": {
+      "name": "Nome",
+      "email": "Email"
+    },
+    "placeholders": {
+      "name": "Seu nome",
+      "email": "voce@email.com"
+    },
+    "actions": {
+      "submit": "Junte-se à Lista",
+      "loading": "Enviando..."
+    },
+    "messages": {
+      "success": "Você entrou na lista de espera do MythStride. Aethron chamará quando os portões se abrirem.",
+      "alreadyJoined": "Este email já está na lista de espera. Seu lugar em Elyndor está reservado.",
+      "validationError": "Digite um email válido para entrar na lista de espera.",
+      "serverError": "Não foi possível acessar a lista de espera. Tente novamente em instantes.",
+      "configError": "A API da lista de espera não está configurada neste ambiente."
+    }
   },
   "footer": {
     "footerLinks": [

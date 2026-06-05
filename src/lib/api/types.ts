@@ -46,27 +46,36 @@ export interface AuthLoginRequest {
 
 export interface AuthLoginResponse {
   accessToken: string;
-  tokenType: "Bearer";
+  tokenType?: "Bearer" | string;
   expiresAt?: string;
+  user?: PrivatePlayerProfile;
 }
 
 export interface PrivatePlayerProfile {
+  id?: string;
   username: string;
-  displayName: string;
+  displayName?: string;
   level: number;
   title?: string;
+  totalDistanceKm?: number;
+  currentStreakDays?: number;
+  guild?: PublicPlayerGuild | null;
 }
 
 export interface CurrentBoss {
   name: string;
-  imageUrl: string;
+  imageUrl?: string;
   healthPercent: number;
+  level?: number;
+  damagePercent?: number;
 }
 
 export interface Trophy {
   id: string;
   name: string;
   rarity: AchievementRarity;
+  description?: string;
+  iconUrl?: string;
   unlockedAt?: string;
 }
 
@@ -75,4 +84,6 @@ export interface RunHistoryEntry {
   distanceKm: number;
   date: string;
   summary?: string;
+  durationMinutes?: number;
+  bossDamage?: number;
 }

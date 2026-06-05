@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useEffect, useSyncExternalStore } from 'react';
 
 type LanguageContextType = {
   lang: string;
@@ -8,6 +8,25 @@ type LanguageContextType = {
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+const languageChangeEvent = 'mythstride-language-change';
+
+function subscribe(callback: () => void) {
+  window.addEventListener('storage', callback);
+  window.addEventListener(languageChangeEvent, callback);
+
+  return () => {
+    window.removeEventListener('storage', callback);
+    window.removeEventListener(languageChangeEvent, callback);
+  };
+}
+
+function getLanguageSnapshot() {
+  return localStorage.getItem('lang') || 'en';
+}
+
+function getServerLanguageSnapshot() {
+  return 'en';
+}
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
@@ -18,19 +37,16 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider = ({ children }: { children: React.ReactNode }) => {
-  const [lang, setLang] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('lang') || 'en';
-    }
-    return 'en';
-  });
+  const lang = useSyncExternalStore(subscribe, getLanguageSnapshot, getServerLanguageSnapshot);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('lang', lang);
-      document.documentElement.lang = lang;
-    }
+    document.documentElement.lang = lang;
   }, [lang]);
+
+  const setLang = (nextLang: string) => {
+    localStorage.setItem('lang', nextLang);
+    window.dispatchEvent(new Event(languageChangeEvent));
+  };
 
   return (
     <LanguageContext.Provider value={{ lang, setLang }}>

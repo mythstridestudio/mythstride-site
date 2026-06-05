@@ -1,4 +1,5 @@
 import { ApiConfigurationError, ApiError, apiFetch } from "./client";
+import { API_ENDPOINTS } from "./endpoints";
 import type { PublicPlayerProfile } from "./types";
 
 export type PublicPlayerSource = "api" | "development-mock";
@@ -62,13 +63,31 @@ const getFallbackReason = (error: unknown) => {
   return "Public player endpoint is unavailable.";
 };
 
+interface PublicPlayerEnvelope {
+  data?: PublicPlayerProfile;
+  player?: PublicPlayerProfile;
+  profile?: PublicPlayerProfile;
+}
+
+function normalizePublicPlayer(response: PublicPlayerProfile | PublicPlayerEnvelope) {
+  if (response && typeof response === "object") {
+    const envelope = response as PublicPlayerEnvelope;
+
+    // TODO: Confirm whether the public player endpoint returns a bare profile or an envelope.
+    return envelope.data ?? envelope.player ?? envelope.profile ?? (response as PublicPlayerProfile);
+  }
+
+  return response as PublicPlayerProfile;
+}
+
 export async function getPublicPlayer(username: string): Promise<PublicPlayerResult> {
   const normalizedUsername = username.trim();
 
   try {
-    const player = await apiFetch<PublicPlayerProfile>(
-      `/api/public/player/${encodeURIComponent(normalizedUsername)}`,
+    const response = await apiFetch<PublicPlayerProfile | PublicPlayerEnvelope>(
+      API_ENDPOINTS.publicPlayer.byUsername(normalizedUsername),
     );
+    const player = normalizePublicPlayer(response);
 
     return { player, source: "api" };
   } catch (error) {

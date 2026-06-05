@@ -1,12 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { getAssetPath } from '@/lib/assets';
+import { useAuth } from '@/contexts/AuthContext';
 import { useTranslations } from '@/lib/i18n';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function Navigation() {
   const { t } = useTranslations();
+  const { isAuthenticated, loading, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -56,12 +59,30 @@ export default function Navigation() {
         </div>
 
         <div className="flex items-center gap-4">
-          <a
-            href="#join"
-            className="gold-button hidden min-h-0 px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
-          >
-            {t('nav.joinWaitlist')}
-          </a>
+          {isAuthenticated ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="ghost-button hidden min-h-0 px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
+              >
+                {t('nav.dashboard')}
+              </Link>
+              <button
+                type="button"
+                onClick={logout}
+                className="gold-button hidden min-h-0 px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
+              >
+                {t('nav.logout')}
+              </button>
+            </>
+          ) : (
+            <Link
+              href={loading ? "#join" : "/login"}
+              className="gold-button hidden min-h-0 px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
+            >
+              {loading ? t('nav.joinWaitlist') : t('nav.login')}
+            </Link>
+          )}
 
           <button
             className="md:hidden flex flex-col gap-1.5 p-2 cursor-pointer"
@@ -93,13 +114,35 @@ export default function Navigation() {
             </a>
           ))}
           <LanguageSwitcher className="mt-4" />
-          <a
-            href="#join"
-            className="gold-button mt-2 px-6 py-3 font-display text-sm tracking-wider"
-            onClick={() => setMobileOpen(false)}
-          >
-            {t('nav.joinWaitlist')}
-          </a>
+          {isAuthenticated ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="ghost-button mt-2 px-6 py-3 font-display text-sm tracking-wider"
+                onClick={() => setMobileOpen(false)}
+              >
+                {t('nav.dashboard')}
+              </Link>
+              <button
+                type="button"
+                className="gold-button mt-2 px-6 py-3 font-display text-sm tracking-wider"
+                onClick={() => {
+                  logout();
+                  setMobileOpen(false);
+                }}
+              >
+                {t('nav.logout')}
+              </button>
+            </>
+          ) : (
+            <Link
+              href={loading ? "#join" : "/login"}
+              className="gold-button mt-2 px-6 py-3 font-display text-sm tracking-wider"
+              onClick={() => setMobileOpen(false)}
+            >
+              {loading ? t('nav.joinWaitlist') : t('nav.login')}
+            </Link>
+          )}
         </div>
       </div>
     </nav>

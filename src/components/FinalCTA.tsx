@@ -2,9 +2,10 @@
 
 import { useEffect, useState, startTransition } from 'react';
 import { getAssetPath } from '@/lib/assets';
-import { SwordsIcon, SparkleIcon } from './Icons';
+import { SparkleIcon } from './Icons';
 import ScrollReveal from './ScrollReveal';
 import { useTranslations } from '@/lib/i18n';
+import WaitlistForm from './WaitlistForm';
 
 export default function FinalCTA() {
   const { t } = useTranslations();
@@ -72,13 +73,7 @@ export default function FinalCTA() {
         </ScrollReveal>
 
         <ScrollReveal delay={560} direction="up">
-          <a
-            href="mailto:hello@mythstride.com?subject=MythStride%20Waitlist"
-            className="gold-button mt-9 px-10 py-4 font-display text-sm tracking-wider"
-          >
-            <SwordsIcon className="h-4 w-4" />
-            {t('finalCTA.joinTheWaitlist')}
-          </a>
+          <WaitlistForm className="mt-9" />
         </ScrollReveal>
       </div>
     </section>

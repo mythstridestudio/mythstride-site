@@ -272,6 +272,116 @@ body {
     linear-gradient(180deg, rgba(5, 5, 7, 0), rgba(5, 5, 7, 0.7));
 }
 
+/* Cinematic section joins */
+.journey-transition {
+  position: relative;
+  z-index: 20;
+  height: 6.5rem;
+  margin-block: -3.25rem;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+
+.journey-transition::before,
+.journey-transition::after,
+.journey-transition__mist,
+.journey-transition__light,
+.journey-transition__embers {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.journey-transition::before {
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(5, 5, 7, 0.68) 44%, transparent 100%),
+    radial-gradient(ellipse at 50% 50%, rgba(232, 224, 208, 0.08), transparent 66%);
+}
+
+.journey-transition::after {
+  inset-inline: 8%;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 168, 83, 0.28), rgba(240, 201, 77, 0.34), rgba(212, 168, 83, 0.22), transparent);
+  transform: translateY(-50%);
+  opacity: 0.74;
+}
+
+.journey-transition__mist {
+  background:
+    radial-gradient(ellipse at 18% 58%, rgba(232, 224, 208, 0.12), transparent 42%),
+    radial-gradient(ellipse at 78% 45%, rgba(168, 155, 140, 0.10), transparent 46%),
+    linear-gradient(90deg, transparent, rgba(232, 224, 208, 0.035), transparent);
+  filter: blur(12px);
+  opacity: 0.82;
+}
+
+.journey-transition__light {
+  inset-inline: -10%;
+  background: radial-gradient(ellipse at var(--journey-light-x, 50%) 50%, var(--journey-glow, rgba(212, 168, 83, 0.16)), transparent 58%);
+  mix-blend-mode: screen;
+  opacity: 0.78;
+}
+
+.journey-transition__embers {
+  background:
+    radial-gradient(circle at 12% 68%, rgba(232, 98, 42, 0.52) 0 1px, transparent 2px),
+    radial-gradient(circle at 29% 42%, rgba(212, 168, 83, 0.42) 0 1px, transparent 2px),
+    radial-gradient(circle at 57% 64%, rgba(232, 98, 42, 0.44) 0 1px, transparent 2px),
+    radial-gradient(circle at 83% 38%, rgba(212, 168, 83, 0.38) 0 1px, transparent 2px);
+  opacity: var(--journey-ember-opacity, 0.36);
+}
+
+.journey-transition-ember {
+  --journey-glow: rgba(232, 98, 42, 0.18);
+  --journey-light-x: 42%;
+  --journey-ember-opacity: 0.5;
+}
+
+.journey-transition-emerald {
+  --journey-glow: rgba(47, 212, 143, 0.16);
+  --journey-light-x: 58%;
+  --journey-ember-opacity: 0.22;
+}
+
+.journey-transition-mist {
+  --journey-glow: rgba(232, 224, 208, 0.12);
+  --journey-light-x: 50%;
+  --journey-ember-opacity: 0.18;
+}
+
+.journey-transition-shadow {
+  --journey-glow: rgba(99, 215, 245, 0.08);
+  --journey-light-x: 52%;
+  --journey-ember-opacity: 0.14;
+}
+
+.journey-transition-shadow::before {
+  background:
+    linear-gradient(180deg, transparent 0%, rgba(5, 5, 7, 0.82) 46%, transparent 100%),
+    radial-gradient(ellipse at 50% 50%, rgba(99, 215, 245, 0.06), transparent 64%);
+}
+
+@media (min-width: 768px) {
+  .journey-transition {
+    height: 8.5rem;
+    margin-block: -4.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .journey-transition {
+    height: 5rem;
+    margin-block: -2.5rem;
+  }
+
+  .journey-transition::after {
+    inset-inline: 18%;
+  }
+}
+
 /* Texture Overlays */
 .bg-stone-texture {
   background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");

@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { getAssetPath } from '@/lib/assets';
-import SectionHeader from './SectionHeader';
-import ScrollReveal from './ScrollReveal';
 import { BookIcon, CrownIcon, GemIcon, RunIcon, ScrollIcon, ShieldIcon, SwordsIcon } from './Icons';
 import { useTranslations } from '@/lib/i18n';
 
@@ -102,99 +100,115 @@ export default function AppShowcase() {
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <SectionHeader
-          label={t('appShowcase.sectionHeader.label')}
-          title={t('appShowcase.sectionHeader.title')}
-          description={t('appShowcase.sectionHeader.description')}
-        />
+        <div className="mb-16 text-center">
+          <div className="mb-5 flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-gradient-to-l from-gold-dim/50 to-transparent" />
+            <SwordsIcon className="h-3.5 w-3.5 text-gold-dim/60" />
+            <span className="font-body text-xs uppercase tracking-[0.3em] text-gold-muted">{t('appShowcase.sectionHeader.label')}</span>
+            <SwordsIcon className="h-3.5 w-3.5 text-gold-dim/60" />
+            <span className="h-px w-8 bg-gradient-to-r from-gold-dim/50 to-transparent" />
+          </div>
+
+          <h2 className="mx-auto mb-6 max-w-3xl font-display text-4xl leading-tight text-gold md:text-5xl lg:text-6xl">
+            {t('appShowcase.sectionHeader.title')}
+          </h2>
+
+          <p className="mx-auto max-w-2xl text-base leading-relaxed text-text-secondary md:text-lg">
+            {t('appShowcase.sectionHeader.description')}
+          </p>
+
+          <div className="mx-auto mt-8 flex items-center justify-center gap-2">
+            <span className="h-px w-12 bg-gradient-to-l from-gold-dim/30 to-transparent" />
+            <span className="flex gap-1.5">
+              <span className="gothic-diamond-bright" />
+              <span className="gothic-diamond" />
+              <span className="gothic-diamond-bright" />
+            </span>
+            <span className="h-px w-12 bg-gradient-to-r from-gold-dim/30 to-transparent" />
+          </div>
+        </div>
 
         <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
-          <ScrollReveal direction="left">
-            <div className="relative mx-auto max-w-[25rem] lg:max-w-[31rem]">
-              <div className="absolute -inset-8 rounded-full bg-[radial-gradient(circle,rgba(212,168,83,0.16),rgba(47,212,143,0.08)_34%,transparent_68%)] blur-3xl" />
-              <div className="relative border border-gold-dim/35 bg-void/92 p-3 shadow-[0_32px_110px_rgba(0,0,0,0.72)]">
-                <div className="pointer-events-none absolute inset-2 border border-gold-dim/15" />
-                <div className="mb-3 flex items-center justify-between gap-4 border-b border-gold-dim/20 px-2 pb-3">
-                  <div className="flex items-center gap-3">
-                    <div className={`flex h-10 w-10 items-center justify-center border ${accentClasses[activeScreen.accent]}`}>
-                      <ActiveIcon className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <div className="text-[10px] uppercase tracking-[0.28em] text-gold-muted">{activeScreen.chapter}</div>
-                      <div className="font-display text-xl text-gold">{activeScreen.title}</div>
-                    </div>
+          <div className="relative mx-auto max-w-[25rem] lg:max-w-[31rem]">
+            <div className="absolute -inset-8 rounded-full bg-[radial-gradient(circle,rgba(212,168,83,0.16),rgba(47,212,143,0.08)_34%,transparent_68%)] blur-3xl" />
+            <div className="relative border border-gold-dim/35 bg-void/92 p-3 shadow-[0_32px_110px_rgba(0,0,0,0.72)]">
+              <div className="pointer-events-none absolute inset-2 border border-gold-dim/15" />
+              <div className="mb-3 flex items-center justify-between gap-4 border-b border-gold-dim/20 px-2 pb-3">
+                <div className="flex items-center gap-3">
+                  <div className={`flex h-10 w-10 items-center justify-center border ${accentClasses[activeScreen.accent]}`}>
+                    <ActiveIcon className="h-5 w-5" />
                   </div>
-                  <div className="font-mono text-xs text-text-muted">{String(activeIndex + 1).padStart(2, '0')} / {String(screens.length).padStart(2, '0')}</div>
+                  <div>
+                    <div className="text-[10px] uppercase tracking-[0.28em] text-gold-muted">{activeScreen.chapter}</div>
+                    <div className="font-display text-xl text-gold">{activeScreen.title}</div>
+                  </div>
                 </div>
-
-                <motion.div
-                  key={activeScreen.image + activeIndex}
-                  initial={{ opacity: 0.7, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, ease: [0.25, 0.4, 0.2, 1] }}
-                  className="phone-shell overflow-hidden p-2"
-                >
-                  <img
-                    src={getAssetPath(activeScreen.image)}
-                    alt={activeScreen.alt}
-                    className="phone-screen h-auto w-full object-cover"
-                  />
-                </motion.div>
+                <div className="font-mono text-xs text-text-muted">{String(activeIndex + 1).padStart(2, '0')} / {String(screens.length).padStart(2, '0')}</div>
               </div>
+
+              <motion.div
+                key={activeScreen.image + activeIndex}
+                initial={false}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, ease: [0.25, 0.4, 0.2, 1] }}
+                className="phone-shell overflow-hidden p-2"
+              >
+                <img
+                  src={getAssetPath(activeScreen.image)}
+                  alt={activeScreen.alt}
+                  className="phone-screen h-auto w-full object-cover"
+                />
+              </motion.div>
             </div>
-          </ScrollReveal>
+          </div>
 
           <div className="space-y-6">
-            <ScrollReveal direction="right">
-              <div className="app-panel app-panel-compact overflow-hidden p-5 md:p-6">
-                <div className="relative z-10">
-                  <div className="mb-5 flex items-center gap-3">
-                    <GemIcon className="h-4 w-4 text-gold" />
-                    <span className="text-xs uppercase tracking-[0.28em] text-gold-muted">{t('appShowcase.archiveLabel')}</span>
-                  </div>
+            <div className="app-panel app-panel-compact overflow-hidden p-5 md:p-6">
+              <div className="relative z-10">
+                <div className="mb-5 flex items-center gap-3">
+                  <GemIcon className="h-4 w-4 text-gold" />
+                  <span className="text-xs uppercase tracking-[0.28em] text-gold-muted">{t('appShowcase.archiveLabel')}</span>
+                </div>
 
-                  <div className="grid gap-3">
-                    {screens.map((screen, index) => {
-                      const Icon = screen.icon;
-                      const isActive = activeIndex === index;
+                <div className="grid gap-3">
+                  {screens.map((screen, index) => {
+                    const Icon = screen.icon;
+                    const isActive = activeIndex === index;
 
-                      return (
-                        <button
-                          key={`${screen.title}-${index}`}
-                          type="button"
-                          onClick={() => setActiveIndex(index)}
-                          className={`group grid w-full grid-cols-[auto_1fr_auto] items-center gap-4 border p-3 text-left transition-all duration-300 ${
-                            isActive
-                              ? 'border-gold-dim/55 bg-gold/10 shadow-[0_0_38px_rgba(212,168,83,0.08)]'
-                              : 'border-gold-dim/16 bg-void/55 hover:border-gold-dim/35 hover:bg-void/82'
-                          }`}
-                          aria-pressed={isActive}
-                        >
-                          <div className={`flex h-10 w-10 items-center justify-center border ${accentClasses[screen.accent]}`}>
-                            <Icon className="h-4.5 w-4.5" />
-                          </div>
-                          <div>
-                            <div className="font-display text-base text-gold">{screen.title}</div>
-                            <div className="text-xs uppercase tracking-[0.2em] text-text-muted">{screen.chapter}</div>
-                          </div>
-                          <div className="hidden h-16 w-10 overflow-hidden border border-gold-dim/20 bg-void sm:block">
-                            <img src={getAssetPath(screen.image)} alt="" className="h-full w-full object-cover" />
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
+                    return (
+                      <button
+                        key={`${screen.title}-${index}`}
+                        type="button"
+                        onClick={() => setActiveIndex(index)}
+                        className={`group grid w-full grid-cols-[auto_1fr_auto] items-center gap-4 border p-3 text-left transition-all duration-300 ${
+                          isActive
+                            ? 'border-gold-dim/55 bg-gold/10 shadow-[0_0_38px_rgba(212,168,83,0.08)]'
+                            : 'border-gold-dim/16 bg-void/55 hover:border-gold-dim/35 hover:bg-void/82'
+                        }`}
+                        aria-pressed={isActive}
+                      >
+                        <div className={`flex h-10 w-10 items-center justify-center border ${accentClasses[screen.accent]}`}>
+                          <Icon className="h-4.5 w-4.5" />
+                        </div>
+                        <div>
+                          <div className="font-display text-base text-gold">{screen.title}</div>
+                          <div className="text-xs uppercase tracking-[0.2em] text-text-muted">{screen.chapter}</div>
+                        </div>
+                        <div className="hidden h-16 w-10 overflow-hidden border border-gold-dim/20 bg-void sm:block">
+                          <img src={getAssetPath(screen.image)} alt="" className="h-full w-full object-cover" />
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
-            </ScrollReveal>
+            </div>
 
-            <ScrollReveal delay={120} direction="right">
-              <div className="relative border border-gold-dim/20 bg-void/70 p-5 shadow-[0_22px_70px_rgba(0,0,0,0.42)]">
-                <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-emerald/45 to-transparent" />
-                <div className="mb-2 text-xs uppercase tracking-[0.26em] text-emerald">{activeScreen.chapter}</div>
-                <p className="text-sm leading-relaxed text-text-secondary md:text-base">{activeScreen.copy}</p>
-              </div>
-            </ScrollReveal>
+            <div className="relative border border-gold-dim/20 bg-void/70 p-5 shadow-[0_22px_70px_rgba(0,0,0,0.42)]">
+              <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-emerald/45 to-transparent" />
+              <div className="mb-2 text-xs uppercase tracking-[0.26em] text-emerald">{activeScreen.chapter}</div>
+              <p className="text-sm leading-relaxed text-text-secondary md:text-base">{activeScreen.copy}</p>
+            </div>
           </div>
         </div>
       </div>
