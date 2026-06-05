@@ -14,20 +14,22 @@ const translations: Record<string, Record<string, unknown>> = {
 export function useTranslations() {
   const { lang } = useLanguage();
   
-  const t = (key: string) => {
+  // Translation keys resolve to strings, arrays, and object lists across the app.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const t = <T = any>(key: string): T => {
     const keys = key.split('.');
-    let result = translations[lang] || translations['en'];
+    let result: unknown = translations[lang] || translations['en'];
     
     for (const k of keys) {
       if (result && typeof result === 'object' && k in result) {
-        result = result[k];
+        result = (result as Record<string, unknown>)[k];
       } else {
         // If key not found, return the key itself as a fallback
-        return key;
+        return key as T;
       }
     }
     
-    return result;
+    return result as T;
   };
 
   return { t };

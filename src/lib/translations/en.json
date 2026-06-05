@@ -10,9 +10,9 @@
     "joinWaitlist": "Join Waitlist"
   },
   "hero": {
-    "title": "Turn Your Runs Into RPG Battles",
-    "progress": "Progress in another.",
-    "subtitle": "Transform every real-world step into an epic dark fantasy progression journey. Fight bosses, earn rewards, complete quests, and grow stronger with every stride.",
+    "title": "Run in the real world.",
+    "progress": "Become a legend in Elyndor.",
+    "subtitle": "Defeat bosses.\nEarn loot.\nAnswer Aethron's call.",
     "cta": "Join the Waitlist",
     "runLoop": "See the Run Loop",
     "aethronAwakened": "Aethron has awakened",
@@ -253,35 +253,46 @@
     "theSpectralKingWaitsBeneathTheMist": "The Spectral King waits beneath the Mist.",
     "mythStrideGivesEveryRunAPlace": "MythStride gives every run a place in this fight: the Flame grows through discipline, and the Mist weakens when the player returns."
   },
-  "appShowcase": {
-    "sectionHeader": {
-      "label": "App Experience",
-      "title": "The Real Interface of MythStride",
-      "description": "The site should feel like the app because it uses the app: real screens, real hierarchy, real RPG progression."
+    "appShowcase": {
+      "sectionHeader": {
+        "label": "App Codex",
+        "title": "The Adventure Already Lives Inside the App",
+        "description": "Real MythStride screens show the full loop: progress, runs, bosses, rewards, Aethron, and shareable proof."
+      },
+      "archiveLabel": "Journey Archive",
+      "screens": [
+        {
+          "title": "Dashboard",
+          "chapter": "Start your journey",
+          "copy": "Player level, HP, XP, currencies, current boss, missions, and navigation are already in the live app interface."
+        },
+        {
+          "title": "Run Screen",
+          "chapter": "Complete real-world runs",
+          "copy": "The run mission screen connects distance, time, pace, calories, XP, and active mission status in one RPG workout view."
+        },
+        {
+          "title": "Boss Screen",
+          "chapter": "Damage powerful enemies",
+          "copy": "Boss progress is visible during the mission, turning effort into damage against the weekly enemy."
+        },
+        {
+          "title": "Inventory",
+          "chapter": "Collect rewards",
+          "copy": "The arsenal already shows gear, prices, rarity, vendors, gold, and diamonds with a consistent fantasy interface."
+        },
+        {
+          "title": "Aethron",
+          "chapter": "Receive guidance",
+          "copy": "Aethron gives post-run context and makes the app feel guided, not just tracked."
+        },
+        {
+          "title": "Achievements",
+          "chapter": "Become a legend",
+          "copy": "The shareable chronicle records distance, pace, duration, boss damage, streak, and the run identity earned that day."
+        }
+      ]
     },
-    "screens": [
-      {
-        "title": "Home",
-        "copy": "Player progress, current boss, quests, and navigation in the real app."
-      },
-      {
-        "title": "Quest",
-        "copy": "Run stats sit alongside boss progress, making workout feel like combat."
-      },
-      {
-        "title": "Shop",
-        "copy": "Loot, rarity, gold, and diamonds use the same RPG visual language as the site."
-      },
-      {
-        "title": "Aethron",
-        "copy": "The companion gives emotional weight to the run after the journey ends."
-      },
-      {
-        "title": "Share",
-        "copy": "Player identity, achievements, and progress can leave the app as a fantasy profile."
-      }
-    ]
-  },
   "characterSection": {
     "sectionHeader": {
       "label": "The New Champion",
