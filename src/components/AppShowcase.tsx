@@ -1,3 +1,5 @@
+'use client';
+
 import { getAssetPath } from '@/lib/assets';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';

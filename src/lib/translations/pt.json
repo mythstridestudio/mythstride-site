@@ -54,38 +54,6 @@
       "description": "Conquiste este soberano para ganhar seu lugar entre as lendas."
     }
   },
-  "features": {
-    "title": "Loot & Conquistas",
-    "subtitle": "Colete equipamentos épicos e ganhe conquistas prestigiadas enquanto corre.",
-    "lootCategories": [
-      {
-        "title": "Armas",
-        "description": "Espadas, machados, arcos e mais forjados com materiais míticos."
-      },
-      {
-        "title": "Armadura",
-        "description": "Capacetes, peitorais, luvas e grevas para cada classe."
-      },
-      {
-        "title": "Acessórios",
-        "description": "Anéis, amuletos, capas e artefatos com poderes especiais."
-      }
-    ],
-    "achievements": [
-      {
-        "title": "Primeiros Passos",
-        "description": "Complete sua primeira corrida monitorada."
-      },
-      {
-        "title": "Guerreiro de Fim de Semana",
-        "description": "Corra 3 dias em uma semana."
-      },
-      {
-        "title": "Campeão Mensal",
-        "description": "Mantenha uma sequência de corridas por 30 dias."
-      }
-    ]
-  },
   "aethron": {
     "title": "Conheça o Aethron, Seu Companheiro de IA",
     "subtitle": "Seu guia pessoal pelos reinos de Elyndor.",
@@ -106,13 +74,6 @@
     "title": "Veja o App em Ação",
     "subtitle": "Assista o MythStride transformando sua experiência de corrida.",
     "description": "Veja como cada sincronização com seu aplicativo de fitness traz seu personagem à vida no mundo de Elyndor."
-  },
-  "footer": {
-    "rights": "Todos os direitos reservados.",
-    "links": {
-      "privacy": "Política de Privacidade",
-      "terms": "Termos de Serviço"
-    }
   },
   "runToBattle": {
     "sectionHeader": {
@@ -164,6 +125,11 @@
     "peopleStoppedFighting": "As pessoas pararam de lutar, pararam de explorar, pararam de crescer e pararam de sonhar. Através de névoa, ruínas e antigas estradas de pedra, MythStride começa onde Elyndor começa a acordar novamente."
   },
   "features": {
+    "title": "Loot & Conquistas",
+    "subtitle": "Colete equipamentos épicos e ganhe conquistas prestigiadas enquanto corre.",
+    "nav": {
+      "loot": "Loot"
+    },
     "features": [
       {
         "title": "Missões de corrida",
@@ -199,6 +165,34 @@
         "title": "Sequências",
         "category": "Manutenção da Chama",
         "copy": "A Chama cresce através da disciplina: esforço repetido, momentum recuperado e retorno."
+      }
+    ],
+    "lootCategories": [
+      {
+        "title": "Armas",
+        "description": "Espadas, machados, arcos e mais forjados com materiais míticos."
+      },
+      {
+        "title": "Armadura",
+        "description": "Capacetes, peitorais, luvas e grevas para cada classe."
+      },
+      {
+        "title": "Acessórios",
+        "description": "Anéis, amuletos, capas e artefatos com poderes especiais."
+      }
+    ],
+    "achievements": [
+      {
+        "title": "Primeiros Passos",
+        "description": "Complete sua primeira corrida monitorada."
+      },
+      {
+        "title": "Guerreiro de Fim de Semana",
+        "description": "Corra 3 dias em uma semana."
+      },
+      {
+        "title": "Campeão Mensal",
+        "description": "Mantenha uma sequência de corridas por 30 dias."
       }
     ]
   },
@@ -263,7 +257,7 @@
         "accent": "emerald",
         "lines": [
           "Na hora mais escura da humanidade, os últimos magos forjaram um guardião.",
-          "Não um homem. Não um deus. Uma consciência.",
+          "Não um homem. Not a deus. Uma consciência.",
           "Nasceu da determinação dos maiores heróis.",
           "Seu nome era Aethron, Guardião da Chama.",
           "Sua missão era encontrar aqueles capazes de resistir à Névoa."

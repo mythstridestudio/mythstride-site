@@ -48,54 +48,7 @@
     "boss2": {
       "name": "The 5K Warden",
       "description": "Overcome this warden to unlock your first major territory."
-    },
-    "boss3": {
-      "name": "The Marathon Sovereign",
-      "description": "Conquer this sovereign to earn your place among legends."
     }
-  },
-  "features": {
-    "title": "Loot & Achievements",
-    "subtitle": "Collect epic gear and earn prestigious achievements as you run.",
-    "lootCategories": [
-      {
-        "title": "Weapons",
-        "description": "Swords, axes, bows and more forged from mythical materials."
-      },
-      {
-        "title": "Armor",
-        "description": "Helmets, chestplates, gauntlets and greaves for every class."
-      },
-      {
-        "title": "Accessories",
-        "description": "Rings, amulets, cloaks and artifacts with special powers."
-      }
-    ],
-    "achievements": [
-      {
-        "title": "First Steps",
-        "description": "Complete your first tracked run."
-      },
-      {
-        "title": "Weekend Warrior",
-        "description": "Run 3 days in a week."
-      },
-      {
-        "title": "Monthly Champion",
-        "description": "Maintain a running streak for 30 days."
-      }
-    ]
-  },
-  "aethron": {
-    "title": "Meet Aethron, Your AI Companion",
-    "subtitle": "Your personal guide through the realms of Elyndor.",
-    "description": "Aethron analyzes your running patterns, provides personalized coaching, and narrates your journey as you progress through the world.",
-    "features": [
-      "Personalized running insights",
-      "Adaptive training recommendations",
-      "Fantasy journey narration",
-      "Goal setting and tracking"
-    ]
   },
   "legend": {
     "title": "Build Your Legend",
@@ -107,11 +60,283 @@
     "subtitle": "Watch MythStride transform your running experience.",
     "description": "See how every sync with your fitness app brings your character to life in the world of Elyndor."
   },
+  "runToBattle": {
+    "sectionHeader": {
+      "label": "Run Loop",
+      "title": "Real Movement Becomes Mythic Combat",
+      "description": "Every kilometer strengthens the Flame. Every battle weakens the Mist."
+    },
+    "loop": [
+      {
+        "title": "Start the run",
+        "copy": "MythStride tracks your real route while Aethron transforms effort into a mission within Elyndor."
+      },
+      {
+        "title": "Attack the Mist",
+        "copy": "Distance becomes pressure against bosses, raids, and forces gathered by the Dark Mist."
+      },
+      {
+        "title": "Return stronger",
+        "copy": "A completed run fuels progression through XP, loot, achievements, streaks, and your hero identity."
+      }
+    ],
+    "cta": "Run to battle",
+    "appLoopNotDashboard": "The app loop, not a dashboard",
+    "everyKmStrengthensFlame": "Every kilometer strengthens the Flame.",
+    "everyBattleWeakensMist": "Every battle weakens the Mist."
+  },
+  "worldSection": {
+    "sectionHeader": {
+      "label": "World of Elyndor",
+      "title": "A Realm Waiting to Remember its Purpose",
+      "description": "Long ago, Elyndor was a world of golden mountains, eternal forests, and thriving cities. Then came the Dark Mist."
+    },
+    "realms": [
+      {
+        "title": "Golden mountains",
+        "copy": "The ancient peaks of Elyndor once carried signal fires from realm to realm."
+      },
+      {
+        "title": "Eternal forests",
+        "copy": "Ancient paths still remember the footsteps of heroes who ran before the Mist."
+      },
+      {
+        "title": "Thriving cities",
+        "copy": "Their gates did not fall in war. They went silent when purpose faded."
+      }
+    ],
+    "theDarkMist": "The Dark Mist",
+    "itDidNotDestroyCities": "It did not destroy cities. It destroyed purpose.",
+    "peopleStoppedFighting": "People stopped fighting, stopped exploring, stopped growing, and stopped dreaming. Through mist, ruins, and ancient stone roads, MythStride begins where Elyndor begins to wake up again."
+  },
+  "features": {
+    "title": "Loot & Achievements",
+    "subtitle": "Collect epic gear and earn prestigious achievements as you run.",
+    "nav": {
+      "loot": "Loot"
+    },
+    "features": [
+      {
+        "title": "Running Quests",
+        "category": "Quest Board",
+        "copy": "Real routes become quests, daily orders, and distance goals within Elyndor."
+      },
+      {
+        "title": "Boss Progression",
+        "category": "Battle Track",
+        "copy": "Distance becomes damage against bosses born from the Dark Mist."
+      },
+      {
+        "title": "Loot and Gear",
+        "category": "Inventory",
+        "copy": "Weapons, armor, relics, gold, and diamonds make every completed run feel earned."
+      },
+      {
+        "title": "Achievements",
+        "category": "Chronicle",
+        "copy": "Milestones, trophies, and feats transform consistency into visible identity."
+      },
+      {
+        "title": "Aethron Guidance",
+        "category": "Companion",
+        "copy": "The Keeper of the Flame gives quests, recovery tips, and calm post-run advice."
+      },
+      {
+        "title": "Guilds and Allies",
+        "category": "Party",
+        "copy": "Shared challenges give every runner allies, rivals, and a reason to return."
+      },
+      {
+        "title": "Streaks",
+        "category": "Flame Maintenance",
+        "copy": "The Flame grows through discipline: repeated effort, recovered momentum, and return."
+      }
+    ]
+  },
+  "bossBattle": {
+    "sectionHeader": {
+      "label": "Boss Progression",
+      "title": "The Mist Gives Shape to Darkness",
+      "description": "Bosses are not random encounters. They are the Dark Mist taking form, led by shadows of the Spectral King."
+    },
+    "bosses": [
+      {
+        "name": "Harpy",
+        "source": "Scout born from the Mist"
+      },
+      {
+        "name": "Ancient Dragon",
+        "source": "Tyrant of embers"
+      },
+      {
+        "name": "Spectral King",
+        "source": "Commander of darkness"
+      }
+    ],
+    "theSpectralKing": "The Spectral King",
+    "firstCommanderSealed": "The first commander of darkness was sealed, not destroyed.",
+    "everyBossBattleSign": "Every boss battle is a sign that the Mist is gathering again. Runs do more than fill bars; they help Aethron maintain the seal.",
+    "mistPressure": "Mist Pressure",
+    "mistPressureRising": "Mist Pressure: Rising",
+    "everyRunStrike": "Every run is a strike against the Mist"
+  },
+  "aethronAI": {
+    "principles": [
+      "Post-run guidance that gives meaning to effort",
+      "Daily advice when discipline starts to fade",
+      "Quests shaped around consistency and recovery"
+    ],
+    "keeperOfTheFlame": "Keeper of the Flame",
+    "aethronDoesNotShout": "Aethron does not shout orders. He interprets your effort, protects your momentum, and gives every quest a reason.",
+    "notAManNotAGod": "Not a man. Not a god.",
+    "aConsciousness": "A consciousness.",
+    "insideMythStride": "Inside MythStride, Aethron transforms completed runs into calm advice: what changed, what's next, and why your progress matters beyond numbers.",
+    "heIsWiseCalmProtectiveInspiring": "He is wise, calm, protective, and inspiring.",
+    "companionForRunAfterRun": "A companion for run after run."
+  },
+  "aethronLegend": {
+    "loreChapters": [
+      {
+        "eyebrow": "The Beginning",
+        "title": "Elyndor Fell Silent",
+        "accent": "gold",
+        "lines": [
+          "Long ago, the world was known as Elyndor.",
+          "A realm of golden mountains, endless forests, and thriving cities.",
+          "Then came the Dark Mist.",
+          "It did not destroy cities. It destroyed purpose.",
+          "Kings abandoned their thrones. Warriors laid down their weapons. Adventurers forgot their paths."
+        ]
+      },
+      {
+        "eyebrow": "The Rise of Aethron",
+        "title": "A Guardian Was Forged",
+        "accent": "emerald",
+        "lines": [
+          "In humanity's darkest hour, the last mages forged a guardian.",
+          "Not a man. Not a god. A consciousness.",
+          "Born from the determination of the greatest heroes.",
+          "His name was Aethron, Keeper of the Flame.",
+          "His mission was to find those capable of resisting the Mist."
+        ]
+      },
+      {
+        "eyebrow": "The Great War",
+        "title": "The Flame Met the Spectral King",
+        "accent": "ember",
+        "lines": [
+          "For centuries, Aethron led countless heroes.",
+          "Every mile strengthened the Flame. Every battle weakened the Mist.",
+          "Then came the Spectral King, the first great commander of darkness.",
+          "Aethron sealed him, but victory shattered his physical form.",
+          "Only his consciousness survived."
+        ]
+      },
+      {
+        "eyebrow": "Today",
+        "title": "The Voice Awakens",
+        "accent": "emerald",
+        "lines": [
+          "Aethron remains as a spirit.",
+          "Watching. Waiting. Searching.",
+          "When the player starts MythStride, Aethron awakens."
+        ]
+      }
+    ],
+    "accentClasses": {
+      "gold": "text-gold border-gold-dim/30 bg-gold/10",
+      "emerald": "text-emerald border-emerald/30 bg-emerald/10",
+      "ember": "text-ember border-ember/30 bg-ember/10"
+    },
+    "beforeTheRunThereWasTheFlame": "Before the run, there was the Flame.",
+    "elyndorDidNotFallInSingleWar": "Elyndor did not fall in a single war. It faded when people stopped moving toward something worthy of protection.",
+    "theSpectralKingWaitsBeneathTheMist": "The Spectral King waits beneath the Mist.",
+    "mythStrideGivesEveryRunAPlace": "MythStride gives every run a place in this fight: the Flame grows through discipline, and the Mist weakens when the player returns."
+  },
+  "appShowcase": {
+    "sectionHeader": {
+      "label": "App Experience",
+      "title": "The Real Interface of MythStride",
+      "description": "The site should feel like the app because it uses the app: real screens, real hierarchy, real RPG progression."
+    },
+    "screens": [
+      {
+        "title": "Home",
+        "copy": "Player progress, current boss, quests, and navigation in the real app."
+      },
+      {
+        "title": "Quest",
+        "copy": "Run stats sit alongside boss progress, making workout feel like combat."
+      },
+      {
+        "title": "Shop",
+        "copy": "Loot, rarity, gold, and diamonds use the same RPG visual language as the site."
+      },
+      {
+        "title": "Aethron",
+        "copy": "The companion gives emotional weight to the run after the journey ends."
+      },
+      {
+        "title": "Share",
+        "copy": "Player identity, achievements, and progress can leave the app as a fantasy profile."
+      }
+    ]
+  },
+  "characterSection": {
+    "sectionHeader": {
+      "label": "The New Champion",
+      "title": "You Are Answering the Aethron's Call",
+      "description": "MythStride transforms the runner into a fantasy identity: a champion whose discipline keeps the Flame alive."
+    },
+    "identity": [
+      {
+        "title": "Answer the call",
+        "copy": "The player is not just logging exercise. They are the person Aethron has been searching for."
+      },
+      {
+        "title": "Build a champion",
+        "copy": "Profiles, gear, titles, streaks, and trophies make consistency visible."
+      },
+      {
+        "title": "Share the legend",
+        "copy": "Run summaries become fantasy artifacts that carry the MythStride identity outside the app."
+      }
+    ],
+    "theAppDoesNotOnlyTrackRuns": "The app does not only track runs. It gives the runner a reason to return as someone stronger."
+  },
+  "finalCTA": {
+    "blockquote1": [
+      "\"Finally...\"",
+      "\"After centuries of silence...\"",
+      "\"I have found someone capable of hearing my voice.\""
+    ],
+    "blockquote2": [
+      "\"Walking is no longer enough.\"",
+      "\"We will need to run.\""
+    ],
+    "joinWaitlistAndBeAmongFirst": "Join the waitlist and be among the first runners to answer the Aethron's call.",
+    "joinTheWaitlist": "Join the Waitlist"
+  },
   "footer": {
     "rights": "All rights reserved.",
     "links": {
       "privacy": "Privacy Policy",
       "terms": "Terms of Service"
-    }
+    },
+    "footerLinks": [
+      { "label": "Privacy", "href": "#" },
+      { "label": "Terms", "href": "#" },
+      { "label": "Contact", "href": "#" },
+      { "label": "Press Kit", "href": "#" },
+      { "label": "Support", "href": "#" }
+    ],
+    "footerSocialLinks": [
+      { "label": "Twitter / X", "href": "#" },
+      { "label": "Discord", "href": "#" },
+      { "label": "Instagram", "href": "#" },
+      { "label": "TikTok", "href": "#" }
+    ],
+    "copyright": "&copy; {new Date().getFullYear()} MythStride. All rights reserved.",
+    "transformYourRunsConquerTheRealm": "Transform your runs. Conquer the realm."
   }
 }

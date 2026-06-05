@@ -20,6 +20,8 @@ export default function WorldSection() {
   const bgRef = useRef<HTMLDivElement>(null);
   const mistRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
+  const realmsData = t('worldSection.realms');
+  const icons = [MapIcon, CrownIcon, ShieldIcon];
 
   useEffect(() => {
     if (prefersReducedMotion) return;
@@ -46,7 +48,7 @@ export default function WorldSection() {
         });
 
         gsap.to(mistRef.current, {
-          xPercent: -7,
+          yPercent: -12,
           opacity: 0.74,
           ease: 'none',
           scrollTrigger: {
@@ -66,7 +68,17 @@ export default function WorldSection() {
     return () => cleanup?.();
   }, [prefersReducedMotion]);
 
+  const realms: Realm[] = (Array.isArray(realmsData) ? realmsData : []).map((realm: unknown, i: number) => {
+    const data = realm as Record<string, unknown>;
+    return {
+      title: String(data.title || ''),
+      copy: String(data.copy || ''),
+      icon: icons[i % icons.length]
+    };
+  });
+
   return (
+
     <section id="world" ref={sectionRef} className="relative overflow-hidden bg-void py-24 md:py-32">
       <div
         ref={bgRef}
@@ -110,7 +122,7 @@ export default function WorldSection() {
           </ScrollReveal>
 
           <div className="space-y-4">
-            {t('worldSection.realms').map((realm: Realm, index: number) => {
+            {realms.map((realm: Realm, index: number) => {
               const Icon = realm.icon;
 
               return (

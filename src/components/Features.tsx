@@ -1,3 +1,5 @@
+'use client';
+
 import { getAssetPath } from '@/lib/assets';
 import { SwordsIcon, ScrollIcon, ShieldIcon, TrophyIcon, UsersIcon, SparkleIcon, RunIcon } from './Icons';
 import SectionHeader from './SectionHeader';
@@ -16,7 +18,49 @@ interface Feature {
 
 export default function Features() {
   const { t } = useTranslations();
-  const features: Feature[] = t('features.features');
+  const featuresData = t('features.features');
+  
+  const icons = [ScrollIcon, SwordsIcon, ShieldIcon, TrophyIcon, SparkleIcon, UsersIcon, RunIcon];
+  const assets = [
+    '/images/amuleto_magico.png',
+    '/images/fire_sword.png',
+    '/images/diamond-chest.png',
+    '/images/boss-medusa-medal.png',
+    '/images/aethron-full.png',
+    '/images/spectral-king.png',
+    '/images/run-button-swords.png'
+  ];
+  const accents = [
+    'text-gold',
+    'text-ember',
+    'text-gold-bright',
+    'text-emerald',
+    'text-emerald-bright',
+    'text-gold-dim',
+    'text-ember-bright'
+  ];
+  const rarities = [
+    'rarity-common',
+    'rarity-uncommon',
+    'rarity-rare',
+    'rarity-epic',
+    'rarity-legendary',
+    'rarity-artifact',
+    'rarity-mythic'
+  ];
+
+  const features: Feature[] = (Array.isArray(featuresData) ? featuresData : []).map((f: unknown, i: number) => {
+    const data = f as Record<string, unknown>;
+    return {
+      title: String(data.title || ''),
+      category: String(data.category || ''),
+      copy: String(data.copy || ''),
+      icon: icons[i % icons.length],
+      asset: assets[i % assets.length],
+      accent: accents[i % accents.length],
+      rarity: rarities[i % rarities.length]
+    };
+  });
 
   return (
     <section id="features" className="relative overflow-hidden bg-deep-charcoal py-24">

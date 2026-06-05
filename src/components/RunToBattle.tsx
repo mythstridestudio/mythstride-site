@@ -16,10 +16,21 @@ interface LoopStep {
 export default function RunToBattle() {
   const { t } = useTranslations();
   const [mounted, setMounted] = useState(false);
+  const loopData = t('runToBattle.loop');
+  const icons = [RunIcon, SwordsIcon, TrophyIcon];
 
   useEffect(() => {
     startTransition(() => setMounted(true));
   }, []);
+
+  const loop: LoopStep[] = (Array.isArray(loopData) ? loopData : []).map((step: unknown, i: number) => {
+    const data = step as Record<string, unknown>;
+    return {
+      title: String(data.title || ''),
+      copy: String(data.copy || ''),
+      icon: icons[i % icons.length]
+    };
+  });
 
   return (
     <section id="how-it-works" className="relative overflow-hidden bg-deep-charcoal py-24">
@@ -67,7 +78,7 @@ export default function RunToBattle() {
           </ScrollReveal>
 
           <div className="space-y-5">
-            {t('runToBattle.loop').map((step: LoopStep, index: number) => {
+            {loop.map((step: LoopStep, index: number) => {
               const Icon = step.icon;
 
               return (

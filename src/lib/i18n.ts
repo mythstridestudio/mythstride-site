@@ -1,64 +1,34 @@
-'use client';
+import { useLanguage } from '@/contexts/LanguageContext';
+import en from './translations/en.json';
+import pt from './translations/pt.json';
 
-import { useState, useEffect, useCallback } from 'react';
-
-// Load translation files
-const loadTranslations = async (lang: string) => {
-  try {
-    const res = await fetch(`/translations/${lang}.json`);
-    if (!res.ok) {
-      throw new Error(`Failed to load translations for ${lang}`);
-    }
-    return await res.json();
-  } catch (error) {
-    console.error('Error loading translations:', error);
-    // Fallback to English
-    if (lang !== 'en') {
-      return loadTranslations('en');
-    }
-    return {};
-  }
+const translations: Record<string, Record<string, unknown>> = {
+  en,
+  pt,
 };
 
-export const useTranslations = (initialLang = 'en') => {
-  const [translations, setTranslations] = useState<any>({});
-  const [lang, setLang] = useState<string>(initialLang);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    const loadLang = async () => {
-      setLoading(true);
-      const trans = await loadTranslations(lang);
-      if (!cancelled) {
-        setTranslations(trans);
-        setLoading(false);
-      }
-    };
-    loadLang();
-    return () => {
-      cancelled = true;
-    };
-  }, [lang]);
-
-  const t = useCallback((key: string) => {
-    // Support nested keys with dot notation
+/**
+ * Custom hook for translations.
+ * Supports nested keys using dot notation (e.g., 'nav.runLoop').
+ */
+export function useTranslations() {
+  const { lang } = useLanguage();
+  
+  const t = (key: string) => {
     const keys = key.split('.');
-    let result = translations;
+    let result = translations[lang] || translations['en'];
+    
     for (const k of keys) {
-      if (result === undefined || result === null) return key;
-      result = result[k];
+      if (result && typeof result === 'object' && k in result) {
+        result = result[k];
+      } else {
+        // If key not found, return the key itself as a fallback
+        return key;
+      }
     }
-    return result !== undefined && result !== null ? result : key;
-  }, [translations]);
-
-  const changeLang = (newLang: string) => {
-    setLang(newLang);
-    // Update html lang attribute for accessibility and SEO
-    if (typeof document !== 'undefined') {
-      document.documentElement.lang = newLang;
-    }
+    
+    return result;
   };
 
-  return { t, lang, changeLang, loading };
-};
+  return { t };
+}
