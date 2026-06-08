@@ -1,156 +1,156 @@
 {
   "nav": {
-    "runLoop": "Run Loop",
+    "runLoop": "Ciclo de Carrera",
     "elyndor": "Elyndor",
-    "loot": "Loot",
-    "bosses": "Bosses",
+    "loot": "Botín",
+    "bosses": "Jefes",
     "aethron": "Aethron",
-    "legend": "Legend",
+    "legend": "Leyenda",
     "app": "App",
-    "joinWaitlist": "Join Waitlist",
-    "login": "Login",
+    "joinWaitlist": "Únete a la Lista",
+    "login": "Entrar",
     "dashboard": "Dashboard",
-    "logout": "Logout"
+    "logout": "Salir"
   },
   "authTopbar": {
-    "navigation": "Authenticated navigation",
+    "navigation": "Navegación autenticada",
     "dashboard": "Dashboard",
-    "publicProfile": "Public Profile",
-    "home": "Back to Site",
-    "logout": "Logout",
-    "openMenu": "Open navigation menu",
-    "closeMenu": "Close navigation menu"
+    "publicProfile": "Perfil Público",
+    "home": "Volver al Sitio",
+    "logout": "Salir",
+    "openMenu": "Abrir menú de navegación",
+    "closeMenu": "Cerrar menú de navegación"
   },
   "languageSwitcher": {
-    "label": "Select language",
-    "en": "English",
-    "pt": "Portuguese",
-    "es": "Spanish"
+    "label": "Seleccionar idioma",
+    "en": "Inglés",
+    "pt": "Portugués",
+    "es": "Español"
   },
   "dashboardUsability": {
-    "flameAwaits": "The Flame Awaits",
-    "dayStreak": "1 day streak",
-    "daysStreak": "{count} day streak",
-    "kmTraveled": "{distance} km traveled",
-    "viewPublicProfile": "View Public Profile",
-    "copyProfileLink": "Copy Profile Link",
-    "profileLinkCopied": "Profile link copied.",
-    "noAdventures": "No adventures recorded yet.",
-    "nextRunPrompt": "Complete your next run to begin writing your legend.",
-    "runRecorded": "Run recorded",
-    "adventureRecorded": "Adventure recorded",
-    "backToSite": "Back to Site"
+    "flameAwaits": "La Llama Espera",
+    "dayStreak": "1 día de racha",
+    "daysStreak": "{count} días de racha",
+    "kmTraveled": "{distance} km recorridos",
+    "viewPublicProfile": "Ver Perfil Público",
+    "copyProfileLink": "Copiar Enlace del Perfil",
+    "profileLinkCopied": "Enlace del perfil copiado.",
+    "noAdventures": "Aún no hay aventuras registradas.",
+    "nextRunPrompt": "Completa tu próxima carrera para comenzar a escribir tu leyenda.",
+    "runRecorded": "Carrera registrada",
+    "adventureRecorded": "Aventura registrada",
+    "backToSite": "Volver al Sitio"
   },
   "dashboard": {
-    "kicker": "Protected dashboard",
-    "title": "Champion Command Hall",
-    "description": "Your private MythStride profile, active boss, achievements, and recent adventure history.",
-    "loading": "Loading your profile...",
-    "unavailable": "Dashboard unavailable",
+    "kicker": "Dashboard protegido",
+    "title": "Salón de Mando del Campeón",
+    "description": "Tu perfil privado de MythStride, jefe activo, logros e historial reciente de aventuras.",
+    "loading": "Cargando tu perfil...",
+    "unavailable": "Dashboard no disponible",
     "sections": {
-      "championSummary": "Champion Summary",
-      "currentBoss": "Current Boss",
-      "adventureLog": "Recent Runs / Adventure Log",
-      "achievementsPreview": "Achievements Preview",
-      "accountActions": "Account Actions"
+      "championSummary": "Resumen del Campeón",
+      "currentBoss": "Jefe Actual",
+      "adventureLog": "Carreras Recientes / Diario de Aventuras",
+      "achievementsPreview": "Vista Previa de Logros",
+      "accountActions": "Acciones de la Cuenta"
     },
     "labels": {
-      "level": "Level",
-      "healthRemaining": "Health remaining"
+      "level": "Nivel",
+      "healthRemaining": "Vida restante"
     },
     "fallbacks": {
-      "championTitle": "MythStride Champion",
-      "noGuild": "No guild",
-      "bossImageUnavailable": "Boss image unavailable",
-      "noActiveBoss": "No active boss was returned by the backend.",
-      "noAchievements": "No achievements were returned by the backend."
+      "championTitle": "Campeón de MythStride",
+      "noGuild": "Sin gremio",
+      "bossImageUnavailable": "Imagen del jefe no disponible",
+      "noActiveBoss": "El backend no devolvió ningún jefe activo.",
+      "noAchievements": "El backend no devolvió ningún logro."
     },
     "partialErrors": {
-      "currentBoss": "Current boss data is temporarily unavailable.",
-      "trophies": "Achievements are temporarily unavailable.",
-      "history": "Adventure history is temporarily unavailable."
+      "currentBoss": "Los datos del jefe actual no están disponibles temporalmente.",
+      "trophies": "Los logros no están disponibles temporalmente.",
+      "history": "El historial de aventuras no está disponible temporalmente."
     },
     "errors": {
-      "configuration": "The MythStride API is not configured for this environment.",
-      "sessionExpired": "Your session expired. Please log in again.",
-      "offline": "The MythStride API is offline or unreachable. Please try again soon.",
-      "generic": "The MythStride API could not load your dashboard."
+      "configuration": "La API de MythStride no está configurada para este entorno.",
+      "sessionExpired": "Tu sesión expiró. Vuelve a iniciar sesión.",
+      "offline": "La API de MythStride está desconectada o inaccesible. Inténtalo de nuevo pronto.",
+      "generic": "La API de MythStride no pudo cargar tu dashboard."
     }
   },
   "publicProfile": {
-    "loading": "Loading champion profile...",
-    "unavailable": "Champion profile unavailable",
-    "usernameRequired": "A username is required to open a public profile.",
-    "beginJourney": "Begin Your Journey",
-    "championCard": "Champion card",
-    "legendaryProfile": "Legendary adventurer profile",
-    "profileDescription": "A public champion record from Elyndor, carrying the runner's level, flame streak, guild banner, boss pressure, achievements, and latest adventure.",
+    "loading": "Cargando perfil del campeón...",
+    "unavailable": "Perfil del campeón no disponible",
+    "usernameRequired": "Se necesita un nombre de usuario para abrir un perfil público.",
+    "beginJourney": "Comienza Tu Viaje",
+    "championCard": "Tarjeta del campeón",
+    "legendaryProfile": "Perfil de aventurero legendario",
+    "profileDescription": "Un registro público de campeón de Elyndor con nivel, racha de la llama, estandarte del gremio, progreso contra jefes, logros y aventura más reciente.",
     "labels": {
-      "level": "Level",
-      "boss": "Boss",
-      "streak": "Streak",
-      "distance": "Distance",
-      "flameStreak": "Flame streak",
-      "guild": "Guild",
-      "bossProgress": "Boss progress",
-      "healthRemaining": "Health remaining",
-      "achievements": "Achievements",
-      "totalDistance": "Total distance",
-      "totalRuns": "Total runs",
-      "currentStreak": "Current streak",
-      "bossesDefeated": "Bosses defeated",
-      "adventureLog": "Adventure Log",
-      "date": "Date",
-      "guildBanner": "Guild banner"
+      "level": "Nivel",
+      "boss": "Jefe",
+      "streak": "Racha",
+      "distance": "Distancia",
+      "flameStreak": "Racha de la llama",
+      "guild": "Gremio",
+      "bossProgress": "Progreso del jefe",
+      "healthRemaining": "Vida restante",
+      "achievements": "Logros",
+      "totalDistance": "Distancia total",
+      "totalRuns": "Carreras totales",
+      "currentStreak": "Racha actual",
+      "bossesDefeated": "Jefes derrotados",
+      "adventureLog": "Diario de Aventuras",
+      "date": "Fecha",
+      "guildBanner": "Estandarte del gremio"
     },
     "rarities": {
-      "common": "Common",
-      "uncommon": "Uncommon",
-      "rare": "Rare",
-      "epic": "Epic",
-      "legendary": "Legendary",
-      "mythic": "Mythic"
+      "common": "Común",
+      "uncommon": "Poco común",
+      "rare": "Raro",
+      "epic": "Épico",
+      "legendary": "Legendario",
+      "mythic": "Mítico"
     },
     "fallbacks": {
-      "notShared": "Not shared",
-      "noGuild": "No guild",
-      "none": "None",
-      "noActiveBoss": "No active boss",
-      "bossImageUnavailable": "Boss image unavailable",
-      "nextShadow": "The next shadow has not appeared.",
-      "noAchievements": "No public achievements shared yet.",
-      "noAdventure": "No public adventure has been shared yet.",
-      "latestAdventure": "Latest adventure recorded by MythStride."
+      "notShared": "No compartido",
+      "noGuild": "Sin gremio",
+      "none": "Ninguno",
+      "noActiveBoss": "Sin jefe activo",
+      "bossImageUnavailable": "Imagen del jefe no disponible",
+      "nextShadow": "La próxima sombra aún no ha aparecido.",
+      "noAchievements": "Aún no hay logros públicos compartidos.",
+      "noAdventure": "Aún no se ha compartido ninguna aventura pública.",
+      "latestAdventure": "Última aventura registrada por MythStride."
     },
     "boss": {
-      "mistAdvances": "The Dark Mist still advances.",
-      "weakened": "{percent}% weakened",
-      "remains": "{percent}% remains",
-      "health": "{percent}% health"
+      "mistAdvances": "La Niebla Oscura sigue avanzando.",
+      "weakened": "{percent}% debilitado",
+      "remains": "{percent}% restante",
+      "health": "{percent}% de vida"
     },
     "journey": {
-      "relicsTitle": "Relics of the Journey",
-      "distanceDetail": "Ground crossed in the real world and carried into Elyndor.",
-      "runsDetail": "Adventures recorded in the runner's public chronicle.",
-      "streakDetail": "The Flame kept alive through repeated effort.",
-      "bossesDetail": "Shadows already driven back from the path."
+      "relicsTitle": "Reliquias del Viaje",
+      "distanceDetail": "Terreno recorrido en el mundo real y llevado a Elyndor.",
+      "runsDetail": "Aventuras registradas en la crónica pública del corredor.",
+      "streakDetail": "La Llama mantenida viva mediante el esfuerzo constante.",
+      "bossesDetail": "Sombras que ya fueron expulsadas del camino."
     },
     "adventure": {
-      "latestFrom": "The latest public adventure from {name}'s chronicle."
+      "latestFrom": "La aventura pública más reciente de la crónica de {name}."
     },
-    "guildDescription": "Guild description will be revealed when this banner is expanded by the realm.",
+    "guildDescription": "La descripción del gremio se revelará cuando el reino expanda este estandarte.",
     "cta": {
-      "title": "Answer Aethron's Call",
-      "description": "Begin your own journey through Elyndor and turn each run into progress against the Dark Mist."
+      "title": "Responde al Llamado de Aethron",
+      "description": "Comienza tu propio viaje por Elyndor y convierte cada carrera en progreso contra la Niebla Oscura."
     },
     "errors": {
-      "configuration": "Public profiles need the MythStride API configuration before production data can load.",
-      "notFound": "This champion profile was not found.",
-      "api": "The MythStride API could not load this champion profile.",
-      "offline": "The MythStride API is offline or unreachable. Please try again soon.",
-      "generic": "This champion profile is temporarily unavailable."
+      "configuration": "Los perfiles públicos necesitan la configuración de la API de MythStride para cargar datos de producción.",
+      "notFound": "No se encontró este perfil de campeón.",
+      "api": "La API de MythStride no pudo cargar este perfil de campeón.",
+      "offline": "La API de MythStride está desconectada o inaccesible. Inténtalo de nuevo pronto.",
+      "generic": "Este perfil de campeón no está disponible temporalmente."
     },
-    "developmentMock": "Temporary local development mock. Production will show API data only."
+    "developmentMock": "Mock temporal de desarrollo local. Producción mostrará únicamente datos de la API."
   },
   "hero": {
     "title": "Run in the real world.",
@@ -167,23 +167,23 @@
     "scrollToEnter": "Scroll to enter the realm"
   },
   "login": {
-    "kicker": "Champion access",
-    "title": "Return to Elyndor",
-    "description": "Sign in to view your profile, active boss, recent runs, and achievements.",
+    "kicker": "Acceso del campeón",
+    "title": "Regresa a Elyndor",
+    "description": "Inicia sesión para ver tu perfil, jefe activo, carreras recientes y logros.",
     "fields": {
-      "email": "Email",
-      "password": "Password"
+      "email": "Correo electrónico",
+      "password": "Contraseña"
     },
     "actions": {
-      "submit": "Login",
-      "loading": "Entering...",
-      "waitlist": "Join the Waitlist"
+      "submit": "Entrar",
+      "loading": "Entrando...",
+      "waitlist": "Únete a la Lista"
     },
     "messages": {
-      "success": "Login successful. Opening your dashboard.",
-      "invalidCredentials": "Email or password is incorrect.",
-      "serverError": "The MythStride API could not complete login. Please try again.",
-      "configError": "The MythStride API is not configured in this environment."
+      "success": "Inicio de sesión correcto. Abriendo tu dashboard.",
+      "invalidCredentials": "El correo electrónico o la contraseña son incorrectos.",
+      "serverError": "La API de MythStride no pudo completar el inicio de sesión. Inténtalo de nuevo.",
+      "configError": "La API de MythStride no está configurada en este entorno."
     }
   },
   "howItWorks": {
@@ -363,7 +363,7 @@
     "sectionHeader": {
       "label": "Boss Progression",
       "title": "The Mist Gives Shape to Darkness",
-      "description": "Bosses are not random encounters. They are the Dark Mist taking form, led by shadows of Lich do Abismo."
+      "description": "Los jefes no son encuentros aleatorios. Son la Niebla Oscura tomando forma, liderada por las sombras de Lich do Abismo."
     },
     "bosses": [
       {
@@ -428,12 +428,12 @@
       },
       {
         "eyebrow": "The Great War",
-        "title": "The Flame Met Lich do Abismo",
+        "title": "La Llama Encontró a Lich do Abismo",
         "accent": "ember",
         "lines": [
           "For centuries, Aethron led countless heroes.",
           "Every mile strengthened the Flame. Every battle weakened the Mist.",
-          "Then came Lich do Abismo, the first great commander of darkness.",
+          "Entonces llegó Lich do Abismo, el primer gran comandante de la oscuridad.",
           "Aethron sealed him, but victory shattered his physical form.",
           "Only his consciousness survived."
         ]
@@ -456,7 +456,7 @@
     },
     "beforeTheRunThereWasTheFlame": "Before the run, there was the Flame.",
     "elyndorDidNotFallInSingleWar": "Elyndor did not fall in a single war. It faded when people stopped moving toward something worthy of protection.",
-    "theSpectralKingWaitsBeneathTheMist": "Lich do Abismo waits beneath the Mist.",
+    "theSpectralKingWaitsBeneathTheMist": "Lich do Abismo espera bajo la Niebla.",
     "mythStrideGivesEveryRunAPlace": "MythStride gives every run a place in this fight: the Flame grows through discipline, and the Mist weakens when the player returns."
   },
     "appShowcase": {
@@ -536,23 +536,23 @@
   },
   "waitlist": {
     "fields": {
-      "name": "Name",
-      "email": "Email"
+      "name": "Nombre",
+      "email": "Correo electrónico"
     },
     "placeholders": {
-      "name": "Your name",
-      "email": "you@email.com"
+      "name": "Tu nombre",
+      "email": "tu@email.com"
     },
     "actions": {
-      "submit": "Join the Waitlist",
-      "loading": "Sending..."
+      "submit": "Únete a la Lista",
+      "loading": "Enviando..."
     },
     "messages": {
-      "success": "You are on the MythStride waitlist. Aethron will call when the gates open.",
-      "alreadyJoined": "This email is already on the waitlist. Your place in Elyndor is reserved.",
-      "validationError": "Enter a valid email address to join the waitlist.",
-      "serverError": "The waitlist could not be reached. Please try again in a moment.",
-      "configError": "The waitlist API is not configured in this environment."
+      "success": "Estás en la lista de espera de MythStride. Aethron te llamará cuando se abran las puertas.",
+      "alreadyJoined": "Este correo electrónico ya está en la lista. Tu lugar en Elyndor está reservado.",
+      "validationError": "Introduce un correo electrónico válido para unirte a la lista.",
+      "serverError": "No se pudo acceder a la lista de espera. Inténtalo de nuevo en un momento.",
+      "configError": "La API de la lista de espera no está configurada en este entorno."
     }
   },
   "footer": {

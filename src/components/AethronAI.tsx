@@ -17,7 +17,7 @@ export default function AethronAI() {
   }, []);
 
   return (
-    <section id="aethron" className="relative overflow-hidden bg-void py-24">
+    <section id="aethron" className="cinematic-section relative overflow-hidden bg-void py-20 md:py-24">
       <div
         className="absolute inset-0 bg-cover bg-center opacity-45"
         style={{ backgroundImage: `url('${getAssetPath('/images/aethronfundo.png')}')` }}
@@ -32,17 +32,17 @@ export default function AethronAI() {
         }}
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <ScrollReveal direction="left">
             <div className="relative mx-auto max-w-md">
-              <div className="app-panel relative min-h-[560px] overflow-hidden p-6">
+              <div className="app-panel rpg-card relative min-h-[500px] overflow-hidden p-5 sm:min-h-[560px] sm:p-6">
                 <div
                   className="absolute inset-0 bg-cover bg-center opacity-85"
                   style={{ backgroundImage: `url('${getAssetPath('/images/aethronfundo.png')}')` }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-void via-void/20 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-emerald/25 bg-void/82 p-4 backdrop-blur-sm">
+                <div className="rpg-inset absolute bottom-5 left-5 right-5 rounded-2xl border-emerald/25 p-4 backdrop-blur-sm sm:bottom-6 sm:left-6 sm:right-6">
                   <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-emerald">
                     <EyeIcon className="h-3.5 w-3.5" />
                     {t('aethronAI.keeperOfTheFlame')}
@@ -62,21 +62,21 @@ export default function AethronAI() {
                 {t('aethronAI.aethronCompanion')}
               </div>
 
-              <h2 className="font-display text-4xl leading-tight text-gold md:text-6xl">
+              <h2 className="rpg-heading font-display text-3xl leading-tight text-gold sm:text-4xl md:text-6xl">
                 {t('aethronAI.notAManNotAGod')}
                 <span className="block text-gold-bright">
                   {t('aethronAI.aConsciousness')}
                 </span>
               </h2>
 
-              <p className="mt-6 max-w-2xl text-base leading-relaxed text-text-secondary md:text-lg">
+              <p className="rpg-copy mt-6 max-w-2xl text-base leading-relaxed text-text-secondary md:text-lg">
                 {t('aethronAI.insideMythStride')}
               </p>
 
               <div className="mt-8 space-y-4">
                 {principles.map((principle: string, index: number) => (
                   <ScrollReveal key={principle} delay={index * 120} direction="up">
-                    <div className="flex gap-4 rounded-[22px] border border-gold-dim/20 bg-charcoal/42 p-4">
+                    <div className="rpg-inset flex gap-4 rounded-[18px] p-4">
                       <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border border-emerald/30 bg-emerald/10">
                         <ShieldIcon className="h-5 w-5 text-emerald" />
                       </div>

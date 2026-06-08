@@ -1,7 +1,7 @@
 import { ApiError, apiFetch } from "./client";
 import { API_ENDPOINTS } from "./endpoints";
 
-export type WaitlistLanguage = "en" | "pt";
+export type WaitlistLanguage = "en" | "pt" | "es";
 
 export interface WaitlistSignupPayload {
   email: string;

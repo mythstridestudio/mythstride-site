@@ -16,7 +16,7 @@ export default function FinalCTA() {
   }, []);
 
   return (
-    <section id="join" className="relative overflow-hidden bg-void py-28 md:py-36">
+    <section id="join" className="cinematic-section relative overflow-hidden bg-void py-24 md:py-36">
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
@@ -43,7 +43,7 @@ export default function FinalCTA() {
         ))}
       </div>
 
-      <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+      <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6">
         <ScrollReveal direction="none">
           <div className="mb-8 flex justify-center">
             <SparkleIcon className="h-8 w-8 text-emerald" />
@@ -51,7 +51,7 @@ export default function FinalCTA() {
         </ScrollReveal>
 
         <ScrollReveal delay={120} direction="up">
-          <blockquote className="mx-auto max-w-3xl space-y-5 font-display text-3xl leading-tight text-gold-bright md:text-5xl">
+          <blockquote className="rpg-heading mx-auto max-w-3xl space-y-5 font-display text-2xl leading-tight text-gold-bright sm:text-3xl md:text-5xl">
             <p>{t('finalCTA.blockquote1.0')}</p>
             <p>{t('finalCTA.blockquote1.1')}</p>
             <p>{t('finalCTA.blockquote1.2')}</p>

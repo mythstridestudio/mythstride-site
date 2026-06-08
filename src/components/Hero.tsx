@@ -50,7 +50,7 @@ export default function Hero() {
         transition={{ duration: 1.8, delay: 0.25, ease: [0.25, 0.4, 0.2, 1] }}
       >
         <img
-          src={getAssetPath('/images/spectral-king.png')}
+          src={getAssetPath('/images/lich-do-abismo.png')}
           alt=""
           className="h-full w-full object-contain opacity-90 saturate-[0.62] contrast-125 [filter:drop-shadow(0_0_42px_rgba(0,0,0,0.75))]"
         />
@@ -88,8 +88,8 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-4 border border-gold-dim/24 md:inset-8" />
       <div className="pointer-events-none absolute inset-6 border border-gold-dim/10 md:inset-10" />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-6 lg:grid-cols-[0.92fr_1.08fr] lg:gap-10">
-        <div className="max-w-3xl text-center lg:text-left">
+      <div className="relative z-10 mx-auto grid w-full min-w-0 max-w-7xl grid-cols-1 items-center gap-8 px-4 sm:px-6 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-10">
+        <div className="min-w-0 max-w-3xl text-center lg:text-left">
           <motion.div {...reveal(0)}>
             <img
               src={getAssetPath('/images/mythstride-logo.png')}
@@ -121,12 +121,12 @@ export default function Hero() {
           </motion.div>
 
           <motion.div {...reveal(0.6)}>
-            <div className="flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center lg:justify-start">
+            <div className="flex min-w-0 flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center lg:justify-start">
               <motion.a
                 href="#join"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="myth-button-primary px-8 py-3.5 font-display text-sm tracking-wider"
+                className="myth-button-primary w-full min-w-0 px-5 py-3.5 font-display text-sm tracking-wider sm:w-auto sm:px-8"
               >
                 {t<string>('hero.cta')}
               </motion.a>
@@ -134,7 +134,7 @@ export default function Hero() {
                 href="#how-it-works"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="myth-button-secondary px-8 py-3.5 font-display text-sm tracking-wider"
+                className="myth-button-secondary w-full min-w-0 px-5 py-3.5 font-display text-sm tracking-wider sm:w-auto sm:px-8"
               >
                 {t<string>('hero.runLoop')}
                 <ChevronDownIcon className="w-4 h-4" />
@@ -163,7 +163,7 @@ export default function Hero() {
             />
 
             <motion.img
-              src={getAssetPath('/images/spectral-king.png')}
+              src={getAssetPath('/images/lich-do-abismo.png')}
               alt=""
               className="pointer-events-none absolute left-1/2 top-0 h-[20rem] w-[20rem] -translate-x-1/2 object-contain opacity-25 saturate-[0.55] contrast-125 sm:h-[28rem] sm:w-[28rem] lg:hidden"
               initial={false}

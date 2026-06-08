@@ -35,13 +35,13 @@ export default function CharacterSection() {
   const identityData = t('characterSection.identity'); // array of { title: string, copy: string }
 
   return (
-    <section className="relative overflow-hidden bg-abyss py-24">
+    <section className="cinematic-section relative overflow-hidden bg-abyss py-20 md:py-24">
       <div className="absolute inset-0 bg-stone-texture opacity-20" />
       <div className="absolute inset-0 bg-gradient-to-b from-void/20 via-abyss to-void/20" />
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeader
           label={t('characterSection.sectionHeader.label')}
           title={t('characterSection.sectionHeader.title')}
@@ -51,10 +51,10 @@ export default function CharacterSection() {
         <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <ScrollReveal direction="left">
             <div className="grid grid-cols-[0.9fr_1fr] items-end gap-4">
-              <div className="app-panel app-panel-compact overflow-hidden p-2">
+              <div className="app-panel app-panel-compact rpg-card overflow-hidden p-2">
                 <img src={getAssetPath('/images/perfil_masculino.png')} alt="Male MythStride hero profile artwork" className="h-auto w-full rounded-[18px] object-cover" />
               </div>
-              <div className="app-panel app-panel-compact overflow-hidden p-2">
+              <div className="app-panel app-panel-compact rpg-card overflow-hidden p-2">
                 <img src={getAssetPath('/images/screen-share.jpg')} alt="MythStride shareable journey card" className="h-auto w-full rounded-[18px] object-cover" />
               </div>
             </div>
@@ -69,14 +69,14 @@ export default function CharacterSection() {
 
               return (
                 <ScrollReveal key={item.title} delay={index * 120} direction="right">
-                  <div className="relative rounded-[24px] border border-gold-dim/20 bg-charcoal/45 p-5">
+                  <div className="rpg-inset relative rounded-[18px] p-5">
                     <div className="flex gap-4">
                       <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-gold-dim/30 bg-void/70">
                         <Icon className="h-6 w-6" />
                       </div>
                       <div>
-                        <h3 className="font-display text-xl text-gold">{TranslatedTitle}</h3>
-                        <p className="mt-2 text-sm leading-relaxed text-text-secondary">{TranslatedCopy}</p>
+                        <h3 className="rpg-heading font-display text-xl text-gold">{TranslatedTitle}</h3>
+                        <p className="rpg-copy mt-2 text-sm leading-relaxed text-text-secondary">{TranslatedCopy}</p>
                       </div>
                     </div>
                   </div>

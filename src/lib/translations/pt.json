@@ -12,6 +12,146 @@
     "dashboard": "Dashboard",
     "logout": "Sair"
   },
+  "authTopbar": {
+    "navigation": "Navegação autenticada",
+    "dashboard": "Dashboard",
+    "publicProfile": "Perfil Público",
+    "home": "Voltar ao Site",
+    "logout": "Sair",
+    "openMenu": "Abrir menu de navegação",
+    "closeMenu": "Fechar menu de navegação"
+  },
+  "languageSwitcher": {
+    "label": "Selecionar idioma",
+    "en": "Inglês",
+    "pt": "Português",
+    "es": "Espanhol"
+  },
+  "dashboardUsability": {
+    "flameAwaits": "A Chama Aguarda",
+    "dayStreak": "1 dia de sequência",
+    "daysStreak": "{count} dias de sequência",
+    "kmTraveled": "{distance} km percorridos",
+    "viewPublicProfile": "Ver Perfil Público",
+    "copyProfileLink": "Copiar Link do Perfil",
+    "profileLinkCopied": "Link do perfil copiado.",
+    "noAdventures": "Nenhuma aventura registrada ainda.",
+    "nextRunPrompt": "Complete sua próxima corrida para começar a escrever sua lenda.",
+    "runRecorded": "Corrida registrada",
+    "adventureRecorded": "Aventura registrada",
+    "backToSite": "Voltar ao Site"
+  },
+  "dashboard": {
+    "kicker": "Dashboard protegido",
+    "title": "Salão de Comando do Campeão",
+    "description": "Seu perfil privado do MythStride, chefe ativo, conquistas e histórico recente de aventuras.",
+    "loading": "Carregando seu perfil...",
+    "unavailable": "Dashboard indisponível",
+    "sections": {
+      "championSummary": "Resumo do Campeão",
+      "currentBoss": "Chefe Atual",
+      "adventureLog": "Corridas Recentes / Diário de Aventuras",
+      "achievementsPreview": "Prévia de Conquistas",
+      "accountActions": "Ações da Conta"
+    },
+    "labels": {
+      "level": "Nível",
+      "healthRemaining": "Vida restante"
+    },
+    "fallbacks": {
+      "championTitle": "Campeão MythStride",
+      "noGuild": "Sem guilda",
+      "bossImageUnavailable": "Imagem do chefe indisponível",
+      "noActiveBoss": "Nenhum chefe ativo foi retornado pelo backend.",
+      "noAchievements": "Nenhuma conquista foi retornada pelo backend."
+    },
+    "partialErrors": {
+      "currentBoss": "Os dados do chefe atual estão temporariamente indisponíveis.",
+      "trophies": "As conquistas estão temporariamente indisponíveis.",
+      "history": "O histórico de aventuras está temporariamente indisponível."
+    },
+    "errors": {
+      "configuration": "A API do MythStride não está configurada para este ambiente.",
+      "sessionExpired": "Sua sessão expirou. Entre novamente.",
+      "offline": "A API do MythStride está offline ou inacessível. Tente novamente em breve.",
+      "generic": "A API do MythStride não conseguiu carregar seu dashboard."
+    }
+  },
+  "publicProfile": {
+    "loading": "Carregando perfil do campeão...",
+    "unavailable": "Perfil do campeão indisponível",
+    "usernameRequired": "Um nome de usuário é necessário para abrir um perfil público.",
+    "beginJourney": "Comece Sua Jornada",
+    "championCard": "Cartão do campeão",
+    "legendaryProfile": "Perfil de aventureiro lendário",
+    "profileDescription": "Um registro público de campeão de Elyndor, com nível, sequência da chama, guilda, progresso contra chefes, conquistas e aventura mais recente.",
+    "labels": {
+      "level": "Nível",
+      "boss": "Chefe",
+      "streak": "Sequência",
+      "distance": "Distância",
+      "flameStreak": "Sequência da chama",
+      "guild": "Guilda",
+      "bossProgress": "Progresso do chefe",
+      "healthRemaining": "Vida restante",
+      "achievements": "Conquistas",
+      "totalDistance": "Distância total",
+      "totalRuns": "Total de corridas",
+      "currentStreak": "Sequência atual",
+      "bossesDefeated": "Chefes derrotados",
+      "adventureLog": "Diário de Aventuras",
+      "date": "Data",
+      "guildBanner": "Estandarte da guilda"
+    },
+    "rarities": {
+      "common": "Comum",
+      "uncommon": "Incomum",
+      "rare": "Raro",
+      "epic": "Épico",
+      "legendary": "Lendário",
+      "mythic": "Mítico"
+    },
+    "fallbacks": {
+      "notShared": "Não compartilhado",
+      "noGuild": "Sem guilda",
+      "none": "Nenhum",
+      "noActiveBoss": "Nenhum chefe ativo",
+      "bossImageUnavailable": "Imagem do chefe indisponível",
+      "nextShadow": "A próxima sombra ainda não surgiu.",
+      "noAchievements": "Nenhuma conquista pública compartilhada ainda.",
+      "noAdventure": "Nenhuma aventura pública foi compartilhada ainda.",
+      "latestAdventure": "Última aventura registrada pelo MythStride."
+    },
+    "boss": {
+      "mistAdvances": "A Névoa Sombria ainda avança.",
+      "weakened": "{percent}% enfraquecido",
+      "remains": "{percent}% restante",
+      "health": "{percent}% de vida"
+    },
+    "journey": {
+      "relicsTitle": "Relíquias da Jornada",
+      "distanceDetail": "Terreno percorrido no mundo real e levado para Elyndor.",
+      "runsDetail": "Aventuras registradas na crônica pública do corredor.",
+      "streakDetail": "A Chama mantida viva através do esforço contínuo.",
+      "bossesDetail": "Sombras já expulsas do caminho."
+    },
+    "adventure": {
+      "latestFrom": "A aventura pública mais recente da crônica de {name}."
+    },
+    "guildDescription": "A descrição da guilda será revelada quando este estandarte for expandido pelo reino.",
+    "cta": {
+      "title": "Responda ao Chamado de Aethron",
+      "description": "Comece sua própria jornada por Elyndor e transforme cada corrida em progresso contra a Névoa Sombria."
+    },
+    "errors": {
+      "configuration": "Os perfis públicos precisam da configuração da API do MythStride para carregar dados de produção.",
+      "notFound": "Este perfil de campeão não foi encontrado.",
+      "api": "A API do MythStride não conseguiu carregar este perfil de campeão.",
+      "offline": "A API do MythStride está offline ou inacessível. Tente novamente em breve.",
+      "generic": "Este perfil de campeão está temporariamente indisponível."
+    },
+    "developmentMock": "Mock temporário de desenvolvimento local. A produção exibirá apenas dados da API."
+  },
   "hero": {
     "title": "Corra no mundo real.",
     "progress": "Torne-se uma lenda em Elyndor.",
@@ -223,7 +363,7 @@
     "sectionHeader": {
       "label": "Progressão contra Chefes",
       "title": "A Névoa Dá Forma à Escuridão",
-      "description": "Chefes não são encontros aleatórios. Eles são a Névoa Sombria tomando forma, liderada por sombras do Rei Espectral."
+      "description": "Chefes não são encontros aleatórios. Eles são a Névoa Sombria tomando forma, liderada pelas sombras de Lich do Abismo."
     },
     "bosses": [
       {
@@ -235,11 +375,11 @@
         "source": "Tirano de brasas"
       },
       {
-        "name": "Rei Espectral",
+        "name": "Lich do Abismo",
         "source": "Comandante das trevas"
       }
     ],
-    "theSpectralKing": "O Rei Espectral",
+    "theSpectralKing": "Lich do Abismo",
     "firstCommanderSealed": "O primeiro comandante das trevas foi selado, não destruído.",
     "everyBossBattleSign": "Cada batalha contra chefes é um sinal de que a Névoa está se reunindo novamente. As corridas fazem mais do que encher barras; elas ajudam o Aethron a manter o selo.",
     "mistPressure": "Pressão da Névoa",
@@ -288,12 +428,12 @@
       },
       {
         "eyebrow": "A Grande Guerra",
-        "title": "A Chama Encontrou o Rei Espectral",
+        "title": "A Chama Encontrou Lich do Abismo",
         "accent": "ember",
         "lines": [
           "Por séculos, o Aethron liderou inúmeros heróis.",
           "Cada quilômetro fortaleceu a Chama. Cada batalha enfraqueceu a Névoa.",
-          "Então veio o Rei Espectral, o primeiro grande comandante das trevas.",
+          "Então veio Lich do Abismo, o primeiro grande comandante das trevas.",
           "O Aethron o selou, mas a vitória destruiu sua forma física.",
           "Só sua consciência sobreviveu."
         ]
@@ -316,7 +456,7 @@
     },
     "beforeTheRunThereWasTheFlame": "Antes da corrida, havia a Chama.",
     "elyndorDidNotFallInSingleWar": "Elyndor não caiu em uma única guerra. Ela desvaneceu quando as pessoas pararam de se mover em direção a algo digno de proteção.",
-    "theSpectralKingWaitsBeneathTheMist": "O Rei Espectral aguarda sob a Névoa.",
+    "theSpectralKingWaitsBeneathTheMist": "Lich do Abismo aguarda sob a Névoa.",
     "mythStrideGivesEveryRunAPlace": "O MythStride dá a cada corrida um lugar nessa luta: a Chama cresce através da disciplina, e a Névoa enfraquece quando o jogador retorna."
   },
     "appShowcase": {
@@ -416,6 +556,11 @@
     }
   },
   "footer": {
+    "rights": "Todos os direitos reservados.",
+    "links": {
+      "privacy": "Política de Privacidade",
+      "terms": "Termos de Serviço"
+    },
     "footerLinks": [
       { "label": "Privacidade", "href": "#" },
       { "label": "Termos", "href": "#" },

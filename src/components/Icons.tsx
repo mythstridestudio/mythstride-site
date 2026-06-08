@@ -243,3 +243,32 @@ export function SparkleIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+export function HomeIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M3 11.5L12 4L21 11.5" />
+      <path d="M5.5 10V20H18.5V10" />
+      <path d="M9.5 20V14H14.5V20" />
+    </svg>
+  );
+}
+
+export function MenuIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className={className}>
+      <path d="M4 7H20" />
+      <path d="M4 12H20" />
+      <path d="M4 17H20" />
+    </svg>
+  );
+}
+
+export function CloseIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className={className}>
+      <path d="M6 6L18 18" />
+      <path d="M18 6L6 18" />
+    </svg>
+  );
+}

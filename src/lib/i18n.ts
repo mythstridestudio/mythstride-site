@@ -1,10 +1,13 @@
+import { useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import en from './translations/en.json';
 import pt from './translations/pt.json';
+import es from './translations/es.json';
 
-const translations: Record<string, Record<string, unknown>> = {
+const translations = {
   en,
   pt,
+  es,
 };
 
 /**
@@ -16,9 +19,9 @@ export function useTranslations() {
   
   // Translation keys resolve to strings, arrays, and object lists across the app.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const t = <T = any>(key: string): T => {
+  const t = useCallback(<T = any>(key: string): T => {
     const keys = key.split('.');
-    let result: unknown = translations[lang] || translations['en'];
+    let result: unknown = translations[lang] || translations.en;
     
     for (const k of keys) {
       if (result && typeof result === 'object' && k in result) {
@@ -30,7 +33,7 @@ export function useTranslations() {
     }
     
     return result as T;
-  };
+  }, [lang]);
 
   return { t };
 }

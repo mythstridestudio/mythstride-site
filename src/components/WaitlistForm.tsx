@@ -2,7 +2,7 @@
 
 import { FormEvent, useId, useState } from 'react';
 import { ApiConfigurationError } from '@/lib/api/client';
-import { joinWaitlist, type WaitlistLanguage } from '@/lib/api/waitlist';
+import { joinWaitlist } from '@/lib/api/waitlist';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTranslations } from '@/lib/i18n';
 import { SwordsIcon } from './Icons';
@@ -52,7 +52,7 @@ export default function WaitlistForm({ className = '' }: WaitlistFormProps) {
       const result = await joinWaitlist({
         email: normalizedEmail,
         ...(trimmedName ? { name: trimmedName } : {}),
-        language: (lang === 'pt' ? 'pt' : 'en') as WaitlistLanguage,
+        language: lang,
         source: 'website',
       });
 
@@ -70,7 +70,7 @@ export default function WaitlistForm({ className = '' }: WaitlistFormProps) {
 
   return (
     <form
-      className={`relative mx-auto w-full max-w-2xl border border-gold-dim/35 bg-void/86 p-4 text-left shadow-[0_24px_80px_rgba(0,0,0,0.5)] sm:p-5 ${className}`}
+      className={`app-panel app-panel-compact rpg-card relative mx-auto w-full min-w-0 max-w-2xl p-4 text-left sm:p-5 ${className}`}
       onSubmit={handleSubmit}
       noValidate
     >
@@ -86,7 +86,7 @@ export default function WaitlistForm({ className = '' }: WaitlistFormProps) {
               value={name}
               onChange={(event) => setName(event.target.value)}
               placeholder={t('waitlist.placeholders.name')}
-              className="myth-input text-sm"
+            className="myth-input min-w-0 w-full text-sm"
               autoComplete="name"
               disabled={isLoading}
             />
@@ -101,7 +101,7 @@ export default function WaitlistForm({ className = '' }: WaitlistFormProps) {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder={t('waitlist.placeholders.email')}
-              className="myth-input text-sm"
+              className="myth-input min-w-0 w-full text-sm"
               autoComplete="email"
               required
               disabled={isLoading}
@@ -111,7 +111,7 @@ export default function WaitlistForm({ className = '' }: WaitlistFormProps) {
 
         <button
           type="submit"
-          className="myth-button-primary w-full px-8 py-3 font-display text-sm tracking-wider disabled:cursor-not-allowed"
+          className="myth-button-primary w-full min-w-0 px-5 py-3 font-display text-sm tracking-wider sm:px-8 disabled:cursor-not-allowed"
           disabled={isLoading}
         >
           <SwordsIcon className="h-4 w-4" />

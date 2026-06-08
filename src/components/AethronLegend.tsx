@@ -119,7 +119,7 @@ export default function AethronLegend() {
   }, [prefersReducedMotion]);
 
   return (
-    <section id="legend" ref={sectionRef} className="relative overflow-hidden bg-void py-24 md:py-32">
+    <section id="legend" ref={sectionRef} className="cinematic-section relative overflow-hidden bg-void py-20 md:py-32">
       <div
         ref={ruinsRef}
         className="absolute inset-0 bg-cover bg-center opacity-35"
@@ -146,8 +146,8 @@ export default function AethronLegend() {
       <div className="gold-divider absolute left-0 right-0 top-0" />
       <div className="gold-divider absolute bottom-0 left-0 right-0" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="mx-auto mb-16 max-w-3xl text-center">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mx-auto mb-12 max-w-3xl text-center md:mb-16">
           <ScrollReveal direction="none">
             <div className="mb-6 flex items-center justify-center gap-3">
               <span className="h-px w-12 bg-gradient-to-l from-gold-dim/50 to-transparent" />
@@ -158,12 +158,12 @@ export default function AethronLegend() {
             </div>
           </ScrollReveal>
           <ScrollReveal delay={120}>
-            <h2 className="font-display text-4xl leading-tight text-gold md:text-6xl">
+            <h2 className="rpg-heading font-display text-3xl leading-tight text-gold sm:text-4xl md:text-6xl">
               {t('aethronLegend.beforeTheRunThereWasTheFlame')}
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={220}>
-            <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-text-secondary md:text-lg">
+            <p className="rpg-copy mx-auto mt-6 max-w-2xl text-base leading-relaxed text-text-secondary md:text-lg">
               {t('aethronLegend.elyndorDidNotFallInSingleWar')}
             </p>
           </ScrollReveal>
@@ -171,7 +171,7 @@ export default function AethronLegend() {
 
         <div className="grid gap-12 lg:grid-cols-[0.86fr_1.14fr] lg:gap-16">
           <div className="relative lg:sticky lg:top-28 lg:h-[calc(100vh-8rem)]">
-            <div className="app-panel relative flex min-h-[560px] items-end justify-center overflow-hidden p-6">
+            <div className="app-panel rpg-card relative flex min-h-[500px] items-end justify-center overflow-hidden p-5 sm:min-h-[560px] sm:p-6">
               <div
                 className="absolute inset-0 bg-cover bg-center opacity-50"
                 style={{ backgroundImage: `url('${getAssetPath('/images/background.png')}')` }}
@@ -184,7 +184,7 @@ export default function AethronLegend() {
                 alt="Aethron, the ancient spirit guide of MythStride"
                 className="relative z-10 max-h-[480px] w-auto max-w-full object-contain drop-shadow-[0_0_34px_rgba(47,212,143,0.18)]"
               />
-              <div className="absolute bottom-6 left-6 right-6 z-20 rounded-2xl border border-gold-dim/25 bg-void/82 p-4 backdrop-blur-sm">
+              <div className="rpg-inset absolute bottom-5 left-5 right-5 z-20 rounded-2xl p-4 backdrop-blur-sm sm:bottom-6 sm:left-6 sm:right-6">
                 <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-emerald">
                   <SparkleIcon className="h-3.5 w-3.5" />
                   {t('aethronAI.keeperOfTheFlame')}
@@ -202,10 +202,10 @@ export default function AethronLegend() {
             ))}
 
             <ScrollReveal direction="up">
-              <div className="relative overflow-hidden rounded-[28px] border border-fiery-orange/25 bg-void/80 p-6 md:p-8">
+              <div className="rpg-inset relative overflow-hidden rounded-[20px] border-fiery-orange/25 p-6 md:p-8">
                 <div
                   className="absolute inset-0 bg-cover bg-center opacity-20"
-                  style={{ backgroundImage: `url('${getAssetPath('/images/spectral-king.png')}')` }}
+                  style={{ backgroundImage: `url('${getAssetPath('/images/lich-do-abismo.png')}')` }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-void via-void/86 to-void/45" />
                 <div className="relative max-w-xl">
@@ -213,7 +213,7 @@ export default function AethronLegend() {
                     <SwordsIcon className="h-3.5 w-3.5" />
                     {t('aethronLegend.theSealedDarkness')}
                   </div>
-                  <h3 className="font-display text-2xl text-gold md:text-3xl">{t('aethronLegend.spectralKingWaitsBeneathMist')}</h3>
+                  <h3 className="font-display text-2xl text-gold md:text-3xl">{t('aethronLegend.lichDoAbismoWaitsBeneathMist')}</h3>
                   <p className="mt-4 leading-relaxed text-text-secondary">
                     {t('aethronLegend.mythStrideGivesEveryRunAPlace')}
                   </p>

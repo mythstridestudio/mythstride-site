@@ -3,19 +3,22 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ApiConfigurationError, ApiError, ApiNetworkError } from "@/lib/api/client";
 import { getDashboardData, type DashboardData } from "@/lib/api/player";
 import { useAuth } from "@/contexts/AuthContext";
+import { getLanguageLocale, useLanguage } from "@/contexts/LanguageContext";
 import { getAssetPath } from "@/lib/assets";
 import { getBossImagePath, getBossMedalPath } from "@/lib/boss-medals";
+import { useTranslations } from "@/lib/i18n";
+import AuthenticatedTopbar from "@/components/AuthenticatedTopbar";
 import {
   ArrowRightIcon,
   BookIcon,
   CrownIcon,
+  HomeIcon,
   ShieldIcon,
   SkullIcon,
-  SwordsIcon,
   TrophyIcon,
   WatchIcon,
 } from "@/components/Icons";
@@ -23,38 +26,38 @@ import {
 type DashboardState =
   | { status: "loading" }
   | { status: "ready"; data: DashboardData }
-  | { status: "error"; message: string };
+  | { status: "error"; messageKey: string };
 
-function formatDistance(value?: number) {
+function formatDistance(value: number | null | undefined, locale: string) {
   if (typeof value !== "number") {
-    return "Not available";
+    return "";
   }
 
-  return `${new Intl.NumberFormat("en-US", { maximumFractionDigits: 1 }).format(value)} km`;
+  return new Intl.NumberFormat(locale, { maximumFractionDigits: 1 }).format(value);
 }
 
-function formatDate(value: string) {
-  return new Intl.DateTimeFormat("en-US", {
+function formatDate(value: string, locale: string) {
+  return new Intl.DateTimeFormat(locale, {
     month: "short",
     day: "numeric",
     year: "numeric",
   }).format(new Date(`${value}T00:00:00`));
 }
 
-function getErrorMessage(error: unknown) {
+function getErrorMessageKey(error: unknown) {
   if (error instanceof ApiConfigurationError) {
-    return "NEXT_PUBLIC_API_BASE_URL is not configured for this environment.";
+    return "dashboard.errors.configuration";
   }
 
   if (error instanceof ApiError && (error.status === 401 || error.status === 403)) {
-    return "Your session expired. Please log in again.";
+    return "dashboard.errors.sessionExpired";
   }
 
   if (error instanceof ApiNetworkError) {
-    return "The MythStride API is offline or unreachable. Please try again soon.";
+    return "dashboard.errors.offline";
   }
 
-  return "The MythStride API could not load your dashboard.";
+  return "dashboard.errors.generic";
 }
 
 function getImagePath(path: string | null | undefined) {
@@ -71,7 +74,7 @@ function Panel({
   icon: React.ComponentType<{ className?: string }>;
 }) {
   return (
-    <section className="app-panel app-panel-compact relative overflow-hidden p-5 md:p-6">
+    <section className="app-panel app-panel-compact rpg-card relative overflow-hidden p-4 sm:p-5 md:p-6">
       <div className="absolute inset-0 bg-stone-texture opacity-20" />
       <div className="relative">
         <div className="mb-5 flex items-center gap-3">
@@ -88,7 +91,7 @@ function Panel({
 
 function EmptyState({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-[18px] border border-gold-dim/18 bg-void/62 p-5 text-sm leading-relaxed text-text-muted">
+    <div className="rpg-inset rounded-[14px] p-5 text-sm leading-relaxed text-text-muted">
       {children}
     </div>
   );
@@ -106,47 +109,78 @@ function PartialNotice({ children }: { children?: React.ReactNode }) {
   );
 }
 
-function DashboardContent({ data, onLogout }: { data: DashboardData; onLogout: () => void }) {
+function DashboardContent({ data }: { data: DashboardData }) {
+  const { t } = useTranslations();
+  const { lang } = useLanguage();
+  const locale = getLanguageLocale(lang);
+  const [profileLinkCopied, setProfileLinkCopied] = useState(false);
   const { profile, currentBoss, trophies, history } = data;
   const displayName = profile.displayName ?? profile.username;
+  const username = profile.username?.trim();
+  const profileHref = username ? `/player?username=${encodeURIComponent(username)}` : null;
   const shownTrophies = trophies.slice(0, 4);
   const recentRuns = history.slice(0, 4);
   const bossImageSrc = getImagePath(currentBoss?.imageUrl) ?? getBossMedalPath(currentBoss?.name);
   const bossHealth = Math.max(0, Math.min(100, currentBoss?.healthPercent ?? 0));
+  const streakLabel =
+    profile.currentStreakDays <= 0
+      ? t("dashboardUsability.flameAwaits")
+      : profile.currentStreakDays === 1
+        ? t("dashboardUsability.dayStreak")
+        : t<string>("dashboardUsability.daysStreak").replace("{count}", String(profile.currentStreakDays));
+  const distanceLabel = t<string>("dashboardUsability.kmTraveled").replace(
+    "{distance}",
+    formatDistance(profile.totalDistanceKm, locale),
+  );
+
+  const copyProfileLink = async () => {
+    if (!username) {
+      return;
+    }
+
+    const path = `${getAssetPath("/player")}?username=${encodeURIComponent(username)}`;
+    const absoluteUrl = new URL(path, window.location.origin).toString();
+
+    try {
+      await navigator.clipboard.writeText(absoluteUrl);
+      setProfileLinkCopied(true);
+      window.setTimeout(() => setProfileLinkCopied(false), 2500);
+    } catch {
+      setProfileLinkCopied(false);
+    }
+  };
 
   return (
     <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-      <Panel title="Champion Summary" icon={CrownIcon}>
+      <Panel title={t("dashboard.sections.championSummary")} icon={CrownIcon}>
         <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-fiery-orange">@{profile.username}</p>
             <h1 className="mt-3 font-display text-4xl leading-none text-gold-bright md:text-5xl">
               {displayName}
             </h1>
-            <p className="mt-3 text-lg text-gold">{profile.title ?? "MythStride Champion"}</p>
+            <p className="mt-3 text-lg text-gold">{profile.title ?? t("dashboard.fallbacks.championTitle")}</p>
           </div>
-          <div className="w-24 rounded-[18px] border border-gold/35 bg-gold/10 px-4 py-3 text-center">
+          <div className="rpg-inset w-24 rounded-[14px] border-gold/35 px-4 py-3 text-center">
             <div className="font-display text-4xl leading-none text-gold">{profile.level}</div>
-            <div className="mt-1 text-[10px] uppercase tracking-[0.22em] text-text-muted">Level</div>
+            <div className="mt-1 text-[10px] uppercase tracking-[0.22em] text-text-muted">{t("dashboard.labels.level")}</div>
           </div>
         </div>
 
         <div className="mt-7 grid gap-3 sm:grid-cols-3">
-          <div className="resource-pill justify-center text-sm text-text-secondary">{formatDistance(profile.totalDistanceKm)}</div>
+          <div className="resource-pill justify-center text-sm text-text-secondary">{distanceLabel}</div>
+          <div className="resource-pill justify-center text-sm text-text-secondary">{streakLabel}</div>
           <div className="resource-pill justify-center text-sm text-text-secondary">
-            {typeof profile.currentStreakDays === "number" ? `${profile.currentStreakDays} day streak` : "No streak shared"}
-          </div>
-          <div className="resource-pill justify-center text-sm text-text-secondary">
-            {profile.guild?.name ?? "No guild"}
+            {profile.guild?.name ?? t("dashboard.fallbacks.noGuild")}
           </div>
         </div>
       </Panel>
 
-      <Panel title="Current Boss" icon={SkullIcon}>
-        <PartialNotice>{data.partialErrors.currentBoss}</PartialNotice>
+      <Panel title={t("dashboard.sections.currentBoss")} icon={SkullIcon}>
+        <PartialNotice>{data.partialErrors.currentBoss ? t("dashboard.partialErrors.currentBoss") : undefined}</PartialNotice>
         {currentBoss ? (
           <div className="grid gap-5 sm:grid-cols-[0.36fr_1fr] sm:items-center">
-            <div className="aspect-square rounded-[20px] border border-fiery-orange/25 bg-rich-brown/35 p-4">
+            <div className="rpg-inset aspect-square rounded-[16px] border-fiery-orange/25 p-4">
               {bossImageSrc ? (
                 <img
                   src={bossImageSrc}
@@ -154,14 +188,14 @@ function DashboardContent({ data, onLogout }: { data: DashboardData; onLogout: (
                   className="h-full w-full object-contain drop-shadow-[0_0_32px_rgba(232,98,42,0.28)]"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center text-center text-xs text-text-muted">Boss image unavailable</div>
+                <div className="flex h-full items-center justify-center text-center text-xs text-text-muted">{t("dashboard.fallbacks.bossImageUnavailable")}</div>
               )}
             </div>
             <div>
               <h3 className="font-display text-3xl text-gold-bright">{currentBoss.name}</h3>
               <div className="mt-5">
                 <div className="mb-2 flex justify-between text-sm text-text-secondary">
-                  <span>Health remaining</span>
+                  <span>{t("dashboard.labels.healthRemaining")}</span>
                   <span className="text-fiery-orange">{bossHealth}%</span>
                 </div>
                 <div className="h-3 overflow-hidden rounded-full border border-fiery-orange/25 bg-void">
@@ -174,38 +208,49 @@ function DashboardContent({ data, onLogout }: { data: DashboardData; onLogout: (
             </div>
           </div>
         ) : (
-          <EmptyState>No active boss was returned by the backend.</EmptyState>
+          <EmptyState>{t("dashboard.fallbacks.noActiveBoss")}</EmptyState>
         )}
       </Panel>
 
-      <Panel title="Recent Runs / Adventure Log" icon={BookIcon}>
-        <PartialNotice>{data.partialErrors.history}</PartialNotice>
+      <Panel title={t("dashboard.sections.adventureLog")} icon={BookIcon}>
+        <PartialNotice>{data.partialErrors.history ? t("dashboard.partialErrors.history") : undefined}</PartialNotice>
         {recentRuns.length > 0 ? (
           <div className="space-y-3">
             {recentRuns.map((run) => (
-              <div key={run.id} className="rounded-[18px] border border-gold-dim/16 bg-void/60 p-4">
+              <div key={run.id} className="rpg-inset rounded-[14px] p-4">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <span className="font-display text-xl text-gold">{formatDistance(run.distanceKm)}</span>
-                  <span className="text-xs uppercase tracking-[0.18em] text-text-muted">{formatDate(run.date)}</span>
+                  <span className="font-display text-xl text-gold">
+                    {typeof run.distanceKm === "number" && run.distanceKm > 0
+                      ? `${formatDistance(run.distanceKm, locale)} km`
+                      : run.summary?.trim() || (run.bossDamage && run.bossDamage > 0)
+                        ? t("dashboardUsability.adventureRecorded")
+                        : t("dashboardUsability.runRecorded")}
+                  </span>
+                  <span className="text-xs uppercase tracking-[0.18em] text-text-muted">{formatDate(run.date, locale)}</span>
                 </div>
-                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-                  {run.summary ?? "Run completed and recorded by MythStride."}
-                </p>
+                {run.summary?.trim() && (
+                  <p className="mt-2 text-sm leading-relaxed text-text-secondary">{run.summary}</p>
+                )}
               </div>
             ))}
           </div>
         ) : (
-          <EmptyState>No recent runs were returned by the backend.</EmptyState>
+          <EmptyState>
+            <strong className="block font-display text-lg font-normal text-gold">
+              {t("dashboardUsability.noAdventures")}
+            </strong>
+            <span className="mt-2 block">{t("dashboardUsability.nextRunPrompt")}</span>
+          </EmptyState>
         )}
       </Panel>
 
       <div className="grid gap-6">
-        <Panel title="Achievements Preview" icon={TrophyIcon}>
-          <PartialNotice>{data.partialErrors.trophies}</PartialNotice>
+        <Panel title={t("dashboard.sections.achievementsPreview")} icon={TrophyIcon}>
+          <PartialNotice>{data.partialErrors.trophies ? t("dashboard.partialErrors.trophies") : undefined}</PartialNotice>
           {shownTrophies.length > 0 ? (
             <div className="grid gap-3 sm:grid-cols-2">
               {shownTrophies.map((trophy) => (
-                <div key={trophy.id} className="rounded-[18px] border border-gold-dim/16 bg-void/60 p-4">
+                <div key={trophy.id} className="rpg-inset rounded-[14px] p-4">
                   <div className="mb-2 flex items-center gap-2 text-gold">
                     <TrophyIcon className="h-4 w-4" />
                     <h3 className="font-display text-lg">{trophy.name}</h3>
@@ -215,21 +260,41 @@ function DashboardContent({ data, onLogout }: { data: DashboardData; onLogout: (
               ))}
             </div>
           ) : (
-            <EmptyState>No achievements were returned by the backend.</EmptyState>
+            <EmptyState>{t("dashboard.fallbacks.noAchievements")}</EmptyState>
           )}
         </Panel>
 
-        <Panel title="Account Actions" icon={ShieldIcon}>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link href={`/player/${encodeURIComponent(profile.username)}`} className="myth-button-secondary px-6 py-3 font-display text-sm tracking-wider">
-              Public Profile
-              <ArrowRightIcon className="h-4 w-4" />
-            </Link>
-            <button type="button" onClick={onLogout} className="myth-button-primary px-6 py-3 font-display text-sm tracking-wider">
-              Logout
-              <SwordsIcon className="h-4 w-4" />
+        <Panel title={t("dashboard.sections.accountActions")} icon={ShieldIcon}>
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            {profileHref ? (
+              <Link href={profileHref} className="myth-button-secondary px-6 py-3 font-display text-sm tracking-wider">
+                {t("dashboardUsability.viewPublicProfile")}
+                <ArrowRightIcon className="h-4 w-4" />
+              </Link>
+            ) : (
+              <span className="myth-button-secondary cursor-not-allowed px-6 py-3 font-display text-sm tracking-wider opacity-45" aria-disabled="true">
+                {t("dashboardUsability.viewPublicProfile")}
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={copyProfileLink}
+              className="myth-button-secondary px-6 py-3 font-display text-sm tracking-wider disabled:cursor-not-allowed disabled:opacity-45"
+              disabled={!profileHref}
+            >
+              <ShieldIcon className="h-4 w-4" />
+              {t("dashboardUsability.copyProfileLink")}
             </button>
+            <Link href="/" className="myth-button-secondary px-6 py-3 font-display text-sm tracking-wider">
+              <HomeIcon className="h-4 w-4" />
+              {t("dashboardUsability.backToSite")}
+            </Link>
           </div>
+          {profileLinkCopied && (
+            <p className="mt-3 text-sm text-emerald" role="status">
+              {t("dashboardUsability.profileLinkCopied")}
+            </p>
+          )}
         </Panel>
       </div>
     </div>
@@ -238,8 +303,12 @@ function DashboardContent({ data, onLogout }: { data: DashboardData; onLogout: (
 
 export default function DashboardShell() {
   const router = useRouter();
-  const { token, status: authStatus, logout } = useAuth();
+  const { token, user, status: authStatus, logout } = useAuth();
+  const { t } = useTranslations();
+  const prefersReducedMotion = useReducedMotion();
   const [dashboardState, setDashboardState] = useState<DashboardState>({ status: "loading" });
+  const profileUsername =
+    dashboardState.status === "ready" ? dashboardState.data.profile.username : user?.username;
 
   useEffect(() => {
     if (authStatus === "loading") {
@@ -269,7 +338,7 @@ export default function DashboardShell() {
           }
 
           if (active) {
-            setDashboardState({ status: "error", message: getErrorMessage(error) });
+            setDashboardState({ status: "error", messageKey: getErrorMessageKey(error) });
           }
         });
     }, 0);
@@ -281,7 +350,8 @@ export default function DashboardShell() {
   }, [authStatus, logout, router, token]);
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-void py-24 md:py-28">
+    <main className="relative min-h-screen overflow-hidden bg-void py-20 md:py-28">
+      <AuthenticatedTopbar profileUsername={profileUsername} />
       <div
         className="absolute inset-0 bg-cover bg-center opacity-30"
         style={{ backgroundImage: `url('${getAssetPath("/images/background.png")}')` }}
@@ -291,43 +361,36 @@ export default function DashboardShell() {
       <div className="pointer-events-none absolute inset-4 border border-gold-dim/20 md:inset-8" />
 
       <motion.div
-        className="relative z-10 mx-auto max-w-7xl px-6"
-        initial={{ opacity: 0, y: 20 }}
+        className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6"
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.25, 0.4, 0.2, 1] }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.5, ease: [0.25, 0.4, 0.2, 1] }}
       >
-        <Link href="/" className="mb-8 inline-flex items-center gap-2">
-          <img src={getAssetPath("/images/mythstride-app-icon.png")} alt="" className="h-9 w-9 rounded-full" />
-          <span className="font-display text-lg tracking-wider text-gold">
-            Myth<span className="text-gold-bright">Stride</span>
-          </span>
-        </Link>
-
         <div className="mb-8 flex flex-col gap-3">
-          <p className="text-xs uppercase tracking-[0.26em] text-fiery-orange">Protected dashboard</p>
-          <h1 className="font-display text-4xl leading-tight text-gold-bright md:text-6xl">Champion Command Hall</h1>
-          <p className="max-w-3xl leading-relaxed text-text-secondary">
-            Your private MythStride profile, active boss, achievements, and recent adventure history.
+          <p className="text-xs uppercase tracking-[0.26em] text-fiery-orange">{t("dashboard.kicker")}</p>
+          <h1 className="rpg-heading font-display text-3xl leading-tight text-gold-bright sm:text-4xl md:text-6xl">{t("dashboard.title")}</h1>
+          <p className="rpg-copy max-w-3xl leading-relaxed text-text-secondary">
+            {t("dashboard.description")}
           </p>
         </div>
 
         {(authStatus === "loading" || dashboardState.status === "loading") && (
-          <div className="app-panel app-panel-compact p-8">
+          <div className="app-panel app-panel-compact rpg-card p-6 sm:p-8">
             <div className="flex items-center gap-3 text-gold">
               <WatchIcon className="h-5 w-5 animate-pulse" />
-              <span className="font-display text-2xl">Loading your profile...</span>
+              <span className="font-display text-2xl">{t("dashboard.loading")}</span>
             </div>
           </div>
         )}
 
         {dashboardState.status === "error" && (
-          <div className="app-panel app-panel-compact max-w-3xl p-8">
-            <h2 className="font-display text-3xl text-gold">Dashboard unavailable</h2>
-            <p className="mt-4 leading-relaxed text-text-secondary">{dashboardState.message}</p>
+          <div className="app-panel app-panel-compact rpg-card max-w-3xl p-6 sm:p-8">
+            <h2 className="font-display text-3xl text-gold">{t("dashboard.unavailable")}</h2>
+            <p className="mt-4 leading-relaxed text-text-secondary">{t(dashboardState.messageKey)}</p>
           </div>
         )}
 
-        {dashboardState.status === "ready" && <DashboardContent data={dashboardState.data} onLogout={logout} />}
+        {dashboardState.status === "ready" && <DashboardContent data={dashboardState.data} />}
       </motion.div>
     </main>
   );

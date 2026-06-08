@@ -21,11 +21,21 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
 });
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH?.trim().replace(/\/$/, "") ?? "";
+
 export const metadata: Metadata = {
   title: "MythStride | Turn Your Runs Into RPG Battles",
   description:
     "MythStride transforms every real-world run into an epic dark fantasy progression journey. Fight bosses, earn rewards, complete quests, and grow stronger with every step.",
   keywords: ["running game", "fitness RPG", "dark fantasy", "mobile game", "run tracker", "gamified fitness"],
+  icons: {
+    icon: [
+      { url: `${basePath}/favicon.ico` },
+      { url: `${basePath}/icon.png`, type: "image/png", sizes: "512x512" },
+    ],
+    shortcut: `${basePath}/favicon.ico`,
+    apple: [{ url: `${basePath}/apple-icon.png`, sizes: "180x180", type: "image/png" }],
+  },
   openGraph: {
     title: "MythStride | Turn Your Runs Into RPG Battles",
     description:

@@ -37,7 +37,7 @@ export default function Navigation() {
           : 'bg-gradient-to-b from-void/80 to-transparent backdrop-blur-sm'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 h-16 md:h-20 flex items-center justify-between">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:h-20">
         <a href="#" className="flex items-center gap-2.5 group">
           <img src={getAssetPath('/images/mythstride-app-icon.png')} alt="" className="h-9 w-9 rounded-full object-cover shadow-[0_0_18px_rgba(212,168,83,0.18)]" />
           <span className="font-display text-gold text-lg tracking-wider sm:text-xl">
@@ -45,7 +45,7 @@ export default function Navigation() {
           </span>
         </a>
 
-        <div className="hidden md:flex items-center gap-8 font-body text-sm">
+        <div className="hidden lg:flex items-center gap-6 font-body text-sm xl:gap-8">
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -63,14 +63,14 @@ export default function Navigation() {
             <>
               <Link
                 href="/dashboard"
-                className="myth-button-secondary hidden px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
+                className="myth-button-secondary hidden px-5 py-2.5 font-display text-xs tracking-wider lg:inline-flex"
               >
                 {t('nav.dashboard')}
               </Link>
               <button
                 type="button"
                 onClick={logout}
-                className="myth-button-primary hidden px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
+                className="myth-button-primary hidden px-5 py-2.5 font-display text-xs tracking-wider lg:inline-flex"
               >
                 {t('nav.logout')}
               </button>
@@ -78,16 +78,16 @@ export default function Navigation() {
           ) : (
             <Link
               href={loading ? "#join" : "/login"}
-              className="myth-button-primary hidden px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
+              className="myth-button-primary hidden px-5 py-2.5 font-display text-xs tracking-wider lg:inline-flex"
             >
               {loading ? t('nav.joinWaitlist') : t('nav.login')}
             </Link>
           )}
 
           <button
-            className="md:hidden flex flex-col gap-1.5 p-2 cursor-pointer"
+            className="flex cursor-pointer flex-col gap-1.5 p-2 lg:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
+            aria-label={mobileOpen ? t('authTopbar.closeMenu') : t('authTopbar.openMenu')}
           >
             <span className={`block w-6 h-px bg-gold transition-all duration-300 ${mobileOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
             <span className={`block w-6 h-px bg-gold transition-all duration-300 ${mobileOpen ? 'opacity-0' : ''}`} />
@@ -98,11 +98,11 @@ export default function Navigation() {
 
       {/* Mobile menu */}
       <div
-        className={`md:hidden transition-all duration-400 overflow-hidden ${
+        className={`overflow-hidden transition-all duration-400 lg:hidden ${
           mobileOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
-        <div className="app-panel app-panel-compact mx-4 mb-4 px-6 py-6 flex flex-col gap-4">
+        <div className="app-panel app-panel-compact rpg-card mx-4 mb-4 flex flex-col gap-4 px-5 py-5 sm:px-6 sm:py-6">
           {navLinks.map((link) => (
             <a
               key={link.href}

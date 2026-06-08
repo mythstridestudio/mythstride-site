@@ -10,21 +10,21 @@ interface SectionHeaderProps {
 
 export default function SectionHeader({ label, title, description, align = 'center' }: SectionHeaderProps) {
   return (
-    <ScrollReveal className={`mb-16 ${align === 'center' ? 'text-center' : ''}`}>
-      <div className={`flex items-center justify-center gap-3 mb-5 ${align === 'left' ? '' : 'mx-auto'}`}>
+    <ScrollReveal className={`mb-12 md:mb-16 ${align === 'center' ? 'text-center' : ''}`}>
+      <div className={`mb-5 flex items-center justify-center gap-2.5 sm:gap-3 ${align === 'left' ? '' : 'mx-auto'}`}>
         <span className="h-px w-8 bg-gradient-to-l from-gold-dim/50 to-transparent" />
         <CrossedSwordsIcon className="w-3.5 h-3.5 text-gold-dim/60" />
-        <span className="text-gold-muted text-xs tracking-[0.3em] uppercase font-body">{label}</span>
+        <span className="font-body text-[10px] uppercase tracking-[0.24em] text-gold-muted sm:text-xs sm:tracking-[0.3em]">{label}</span>
         <CrossedSwordsIcon className="w-3.5 h-3.5 text-gold-dim/60" />
         <span className="h-px w-8 bg-gradient-to-r from-gold-dim/50 to-transparent" />
       </div>
 
-      <h2 className={`font-display text-4xl md:text-5xl lg:text-6xl text-gold mb-6 leading-tight ${align === 'center' ? 'max-w-3xl mx-auto' : ''}`}>
+      <h2 className={`rpg-heading mb-5 font-display text-3xl leading-tight text-gold sm:text-4xl md:mb-6 md:text-5xl lg:text-6xl ${align === 'center' ? 'mx-auto max-w-3xl' : ''}`}>
         {title}
       </h2>
 
       {description && (
-        <p className={`text-text-secondary text-base md:text-lg leading-relaxed ${align === 'center' ? 'max-w-2xl mx-auto' : ''}`}>
+        <p className={`rpg-copy text-base leading-relaxed text-text-secondary md:text-lg ${align === 'center' ? 'mx-auto max-w-2xl' : ''}`}>
           {description}
         </p>
       )}

@@ -18,8 +18,8 @@ const developmentMockPlayer = (username: string): PublicPlayerProfile => ({
   totalDistanceKm: 245.7,
   currentStreakDays: 21,
   currentBoss: {
-    name: "Spectral King",
-    imageUrl: "/images/spectral-king.png",
+    name: "Lich do Abismo",
+    imageUrl: "/images/lich-do-abismo.png",
     healthPercent: 64,
   },
   guild: {
@@ -69,11 +69,15 @@ const getFallbackReason = (error: unknown) => {
   return "Public player endpoint is unavailable.";
 };
 
-export async function getPublicPlayer(username: string): Promise<PublicPlayerResult> {
+export async function getPublicPlayer(
+  username: string,
+): Promise<PublicPlayerResult> {
   const normalizedUsername = username.trim();
 
   try {
-    const player = await apiFetch<PublicPlayerProfile>(API_ENDPOINTS.publicPlayer.byUsername(normalizedUsername));
+    const player = await apiFetch<PublicPlayerProfile>(
+      API_ENDPOINTS.publicPlayer.byUsername(normalizedUsername),
+    );
 
     return { player, source: "api" };
   } catch (error) {

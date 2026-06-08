@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { getAssetPath } from '@/lib/assets';
 import { BookIcon, CrownIcon, GemIcon, RunIcon, ScrollIcon, ShieldIcon, SwordsIcon } from './Icons';
 import { useTranslations } from '@/lib/i18n';
@@ -84,6 +84,7 @@ export default function AppShowcase() {
   const { t } = useTranslations();
   const translatedScreens = t<Partial<Screen>[]>('appShowcase.screens');
   const [activeIndex, setActiveIndex] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
 
   const screens = fallbackScreens.map((screen, index) => ({
     ...screen,
@@ -93,14 +94,14 @@ export default function AppShowcase() {
   const ActiveIcon = activeScreen.icon;
 
   return (
-    <section id="app" className="relative overflow-hidden bg-deep-charcoal py-24">
+    <section id="app" className="cinematic-section relative overflow-hidden bg-deep-charcoal py-20 md:py-24">
       <div className="absolute inset-0 bg-stone-texture opacity-35" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_18%,rgba(212,168,83,0.08),transparent_48%),linear-gradient(180deg,rgba(5,5,7,0.34),rgba(18,18,24,0.98)_36%,rgba(5,5,7,0.92))]" />
       <div className="absolute inset-x-[-12%] top-24 h-80 bg-[radial-gradient(ellipse_at_center,rgba(47,212,143,0.09),transparent_64%)] blur-3xl" />
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="mb-16 text-center">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mb-12 text-center md:mb-16">
           <div className="mb-5 flex items-center justify-center gap-3">
             <span className="h-px w-8 bg-gradient-to-l from-gold-dim/50 to-transparent" />
             <SwordsIcon className="h-3.5 w-3.5 text-gold-dim/60" />
@@ -109,11 +110,11 @@ export default function AppShowcase() {
             <span className="h-px w-8 bg-gradient-to-r from-gold-dim/50 to-transparent" />
           </div>
 
-          <h2 className="mx-auto mb-6 max-w-3xl font-display text-4xl leading-tight text-gold md:text-5xl lg:text-6xl">
+          <h2 className="rpg-heading mx-auto mb-6 max-w-3xl font-display text-3xl leading-tight text-gold sm:text-4xl md:text-5xl lg:text-6xl">
             {t('appShowcase.sectionHeader.title')}
           </h2>
 
-          <p className="mx-auto max-w-2xl text-base leading-relaxed text-text-secondary md:text-lg">
+          <p className="rpg-copy mx-auto max-w-2xl text-base leading-relaxed text-text-secondary md:text-lg">
             {t('appShowcase.sectionHeader.description')}
           </p>
 
@@ -131,7 +132,7 @@ export default function AppShowcase() {
         <div className="grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <div className="relative mx-auto max-w-[25rem] lg:max-w-[31rem]">
             <div className="absolute -inset-8 rounded-full bg-[radial-gradient(circle,rgba(212,168,83,0.16),rgba(47,212,143,0.08)_34%,transparent_68%)] blur-3xl" />
-            <div className="relative border border-gold-dim/35 bg-void/92 p-3 shadow-[0_32px_110px_rgba(0,0,0,0.72)]">
+            <div className="rpg-inset relative border-gold-dim/35 p-3 shadow-[0_32px_110px_rgba(0,0,0,0.72)]">
               <div className="pointer-events-none absolute inset-2 border border-gold-dim/15" />
               <div className="mb-3 flex items-center justify-between gap-4 border-b border-gold-dim/20 px-2 pb-3">
                 <div className="flex items-center gap-3">
@@ -148,9 +149,9 @@ export default function AppShowcase() {
 
               <motion.div
                 key={activeScreen.image + activeIndex}
-                initial={false}
+                initial={prefersReducedMotion ? false : { opacity: 0.45, y: 12, scale: 0.985 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, ease: [0.25, 0.4, 0.2, 1] }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.45, ease: [0.25, 0.4, 0.2, 1] }}
                 className="phone-shell overflow-hidden p-2"
               >
                 <img
@@ -163,7 +164,7 @@ export default function AppShowcase() {
           </div>
 
           <div className="space-y-6">
-            <div className="app-panel app-panel-compact overflow-hidden p-5 md:p-6">
+            <div className="app-panel app-panel-compact rpg-card overflow-hidden p-4 sm:p-5 md:p-6">
               <div className="relative z-10">
                 <div className="mb-5 flex items-center gap-3">
                   <GemIcon className="h-4 w-4 text-gold" />
@@ -204,7 +205,7 @@ export default function AppShowcase() {
               </div>
             </div>
 
-            <div className="relative border border-gold-dim/20 bg-void/70 p-5 shadow-[0_22px_70px_rgba(0,0,0,0.42)]">
+            <div className="rpg-inset relative p-5 shadow-[0_22px_70px_rgba(0,0,0,0.42)]">
               <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-emerald/45 to-transparent" />
               <div className="mb-2 text-xs uppercase tracking-[0.26em] text-emerald">{activeScreen.chapter}</div>
               <p className="text-sm leading-relaxed text-text-secondary md:text-base">{activeScreen.copy}</p>

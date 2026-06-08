@@ -29,12 +29,12 @@ export default function BossBattle() {
     {
       name: t('bossBattle.bosses.2.name'),
       source: t('bossBattle.bosses.2.source'),
-      image: '/images/spectral-king.png',
+      image: '/images/lich-do-abismo.png',
     },
   ];
 
   return (
-    <section id="bosses" className="relative overflow-hidden bg-void py-24">
+    <section id="bosses" className="cinematic-section relative overflow-hidden bg-void py-20 md:py-24">
       <div className="absolute inset-0 bg-stone-texture opacity-20" />
       <div
         className="absolute inset-0 bg-cover bg-center opacity-25"
@@ -50,7 +50,7 @@ export default function BossBattle() {
       />
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeader
           label={t('bossBattle.sectionHeader.label')}
           title={t('bossBattle.sectionHeader.title')}
@@ -59,16 +59,16 @@ export default function BossBattle() {
 
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <ScrollReveal direction="left">
-            <div className="app-panel relative overflow-hidden p-4 md:p-6">
+            <div className="app-panel rpg-card relative overflow-hidden p-4 md:p-6">
               <div className="absolute inset-0 boss-halo opacity-80" />
               <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {bosses.map((boss, index) => (
-                  <div key={boss.name} className={`${index === 2 ? 'sm:col-span-1' : ''} relative overflow-hidden rounded-[22px] border border-gold-dim/20 bg-void/70 p-3`}>
+                  <div key={boss.name} className={`${index === 2 ? 'sm:col-span-1' : ''} rpg-inset relative overflow-hidden rounded-[18px] p-3`}>
                     <div className="relative aspect-square overflow-hidden rounded-2xl bg-rich-brown/40">
                       <img src={getAssetPath(boss.image)} alt={boss.name} className="h-full w-full object-contain drop-shadow-[0_0_28px_rgba(232,98,42,0.22)]" />
                     </div>
                     <div className="mt-3">
-                      <h3 className="font-display text-lg text-gold">{boss.name}</h3>
+                      <h3 className="rpg-heading font-display text-lg text-gold">{boss.name}</h3>
                       <p className="text-xs uppercase tracking-[0.16em] text-text-muted">{boss.source}</p>
                     </div>
                   </div>
@@ -79,20 +79,20 @@ export default function BossBattle() {
 
           <ScrollReveal direction="right" delay={180}>
             <div className="space-y-5">
-              <div className="rounded-[28px] border border-fiery-orange/25 bg-void/74 p-6">
+              <div className="rpg-inset rounded-[20px] border-fiery-orange/25 p-5 sm:p-6">
                 <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-fiery-orange/30 bg-fiery-orange/10 px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-fiery-orange">
                   <EyeIcon className="h-3.5 w-3.5" />
                   {t('bossBattle.theSpectralKing')}
                 </div>
-                <h3 className="font-display text-3xl leading-tight text-gold">
+                <h3 className="rpg-heading font-display text-2xl leading-tight text-gold sm:text-3xl">
                   {t('bossBattle.firstCommanderSealed')}
                 </h3>
-                <p className="mt-4 leading-relaxed text-text-secondary">
+                <p className="rpg-copy mt-4 leading-relaxed text-text-secondary">
                   {t('bossBattle.everyBossBattleSign')}
                 </p>
               </div>
 
-              <div className="rounded-[22px] border border-gold-dim/20 bg-charcoal/40 p-5">
+              <div className="rpg-inset rounded-[18px] p-5">
                 <div className="mb-2 flex items-center justify-between gap-4 text-xs uppercase tracking-[0.18em] text-text-muted">
                   <span className="flex items-center gap-2">
                     <ShieldIcon className="h-4 w-4 text-fiery-orange" />

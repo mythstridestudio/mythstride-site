@@ -2,13 +2,28 @@
 
 import { createContext, useContext, useEffect, useSyncExternalStore } from 'react';
 
+export type Language = 'en' | 'pt' | 'es';
+
+export function getLanguageLocale(language: Language) {
+  return {
+    en: 'en-US',
+    pt: 'pt-BR',
+    es: 'es-ES',
+  }[language];
+}
+
 type LanguageContextType = {
-  lang: string;
-  setLang: (lang: string) => void;
+  lang: Language;
+  setLang: (lang: Language) => void;
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 const languageChangeEvent = 'mythstride-language-change';
+const supportedLanguages: Language[] = ['en', 'pt', 'es'];
+
+function isLanguage(value: string | null): value is Language {
+  return supportedLanguages.includes(value as Language);
+}
 
 function subscribe(callback: () => void) {
   window.addEventListener('storage', callback);
@@ -21,10 +36,12 @@ function subscribe(callback: () => void) {
 }
 
 function getLanguageSnapshot() {
-  return localStorage.getItem('lang') || 'en';
+  const storedLanguage = localStorage.getItem('lang');
+
+  return isLanguage(storedLanguage) ? storedLanguage : 'en';
 }
 
-function getServerLanguageSnapshot() {
+function getServerLanguageSnapshot(): Language {
   return 'en';
 }
 
@@ -43,7 +60,7 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
     document.documentElement.lang = lang;
   }, [lang]);
 
-  const setLang = (nextLang: string) => {
+  const setLang = (nextLang: Language) => {
     localStorage.setItem('lang', nextLang);
     window.dispatchEvent(new Event(languageChangeEvent));
   };

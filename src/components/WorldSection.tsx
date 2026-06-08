@@ -79,7 +79,7 @@ export default function WorldSection() {
 
   return (
 
-    <section id="world" ref={sectionRef} className="relative overflow-hidden bg-void py-24 md:py-32">
+    <section id="world" ref={sectionRef} className="cinematic-section relative overflow-hidden bg-void py-20 md:py-32">
       <div
         ref={bgRef}
         className="absolute inset-0 bg-cover bg-center opacity-32"
@@ -91,7 +91,7 @@ export default function WorldSection() {
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeader
           label={t('worldSection.sectionHeader.label')}
           title={t('worldSection.sectionHeader.title')}
@@ -100,7 +100,7 @@ export default function WorldSection() {
 
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <ScrollReveal direction="left">
-            <div className="app-panel relative overflow-hidden p-6 md:p-8">
+            <div className="app-panel rpg-card relative overflow-hidden p-5 sm:p-6 md:p-8">
               <div
                 className="absolute inset-0 bg-cover bg-center opacity-45"
                 style={{ backgroundImage: `url('${getAssetPath('/images/background.png')}')` }}
@@ -111,10 +111,10 @@ export default function WorldSection() {
                   <SparkleIcon className="h-3.5 w-3.5" />
                   {t('worldSection.theDarkMist')}
                 </div>
-                <h3 className="font-display text-3xl leading-tight text-gold md:text-5xl">
+                <h3 className="rpg-heading font-display text-3xl leading-tight text-gold md:text-5xl">
                   {t('worldSection.itDidNotDestroyCities')}
                 </h3>
-                <p className="mt-5 max-w-xl leading-relaxed text-text-secondary">
+                <p className="rpg-copy mt-5 max-w-xl leading-relaxed text-text-secondary">
                   {t('worldSection.peopleStoppedFighting')}
                 </p>
               </div>
@@ -127,14 +127,14 @@ export default function WorldSection() {
 
               return (
                 <ScrollReveal key={realm.title} delay={index * 120} direction="right">
-                  <div className="relative rounded-[22px] border border-gold-dim/20 bg-void/72 p-5 shadow-[0_20px_70px_rgba(0,0,0,0.35)]">
+                  <div className="rpg-inset relative rounded-[18px] p-5">
                     <div className="flex gap-4">
                       <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-gold-dim/30 bg-gold/8">
                         <Icon className="h-6 w-6 text-gold" />
                       </div>
                       <div>
-                        <h3 className="font-display text-xl text-gold">{realm.title}</h3>
-                        <p className="mt-2 text-sm leading-relaxed text-text-secondary">{realm.copy}</p>
+                        <h3 className="rpg-heading font-display text-xl text-gold">{realm.title}</h3>
+                        <p className="rpg-copy mt-2 text-sm leading-relaxed text-text-secondary">{realm.copy}</p>
                       </div>
                     </div>
                   </div>

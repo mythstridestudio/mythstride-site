@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ApiConfigurationError, ApiError } from "@/lib/api/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { getAssetPath } from "@/lib/assets";
@@ -16,6 +16,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
   const { t } = useTranslations();
+  const prefersReducedMotion = useReducedMotion();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState<LoginStatus>("idle");
@@ -54,7 +55,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-void px-6 py-10">
+    <main className="relative min-h-screen overflow-hidden bg-void px-4 py-6 sm:px-6 sm:py-10">
       <div
         className="absolute inset-0 bg-cover bg-center opacity-30"
         style={{ backgroundImage: `url('${getAssetPath("/images/background.png")}')` }}
@@ -64,13 +65,13 @@ export default function LoginPage() {
       <div className="pointer-events-none absolute inset-4 border border-gold-dim/20 md:inset-8" />
 
       <motion.section
-        className="relative z-10 mx-auto flex min-h-[calc(100vh-5rem)] max-w-6xl items-center justify-center"
-        initial={{ opacity: 0, y: 18 }}
+        className="relative z-10 mx-auto flex min-h-[calc(100vh-5rem)] w-full min-w-0 max-w-6xl items-center justify-center"
+        initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.25, 0.4, 0.2, 1] }}
+        transition={{ duration: prefersReducedMotion ? 0 : 0.5, ease: [0.25, 0.4, 0.2, 1] }}
       >
-        <div className="app-panel app-panel-compact grid w-full max-w-5xl overflow-hidden md:grid-cols-[0.9fr_1.1fr]">
-          <div className="relative min-h-72 overflow-hidden border-b border-gold-dim/20 p-8 md:border-b-0 md:border-r">
+        <div className="app-panel app-panel-compact rpg-card grid w-full min-w-0 max-w-5xl overflow-hidden md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+          <div className="relative min-h-64 min-w-0 overflow-hidden border-b border-gold-dim/20 p-6 sm:min-h-72 sm:p-8 md:border-b-0 md:border-r">
             <div
               className="absolute inset-0 bg-cover bg-center opacity-45"
               style={{ backgroundImage: `url('${getAssetPath("/images/aethron-scroll-bg.png")}')` }}
@@ -83,19 +84,19 @@ export default function LoginPage() {
                   Myth<span className="text-gold-bright">Stride</span>
                 </span>
               </Link>
-              <div className="mt-16 max-w-sm">
+              <div className="mt-12 max-w-sm sm:mt-16">
                 <p className="text-xs uppercase tracking-[0.26em] text-fiery-orange">{t("login.kicker")}</p>
-                <h1 className="mt-4 font-display text-4xl leading-tight text-gold-bright md:text-5xl">
+                <h1 className="rpg-heading mt-4 font-display text-3xl leading-tight text-gold-bright sm:text-4xl md:text-5xl">
                   {t("login.title")}
                 </h1>
-                <p className="mt-4 leading-relaxed text-text-secondary">
+                <p className="rpg-copy mt-4 leading-relaxed text-text-secondary">
                   {t("login.description")}
                 </p>
               </div>
             </div>
           </div>
 
-          <form className="relative grid gap-5 p-6 sm:p-8" onSubmit={handleSubmit}>
+          <form className="relative grid min-w-0 gap-5 p-6 sm:p-8" onSubmit={handleSubmit}>
             <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/30 bg-gold/10 text-gold">
               <ShieldIcon className="h-6 w-6" />
             </div>
@@ -106,7 +107,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                className="myth-input text-sm"
+                className="myth-input min-w-0 w-full text-sm"
                 autoComplete="email"
                 required
                 disabled={isLoading}
@@ -119,7 +120,7 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="myth-input text-sm"
+                className="myth-input min-w-0 w-full text-sm"
                 autoComplete="current-password"
                 required
                 disabled={isLoading}
@@ -128,7 +129,7 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="myth-button-primary w-full px-8 py-3 font-display text-sm tracking-wider disabled:cursor-not-allowed"
+              className="myth-button-primary w-full min-w-0 px-5 py-3 font-display text-sm tracking-wider sm:px-8 disabled:cursor-not-allowed"
               disabled={isLoading}
             >
               <SwordsIcon className="h-4 w-4" />
@@ -148,7 +149,7 @@ export default function LoginPage() {
               </p>
             )}
 
-            <Link href="/#join" className="myth-button-secondary px-6 py-3 font-display text-sm tracking-wider">
+            <Link href="/#join" className="myth-button-secondary w-full min-w-0 px-4 py-3 font-display text-sm tracking-wider sm:px-6">
               {t("login.actions.waitlist")}
               <ArrowRightIcon className="h-4 w-4" />
             </Link>

@@ -33,7 +33,7 @@ export default function RunToBattle() {
   });
 
   return (
-    <section id="how-it-works" className="relative overflow-hidden bg-deep-charcoal py-24">
+    <section id="how-it-works" className="cinematic-section relative overflow-hidden bg-deep-charcoal py-20 md:py-24">
       <div className="absolute inset-0 bg-stone-texture opacity-35" />
       <div
         className="absolute inset-0 bg-cover bg-center opacity-10"
@@ -50,7 +50,7 @@ export default function RunToBattle() {
         }}
       />
 
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <SectionHeader
           label={t('runToBattle.sectionHeader.label')}
           title={t('runToBattle.sectionHeader.title')}
@@ -83,7 +83,7 @@ export default function RunToBattle() {
 
               return (
                 <ScrollReveal key={step.title} delay={index * 120} direction="right">
-                  <div className="app-panel app-panel-compact relative overflow-hidden p-5 md:p-6">
+                  <div className="app-panel app-panel-compact rpg-card relative overflow-hidden p-4 sm:p-5 md:p-6">
                     <div className="relative z-10 flex gap-4">
                       <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border border-gold-dim/30 bg-void/70">
                         <Icon className="h-7 w-7 text-gold" />
@@ -93,8 +93,8 @@ export default function RunToBattle() {
                           <ShieldIcon className="h-3.5 w-3.5" />
                           Step {index + 1}
                         </div>
-                        <h3 className="font-display text-xl text-gold">{step.title}</h3>
-                        <p className="mt-2 text-sm leading-relaxed text-text-secondary">{step.copy}</p>
+                        <h3 className="rpg-heading font-display text-xl text-gold">{step.title}</h3>
+                        <p className="rpg-copy mt-2 text-sm leading-relaxed text-text-secondary">{step.copy}</p>
                       </div>
                     </div>
                   </div>
@@ -103,7 +103,7 @@ export default function RunToBattle() {
             })}
 
             <ScrollReveal delay={420} direction="up">
-              <div className="rounded-[22px] border border-emerald/25 bg-emerald/5 p-5 text-center">
+              <div className="rpg-inset rounded-[18px] border-emerald/25 p-5 text-center">
                 <p className="font-display text-2xl leading-snug text-gold md:text-3xl">
                   {t('runToBattle.everyKmStrengthensFlame')}
                   <span className="block text-emerald">{t('runToBattle.everyBattleWeakensMist')}</span>
