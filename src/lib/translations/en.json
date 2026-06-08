@@ -123,6 +123,7 @@
       "latestAdventure": "Latest adventure recorded by MythStride."
     },
     "boss": {
+      "currentNemesis": "Current Nemesis",
       "mistAdvances": "The Dark Mist still advances.",
       "weakened": "{percent}% weakened",
       "remains": "{percent}% remains",
@@ -130,18 +131,27 @@
     },
     "journey": {
       "relicsTitle": "Relics of the Journey",
+      "legendaryAchievements": "Legendary Achievements",
       "distanceDetail": "Ground crossed in the real world and carried into Elyndor.",
       "runsDetail": "Adventures recorded in the runner's public chronicle.",
       "streakDetail": "The Flame kept alive through repeated effort.",
       "bossesDetail": "Shadows already driven back from the path."
     },
+    "actions": {
+      "title": "Champion Profile Actions",
+      "copyLink": "Copy Profile Link",
+      "shareProfile": "Share Profile",
+      "linkCopied": "Profile Link Copied"
+    },
     "adventure": {
-      "latestFrom": "The latest public adventure from {name}'s chronicle."
+      "latestFrom": "The latest public adventure from {name}'s chronicle.",
+      "emptyLogQuote": "The ink is still dry on this champion's chronicle. Elyndor waits for the first footprints in the Mist."
     },
     "guildDescription": "Guild description will be revealed when this banner is expanded by the realm.",
     "cta": {
       "title": "Answer Aethron's Call",
-      "description": "Begin your own journey through Elyndor and turn each run into progress against the Dark Mist."
+      "description": "Begin your own journey through Elyndor and turn each run into progress against the Dark Mist.",
+      "aethronQuote": "The Flame seeks those who are not afraid to walk where purpose has faded."
     },
     "errors": {
       "configuration": "Public profiles need the MythStride API configuration before production data can load.",

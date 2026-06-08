@@ -123,6 +123,7 @@
       "latestAdventure": "Última aventura registrada pelo MythStride."
     },
     "boss": {
+      "currentNemesis": "Nêmesis Atual",
       "mistAdvances": "A Névoa Sombria ainda avança.",
       "weakened": "{percent}% enfraquecido",
       "remains": "{percent}% restante",
@@ -130,18 +131,27 @@
     },
     "journey": {
       "relicsTitle": "Relíquias da Jornada",
+      "legendaryAchievements": "Conquistas Lendárias",
       "distanceDetail": "Terreno percorrido no mundo real e levado para Elyndor.",
       "runsDetail": "Aventuras registradas na crônica pública do corredor.",
       "streakDetail": "A Chama mantida viva através do esforço contínuo.",
       "bossesDetail": "Sombras já expulsas do caminho."
     },
+    "actions": {
+      "title": "Ações do Perfil do Campeão",
+      "copyLink": "Copiar Link do Perfil",
+      "shareProfile": "Compartilhar Perfil",
+      "linkCopied": "Link do Perfil Copiado"
+    },
     "adventure": {
-      "latestFrom": "A aventura pública mais recente da crônica de {name}."
+      "latestFrom": "A aventura pública mais recente da crônica de {name}.",
+      "emptyLogQuote": "A tinta ainda está seca na crônica deste campeão. Elyndor aguarda as primeiras pegadas na Névoa."
     },
     "guildDescription": "A descrição da guilda será revelada quando este estandarte for expandido pelo reino.",
     "cta": {
       "title": "Responda ao Chamado de Aethron",
-      "description": "Comece sua própria jornada por Elyndor e transforme cada corrida em progresso contra a Névoa Sombria."
+      "description": "Comece sua própria jornada por Elyndor e transforme cada corrida em progresso contra a Névoa Sombria.",
+      "aethronQuote": "A Chama busca aqueles que não têm medo de caminhar onde o propósito desapareceu."
     },
     "errors": {
       "configuration": "Os perfis públicos precisam da configuração da API do MythStride para carregar dados de produção.",

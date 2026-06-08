@@ -123,6 +123,7 @@
       "latestAdventure": "Última aventura registrada por MythStride."
     },
     "boss": {
+      "currentNemesis": "Némesis Actual",
       "mistAdvances": "La Niebla Oscura sigue avanzando.",
       "weakened": "{percent}% debilitado",
       "remains": "{percent}% restante",
@@ -130,18 +131,27 @@
     },
     "journey": {
       "relicsTitle": "Reliquias del Viaje",
+      "legendaryAchievements": "Logros Legendarios",
       "distanceDetail": "Terreno recorrido en el mundo real y llevado a Elyndor.",
       "runsDetail": "Aventuras registradas en la crónica pública del corredor.",
       "streakDetail": "La Llama mantenida viva mediante el esfuerzo constante.",
       "bossesDetail": "Sombras que ya fueron expulsadas del camino."
     },
+    "actions": {
+      "title": "Acciones del Perfil del Campeón",
+      "copyLink": "Copiar Enlace del Perfil",
+      "shareProfile": "Compartir Perfil",
+      "linkCopied": "Enlace del Perfil Copiado"
+    },
     "adventure": {
-      "latestFrom": "La aventura pública más reciente de la crónica de {name}."
+      "latestFrom": "La aventura pública más reciente de la crónica de {name}.",
+      "emptyLogQuote": "La tinta aún está seca en la crónica de este campeón. Elyndor espera las primeras huellas en la Niebla."
     },
     "guildDescription": "La descripción del gremio se revelará cuando el reino expanda este estandarte.",
     "cta": {
       "title": "Responde al Llamado de Aethron",
-      "description": "Comienza tu propio viaje por Elyndor y convierte cada carrera en progreso contra la Niebla Oscura."
+      "description": "Comienza tu propio viaje por Elyndor y convierte cada carrera en progreso contra la Niebla Oscura.",
+      "aethronQuote": "La Llama busca a aquellos que no temen caminar por donde el propósito se ha desvanecido."
     },
     "errors": {
       "configuration": "Los perfiles públicos necesitan la configuración de la API de MythStride para cargar datos de producción.",
