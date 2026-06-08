@@ -37,9 +37,7 @@ export function writeStoredAccessToken(accessToken: string) {
 }
 
 interface AuthLoginApiResponse {
-  accessToken?: string;
-  token?: string;
-  jwt?: string;
+  token: string;
   usuarioId: number;
   email: string;
   jogadorId: number | null;
@@ -47,14 +45,12 @@ interface AuthLoginApiResponse {
 }
 
 function normalizeLoginResponse(response: AuthLoginApiResponse): AuthLoginResponse {
-  const token = response.token ?? response.accessToken ?? response.jwt;
-
-  if (!token) {
+  if (!response.token) {
     throw new Error("Login response did not include an access token.");
   }
 
   return {
-    token,
+    token: response.token,
     usuarioId: response.usuarioId,
     email: response.email,
     jogadorId: response.jogadorId,

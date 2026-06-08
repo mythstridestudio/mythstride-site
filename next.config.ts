@@ -1,14 +1,9 @@
 import type { NextConfig } from "next";
 
-const githubPagesBasePath = "/mythstride-site";
-const isProd = process.env.NODE_ENV === "production";
-const basePath = isProd ? githubPagesBasePath : "";
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH?.trim().replace(/\/$/, "") ?? "";
 
 const nextConfig: NextConfig = {
-  output: "export",
-  trailingSlash: true,
-  basePath,
-  assetPrefix: isProd ? `${githubPagesBasePath}/` : "",
+  ...(basePath ? { basePath, assetPrefix: `${basePath}/` } : {}),
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
   },

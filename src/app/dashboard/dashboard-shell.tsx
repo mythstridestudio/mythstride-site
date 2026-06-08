@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { ApiConfigurationError, ApiError } from "@/lib/api/client";
+import { ApiConfigurationError, ApiError, ApiNetworkError } from "@/lib/api/client";
 import { getDashboardData, type DashboardData } from "@/lib/api/player";
 import { useAuth } from "@/contexts/AuthContext";
 import { getAssetPath } from "@/lib/assets";
@@ -47,6 +47,10 @@ function getErrorMessage(error: unknown) {
 
   if (error instanceof ApiError && (error.status === 401 || error.status === 403)) {
     return "Your session expired. Please log in again.";
+  }
+
+  if (error instanceof ApiNetworkError) {
+    return "The MythStride API is offline or unreachable. Please try again soon.";
   }
 
   return "The MythStride API could not load your dashboard.";

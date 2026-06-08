@@ -17,6 +17,13 @@ export class ApiConfigurationError extends Error {
   }
 }
 
+export class ApiNetworkError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "ApiNetworkError";
+  }
+}
+
 export interface ApiFetchOptions extends RequestInit {
   accessToken?: string | null;
 }
@@ -46,10 +53,16 @@ export async function apiFetch<TResponse>(
     requestHeaders.set("Authorization", `Bearer ${accessToken}`);
   }
 
-  const response = await fetch(`${baseUrl}${normalizedPath}`, {
-    ...init,
-    headers: requestHeaders,
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(`${baseUrl}${normalizedPath}`, {
+      ...init,
+      headers: requestHeaders,
+    });
+  } catch {
+    throw new ApiNetworkError("The MythStride API is currently unreachable.");
+  }
 
   const contentType = response.headers.get("content-type") ?? "";
   const body = contentType.includes("application/json")

@@ -1,13 +1,8 @@
 import type { Metadata } from "next";
 import { apiFetch, hasApiBaseUrl } from "@/lib/api/client";
+import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import type { PublicPlayerProfile } from "@/lib/api/types";
 import PublicPlayerProfilePage from "./public-player-profile-page";
-
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return [{ username: "Botinha" }];
-}
 
 async function getMetadataPlayer(username: string) {
   if (!hasApiBaseUrl()) {
@@ -15,9 +10,7 @@ async function getMetadataPlayer(username: string) {
   }
 
   try {
-    return await apiFetch<PublicPlayerProfile>(
-      `/api/public/player/${encodeURIComponent(username)}`,
-    );
+    return await apiFetch<PublicPlayerProfile>(API_ENDPOINTS.publicPlayer.byUsername(username));
   } catch {
     return null;
   }

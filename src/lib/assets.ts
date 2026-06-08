@@ -1,10 +1,7 @@
-const productionBasePath = '/mythstride-site';
-
 function getBasePath() {
   const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
-  const basePath = configuredBasePath || (process.env.NODE_ENV === 'production' ? productionBasePath : '');
 
-  return basePath.replace(/\/$/, '');
+  return configuredBasePath.replace(/\/$/, '');
 }
 
 export function getAssetPath(path: string) {

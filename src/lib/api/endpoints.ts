@@ -11,4 +11,5 @@ export const API_ENDPOINTS = {
   publicPlayer: {
     byUsername: (username: string) => `/api/public/player/${encodeURIComponent(username)}`,
   },
+  waitlist: "/api/waitlist",
 } as const;

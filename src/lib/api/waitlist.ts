@@ -1,11 +1,12 @@
 import { ApiError, apiFetch } from "./client";
+import { API_ENDPOINTS } from "./endpoints";
 
 export type WaitlistLanguage = "en" | "pt";
 
 export interface WaitlistSignupPayload {
   email: string;
   name?: string;
-  language: WaitlistLanguage;
+  language?: WaitlistLanguage;
   source: "website";
 }
 
@@ -21,12 +22,16 @@ function isWaitlistSignupResponse(value: unknown): value is WaitlistSignupRespon
 }
 
 function messageIndicatesAlreadyJoined(message: string | undefined) {
-  return message?.toLowerCase().includes("already") ?? false;
+  const normalizedMessage = message?.toLowerCase() ?? "";
+
+  return ["already", "duplicate", "exists", "inscrito", "cadastrado"].some((term) =>
+    normalizedMessage.includes(term),
+  );
 }
 
 export async function joinWaitlist(payload: WaitlistSignupPayload): Promise<WaitlistSignupResult> {
   try {
-    const response = await apiFetch<WaitlistSignupResponse>("/api/waitlist", {
+    const response = await apiFetch<WaitlistSignupResponse>(API_ENDPOINTS.waitlist, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,8 +39,14 @@ export async function joinWaitlist(payload: WaitlistSignupPayload): Promise<Wait
       body: JSON.stringify(payload),
     });
 
-    if (isWaitlistSignupResponse(response) && messageIndicatesAlreadyJoined(response.message)) {
-      return "alreadyJoined";
+    if (isWaitlistSignupResponse(response)) {
+      if (messageIndicatesAlreadyJoined(response.message)) {
+        return "alreadyJoined";
+      }
+
+      if (!response.success) {
+        throw new Error("Waitlist signup was not accepted by the MythStride API.");
+      }
     }
 
     return "joined";

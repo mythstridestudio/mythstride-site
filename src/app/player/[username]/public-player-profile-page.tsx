@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { getAssetPath } from "@/lib/assets";
-import { ApiConfigurationError, ApiError } from "@/lib/api/client";
+import { ApiConfigurationError, ApiError, ApiNetworkError } from "@/lib/api/client";
 import { getPublicPlayer, type PublicPlayerResult } from "@/lib/api/public-player";
 import type { AchievementRarity, PublicPlayerProfile } from "@/lib/api/types";
 import {
@@ -93,6 +93,10 @@ function getErrorMessage(error: unknown) {
 
   if (error instanceof ApiError) {
     return "The MythStride API could not load this champion profile.";
+  }
+
+  if (error instanceof ApiNetworkError) {
+    return "The MythStride API is offline or unreachable. Please try again soon.";
   }
 
   return "This champion profile is temporarily unavailable.";
@@ -304,7 +308,7 @@ function BossProgress({ player }: { player: PublicPlayerProfile }) {
 }
 
 function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
-  const achievements = player.rareAchievements;
+  const achievements = player.rareAchievements ?? [];
 
   return (
     <section className="app-panel app-panel-compact p-5 md:p-7">
@@ -377,7 +381,7 @@ function JourneyStatistics({ player }: { player: PublicPlayerProfile }) {
 }
 
 function AdventureLog({ player }: { player: PublicPlayerProfile }) {
-  const latestRun = player.latestRun;
+  const latestRun = player.latestRun ?? null;
 
   return (
     <section className="app-panel app-panel-compact relative overflow-hidden p-5 md:p-7">
