@@ -8,6 +8,7 @@ import { ApiConfigurationError, ApiError, ApiNetworkError } from "@/lib/api/clie
 import { getDashboardData, type DashboardData } from "@/lib/api/player";
 import { useAuth } from "@/contexts/AuthContext";
 import { getAssetPath } from "@/lib/assets";
+import { getBossImagePath, getBossMedalPath } from "@/lib/boss-medals";
 import {
   ArrowRightIcon,
   BookIcon,
@@ -57,13 +58,7 @@ function getErrorMessage(error: unknown) {
 }
 
 function getImagePath(path: string | null | undefined) {
-  const trimmedPath = path?.trim();
-
-  if (!trimmedPath) {
-    return null;
-  }
-
-  return getAssetPath(trimmedPath);
+  return getBossImagePath(path);
 }
 
 function Panel({
@@ -116,7 +111,7 @@ function DashboardContent({ data, onLogout }: { data: DashboardData; onLogout: (
   const displayName = profile.displayName ?? profile.username;
   const shownTrophies = trophies.slice(0, 4);
   const recentRuns = history.slice(0, 4);
-  const bossImageSrc = getImagePath(currentBoss?.imageUrl);
+  const bossImageSrc = getImagePath(currentBoss?.imageUrl) ?? getBossMedalPath(currentBoss?.name);
   const bossHealth = Math.max(0, Math.min(100, currentBoss?.healthPercent ?? 0));
 
   return (

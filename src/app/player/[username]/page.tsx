@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { apiFetch, hasApiBaseUrl } from "@/lib/api/client";
 import { API_ENDPOINTS } from "@/lib/api/endpoints";
+import { getBossImagePath, getBossMedalPath } from "@/lib/boss-medals";
 import type { PublicPlayerProfile } from "@/lib/api/types";
 import PublicPlayerProfilePage from "./public-player-profile-page";
 
@@ -17,9 +18,7 @@ async function getMetadataPlayer(username: string) {
 }
 
 function getNonEmptyImageUrl(value: string | null | undefined) {
-  const trimmedValue = value?.trim();
-
-  return trimmedValue || null;
+  return getBossImagePath(value);
 }
 
 export async function generateMetadata({
@@ -35,7 +34,7 @@ export async function generateMetadata({
   const level = player?.level;
   const boss = player?.currentBoss;
   const bossName = boss?.name ?? "Current boss";
-  const bossImageUrl = getNonEmptyImageUrl(boss?.imageUrl);
+  const bossImageUrl = getNonEmptyImageUrl(boss?.imageUrl) ?? getBossMedalPath(boss?.name);
   const bossProgress = boss ? `${boss.healthPercent}% health remaining against ${bossName}` : "boss progress awaits";
   const description = player
     ? `Explore ${displayName}'s journey through Elyndor: ${title}, level ${level}, with ${bossProgress}.`

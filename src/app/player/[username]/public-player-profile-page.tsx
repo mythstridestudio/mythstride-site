@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { getAssetPath } from "@/lib/assets";
+import { getBossImagePath, getBossMedalPath } from "@/lib/boss-medals";
 import { ApiConfigurationError, ApiError, ApiNetworkError } from "@/lib/api/client";
 import { getPublicPlayer, type PublicPlayerResult } from "@/lib/api/public-player";
 import type { AchievementRarity, PublicPlayerProfile } from "@/lib/api/types";
@@ -103,17 +104,7 @@ function getErrorMessage(error: unknown) {
 }
 
 function getMediaPath(path: string | null | undefined) {
-  const trimmedPath = path?.trim();
-
-  if (!trimmedPath) {
-    return null;
-  }
-
-  if (trimmedPath.startsWith("http") || trimmedPath.startsWith("data:")) {
-    return trimmedPath;
-  }
-
-  return getAssetPath(trimmedPath);
+  return getBossImagePath(path);
 }
 
 function BossImageFallback({ label = "Boss image unavailable" }: { label?: string }) {
@@ -265,7 +256,7 @@ function ChampionCard({ player }: { player: PublicPlayerProfile }) {
 
 function BossProgress({ player }: { player: PublicPlayerProfile }) {
   const boss = player.currentBoss;
-  const bossImageSrc = getMediaPath(boss?.imageUrl);
+  const bossImageSrc = getMediaPath(boss?.imageUrl) ?? getBossMedalPath(boss?.name);
   const healthPercent = Math.max(0, Math.min(100, boss?.healthPercent ?? 0));
   const damagePercent = 100 - healthPercent;
 
@@ -339,7 +330,7 @@ function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {achievements.map((achievement) => {
             const rarity = rarityViews[achievement.rarity];
-            const iconSrc = getMediaPath(achievement.iconUrl);
+            const iconSrc = getMediaPath(achievement.iconUrl) ?? getBossMedalPath(achievement.name);
 
             return (
               <div
@@ -492,7 +483,7 @@ function FinalProfileCTA() {
 
 function PlayerProfile({ player, source, fallbackReason }: PublicPlayerResult) {
   const boss = player.currentBoss;
-  const bossImageSrc = getMediaPath(boss?.imageUrl);
+  const bossImageSrc = getMediaPath(boss?.imageUrl) ?? getBossMedalPath(boss?.name);
   const healthPercent = Math.max(0, Math.min(100, boss?.healthPercent ?? 0));
 
   return (
