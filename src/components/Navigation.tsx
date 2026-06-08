@@ -63,14 +63,14 @@ export default function Navigation() {
             <>
               <Link
                 href="/dashboard"
-                className="ghost-button hidden min-h-0 px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
+                className="myth-button-secondary hidden px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
               >
                 {t('nav.dashboard')}
               </Link>
               <button
                 type="button"
                 onClick={logout}
-                className="gold-button hidden min-h-0 px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
+                className="myth-button-primary hidden px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
               >
                 {t('nav.logout')}
               </button>
@@ -78,7 +78,7 @@ export default function Navigation() {
           ) : (
             <Link
               href={loading ? "#join" : "/login"}
-              className="gold-button hidden min-h-0 px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
+              className="myth-button-primary hidden px-5 py-2.5 font-display text-xs tracking-wider sm:inline-flex"
             >
               {loading ? t('nav.joinWaitlist') : t('nav.login')}
             </Link>
@@ -118,14 +118,14 @@ export default function Navigation() {
             <>
               <Link
                 href="/dashboard"
-                className="ghost-button mt-2 px-6 py-3 font-display text-sm tracking-wider"
+                className="myth-button-secondary mt-2 px-6 py-3 font-display text-sm tracking-wider"
                 onClick={() => setMobileOpen(false)}
               >
                 {t('nav.dashboard')}
               </Link>
               <button
                 type="button"
-                className="gold-button mt-2 px-6 py-3 font-display text-sm tracking-wider"
+                className="myth-button-primary mt-2 px-6 py-3 font-display text-sm tracking-wider"
                 onClick={() => {
                   logout();
                   setMobileOpen(false);
@@ -137,7 +137,7 @@ export default function Navigation() {
           ) : (
             <Link
               href={loading ? "#join" : "/login"}
-              className="gold-button mt-2 px-6 py-3 font-display text-sm tracking-wider"
+              className="myth-button-primary mt-2 px-6 py-3 font-display text-sm tracking-wider"
               onClick={() => setMobileOpen(false)}
             >
               {loading ? t('nav.joinWaitlist') : t('nav.login')}

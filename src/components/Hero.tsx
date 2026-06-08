@@ -126,7 +126,7 @@ export default function Hero() {
                 href="#join"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="gold-button px-8 py-3.5 font-display text-sm tracking-wider shadow-[0_18px_54px_rgba(232,98,42,0.22)]"
+                className="myth-button-primary px-8 py-3.5 font-display text-sm tracking-wider"
               >
                 {t<string>('hero.cta')}
               </motion.a>
@@ -134,7 +134,7 @@ export default function Hero() {
                 href="#how-it-works"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="ghost-button px-8 py-3.5 font-display text-sm tracking-wider"
+                className="myth-button-secondary px-8 py-3.5 font-display text-sm tracking-wider"
               >
                 {t<string>('hero.runLoop')}
                 <ChevronDownIcon className="w-4 h-4" />

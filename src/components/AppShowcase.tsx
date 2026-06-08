@@ -180,10 +180,10 @@ export default function AppShowcase() {
                         key={`${screen.title}-${index}`}
                         type="button"
                         onClick={() => setActiveIndex(index)}
-                        className={`group grid w-full grid-cols-[auto_1fr_auto] items-center gap-4 border p-3 text-left transition-all duration-300 ${
+                        className={`group myth-button-secondary !grid w-full grid-cols-[auto_1fr_auto] items-center gap-4 p-3 text-left transition-all duration-300 ${
                           isActive
-                            ? 'border-gold-dim/55 bg-gold/10 shadow-[0_0_38px_rgba(212,168,83,0.08)]'
-                            : 'border-gold-dim/16 bg-void/55 hover:border-gold-dim/35 hover:bg-void/82'
+                            ? 'border-gold/60 shadow-[0_0_28px_rgba(227,186,115,0.14)]'
+                            : 'border-gold-dim/45'
                         }`}
                         aria-pressed={isActive}
                       >

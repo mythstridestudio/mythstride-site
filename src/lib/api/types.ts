@@ -2,26 +2,30 @@ export type AchievementRarity = "common" | "uncommon" | "rare" | "epic" | "legen
 
 export interface PublicPlayerBoss {
   name: string;
-  imageUrl: string;
+  imageUrl: string | null;
   healthPercent: number;
 }
 
 export interface PublicPlayerGuild {
   name: string;
-  emblemUrl?: string;
-  description?: string;
 }
 
 export interface PublicPlayerAchievement {
+  id: number;
   name: string;
   rarity: AchievementRarity;
-  iconUrl: string;
+  description: string | null;
+  iconUrl: string | null;
+  unlockedAt: string | null;
 }
 
-export interface PublicPlayerLastRun {
+export interface PublicPlayerLatestRun {
+  id: number;
   distanceKm: number;
   date: string;
-  summary: string;
+  summary: string | null;
+  durationMinutes: number | null;
+  bossDamage: number | null;
 }
 
 export interface PublicPlayerProfile {
@@ -30,13 +34,11 @@ export interface PublicPlayerProfile {
   level: number;
   title: string;
   totalDistanceKm: number;
-  totalRuns?: number;
-  bossesDefeated?: number;
   currentStreakDays: number;
   currentBoss: PublicPlayerBoss | null;
   guild: PublicPlayerGuild | null;
   rareAchievements: PublicPlayerAchievement[];
-  lastRun: PublicPlayerLastRun | null;
+  latestRun: PublicPlayerLatestRun | null;
 }
 
 export interface AuthLoginRequest {
@@ -45,45 +47,43 @@ export interface AuthLoginRequest {
 }
 
 export interface AuthLoginResponse {
-  accessToken: string;
-  tokenType?: "Bearer" | string;
-  expiresAt?: string;
-  user?: PrivatePlayerProfile;
+  token: string;
+  usuarioId: number;
+  email: string;
+  jogadorId: number | null;
+  requiresPlayerCreation: boolean;
 }
 
 export interface PrivatePlayerProfile {
-  id?: string;
   username: string;
-  displayName?: string;
+  displayName: string;
   level: number;
-  title?: string;
-  totalDistanceKm?: number;
-  currentStreakDays?: number;
-  guild?: PublicPlayerGuild | null;
+  title: string;
+  totalDistanceKm: number;
+  currentStreakDays: number;
+  guild: PublicPlayerGuild | null;
 }
 
 export interface CurrentBoss {
   name: string;
-  imageUrl?: string;
+  imageUrl: string | null;
   healthPercent: number;
-  level?: number;
-  damagePercent?: number;
 }
 
 export interface Trophy {
-  id: string;
+  id: number;
   name: string;
   rarity: AchievementRarity;
-  description?: string;
-  iconUrl?: string;
-  unlockedAt?: string;
+  description: string | null;
+  iconUrl: string | null;
+  unlockedAt: string | null;
 }
 
 export interface RunHistoryEntry {
-  id: string;
+  id: number;
   distanceKm: number;
   date: string;
-  summary?: string;
-  durationMinutes?: number;
-  bossDamage?: number;
+  summary: string | null;
+  durationMinutes: number | null;
+  bossDamage: number | null;
 }

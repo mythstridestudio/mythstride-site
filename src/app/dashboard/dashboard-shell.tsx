@@ -211,11 +211,11 @@ function DashboardContent({ data, onLogout }: { data: DashboardData; onLogout: (
 
         <Panel title="Account Actions" icon={ShieldIcon}>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <Link href={`/player/${encodeURIComponent(profile.username)}`} className="ghost-button px-6 py-3 font-display text-sm tracking-wider">
+            <Link href={`/player/${encodeURIComponent(profile.username)}`} className="myth-button-secondary px-6 py-3 font-display text-sm tracking-wider">
               Public Profile
               <ArrowRightIcon className="h-4 w-4" />
             </Link>
-            <button type="button" onClick={onLogout} className="gold-button px-6 py-3 font-display text-sm tracking-wider">
+            <button type="button" onClick={onLogout} className="myth-button-primary px-6 py-3 font-display text-sm tracking-wider">
               Logout
               <SwordsIcon className="h-4 w-4" />
             </button>

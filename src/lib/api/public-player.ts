@@ -16,8 +16,6 @@ const developmentMockPlayer = (username: string): PublicPlayerProfile => ({
   level: 12,
   title: "Keeper of the Flame",
   totalDistanceKm: 245.7,
-  totalRuns: 48,
-  bossesDefeated: 3,
   currentStreakDays: 21,
   currentBoss: {
     name: "Spectral King",
@@ -26,24 +24,32 @@ const developmentMockPlayer = (username: string): PublicPlayerProfile => ({
   },
   guild: {
     name: "Cavaleiros da Aurora",
-    description: "A guild of runners who keep the eastern flame lit before dawn.",
   },
   rareAchievements: [
     {
+      id: 1,
       name: "First Boss Defeated",
       rarity: "rare",
+      description: "Defeated your first boss.",
       iconUrl: "/images/boss-medusa-medal.png",
+      unlockedAt: "2026-06-03T00:00:00Z",
     },
     {
+      id: 2,
       name: "Flamekeeper Streak",
       rarity: "epic",
+      description: "Kept the Flame alive through repeated effort.",
       iconUrl: "/images/fire_sword.png",
+      unlockedAt: "2026-06-03T00:00:00Z",
     },
   ],
-  lastRun: {
+  latestRun: {
+    id: 1,
     distanceKm: 5.2,
-    date: "2026-06-03",
+    date: "2026-06-03T00:00:00Z",
     summary: "Strengthened the Flame",
+    durationMinutes: 34,
+    bossDamage: 120,
   },
 });
 
@@ -63,31 +69,11 @@ const getFallbackReason = (error: unknown) => {
   return "Public player endpoint is unavailable.";
 };
 
-interface PublicPlayerEnvelope {
-  data?: PublicPlayerProfile;
-  player?: PublicPlayerProfile;
-  profile?: PublicPlayerProfile;
-}
-
-function normalizePublicPlayer(response: PublicPlayerProfile | PublicPlayerEnvelope) {
-  if (response && typeof response === "object") {
-    const envelope = response as PublicPlayerEnvelope;
-
-    // TODO: Confirm whether the public player endpoint returns a bare profile or an envelope.
-    return envelope.data ?? envelope.player ?? envelope.profile ?? (response as PublicPlayerProfile);
-  }
-
-  return response as PublicPlayerProfile;
-}
-
 export async function getPublicPlayer(username: string): Promise<PublicPlayerResult> {
   const normalizedUsername = username.trim();
 
   try {
-    const response = await apiFetch<PublicPlayerProfile | PublicPlayerEnvelope>(
-      API_ENDPOINTS.publicPlayer.byUsername(normalizedUsername),
-    );
-    const player = normalizePublicPlayer(response);
+    const player = await apiFetch<PublicPlayerProfile>(API_ENDPOINTS.publicPlayer.byUsername(normalizedUsername));
 
     return { player, source: "api" };
   } catch (error) {

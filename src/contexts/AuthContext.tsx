@@ -86,9 +86,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async (credentials: AuthLoginRequest) => {
       setStatus("loading");
       const response = await loginWithEmail(credentials);
-      writeStoredAccessToken(response.accessToken);
-      setToken(response.accessToken);
-      await loadUser(response.accessToken);
+      writeStoredAccessToken(response.token);
+      setToken(response.token);
+      await loadUser(response.token);
     },
     [loadUser],
   );

@@ -98,7 +98,7 @@ function getErrorMessage(error: unknown) {
   return "This champion profile is temporarily unavailable.";
 }
 
-function getMediaPath(path: string) {
+function getMediaPath(path: string | null | undefined) {
   if (!path) {
     return "";
   }
@@ -142,7 +142,7 @@ function ProfileError({ message }: { message: string }) {
         </div>
         <h1 className="font-display text-3xl text-gold md:text-4xl">Champion profile unavailable</h1>
         <p className="mx-auto mt-4 max-w-xl leading-relaxed text-text-secondary">{message}</p>
-        <a href={`${getAssetPath("/")}#join`} className="gold-button mt-8 px-8 py-3 font-display text-sm tracking-wider">
+        <a href={`${getAssetPath("/")}#join`} className="myth-button-primary mt-8 px-8 py-3 font-display text-sm tracking-wider">
           Begin Your Journey
           <ArrowRightIcon className="h-4 w-4" />
         </a>
@@ -356,7 +356,7 @@ function JourneyStatistics({ player }: { player: PublicPlayerProfile }) {
       />
       <JourneyRelic
         label="Total runs"
-        value={getSharedStat(player.totalRuns)}
+        value={getSharedStat(undefined)}
         detail="Adventures recorded in the runner's public chronicle."
         icon={BookIcon}
       />
@@ -368,7 +368,7 @@ function JourneyStatistics({ player }: { player: PublicPlayerProfile }) {
       />
       <JourneyRelic
         label="Bosses defeated"
-        value={getSharedStat(player.bossesDefeated)}
+        value={getSharedStat(undefined)}
         detail="Shadows already driven back from the path."
         icon={SwordsIcon}
       />
@@ -377,6 +377,8 @@ function JourneyStatistics({ player }: { player: PublicPlayerProfile }) {
 }
 
 function AdventureLog({ player }: { player: PublicPlayerProfile }) {
+  const latestRun = player.latestRun;
+
   return (
     <section className="app-panel app-panel-compact relative overflow-hidden p-5 md:p-7">
       <div className="absolute inset-0 bg-stone-texture opacity-20" />
@@ -386,18 +388,20 @@ function AdventureLog({ player }: { player: PublicPlayerProfile }) {
           <h2 className="font-display text-3xl text-gold md:text-4xl">Adventure Log</h2>
         </div>
 
-        {player.lastRun ? (
+        {latestRun ? (
           <div className="grid gap-5 md:grid-cols-[0.45fr_1fr] md:items-center">
             <div className="rounded-[22px] border border-fiery-orange/25 bg-fiery-orange/5 p-5">
               <div className="text-xs uppercase tracking-[0.2em] text-text-muted">Distance</div>
               <div className="mt-2 font-display text-4xl text-gold-bright">
-                {formatDistance(player.lastRun.distanceKm)} km
+                {formatDistance(latestRun.distanceKm)} km
               </div>
               <div className="mt-4 text-xs uppercase tracking-[0.2em] text-text-muted">Date</div>
-              <div className="mt-2 text-sm text-text-secondary">{formatDate(player.lastRun.date)}</div>
+              <div className="mt-2 text-sm text-text-secondary">{formatDate(latestRun.date)}</div>
             </div>
             <div>
-              <p className="font-display text-2xl leading-snug text-gold md:text-3xl">{player.lastRun.summary}</p>
+              <p className="font-display text-2xl leading-snug text-gold md:text-3xl">
+                {latestRun.summary ?? "Latest adventure recorded by MythStride."}
+              </p>
               <p className="mt-4 leading-relaxed text-text-secondary">
                 The latest public adventure from {player.displayName}&apos;s chronicle.
               </p>
@@ -423,17 +427,13 @@ function GuildSection({ player }: { player: PublicPlayerProfile }) {
       <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-emerald/10 blur-3xl" />
       <div className="relative grid gap-5 md:grid-cols-[auto_1fr] md:items-center">
         <div className="flex h-24 w-24 items-center justify-center rounded-[24px] border border-emerald/30 bg-emerald/8 text-emerald">
-          {player.guild.emblemUrl ? (
-            <img src={getMediaPath(player.guild.emblemUrl)} alt="" className="h-16 w-16 object-contain" />
-          ) : (
-            <UsersIcon className="h-10 w-10" />
-          )}
+          <UsersIcon className="h-10 w-10" />
         </div>
         <div>
           <p className="text-xs uppercase tracking-[0.24em] text-text-muted">Guild banner</p>
           <h2 className="mt-2 font-display text-3xl text-gold md:text-4xl">{player.guild.name}</h2>
           <p className="mt-3 max-w-2xl leading-relaxed text-text-secondary">
-            {player.guild.description ?? "Guild description will be revealed when this banner is expanded by the realm."}
+            Guild description will be revealed when this banner is expanded by the realm.
           </p>
         </div>
       </div>
@@ -457,7 +457,7 @@ function FinalProfileCTA() {
         <p className="mx-auto mt-4 max-w-2xl leading-relaxed text-text-secondary">
           Begin your own journey through Elyndor and turn each run into progress against the Dark Mist.
         </p>
-        <a href={`${getAssetPath("/")}#join`} className="gold-button mt-8 px-9 py-4 font-display text-sm tracking-wider">
+        <a href={`${getAssetPath("/")}#join`} className="myth-button-primary mt-8 px-9 py-4 font-display text-sm tracking-wider">
           <SwordsIcon className="h-4 w-4" />
           Begin Your Journey
         </a>

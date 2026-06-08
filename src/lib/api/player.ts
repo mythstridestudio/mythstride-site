@@ -15,63 +15,26 @@ export interface DashboardData {
   partialErrors: Partial<Record<"currentBoss" | "trophies" | "history", string>>;
 }
 
-interface ApiEnvelope<T> {
-  data?: T;
-  player?: T;
-  profile?: T;
-  boss?: T;
-  trophies?: T;
-  history?: T;
-  runs?: T;
-}
-
-function unwrapResponse<T>(response: T | ApiEnvelope<T>, keys: Array<keyof ApiEnvelope<T>> = ["data"]): T {
-  if (response && typeof response === "object") {
-    const envelope = response as ApiEnvelope<T>;
-
-    for (const key of keys) {
-      if (envelope[key] !== undefined) {
-        // TODO: Remove envelope fallbacks after the backend response contract is confirmed.
-        return envelope[key] as T;
-      }
-    }
-  }
-
-  return response as T;
-}
-
-function normalizeList<T>(response: T[] | ApiEnvelope<T[]>): T[] {
-  const unwrapped = unwrapResponse<T[]>(response, ["data", "trophies", "history", "runs"]);
-  return Array.isArray(unwrapped) ? unwrapped : [];
-}
-
 export async function getPlayerProfile(accessToken: string) {
-  const response = await apiFetch<PrivatePlayerProfile | ApiEnvelope<PrivatePlayerProfile>>(API_ENDPOINTS.player.profile, {
+  return apiFetch<PrivatePlayerProfile>(API_ENDPOINTS.player.profile, {
     accessToken,
   });
-
-  return unwrapResponse<PrivatePlayerProfile>(response, ["data", "player", "profile"]);
 }
 
 export async function getCurrentBoss(accessToken: string) {
-  const response = await apiFetch<CurrentBoss | null | ApiEnvelope<CurrentBoss | null>>(API_ENDPOINTS.player.currentBoss, {
+  return apiFetch<CurrentBoss | null>(API_ENDPOINTS.player.currentBoss, {
     accessToken,
   });
-
-  return unwrapResponse<CurrentBoss | null>(response, ["data", "boss"]);
 }
 
 export async function getTrophies(accessToken: string) {
-  const response = await apiFetch<Trophy[] | ApiEnvelope<Trophy[]>>(API_ENDPOINTS.player.trophies, { accessToken });
-  return normalizeList<Trophy>(response);
+  return apiFetch<Trophy[]>(API_ENDPOINTS.player.trophies, { accessToken });
 }
 
 export async function getRunHistory(accessToken: string) {
-  const response = await apiFetch<RunHistoryEntry[] | ApiEnvelope<RunHistoryEntry[]>>(API_ENDPOINTS.player.history, {
+  return apiFetch<RunHistoryEntry[]>(API_ENDPOINTS.player.history, {
     accessToken,
   });
-
-  return normalizeList<RunHistoryEntry>(response);
 }
 
 export async function getDashboardData(accessToken: string): Promise<DashboardData> {

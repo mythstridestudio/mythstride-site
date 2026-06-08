@@ -41,7 +41,11 @@ export default function RootLayout({
 }>) {
   return (
     <LanguageProvider>
-      <html lang="en" className={`${cinzel.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}>
+      <html
+        lang="en"
+        data-scroll-behavior="smooth"
+        className={`${cinzel.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      >
         <body className="min-h-full flex flex-col bg-void text-text-primary font-body">
           <AuthProvider>{children}</AuthProvider>
         </body>

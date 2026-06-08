@@ -40,26 +40,25 @@ interface AuthLoginApiResponse {
   accessToken?: string;
   token?: string;
   jwt?: string;
-  tokenType?: string;
-  expiresAt?: string;
-  user?: AuthLoginResponse["user"];
-  data?: AuthLoginApiResponse;
+  usuarioId: number;
+  email: string;
+  jogadorId: number | null;
+  requiresPlayerCreation: boolean;
 }
 
 function normalizeLoginResponse(response: AuthLoginApiResponse): AuthLoginResponse {
-  const body = response.data ?? response;
-  const accessToken = body.accessToken ?? body.token ?? body.jwt;
+  const token = response.token ?? response.accessToken ?? response.jwt;
 
-  if (!accessToken) {
-    // TODO: Confirm the production login response field name with the MythStride backend.
+  if (!token) {
     throw new Error("Login response did not include an access token.");
   }
 
   return {
-    accessToken,
-    tokenType: body.tokenType,
-    expiresAt: body.expiresAt,
-    user: body.user,
+    token,
+    usuarioId: response.usuarioId,
+    email: response.email,
+    jogadorId: response.jogadorId,
+    requiresPlayerCreation: response.requiresPlayerCreation,
   };
 }
 
@@ -75,5 +74,4 @@ export async function loginWithEmail(credentials: AuthLoginRequest) {
 
 export type { AuthLoginRequest, AuthLoginResponse };
 
-// TODO: Replace this browser-storage placeholder once the backend auth contract is known.
-// Prefer the backend's production session strategy, such as httpOnly cookies, if available.
+// TODO: Revisit localStorage token storage if the backend later supports httpOnly website sessions.

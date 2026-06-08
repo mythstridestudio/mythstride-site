@@ -106,7 +106,7 @@ export default function LoginPage() {
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                className="min-h-12 border border-gold-dim/24 bg-void/80 px-4 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-emerald/70 focus:shadow-[0_0_0_1px_rgba(47,212,143,0.24)]"
+                className="myth-input text-sm"
                 autoComplete="email"
                 required
                 disabled={isLoading}
@@ -119,7 +119,7 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                className="min-h-12 border border-gold-dim/24 bg-void/80 px-4 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-emerald/70 focus:shadow-[0_0_0_1px_rgba(47,212,143,0.24)]"
+                className="myth-input text-sm"
                 autoComplete="current-password"
                 required
                 disabled={isLoading}
@@ -128,7 +128,7 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="gold-button min-h-12 w-full px-8 py-3 font-display text-sm tracking-wider disabled:cursor-not-allowed disabled:opacity-70"
+              className="myth-button-primary w-full px-8 py-3 font-display text-sm tracking-wider disabled:cursor-not-allowed"
               disabled={isLoading}
             >
               <SwordsIcon className="h-4 w-4" />
@@ -148,7 +148,7 @@ export default function LoginPage() {
               </p>
             )}
 
-            <Link href="/#join" className="ghost-button px-6 py-3 font-display text-sm tracking-wider">
+            <Link href="/#join" className="myth-button-secondary px-6 py-3 font-display text-sm tracking-wider">
               {t("login.actions.waitlist")}
               <ArrowRightIcon className="h-4 w-4" />
             </Link>

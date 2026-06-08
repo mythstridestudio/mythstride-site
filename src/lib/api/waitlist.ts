@@ -12,26 +12,21 @@ export interface WaitlistSignupPayload {
 export type WaitlistSignupResult = "joined" | "alreadyJoined";
 
 interface WaitlistSignupResponse {
-  success?: boolean;
-  message?: string;
-  data?: WaitlistSignupResponse;
+  success: boolean;
+  message: string;
 }
 
 function isWaitlistSignupResponse(value: unknown): value is WaitlistSignupResponse {
-  return typeof value === "object" && value !== null;
+  return typeof value === "object" && value !== null && "success" in value && "message" in value;
 }
 
 function messageIndicatesAlreadyJoined(message: string | undefined) {
   return message?.toLowerCase().includes("already") ?? false;
 }
 
-function getWaitlistMessage(response: WaitlistSignupResponse) {
-  return response.message ?? response.data?.message;
-}
-
 export async function joinWaitlist(payload: WaitlistSignupPayload): Promise<WaitlistSignupResult> {
   try {
-    const response = await apiFetch<unknown>("/api/waitlist", {
+    const response = await apiFetch<WaitlistSignupResponse>("/api/waitlist", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +34,7 @@ export async function joinWaitlist(payload: WaitlistSignupPayload): Promise<Wait
       body: JSON.stringify(payload),
     });
 
-    if (isWaitlistSignupResponse(response) && messageIndicatesAlreadyJoined(getWaitlistMessage(response))) {
+    if (isWaitlistSignupResponse(response) && messageIndicatesAlreadyJoined(response.message)) {
       return "alreadyJoined";
     }
 
