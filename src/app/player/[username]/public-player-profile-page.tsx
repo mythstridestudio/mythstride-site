@@ -103,15 +103,29 @@ function getErrorMessage(error: unknown) {
 }
 
 function getMediaPath(path: string | null | undefined) {
-  if (!path) {
-    return "";
+  const trimmedPath = path?.trim();
+
+  if (!trimmedPath) {
+    return null;
   }
 
-  if (path.startsWith("http") || path.startsWith("data:")) {
-    return path;
+  if (trimmedPath.startsWith("http") || trimmedPath.startsWith("data:")) {
+    return trimmedPath;
   }
 
-  return getAssetPath(path);
+  return getAssetPath(trimmedPath);
+}
+
+function BossImageFallback({ label = "Boss image unavailable" }: { label?: string }) {
+  return (
+    <div className="flex h-full w-full items-center justify-center text-center text-sm text-text-muted">
+      {label}
+    </div>
+  );
+}
+
+function AchievementIconFallback() {
+  return <TrophyIcon className="h-10 w-10 text-current opacity-55" />;
 }
 
 function getSharedStat(value: number | undefined, suffix = "") {
@@ -251,6 +265,7 @@ function ChampionCard({ player }: { player: PublicPlayerProfile }) {
 
 function BossProgress({ player }: { player: PublicPlayerProfile }) {
   const boss = player.currentBoss;
+  const bossImageSrc = getMediaPath(boss?.imageUrl);
   const healthPercent = Math.max(0, Math.min(100, boss?.healthPercent ?? 0));
   const damagePercent = 100 - healthPercent;
 
@@ -260,16 +275,16 @@ function BossProgress({ player }: { player: PublicPlayerProfile }) {
       <div className="absolute inset-0 bg-stone-texture opacity-20" />
       <div className="relative grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div className="relative aspect-square overflow-hidden rounded-[24px] border border-fiery-orange/25 bg-rich-brown/35">
-          {boss ? (
+          {boss && bossImageSrc ? (
             <img
-              src={getMediaPath(boss.imageUrl)}
+              src={bossImageSrc}
               alt={boss.name}
               className="h-full w-full object-contain p-8 drop-shadow-[0_0_42px_rgba(232,98,42,0.32)]"
             />
+          ) : boss ? (
+            <BossImageFallback label={`${boss.name} image unavailable`} />
           ) : (
-            <div className="flex h-full items-center justify-center text-center text-sm text-text-muted">
-              No active boss
-            </div>
+            <BossImageFallback label="No active boss" />
           )}
         </div>
 
@@ -324,6 +339,7 @@ function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {achievements.map((achievement) => {
             const rarity = rarityViews[achievement.rarity];
+            const iconSrc = getMediaPath(achievement.iconUrl);
 
             return (
               <div
@@ -332,7 +348,11 @@ function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
               >
                 <div className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-current to-transparent opacity-60" />
                 <div className={`rarity-well ${rarity.wellClassName} mx-auto flex h-24 w-24 items-center justify-center p-3`}>
-                  <img src={getMediaPath(achievement.iconUrl)} alt="" className="h-full w-full object-contain" />
+                  {iconSrc ? (
+                    <img src={iconSrc} alt="" className="h-full w-full object-contain" />
+                  ) : (
+                    <AchievementIconFallback />
+                  )}
                 </div>
                 <h3 className="mt-4 font-display text-xl text-gold">{achievement.name}</h3>
                 <p className="mt-2 text-xs uppercase tracking-[0.2em]">{rarity.label}</p>
@@ -472,6 +492,7 @@ function FinalProfileCTA() {
 
 function PlayerProfile({ player, source, fallbackReason }: PublicPlayerResult) {
   const boss = player.currentBoss;
+  const bossImageSrc = getMediaPath(boss?.imageUrl);
   const healthPercent = Math.max(0, Math.min(100, boss?.healthPercent ?? 0));
 
   return (
@@ -525,16 +546,16 @@ function PlayerProfile({ player, source, fallbackReason }: PublicPlayerResult) {
               <div className="relative overflow-hidden rounded-[28px] border border-gold-dim/25 bg-void/76 p-5">
                 <div className="absolute inset-0 bg-stone-texture opacity-20" />
                 <div className="relative aspect-square rounded-[24px] border border-fiery-orange/20 bg-rich-brown/35">
-                  {boss ? (
+                  {boss && bossImageSrc ? (
                     <img
-                      src={getMediaPath(boss.imageUrl)}
+                      src={bossImageSrc}
                       alt={boss.name}
                       className="h-full w-full object-contain p-8 drop-shadow-[0_0_42px_rgba(232,98,42,0.3)]"
                     />
+                  ) : boss ? (
+                    <BossImageFallback label={`${boss.name} image unavailable`} />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-center text-sm text-text-muted">
-                      No active boss
-                    </div>
+                    <BossImageFallback label="No active boss" />
                   )}
                 </div>
                 {boss && (

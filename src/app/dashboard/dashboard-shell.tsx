@@ -56,6 +56,16 @@ function getErrorMessage(error: unknown) {
   return "The MythStride API could not load your dashboard.";
 }
 
+function getImagePath(path: string | null | undefined) {
+  const trimmedPath = path?.trim();
+
+  if (!trimmedPath) {
+    return null;
+  }
+
+  return getAssetPath(trimmedPath);
+}
+
 function Panel({
   title,
   children,
@@ -106,6 +116,7 @@ function DashboardContent({ data, onLogout }: { data: DashboardData; onLogout: (
   const displayName = profile.displayName ?? profile.username;
   const shownTrophies = trophies.slice(0, 4);
   const recentRuns = history.slice(0, 4);
+  const bossImageSrc = getImagePath(currentBoss?.imageUrl);
   const bossHealth = Math.max(0, Math.min(100, currentBoss?.healthPercent ?? 0));
 
   return (
@@ -141,9 +152,9 @@ function DashboardContent({ data, onLogout }: { data: DashboardData; onLogout: (
         {currentBoss ? (
           <div className="grid gap-5 sm:grid-cols-[0.36fr_1fr] sm:items-center">
             <div className="aspect-square rounded-[20px] border border-fiery-orange/25 bg-rich-brown/35 p-4">
-              {currentBoss.imageUrl ? (
+              {bossImageSrc ? (
                 <img
-                  src={getAssetPath(currentBoss.imageUrl)}
+                  src={bossImageSrc}
                   alt={currentBoss.name}
                   className="h-full w-full object-contain drop-shadow-[0_0_32px_rgba(232,98,42,0.28)]"
                 />

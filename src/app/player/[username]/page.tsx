@@ -16,6 +16,12 @@ async function getMetadataPlayer(username: string) {
   }
 }
 
+function getNonEmptyImageUrl(value: string | null | undefined) {
+  const trimmedValue = value?.trim();
+
+  return trimmedValue || null;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -28,7 +34,9 @@ export async function generateMetadata({
   const title = player?.title ?? "MythStride Champion";
   const level = player?.level;
   const boss = player?.currentBoss;
-  const bossProgress = boss ? `${boss.healthPercent}% health remaining against ${boss.name}` : "boss progress awaits";
+  const bossName = boss?.name ?? "Current boss";
+  const bossImageUrl = getNonEmptyImageUrl(boss?.imageUrl);
+  const bossProgress = boss ? `${boss.healthPercent}% health remaining against ${bossName}` : "boss progress awaits";
   const description = player
     ? `Explore ${displayName}'s journey through Elyndor: ${title}, level ${level}, with ${bossProgress}.`
     : `Explore ${displayName}'s journey through Elyndor, defeat bosses, earn achievements and answer Aethron's call.`;
@@ -40,11 +48,11 @@ export async function generateMetadata({
       title: `${displayName} | ${title}${level ? ` | Level ${level}` : ""}`,
       description,
       type: "profile",
-      images: boss?.imageUrl
+      images: bossImageUrl
         ? [
             {
-              url: boss.imageUrl,
-              alt: `${boss.name} boss progress for ${displayName}`,
+              url: bossImageUrl,
+              alt: `${bossName} boss progress for ${displayName}`,
             },
           ]
         : undefined,
