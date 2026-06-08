@@ -5,6 +5,19 @@ import { getBossImagePath, getBossMedalPath } from "@/lib/boss-medals";
 import type { PublicPlayerProfile } from "@/lib/api/types";
 import PublicPlayerProfilePage from "./public-player-profile-page";
 
+export const dynamicParams = false;
+
+function getStaticPlayerUsernames() {
+  return (process.env.NEXT_PUBLIC_STATIC_PLAYER_USERNAMES ?? "Augusto")
+    .split(",")
+    .map((username) => username.trim())
+    .filter(Boolean);
+}
+
+export function generateStaticParams() {
+  return getStaticPlayerUsernames().map((username) => ({ username }));
+}
+
 async function getMetadataPlayer(username: string) {
   if (!hasApiBaseUrl()) {
     return null;
