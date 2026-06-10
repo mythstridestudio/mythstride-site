@@ -403,6 +403,8 @@
       "Quests shaped around consistency and recovery"
     ],
     "keeperOfTheFlame": "Keeper of the Flame",
+    "aethronCompanion": "Compañero Aethron",
+    "wiseCalmProtectiveSearching": "Sabio, sereno y protector. Siempre busca a quienes están listos para responder a la Llama.",
     "aethronDoesNotShout": "Aethron does not shout orders. He interprets your effort, protects your momentum, and gives every quest a reason.",
     "notAManNotAGod": "Not a man. Not a god.",
     "aConsciousness": "A consciousness.",
@@ -411,6 +413,9 @@
     "companionForRunAfterRun": "A companion for run after run."
   },
   "aethronLegend": {
+    "theLegendOfAethron": "La Leyenda de Aethron",
+    "theSealedDarkness": "La Oscuridad Sellada",
+    "lichDoAbismoWaitsBeneathMist": "Lich do Abismo Espera Bajo la Niebla",
     "loreChapters": [
       {
         "eyebrow": "The Beginning",
@@ -567,6 +572,7 @@
   },
   "footer": {
     "rights": "All rights reserved.",
+    "tagline": "Transforma tus carreras. Conquista el reino.",
     "links": {
       "privacy": "Privacy Policy",
       "terms": "Terms of Service"

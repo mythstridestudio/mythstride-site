@@ -403,6 +403,8 @@
       "Missões moldadas em torno da consistência e recuperação"
     ],
     "keeperOfTheFlame": "Guardião da Chama",
+    "aethronCompanion": "Companheiro Aethron",
+    "wiseCalmProtectiveSearching": "Sábio, calmo e protetor. Sempre em busca daqueles prontos para responder à Chama.",
     "aethronDoesNotShout": "O Aethron não grita ordens. Ele interpreta seu esforço, protege seu momentum e dá a cada missão uma razão.",
     "notAManNotAGod": "Não é um homem. Não é um deus.",
     "aConsciousness": "Uma consciência.",
@@ -411,6 +413,9 @@
     "companionForRunAfterRun": "Um companheiro para a corrida após a corrida."
   },
   "aethronLegend": {
+    "theLegendOfAethron": "A Lenda de Aethron",
+    "theSealedDarkness": "A Escuridão Selada",
+    "lichDoAbismoWaitsBeneathMist": "Lich do Abismo Espera Sob a Névoa",
     "loreChapters": [
       {
         "eyebrow": "O Começo",
@@ -567,6 +572,7 @@
   },
   "footer": {
     "rights": "Todos os direitos reservados.",
+    "tagline": "Transforme suas corridas. Conquiste o reino.",
     "links": {
       "privacy": "Política de Privacidade",
       "terms": "Termos de Serviço"

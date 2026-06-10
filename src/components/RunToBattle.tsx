@@ -107,8 +107,7 @@ export default function RunToBattle() {
             <ScrollReveal delay={420} direction="up">
               <div className="rpg-inset rounded-[18px] border-emerald/25 p-5 text-center">
                 <p className="font-display text-2xl leading-snug text-gold md:text-3xl">
-                  {t('runToBattle.everyKmStrengthensFlame')}
-                  {' '}
+                  <span className="block">{t('runToBattle.everyKmStrengthensFlame')}</span>
                   <span className="block text-emerald">{t('runToBattle.everyBattleWeakensMist')}</span>
                 </p>
               </div>

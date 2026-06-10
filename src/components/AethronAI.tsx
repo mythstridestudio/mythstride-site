@@ -65,8 +65,7 @@ export default function AethronAI() {
               </div>
 
               <h2 className="rpg-heading font-display text-3xl leading-tight text-gold sm:text-4xl md:text-6xl">
-                {t('aethronAI.notAManNotAGod')}
-                {' '}
+                <span className="block">{t('aethronAI.notAManNotAGod')}</span>
                 <span className="block text-gold-bright">
                   {t('aethronAI.aConsciousness')}
                 </span>
@@ -91,8 +90,7 @@ export default function AethronAI() {
 
               <div className="mt-8 border-l border-gold-dim/30 pl-5">
                 <p className="font-display text-2xl leading-snug text-gold">
-                  {t('aethronAI.heIsWiseCalmProtectiveInspiring')}
-                  {' '}
+                  <span className="block">{t('aethronAI.heIsWiseCalmProtectiveInspiring')}</span>
                   <span className="block text-emerald">{t('aethronAI.companionForRunAfterRun')}</span>
                 </p>
               </div>

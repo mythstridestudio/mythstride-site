@@ -27,12 +27,12 @@ export default function Footer() {
           </a>
 
           {/* Links */}
-          <nav aria-label="Footer" className="flex max-w-2xl flex-wrap justify-center gap-x-6 gap-y-4 text-sm sm:gap-x-8">
+          <nav aria-label="Footer" className="flex max-w-2xl flex-wrap justify-center text-sm">
             {t('footer.footerLinks').map((link: FooterLink, index: number) => (
               <a
                 key={index}
                 href={link.href}
-                className="whitespace-nowrap text-text-muted transition-colors duration-300 hover:text-gold"
+                className="mx-3 my-2 whitespace-nowrap text-text-muted transition-colors duration-300 hover:text-gold sm:mx-4"
               >
                 {link.label}
               </a>
@@ -47,12 +47,12 @@ export default function Footer() {
           </div>
 
           {/* Social links */}
-          <nav aria-label="Social media" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs sm:gap-x-8">
+          <nav aria-label="Social media" className="flex flex-wrap items-center justify-center text-xs">
             {t('footer.footerSocialLinks').map((link: FooterLink, index: number) => (
               <a
                 key={index}
                 href={link.href}
-                className="whitespace-nowrap text-text-muted transition-colors duration-300 hover:text-gold"
+                className="mx-3 my-1.5 whitespace-nowrap text-text-muted transition-colors duration-300 hover:text-gold sm:mx-4"
               >
                 {link.label}
               </a>

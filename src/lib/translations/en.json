@@ -403,6 +403,8 @@
       "Quests shaped around consistency and recovery"
     ],
     "keeperOfTheFlame": "Keeper of the Flame",
+    "aethronCompanion": "Aethron Companion",
+    "wiseCalmProtectiveSearching": "Wise, calm, and protective. Always searching for those ready to answer the Flame.",
     "aethronDoesNotShout": "Aethron does not shout orders. He interprets your effort, protects your momentum, and gives every quest a reason.",
     "notAManNotAGod": "Not a man. Not a god.",
     "aConsciousness": "A consciousness.",
@@ -411,6 +413,9 @@
     "companionForRunAfterRun": "A companion for run after run."
   },
   "aethronLegend": {
+    "theLegendOfAethron": "The Legend of Aethron",
+    "theSealedDarkness": "The Sealed Darkness",
+    "lichDoAbismoWaitsBeneathMist": "Lich do Abismo Waits Beneath the Mist",
     "loreChapters": [
       {
         "eyebrow": "The Beginning",
@@ -567,6 +572,7 @@
   },
   "footer": {
     "rights": "All rights reserved.",
+    "tagline": "Transform your runs. Conquer the realm.",
     "links": {
       "privacy": "Privacy Policy",
       "terms": "Terms of Service"

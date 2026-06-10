@@ -44,12 +44,12 @@ export default function Navigation() {
           </span>
         </a>
 
-        <div className="hidden items-center gap-5 font-body text-[13px] lg:flex xl:gap-7 xl:text-sm">
+        <div className="hidden items-center font-body text-[13px] lg:flex xl:text-sm">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-text-secondary hover:text-gold transition-all duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-px after:bg-gradient-to-r after:from-gold after:to-gold-bright after:transition-all after:duration-300 hover:after:w-full tracking-wider"
+              className="relative mx-2.5 whitespace-nowrap text-text-secondary transition-all duration-300 after:absolute after:bottom-[-4px] after:left-0 after:h-px after:w-0 after:bg-gradient-to-r after:from-gold after:to-gold-bright after:transition-all after:duration-300 hover:text-gold hover:after:w-full xl:mx-3.5"
             >
               {link.label}
             </a>
