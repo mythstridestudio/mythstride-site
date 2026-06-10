@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { getAssetPath } from '@/lib/assets';
 import { ChevronDownIcon, RunIcon } from './Icons';
 import { useTranslations } from '@/lib/i18n';
+import ParallaxLayer from './ParallaxLayer';
 
 const EMBERS = Array.from({ length: 26 }, (_, index) => ({
   left: `${6 + (index * 13) % 88}%`,
@@ -24,14 +25,13 @@ export default function Hero() {
 
   return (
     <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-void pt-24 pb-14 md:pt-28 lg:pb-20">
-      <motion.div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      <ParallaxLayer
+        direction="down"
+        intensity={28}
+        className="absolute -inset-y-10 inset-x-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url('${getAssetPath('/images/background.png')}')`,
         }}
-        initial={prefersReducedMotion ? false : { scale: 1.08, opacity: 0.78 }}
-        animate={prefersReducedMotion ? undefined : { scale: 1.02, opacity: 1 }}
-        transition={{ duration: 3.5, ease: [0.25, 0.4, 0.2, 1] }}
       />
 
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_8%,rgba(240,201,77,0.16),transparent_32%),linear-gradient(180deg,rgba(5,5,7,0.48)_0%,rgba(5,5,7,0.18)_38%,rgba(5,5,7,0.92)_100%)]" />
@@ -43,21 +43,16 @@ export default function Hero() {
         transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
       />
 
-      <motion.div
-        className="pointer-events-none absolute right-[-8rem] top-[7rem] hidden h-[58rem] w-[58rem] lg:block"
-        initial={false}
-        animate={prefersReducedMotion ? undefined : { opacity: 0.34, x: 0, scale: 1 }}
-        transition={{ duration: 1.8, delay: 0.25, ease: [0.25, 0.4, 0.2, 1] }}
-      >
+      <ParallaxLayer direction="up" intensity={56} className="pointer-events-none absolute right-[-8rem] top-[7rem] hidden h-[58rem] w-[58rem] opacity-34 lg:block">
         <img
           src={getAssetPath('/images/lich-do-abismo.png')}
           alt=""
           className="h-full w-full object-contain opacity-90 saturate-[0.62] contrast-125 [filter:drop-shadow(0_0_42px_rgba(0,0,0,0.75))]"
         />
-      </motion.div>
+      </ParallaxLayer>
 
       <div className="absolute inset-x-0 bottom-0 h-[54%] bg-[linear-gradient(180deg,transparent,rgba(5,5,7,0.38)_35%,rgba(5,5,7,0.96)_100%)]" />
-      <div className="absolute inset-x-0 bottom-[11%] h-28 bg-[radial-gradient(ellipse_at_50%_100%,rgba(168,155,140,0.18),transparent_68%)] blur-2xl" />
+      <ParallaxLayer direction="up" intensity={38} className="absolute inset-x-0 bottom-[11%] h-28 bg-[radial-gradient(ellipse_at_50%_100%,rgba(168,155,140,0.18),transparent_68%)] blur-2xl" />
       <div className="absolute bottom-0 left-[-12%] h-[28%] w-[62%] skew-x-[-16deg] bg-stone/40 opacity-55 blur-sm" />
       <div className="absolute bottom-0 right-[-16%] h-[34%] w-[58%] skew-x-[15deg] bg-rich-brown/45 opacity-65 blur-sm" />
 
@@ -154,7 +149,8 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        <motion.div {...reveal(0.25)}>
+        <ParallaxLayer direction="up" intensity={20} mobileScale={0.25}>
+          <motion.div {...reveal(0.25)}>
           <div className="relative mx-auto h-[28rem] w-full max-w-[40rem] sm:h-[34rem] lg:h-[42rem]">
             <motion.div
               className="absolute left-1/2 top-0 h-[21rem] w-[21rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(216,74,69,0.26),transparent_62%)] blur-2xl sm:h-[28rem] sm:w-[28rem] lg:hidden"
@@ -205,7 +201,8 @@ export default function Hero() {
               </div>
             </div>
           </div>
-        </motion.div>
+          </motion.div>
+        </ParallaxLayer>
       </div>
 
       <div className="absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 items-center gap-2 text-xs uppercase tracking-[0.22em] text-text-muted md:flex">

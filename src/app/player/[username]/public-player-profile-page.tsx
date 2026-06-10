@@ -10,6 +10,7 @@ import { ApiConfigurationError, ApiError, ApiNetworkError } from "@/lib/api/clie
 import { getPublicPlayer, type PublicPlayerResult } from "@/lib/api/public-player";
 import type { AchievementRarity, PublicPlayerProfile } from "@/lib/api/types";
 import { useTranslations } from "@/lib/i18n";
+import MythProgressMeter from "@/components/ui/MythProgressMeter";
 import {
   ArrowRightIcon,
   BookIcon,
@@ -473,14 +474,12 @@ function CurrentNemesis({ player }: { player: PublicPlayerProfile }) {
 
             {boss && (
               <div className="space-y-6">
-                <div className="h-5 sm:h-6 overflow-hidden rounded-full border-2 border-fiery-orange/20 bg-void p-1 shadow-inner">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${healthPercent}%` }}
-                    transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
-                    className="h-full rounded-full bg-gradient-to-r from-hp-red via-fiery-orange to-amber shadow-[0_0_15px_rgba(232,98,42,0.5)]"
-                  />
-                </div>
+                <MythProgressMeter
+                  value={healthPercent}
+                  label={t("publicProfile.labels.healthRemaining")}
+                  showPercent={false}
+                  size="lg"
+                />
                 <div className="flex flex-col sm:flex-row justify-between gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-text-muted">
                   <span className="flex items-center gap-2">
                     <div className="h-1.5 w-1.5 rounded-full bg-hp-red shrink-0" />

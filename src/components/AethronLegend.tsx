@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { getAssetPath } from '@/lib/assets';
 import ScrollReveal from './ScrollReveal';
 import { EyeIcon, SparkleIcon, SwordsIcon } from './Icons';
 import { useTranslations } from '@/lib/i18n';
+import ParallaxLayer from './ParallaxLayer';
 
 type LoreChapter = {
   eyebrow: string;
@@ -54,80 +54,17 @@ export default function AethronLegend() {
     );
   }
 
-  const sectionRef = useRef<HTMLElement>(null);
-  const ruinsRef = useRef<HTMLDivElement>(null);
-  const mistRef = useRef<HTMLDivElement>(null);
-  const figureRef = useRef<HTMLImageElement>(null);
-  const prefersReducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-
-    let cleanup: (() => void) | undefined;
-
-    async function setupParallax() {
-      const gsapModule = await import('gsap');
-      const scrollTriggerModule = await import('gsap/ScrollTrigger');
-      const gsap = gsapModule.gsap;
-      const ScrollTrigger = scrollTriggerModule.ScrollTrigger;
-      gsap.registerPlugin(ScrollTrigger);
-
-      const context = gsap.context(() => {
-        gsap.to(ruinsRef.current, {
-          yPercent: 12,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        });
-
-        gsap.to(mistRef.current, {
-          yPercent: -10,
-          opacity: 0.72,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.2,
-          },
-        });
-
-        gsap.to(figureRef.current, {
-          yPercent: -7,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top center',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        });
-      }, sectionRef);
-
-      cleanup = () => context.revert();
-    }
-
-    setupParallax();
-
-    return () => {
-      cleanup?.();
-    };
-  }, [prefersReducedMotion]);
-
   return (
-    <section id="legend" ref={sectionRef} className="cinematic-section relative overflow-hidden bg-void py-20 md:py-32">
-      <div
-        ref={ruinsRef}
-        className="absolute inset-0 bg-cover bg-center opacity-35"
+    <section id="legend" className="cinematic-section relative overflow-hidden bg-void py-20 md:py-32">
+      <ParallaxLayer
+        direction="down"
+        intensity={40}
+        className="absolute -inset-y-14 inset-x-0 bg-cover bg-center opacity-35"
         style={{ backgroundImage: `url('${getAssetPath('/images/aethron-scroll-bg.png')}')` }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-void via-void/70 to-void" />
       <div className="absolute inset-0 bg-gradient-to-r from-void via-void/45 to-void" />
-      <div ref={mistRef} className="absolute inset-x-0 top-1/4 h-2/3 bg-[radial-gradient(ellipse_at_center,rgba(232,224,208,0.12),transparent_62%)] opacity-50 blur-2xl" />
+      <ParallaxLayer direction="up" intensity={48} className="absolute inset-x-0 top-1/4 h-2/3 bg-[radial-gradient(ellipse_at_center,rgba(232,224,208,0.12),transparent_62%)] opacity-50 blur-2xl" />
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {Array.from({ length: 16 }).map((_, index) => (
@@ -178,12 +115,13 @@ export default function AethronLegend() {
               />
               <div className="absolute inset-0 bg-gradient-to-b from-void/10 via-void/20 to-void" />
               <div className="absolute inset-x-0 top-12 mx-auto h-72 w-72 rounded-full bg-emerald/10 blur-3xl" />
-              <img
-                ref={figureRef}
-                src={getAssetPath('/images/aethron-full.png')}
-                alt="Aethron, the ancient spirit guide of MythStride"
-                className="relative z-10 max-h-[480px] w-auto max-w-full object-contain drop-shadow-[0_0_34px_rgba(47,212,143,0.18)]"
-              />
+              <ParallaxLayer direction="up" intensity={26} mobileScale={0.25} className="relative z-10">
+                <img
+                  src={getAssetPath('/images/aethron-full.png')}
+                  alt="Aethron, the ancient spirit guide of MythStride"
+                  className="max-h-[480px] w-auto max-w-full object-contain drop-shadow-[0_0_34px_rgba(47,212,143,0.18)]"
+                />
+              </ParallaxLayer>
               <div className="rpg-inset absolute bottom-5 left-5 right-5 z-20 rounded-2xl p-4 backdrop-blur-sm sm:bottom-6 sm:left-6 sm:right-6">
                 <div className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-emerald">
                   <SparkleIcon className="h-3.5 w-3.5" />

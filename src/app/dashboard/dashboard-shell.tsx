@@ -12,6 +12,7 @@ import { getAssetPath } from "@/lib/assets";
 import { getBossImagePath, getBossMedalPath } from "@/lib/boss-medals";
 import { useTranslations } from "@/lib/i18n";
 import AuthenticatedTopbar from "@/components/AuthenticatedTopbar";
+import MythProgressMeter from "@/components/ui/MythProgressMeter";
 import {
   ArrowRightIcon,
   BookIcon,
@@ -198,12 +199,12 @@ function DashboardContent({ data }: { data: DashboardData }) {
                   <span>{t("dashboard.labels.healthRemaining")}</span>
                   <span className="text-fiery-orange">{bossHealth}%</span>
                 </div>
-                <div className="h-3 overflow-hidden rounded-full border border-fiery-orange/25 bg-void">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-hp-red via-fiery-orange to-amber"
-                    style={{ width: `${bossHealth}%` }}
-                  />
-                </div>
+                <MythProgressMeter
+                  value={bossHealth}
+                  label={t("dashboard.labels.healthRemaining")}
+                  showPercent={false}
+                  size="sm"
+                />
               </div>
             </div>
           </div>

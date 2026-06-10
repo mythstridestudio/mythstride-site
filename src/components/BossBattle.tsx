@@ -6,6 +6,8 @@ import { SwordsIcon, ShieldIcon, EyeIcon } from './Icons';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
 import { useTranslations } from '@/lib/i18n';
+import ParallaxLayer from './ParallaxLayer';
+import MythProgressMeter from './ui/MythProgressMeter';
 
 export default function BossBattle() {
   const { t } = useTranslations();
@@ -36,8 +38,10 @@ export default function BossBattle() {
   return (
     <section id="bosses" className="cinematic-section relative overflow-hidden bg-void py-20 md:py-24">
       <div className="absolute inset-0 bg-stone-texture opacity-20" />
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-25"
+      <ParallaxLayer
+        direction="down"
+        intensity={28}
+        className="absolute -inset-y-10 inset-x-0 bg-cover bg-center opacity-25"
         style={{ backgroundImage: `url('${getAssetPath('/images/background.png')}')` }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-void via-void/80 to-void" />
@@ -65,7 +69,9 @@ export default function BossBattle() {
                 {bosses.map((boss, index) => (
                   <div key={boss.name} className={`${index === 2 ? 'sm:col-span-1' : ''} rpg-inset relative overflow-hidden rounded-[18px] p-3`}>
                     <div className="relative aspect-square overflow-hidden rounded-2xl bg-rich-brown/40">
-                      <img src={getAssetPath(boss.image)} alt={boss.name} className="h-full w-full object-contain drop-shadow-[0_0_28px_rgba(232,98,42,0.22)]" />
+                      <ParallaxLayer direction="up" intensity={12 + index * 3} mobileScale={0.3} className="absolute inset-0">
+                        <img src={getAssetPath(boss.image)} alt={boss.name} className="h-full w-full object-contain drop-shadow-[0_0_28px_rgba(232,98,42,0.22)]" />
+                      </ParallaxLayer>
                     </div>
                     <div className="mt-3">
                       <h3 className="rpg-heading font-display text-lg text-gold">{boss.name}</h3>
@@ -100,9 +106,12 @@ export default function BossBattle() {
                   </span>
                   <span className="text-fiery-orange">{t('bossBattle.mistPressureRising')}</span>
                 </div>
-                <div className="h-3 overflow-hidden rounded-full border border-fiery-orange/25 bg-void">
-                  <div className="h-full w-[62%] rounded-full bg-gradient-to-r from-hp-red via-fiery-orange to-amber" />
-                </div>
+                <MythProgressMeter
+                  value={62}
+                  label={t('bossBattle.mistPressure')}
+                  showPercent={false}
+                  size="sm"
+                />
               </div>
 
               <div className="text-center text-[10px] uppercase tracking-[0.25em] text-text-muted">

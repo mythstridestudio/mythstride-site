@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import { useReducedMotion } from 'framer-motion';
 import { getAssetPath } from '@/lib/assets';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
+import ParallaxLayer from './ParallaxLayer';
 import { CrownIcon, MapIcon, ShieldIcon, SparkleIcon } from './Icons';
 import { useTranslations } from '@/lib/i18n';
 
@@ -16,57 +15,8 @@ interface Realm {
 
 export default function WorldSection() {
   const { t } = useTranslations();
-  const sectionRef = useRef<HTMLElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
-  const mistRef = useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = useReducedMotion();
   const realmsData = t('worldSection.realms');
   const icons = [MapIcon, CrownIcon, ShieldIcon];
-
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-
-    let cleanup: (() => void) | undefined;
-
-    async function setupParallax() {
-      const gsapModule = await import('gsap');
-      const scrollTriggerModule = await import('gsap/ScrollTrigger');
-      const gsap = gsapModule.gsap;
-      const ScrollTrigger = scrollTriggerModule.ScrollTrigger;
-      gsap.registerPlugin(ScrollTrigger);
-
-      const context = gsap.context(() => {
-        gsap.to(bgRef.current, {
-          yPercent: 10,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        });
-
-        gsap.to(mistRef.current, {
-          yPercent: -12,
-          opacity: 0.74,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.2,
-          },
-        });
-      }, sectionRef);
-
-      cleanup = () => context.revert();
-    }
-
-    setupParallax();
-
-    return () => cleanup?.();
-  }, [prefersReducedMotion]);
 
   const realms: Realm[] = (Array.isArray(realmsData) ? realmsData : []).map((realm: unknown, i: number) => {
     const data = realm as Record<string, unknown>;
@@ -79,15 +29,17 @@ export default function WorldSection() {
 
   return (
 
-    <section id="world" ref={sectionRef} className="cinematic-section relative overflow-hidden bg-void py-20 md:py-32">
-      <div
-        ref={bgRef}
-        className="absolute inset-0 bg-cover bg-center opacity-32"
+    <section id="world" className="cinematic-section relative overflow-hidden bg-void py-20 md:py-32">
+      <ParallaxLayer
+        direction="down"
+        intensity={34}
+        className="absolute -inset-y-12 inset-x-0 bg-cover bg-center opacity-32"
         style={{ backgroundImage: `url('${getAssetPath('/images/aethron-scroll-bg.png')}')` }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-void via-void/70 to-void" />
       <div className="absolute inset-0 bg-gradient-to-r from-void via-void/40 to-void" />
-      <div ref={mistRef} className="absolute inset-x-[-12%] top-1/3 h-1/2 bg-[radial-gradient(ellipse_at_center,rgba(232,224,208,0.16),transparent_64%)] blur-3xl" />
+      <ParallaxLayer direction="up" intensity={42} className="absolute inset-x-[-12%] top-1/3 h-1/2 bg-[radial-gradient(ellipse_at_center,rgba(232,224,208,0.16),transparent_64%)] blur-3xl" />
+      <ParallaxLayer direction="right" intensity={18} className="absolute left-[12%] top-[18%] h-48 w-48 rounded-full bg-gold/8 blur-3xl" />
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
       <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
 

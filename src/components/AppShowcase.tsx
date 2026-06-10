@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { getAssetPath } from '@/lib/assets';
 import { BookIcon, CrownIcon, GemIcon, RunIcon, ScrollIcon, ShieldIcon, SwordsIcon } from './Icons';
 import { useTranslations } from '@/lib/i18n';
+import ParallaxLayer from './ParallaxLayer';
 
 interface Screen {
   title: string;
@@ -97,7 +98,7 @@ export default function AppShowcase() {
     <section id="app" className="cinematic-section relative overflow-hidden bg-deep-charcoal py-20 md:py-24">
       <div className="absolute inset-0 bg-stone-texture opacity-35" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_18%,rgba(212,168,83,0.08),transparent_48%),linear-gradient(180deg,rgba(5,5,7,0.34),rgba(18,18,24,0.98)_36%,rgba(5,5,7,0.92))]" />
-      <div className="absolute inset-x-[-12%] top-24 h-80 bg-[radial-gradient(ellipse_at_center,rgba(47,212,143,0.09),transparent_64%)] blur-3xl" />
+      <ParallaxLayer direction="up" intensity={24} className="absolute inset-x-[-12%] top-24 h-80 bg-[radial-gradient(ellipse_at_center,rgba(47,212,143,0.09),transparent_64%)] blur-3xl" />
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
