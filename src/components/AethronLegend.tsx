@@ -67,10 +67,10 @@ export default function AethronLegend() {
       <ParallaxLayer direction="up" intensity={48} className="absolute inset-x-0 top-1/4 h-2/3 bg-[radial-gradient(ellipse_at_center,rgba(232,224,208,0.12),transparent_62%)] opacity-50 blur-2xl" />
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {Array.from({ length: 16 }).map((_, index) => (
+        {Array.from({ length: 8 }).map((_, index) => (
           <span
             key={index}
-            className="absolute h-1 w-1 rounded-full bg-fiery-orange/50"
+            className="absolute hidden h-1 w-1 rounded-full bg-fiery-orange/50 md:block"
             style={{
               left: `${8 + (index * 7) % 86}%`,
               bottom: `${index % 4}%`,
@@ -119,6 +119,8 @@ export default function AethronLegend() {
                 <img
                   src={getAssetPath('/images/aethron-full.png')}
                   alt="Aethron, the ancient spirit guide of MythStride"
+                  loading="lazy"
+                  decoding="async"
                   className="max-h-[480px] w-auto max-w-full object-contain drop-shadow-[0_0_34px_rgba(47,212,143,0.18)]"
                 />
               </ParallaxLayer>

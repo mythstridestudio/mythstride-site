@@ -80,12 +80,18 @@ export default function Features() {
             const Icon = feature.icon;
 
             return (
-              <ScrollReveal key={feature.title} delay={index * 70} direction="up">
+              <ScrollReveal key={feature.title} delay={Math.min(index, 3) * 45} direction="up">
                 <article className="group app-panel app-panel-compact rpg-card relative h-full overflow-hidden p-4 sm:p-5">
                   <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-gold-dim/35 to-transparent" />
                   <div className="relative z-10 flex gap-4">
                     <div className={`rarity-well ${feature.rarity} flex h-20 w-20 flex-shrink-0 items-center justify-center overflow-hidden p-2`}>
-                      <img src={getAssetPath(feature.asset)} alt="" className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110" />
+                      <img
+                        src={getAssetPath(feature.asset)}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-contain transition-transform duration-300 motion-safe:md:group-hover:scale-105"
+                      />
                     </div>
                     <div className="min-w-0">
                       <div className={`mb-2 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] ${feature.accent}`}>

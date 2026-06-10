@@ -158,6 +158,8 @@ export default function AppShowcase() {
                 <img
                   src={getAssetPath(activeScreen.image)}
                   alt={activeScreen.alt}
+                  loading="lazy"
+                  decoding="async"
                   className="phone-screen h-auto w-full object-cover"
                 />
               </motion.div>
@@ -197,7 +199,7 @@ export default function AppShowcase() {
                           <div className="text-xs uppercase tracking-[0.2em] text-text-muted">{screen.chapter}</div>
                         </div>
                         <div className="hidden h-16 w-10 overflow-hidden border border-gold-dim/20 bg-void sm:block">
-                          <img src={getAssetPath(screen.image)} alt="" className="h-full w-full object-cover" />
+                          <img src={getAssetPath(screen.image)} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
                         </div>
                       </button>
                     );

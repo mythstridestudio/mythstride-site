@@ -206,7 +206,7 @@ function HeroStat({
   }[tone];
 
   return (
-    <div className={`rpg-inset group relative flex flex-col items-center justify-center rounded-[18px] border p-4 text-center transition-all duration-300 hover:scale-[1.02] ${toneClass} ${glowClass} min-w-0 w-full`}>
+    <div className={`rpg-inset group relative flex flex-col items-center justify-center rounded-[18px] border p-4 text-center transition-transform duration-300 motion-safe:md:hover:scale-[1.015] ${toneClass} ${glowClass} min-w-0 w-full`}>
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-current to-transparent opacity-20" />
       <Icon className="mb-3 h-5 w-5 shrink-0 opacity-70 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110" />
       <div className="mb-1 text-[10px] uppercase tracking-[0.22em] opacity-60 whitespace-nowrap">
@@ -327,7 +327,7 @@ function JourneyRelic({
   icon: React.ComponentType<{ className?: string }>;
 }) {
   return (
-    <div className="rpg-inset group relative w-full overflow-hidden rounded-[22px] border border-gold/15 p-5 min-h-[128px] transition-all duration-300 hover:scale-[1.015] hover:border-gold/35 lg:p-6 lg:min-h-[145px]">
+    <div className="rpg-inset group relative w-full overflow-hidden rounded-[22px] border border-gold/15 p-5 min-h-[128px] transition-transform duration-300 motion-safe:md:hover:scale-[1.01] md:hover:border-gold/35 lg:p-6 lg:min-h-[145px]">
       <div className="absolute right-4 top-4 text-gold/7 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-6">
         <Icon className="h-14 w-14" />
       </div>
@@ -441,6 +441,8 @@ function CurrentNemesis({ player }: { player: PublicPlayerProfile }) {
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   src={bossImageSrc}
                   alt={boss.name}
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-contain drop-shadow-[0_0_50px_rgba(232,98,42,0.4)]"
                 />
               ) : (
@@ -501,6 +503,7 @@ function CurrentNemesis({ player }: { player: PublicPlayerProfile }) {
 
 function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
   const { t } = useTranslations();
+  const prefersReducedMotion = useReducedMotion();
   const achievements = player.rareAchievements ?? [];
 
   return (
@@ -529,7 +532,7 @@ function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -5, scale: 1.02 }}
+                whileHover={prefersReducedMotion ? undefined : { y: -3 }}
                 className={`rpg-inset relative overflow-hidden rounded-[24px] border-2 p-6 transition-colors duration-300 ${rarity.className} group`}
               >
                 {/* Rarity Glow Effect */}
@@ -540,7 +543,7 @@ function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
                   <div className={`mx-auto mb-6 flex h-28 w-28 sm:h-32 sm:w-32 items-center justify-center rounded-full border-2 border-dashed transition-transform duration-500 group-hover:rotate-6 ${rarity.className}`}>
                     <div className={`rarity-well ${rarity.wellClassName} flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center p-4 rounded-full bg-void shadow-2xl`}>
                       {iconSrc ? (
-                        <img src={iconSrc} alt="" className="h-full w-full object-contain drop-shadow-xl" />
+                        <img src={iconSrc} alt="" loading="lazy" decoding="async" className="h-full w-full object-contain drop-shadow-lg" />
                       ) : (
                         <AchievementIconFallback />
                       )}

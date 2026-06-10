@@ -67,7 +67,7 @@ export default function MythProgressMeter({
             <motion.div
               className="absolute inset-y-0 w-1/3 skew-x-[-18deg] bg-gradient-to-r from-transparent via-white/24 to-transparent"
               animate={{ x: ['-140%', '440%'] }}
-              transition={{ duration: 2.8, repeat: Infinity, repeatDelay: 1.6, ease: 'easeInOut' }}
+              transition={{ duration: 2.4, repeat: 1, repeatDelay: 1.2, ease: 'easeInOut' }}
             />
           )}
         </motion.div>

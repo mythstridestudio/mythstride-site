@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, startTransition } from 'react';
+import { useReducedMotion } from 'framer-motion';
 import { getAssetPath } from '@/lib/assets';
 import SectionHeader from './SectionHeader';
 import ScrollReveal from './ScrollReveal';
@@ -15,6 +16,7 @@ interface LoopStep {
 
 export default function RunToBattle() {
   const { t } = useTranslations();
+  const prefersReducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
   const loopData = t('runToBattle.loop');
   const icons = [RunIcon, SwordsIcon, TrophyIcon];
@@ -46,7 +48,7 @@ export default function RunToBattle() {
         className="absolute left-1/2 top-1/2 h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
           background: 'radial-gradient(circle, rgba(232,98,42,0.08) 0%, rgba(47,212,143,0.04) 34%, transparent 68%)',
-          animation: mounted ? 'pulse-glow 7s ease-in-out infinite' : 'none',
+          animation: mounted && !prefersReducedMotion ? 'pulse-glow 7s ease-in-out infinite' : 'none',
         }}
       />
 

@@ -19,7 +19,7 @@ export default function ParallaxLayer({
   className,
   direction = 'up',
   intensity = 40,
-  mobileScale = 0.5,
+  mobileScale = 0,
   style,
 }: ParallaxLayerProps) {
   const layerRef = useRef<HTMLDivElement>(null);

@@ -6,7 +6,7 @@ import { ChevronDownIcon, RunIcon } from './Icons';
 import { useTranslations } from '@/lib/i18n';
 import ParallaxLayer from './ParallaxLayer';
 
-const EMBERS = Array.from({ length: 26 }, (_, index) => ({
+const EMBERS = Array.from({ length: 14 }, (_, index) => ({
   left: `${6 + (index * 13) % 88}%`,
   delay: index * 0.34,
   duration: 5.5 + (index % 6) * 0.8,
@@ -38,7 +38,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,7,0.92)_0%,rgba(5,5,7,0.62)_28%,rgba(5,5,7,0.18)_54%,rgba(5,5,7,0.78)_100%)]" />
 
       <motion.div
-        className="absolute -top-12 left-1/2 h-[46rem] w-[46rem] -translate-x-1/2 rounded-full bg-gold/10 blur-3xl"
+        className="absolute -top-12 left-1/2 hidden h-[46rem] w-[46rem] -translate-x-1/2 rounded-full bg-gold/10 blur-3xl md:block"
         animate={prefersReducedMotion ? undefined : { opacity: [0.22, 0.34, 0.22], y: [0, 12, 0] }}
         transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
       />
@@ -56,19 +56,19 @@ export default function Hero() {
       <div className="absolute bottom-0 left-[-12%] h-[28%] w-[62%] skew-x-[-16deg] bg-stone/40 opacity-55 blur-sm" />
       <div className="absolute bottom-0 right-[-16%] h-[34%] w-[58%] skew-x-[15deg] bg-rich-brown/45 opacity-65 blur-sm" />
 
-      <motion.div
-        className="pointer-events-none absolute left-[3%] top-[33%] hidden h-60 w-40 opacity-20 md:block"
-        animate={prefersReducedMotion ? undefined : { y: [0, -10, 0], opacity: [0.14, 0.22, 0.14] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+      <div
+        className="pointer-events-none absolute left-[3%] top-[33%] hidden h-60 w-40 opacity-20 lg:block"
       >
         <img
           src={getAssetPath('/images/aethron-full.png')}
           alt=""
+          loading="lazy"
+          decoding="async"
           className="h-full w-full object-contain"
         />
-      </motion.div>
+      </div>
 
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 hidden overflow-hidden md:block">
         {EMBERS.map((ember, index) => (
           <motion.span
             key={index}
@@ -176,6 +176,7 @@ export default function Hero() {
                 <img
                   src={getAssetPath('/images/screen-dashboard.jpg')}
                   alt="MythStride dashboard showing player progress and current boss"
+                  decoding="async"
                   className="phone-screen h-auto w-full object-cover"
                 />
               </motion.div>
@@ -188,6 +189,7 @@ export default function Hero() {
                 <img
                   src={getAssetPath('/images/screen-run.jpg')}
                   alt="MythStride run mission screen with boss progress"
+                  decoding="async"
                   className="phone-screen h-auto w-full object-cover"
                 />
               </motion.div>

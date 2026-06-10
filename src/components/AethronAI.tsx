@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, startTransition } from 'react';
+import { useReducedMotion } from 'framer-motion';
 import { getAssetPath } from '@/lib/assets';
 import ScrollReveal from './ScrollReveal';
 import { EyeIcon, ShieldIcon, SparkleIcon } from './Icons';
@@ -8,6 +9,7 @@ import { useTranslations } from '@/lib/i18n';
 
 export default function AethronAI() {
   const { t } = useTranslations();
+  const prefersReducedMotion = useReducedMotion();
   const principles = t('aethronAI.principles');
 
   const [mounted, setMounted] = useState(false);
@@ -28,7 +30,7 @@ export default function AethronAI() {
         className="absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
           background: 'radial-gradient(circle, rgba(47,212,143,0.10) 0%, rgba(212,168,83,0.05) 36%, transparent 70%)',
-          animation: mounted ? 'pulse-glow 7s ease-in-out infinite' : 'none',
+          animation: mounted && !prefersReducedMotion ? 'pulse-glow 7s ease-in-out infinite' : 'none',
         }}
       />
 

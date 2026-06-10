@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, startTransition } from 'react';
+import { useReducedMotion } from 'framer-motion';
 import { getAssetPath } from '@/lib/assets';
 import { SparkleIcon } from './Icons';
 import ScrollReveal from './ScrollReveal';
@@ -9,11 +9,7 @@ import WaitlistForm from './WaitlistForm';
 
 export default function FinalCTA() {
   const { t } = useTranslations();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    startTransition(() => setMounted(true));
-  }, []);
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <section id="join" className="cinematic-section relative overflow-hidden bg-void py-24 md:py-36">
@@ -21,7 +17,7 @@ export default function FinalCTA() {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url('${getAssetPath('/images/background.png')}')`,
-          animation: mounted ? 'cinematic-zoom 15s cubic-bezier(0.25, 0.4, 0.2, 1) forwards' : 'none',
+          animation: prefersReducedMotion ? 'none' : 'cinematic-zoom 15s cubic-bezier(0.25, 0.4, 0.2, 1) forwards',
         }}
       />
       <div className="absolute inset-0 bg-gradient-to-b from-void via-void/72 to-void" />
@@ -30,10 +26,10 @@ export default function FinalCTA() {
       <div className="absolute inset-12 border border-gold-dim/10 pointer-events-none" />
 
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {mounted && Array.from({ length: 14 }).map((_, index) => (
+        {!prefersReducedMotion && Array.from({ length: 6 }).map((_, index) => (
           <span
             key={index}
-            className="absolute h-1 w-1 rounded-full bg-fiery-orange/50"
+            className="absolute hidden h-1 w-1 rounded-full bg-fiery-orange/50 md:block"
             style={{
               left: `${8 + (index * 6) % 86}%`,
               bottom: '4%',

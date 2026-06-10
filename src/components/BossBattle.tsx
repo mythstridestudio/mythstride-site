@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, startTransition } from 'react';
+import { useReducedMotion } from 'framer-motion';
 import { getAssetPath } from '@/lib/assets';
 import { SwordsIcon, ShieldIcon, EyeIcon } from './Icons';
 import SectionHeader from './SectionHeader';
@@ -11,6 +12,7 @@ import MythProgressMeter from './ui/MythProgressMeter';
 
 export default function BossBattle() {
   const { t } = useTranslations();
+  const prefersReducedMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -49,7 +51,7 @@ export default function BossBattle() {
         className="absolute left-1/2 top-1/2 h-[760px] w-[760px] -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
           background: 'radial-gradient(circle, rgba(216,74,69,0.13) 0%, rgba(232,98,42,0.06) 34%, transparent 68%)',
-          animation: mounted ? 'pulse-glow 6s ease-in-out infinite' : 'none',
+          animation: mounted && !prefersReducedMotion ? 'pulse-glow 6s ease-in-out infinite' : 'none',
         }}
       />
       <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-dim/30 to-transparent" />
@@ -70,7 +72,13 @@ export default function BossBattle() {
                   <div key={boss.name} className={`${index === 2 ? 'sm:col-span-1' : ''} rpg-inset relative overflow-hidden rounded-[18px] p-3`}>
                     <div className="relative aspect-square overflow-hidden rounded-2xl bg-rich-brown/40">
                       <ParallaxLayer direction="up" intensity={12 + index * 3} mobileScale={0.3} className="absolute inset-0">
-                        <img src={getAssetPath(boss.image)} alt={boss.name} className="h-full w-full object-contain drop-shadow-[0_0_28px_rgba(232,98,42,0.22)]" />
+                        <img
+                          src={getAssetPath(boss.image)}
+                          alt={boss.name}
+                          loading="lazy"
+                          decoding="async"
+                          className="h-full w-full object-contain drop-shadow-[0_0_20px_rgba(232,98,42,0.18)]"
+                        />
                       </ParallaxLayer>
                     </div>
                     <div className="mt-3">
