@@ -12,10 +12,10 @@ export default function Footer() {
   const { t } = useTranslations();
 
   return (
-    <footer className="relative py-14 bg-abyss border-t border-gold-dim/15">
-      <div className="max-w-7xl mx-auto px-6">
+    <footer className="relative border-t border-gold-dim/15 bg-abyss py-12 sm:py-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* Brand + Links row */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-8 border-b border-gold-dim/10">
+        <div className="flex flex-col items-center justify-between gap-8 border-b border-gold-dim/10 pb-9 md:flex-row">
           {/* Brand */}
           <a href="#" className="flex items-center gap-2.5 group">
             <div className="relative">
@@ -27,39 +27,39 @@ export default function Footer() {
           </a>
 
           {/* Links */}
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm">
+          <nav aria-label="Footer" className="flex max-w-2xl flex-wrap justify-center gap-x-6 gap-y-4 text-sm sm:gap-x-8">
             {t('footer.footerLinks').map((link: FooterLink, index: number) => (
               <a
                 key={index}
                 href={link.href}
-                className="text-text-muted hover:text-gold transition-colors duration-300 tracking-wider"
+                className="whitespace-nowrap text-text-muted transition-colors duration-300 hover:text-gold"
               >
                 {link.label}
               </a>
             ))}
-          </div>
+          </nav>
         </div>
 
         {/* Bottom row */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-text-muted text-xs">
+        <div className="flex flex-col items-center gap-7 pt-8 md:grid md:grid-cols-[1fr_auto_1fr] md:items-center">
+          <div className="text-center text-xs text-text-muted md:text-left">
             &copy; {new Date().getFullYear()} {t('footer.rights')}
           </div>
 
           {/* Social links */}
-          <div className="flex items-center gap-6 text-xs">
+          <nav aria-label="Social media" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs sm:gap-x-8">
             {t('footer.footerSocialLinks').map((link: FooterLink, index: number) => (
               <a
                 key={index}
                 href={link.href}
-                className="text-text-muted hover:text-gold transition-colors duration-300 tracking-wider"
+                className="whitespace-nowrap text-text-muted transition-colors duration-300 hover:text-gold"
               >
                 {link.label}
               </a>
             ))}
-          </div>
+          </nav>
 
-          <div className="text-text-muted text-xs max-w-xs text-center md:text-right leading-relaxed">
+          <div className="max-w-xs text-center text-xs leading-relaxed text-text-muted md:justify-self-end md:text-right">
             {t('footer.tagline')}
           </div>
         </div>

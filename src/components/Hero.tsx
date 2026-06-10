@@ -103,6 +103,7 @@ export default function Hero() {
           <motion.div {...reveal(0.3)}>
             <h1 className="mx-auto mb-4 max-w-[16.5rem] font-display text-[1.68rem] leading-[1.05] text-gold sm:max-w-none sm:text-5xl md:text-6xl lg:mx-0 lg:text-[4.45rem]">
               {t('hero.title')}
+              {' '}
               <span className="block text-gold-bright">
                 {t('hero.progress')}
               </span>

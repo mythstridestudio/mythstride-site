@@ -10,7 +10,7 @@ interface SectionHeaderProps {
 
 export default function SectionHeader({ label, title, description, align = 'center' }: SectionHeaderProps) {
   return (
-    <ScrollReveal className={`mb-12 md:mb-16 ${align === 'center' ? 'text-center' : ''}`}>
+    <ScrollReveal className={`mb-11 md:mb-16 ${align === 'center' ? 'text-center' : ''}`}>
       <div className={`mb-5 flex items-center justify-center gap-2.5 sm:gap-3 ${align === 'left' ? '' : 'mx-auto'}`}>
         <span className="h-px w-8 bg-gradient-to-l from-gold-dim/50 to-transparent" />
         <CrossedSwordsIcon className="w-3.5 h-3.5 text-gold-dim/60" />
@@ -19,12 +19,12 @@ export default function SectionHeader({ label, title, description, align = 'cent
         <span className="h-px w-8 bg-gradient-to-r from-gold-dim/50 to-transparent" />
       </div>
 
-      <h2 className={`rpg-heading mb-5 font-display text-3xl leading-tight text-gold sm:text-4xl md:mb-6 md:text-5xl lg:text-6xl ${align === 'center' ? 'mx-auto max-w-3xl' : ''}`}>
+      <h2 className={`rpg-heading mb-5 text-balance font-display text-3xl leading-[1.12] text-gold sm:text-4xl md:mb-6 md:text-5xl lg:text-6xl ${align === 'center' ? 'mx-auto max-w-3xl' : ''}`}>
         {title}
       </h2>
 
       {description && (
-        <p className={`rpg-copy text-base leading-relaxed text-text-secondary md:text-lg ${align === 'center' ? 'mx-auto max-w-2xl' : ''}`}>
+        <p className={`rpg-copy text-pretty text-base leading-7 text-text-secondary md:text-lg md:leading-8 ${align === 'center' ? 'mx-auto max-w-2xl' : ''}`}>
           {description}
         </p>
       )}

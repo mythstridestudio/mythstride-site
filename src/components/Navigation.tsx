@@ -19,7 +19,6 @@ export default function Navigation() {
     { label: t('nav.loot'), href: '#features' },
     { label: t('nav.bosses'), href: '#bosses' },
     { label: t('nav.aethron'), href: '#aethron' },
-    { label: t('nav.legend'), href: '#legend' },
     { label: t('nav.app'), href: '#app' },
   ];
 
@@ -45,7 +44,7 @@ export default function Navigation() {
           </span>
         </a>
 
-        <div className="hidden lg:flex items-center gap-6 font-body text-sm xl:gap-8">
+        <div className="hidden items-center gap-5 font-body text-[13px] lg:flex xl:gap-7 xl:text-sm">
           {navLinks.map((link) => (
             <a
               key={link.href}

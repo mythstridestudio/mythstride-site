@@ -69,11 +69,11 @@ export default function RunToBattle() {
                   className="phone-screen h-auto w-full object-cover"
                 />
               </div>
-              <div className="absolute -bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-3 rounded-full border border-gold-dim/30 bg-void/90 px-5 py-3 shadow-2xl">
+              <div className="absolute -bottom-5 left-1/2 flex w-[calc(100%-1rem)] -translate-x-1/2 items-center justify-center gap-3 rounded-full border border-gold-dim/30 bg-void/90 px-4 py-3 shadow-2xl sm:w-auto sm:px-5">
                 <img src={getAssetPath('/images/run-button-swords.png')} alt="" className="h-11 w-11 object-contain" />
-                <div>
+                <div className="min-w-0">
                   <div className="font-display text-sm text-gold">{t('runToBattle.cta')}</div>
-                  <div className="text-xs text-text-muted">{t('runToBattle.appLoopNotDashboard')}</div>
+                  <div className="text-pretty text-xs leading-snug text-text-muted">{t('runToBattle.appLoopNotDashboard')}</div>
                 </div>
               </div>
             </div>
@@ -108,6 +108,7 @@ export default function RunToBattle() {
               <div className="rpg-inset rounded-[18px] border-emerald/25 p-5 text-center">
                 <p className="font-display text-2xl leading-snug text-gold md:text-3xl">
                   {t('runToBattle.everyKmStrengthensFlame')}
+                  {' '}
                   <span className="block text-emerald">{t('runToBattle.everyBattleWeakensMist')}</span>
                 </p>
               </div>
