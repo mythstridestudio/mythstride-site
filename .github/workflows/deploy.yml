@@ -34,7 +34,7 @@ jobs:
       - name: Build static site
         env:
           NEXT_PUBLIC_API_BASE_URL: https://api.mythstride.app
-          NEXT_PUBLIC_BASE_PATH: /mythstride-site
+          NEXT_PUBLIC_BASE_PATH: /
           NEXT_PUBLIC_STATIC_PLAYER_USERNAMES: Augusto
         run: npm run build
 
