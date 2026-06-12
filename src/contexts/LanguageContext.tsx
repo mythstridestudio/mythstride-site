@@ -35,10 +35,31 @@ function subscribe(callback: () => void) {
   };
 }
 
+function getBrowserLanguage(): Language {
+  const browserLanguages =
+    typeof navigator !== 'undefined'
+      ? [navigator.language, ...(navigator.languages ?? [])]
+      : [];
+
+  for (const locale of browserLanguages) {
+    const normalizedLocale = locale.toLowerCase();
+
+    if (normalizedLocale.startsWith('pt')) {
+      return 'pt';
+    }
+
+    if (normalizedLocale.startsWith('es')) {
+      return 'es';
+    }
+  }
+
+  return 'en';
+}
+
 function getLanguageSnapshot() {
   const storedLanguage = localStorage.getItem('lang');
 
-  return isLanguage(storedLanguage) ? storedLanguage : 'en';
+  return isLanguage(storedLanguage) ? storedLanguage : getBrowserLanguage();
 }
 
 function getServerLanguageSnapshot(): Language {
