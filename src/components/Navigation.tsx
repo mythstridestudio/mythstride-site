@@ -22,6 +22,22 @@ export default function Navigation() {
     { label: t('nav.app'), href: '#app' },
   ];
 
+  const scrollToSection = (href: string) => {
+    if (href === '#') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      return;
+    }
+
+    const targetId = href.replace('#', '');
+    const target = document.getElementById(targetId);
+
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  };
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -37,7 +53,14 @@ export default function Navigation() {
       }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:h-20">
-        <a href="#" className="flex items-center gap-2.5 group">
+        <a
+          href="#"
+          className="flex items-center gap-2.5 group"
+          onClick={(event) => {
+            event.preventDefault();
+            scrollToSection('#');
+          }}
+        >
           <img src={getAssetPath('/images/mythstride-app-icon.png')} alt="" className="h-9 w-9 rounded-full object-cover shadow-[0_0_18px_rgba(212,168,83,0.18)]" />
           <span className="font-display text-gold text-lg tracking-wider sm:text-xl">
             Myth<span className="text-gold-bright">Stride</span>
@@ -50,6 +73,10 @@ export default function Navigation() {
               key={link.href}
               href={link.href}
               className="relative mx-2.5 whitespace-nowrap text-text-secondary transition-all duration-300 after:absolute after:bottom-[-4px] after:left-0 after:h-px after:w-0 after:bg-gradient-to-r after:from-gold after:to-gold-bright after:transition-all after:duration-300 hover:text-gold hover:after:w-full xl:mx-3.5"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToSection(link.href);
+              }}
             >
               {link.label}
             </a>
@@ -107,7 +134,11 @@ export default function Navigation() {
               key={link.href}
               href={link.href}
               className="text-text-secondary hover:text-gold transition-colors font-body text-sm py-2 tracking-wider"
-              onClick={() => setMobileOpen(false)}
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToSection(link.href);
+                setMobileOpen(false);
+              }}
             >
               {link.label}
             </a>
