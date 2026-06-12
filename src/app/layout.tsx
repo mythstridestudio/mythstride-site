@@ -30,11 +30,11 @@ export const metadata: Metadata = {
   keywords: ["running game", "fitness RPG", "dark fantasy", "mobile game", "run tracker", "gamified fitness"],
   icons: {
     icon: [
-      { url: `${basePath}/favicon.ico` },
-      { url: `${basePath}/icon.png`, type: "image/png", sizes: "512x512" },
+      { url: `${basePath}/favicon.ico?v=2` },
+      { url: `${basePath}/icon.png?v=2`, type: "image/png", sizes: "512x512" },
     ],
-    shortcut: `${basePath}/favicon.ico`,
-    apple: [{ url: `${basePath}/apple-icon.png`, sizes: "180x180", type: "image/png" }],
+    shortcut: `${basePath}/favicon.ico?v=2`,
+    apple: [{ url: `${basePath}/apple-icon.png?v=2`, sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     title: "MythStride | Turn Your Runs Into RPG Battles",
