@@ -3,7 +3,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const out = path.join(root, "out");
-const locales = ["pt-BR", "en"];
+const locales = ["pt-BR", "en", "es"];
 const publicSlugs = [
   "features",
   "how-it-works",
@@ -67,7 +67,11 @@ for (const locale of locales) {
   if (!home.includes(`rel="canonical" href="https://playmythstride.com/${locale}/"`)) {
     failures.push(`${locale} home has incorrect canonical`);
   }
-  if (!home.includes('hrefLang="pt-BR"') || !home.includes('hrefLang="en"')) {
+  if (
+    !home.includes('hrefLang="pt-BR"') ||
+    !home.includes('hrefLang="en"') ||
+    !home.includes('hrefLang="es"')
+  ) {
     failures.push(`${locale} home is missing hreflang alternates`);
   }
   if (!home.includes('id="join"')) {

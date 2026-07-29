@@ -24,14 +24,13 @@ does not deploy.
 - [ ] Android beta capacity, compatibility and invitation wording is current.
 - [ ] Aethron generated-content and non-medical disclaimers are approved.
 - [ ] No download, purchase, advertising or deletion action appears early.
-- [ ] PT-BR and English receive product-language review.
-- [ ] Spanish remains unpromoted until end-to-end support exists.
-- [ ] Final approved screenshots replace the labeled slots in both locales.
+- [ ] PT-BR, English and Spanish receive product-language review.
+- [ ] Final approved screenshots replace the labeled slots in all three locales.
 
 ## Legal and operations
 
 - [ ] Owner resolves every field in `WEBSITE_LEGAL_PLACEHOLDERS.md`.
-- [ ] Legal counsel reviews PT-BR and English drafts.
+- [ ] Legal counsel reviews PT-BR, English and Spanish drafts.
 - [ ] Support and privacy channels are configured, secured and staffed.
 - [ ] Account deletion works end to end before operational instructions go live.
 - [ ] Reporting, blocking and appeal behavior matches deployed clients/backends.

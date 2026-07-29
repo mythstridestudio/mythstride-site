@@ -342,4 +342,142 @@ export const siteCopy: Record<PublicLocale, SiteCopy> = {
         "Legal documents marked as drafts still require final decisions and review.",
     },
   },
+  es: {
+    skip: "Saltar al contenido",
+    nav: {
+      product: "Producto",
+      how: "Cómo funciona",
+      events: "Eventos",
+      community: "Comunidad",
+      aethron: "Aethron",
+      integrations: "Integraciones",
+      beta: "Beta cerrada",
+      faq: "Preguntas",
+      join: "Unirme a la lista de la beta",
+      tester: "Acceso para testers",
+      openMenu: "Abrir menú",
+      closeMenu: "Cerrar menú",
+      language: "Idioma",
+    },
+    hero: {
+      eyebrow: "Beta cerrada para Android",
+      title: "Corre en el mundo real. Progresa en otro.",
+      body:
+        "MythStride convierte carreras registradas en misiones, jefes, recompensas y progreso de RPG. El universo completo sigue evolucionando junto con la beta.",
+      primary: "Unirme a la lista de la beta",
+      secondary: "Descubrir MythStride",
+      note:
+        "El acceso público aún no está disponible. Las invitaciones dependen de la capacidad de prueba y de la compatibilidad del dispositivo.",
+    },
+    section: {
+      vision: {
+        eyebrow: "Estado del universo",
+        title: "Una visión completa, presentada con claridad.",
+        body:
+          "MythStride conserva su ambición de unir carrera, progreso de RPG, comunidad, inteligencia narrativa y nuevas plataformas. Cada función muestra su estado real.",
+      },
+      flow: {
+        eyebrow: "De la carrera al RPG",
+        title: "Tu movimiento hace avanzar la aventura.",
+        body:
+          "Registra la actividad, valida la distancia y convierte el resultado en progreso dentro de Elyndor.",
+      },
+      interface: {
+        eyebrow: "Interfaz real",
+        title: "La próxima captura debe ser tan fiable como el producto.",
+        body:
+          "Estos espacios están preparados para capturas finales de la versión de validación. No se muestran imágenes antiguas con métricas de prueba.",
+      },
+      battle: {
+        eyebrow: "Conflictos de Elyndor",
+        title: "Jefes en la beta. Raids y sagas en desarrollo.",
+        body:
+          "La distancia validada ya hace avanzar las batallas contra jefes. Las raids y sagas siguen formando parte del universo mientras evoluciona su implementación.",
+      },
+      rewards: {
+        eyebrow: "Recompensas e identidad",
+        title: "Inventario, logros y reliquias cuentan el viaje.",
+        body:
+          "Objetos, equipo, oro, diamantes, logros y la Espada de Fundador siguen en el centro del progreso.",
+      },
+      community: {
+        eyebrow: "Comunidad",
+        title: "Amigos, grupos y clasificaciones dan ritmo a la semana.",
+        body:
+          "Las invitaciones, la gestión de grupos, los eventos y la clasificación semanal forman parte de la beta. Los controles de seguridad siguen en desarrollo.",
+      },
+      aethron: {
+        eyebrow: "Guardián de la Llama",
+        title: "Aethron da contexto narrativo a la disciplina.",
+        body:
+          "Aethron genera orientación narrativa y motivacional a partir de contexto seleccionado. El contenido puede contener errores y no ofrece diagnóstico, tratamiento ni asesoramiento profesional de salud.",
+      },
+      integrations: {
+        eyebrow: "Integraciones",
+        title: "El camino comienza en Android y se expande.",
+        body:
+          "Wear OS y Strava están en validación. iOS y Apple Watch siguen planificados para fases futuras.",
+      },
+      safety: {
+        eyebrow: "Privacidad y comunidad",
+        title: "La evolución del producto incluye control y seguridad.",
+        body:
+          "Se están completando las bases de privacidad, eliminación de cuenta, denuncias y bloqueos. Los documentos de esta fase son borradores técnicos, no políticas aprobadas.",
+      },
+      roadmap: {
+        eyebrow: "Android primero",
+        title: "Beta cerrada ahora. Más plataformas después.",
+        body:
+          "La versión Android todavía depende de configuración final, pruebas físicas y capacidad de invitación. Las compras con dinero real y los anuncios recompensados no estarán activos en esta fase.",
+      },
+      lore: {
+        eyebrow: "Crónicas de Elyndor",
+        title: "Aethron despertó cuando la Llama casi se apagó.",
+        body:
+          "Elyndor no cayó en una sola guerra. El propósito desapareció bajo la Niebla y cada regreso al camino comenzó a alimentar la resistencia.",
+      },
+      faq: {
+        eyebrow: "Antes de la beta",
+        title: "Respuestas directas sobre el estado actual.",
+        body:
+          "Disponibilidad, plataformas, datos, compras e integraciones, sin convertir la hoja de ruta en una promesa activa.",
+      },
+      waitlist: {
+        eyebrow: "Lista de la beta",
+        title: "Registra tu interés en probar MythStride.",
+        body:
+          "Unirse a la lista no garantiza acceso automático. Las invitaciones dependen de la capacidad de prueba y de la compatibilidad del dispositivo.",
+      },
+    },
+    waitlist: {
+      name: "Nombre (opcional)",
+      email: "Correo electrónico",
+      submit: "Unirme a la lista de la beta",
+      loading: "Enviando...",
+      disclosure:
+        "Usaremos tu correo, idioma e información técnica de prevención de abusos para administrar la lista.",
+      capacity:
+        "El registro expresa interés; no garantiza una invitación ni una fecha de acceso.",
+      privacyLink: "Leer el borrador de privacidad",
+      success:
+        "Interés registrado. Cualquier invitación dependerá de la capacidad de prueba y de la compatibilidad del dispositivo.",
+      duplicate: "Este correo ya está registrado en la lista.",
+      invalid: "Introduce una dirección de correo válida.",
+      failure:
+        "No se pudo acceder a la lista en este momento. Inténtalo de nuevo.",
+      honeypot: "No rellenes este campo",
+    },
+    footer: {
+      product: "Producto",
+      support: "Soporte",
+      legal: "Legal",
+      roadmap: "Hoja de ruta",
+      language: "Idioma",
+      social: "Canales sociales",
+      comingSoon: "Disponible más adelante",
+      rights: "Todos los derechos reservados.",
+      draftNote:
+        "Los documentos jurídicos marcados como borrador aún requieren decisiones finales y revisión.",
+    },
+  },
 };

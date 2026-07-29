@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { ArrowRightIcon } from "@/components/Icons";
 import { ScreenshotFrame } from "@/components/site/ScreenshotFrame";
 import type { ProductFeature } from "@/config/product-status";
-import type { PublicLocale } from "@/lib/locales";
+import { getLocalizedText, type PublicLocale } from "@/lib/locales";
 
 export type ScreenshotGalleryItem = {
   feature: ProductFeature;
@@ -23,7 +23,8 @@ export function ScreenshotGallery({
   items,
 }: ScreenshotGalleryProps) {
   const trackRef = useRef<HTMLDivElement>(null);
-  const isPt = locale === "pt-BR";
+  const text = (ptBR: string, en: string, es: string) =>
+    getLocalizedText(locale, { "pt-BR": ptBR, en, es });
 
   const move = (direction: -1 | 1) => {
     const track = trackRef.current;
@@ -41,20 +42,28 @@ export function ScreenshotGallery({
     <div
       className="screenshot-gallery"
       role="region"
-      aria-label={isPt ? "Capturas do produto" : "Product captures"}
+      aria-label={text("Capturas do produto", "Product captures", "Capturas del producto")}
     >
       <div className="screenshot-gallery__controls">
         <button
           type="button"
           onClick={() => move(-1)}
-          aria-label={isPt ? "Ver captura anterior" : "View previous capture"}
+          aria-label={text(
+            "Ver captura anterior",
+            "View previous capture",
+            "Ver captura anterior",
+          )}
         >
           <ArrowRightIcon />
         </button>
         <button
           type="button"
           onClick={() => move(1)}
-          aria-label={isPt ? "Ver próxima captura" : "View next capture"}
+          aria-label={text(
+            "Ver próxima captura",
+            "View next capture",
+            "Ver captura siguiente",
+          )}
         >
           <ArrowRightIcon />
         </button>
@@ -86,9 +95,11 @@ export function ScreenshotGallery({
         ))}
       </div>
       <p className="screenshot-gallery__hint">
-        {isPt
-          ? "Use as setas do teclado ou os controles para percorrer os espaços."
-          : "Use the arrow keys or controls to move through the slots."}
+        {text(
+          "Use as setas do teclado ou os controles para percorrer os espaços.",
+          "Use the arrow keys or controls to move through the slots.",
+          "Usa las flechas del teclado o los controles para recorrer los espacios.",
+        )}
       </p>
     </div>
   );

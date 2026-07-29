@@ -6,13 +6,16 @@ import path from "node:path";
 const root = process.cwd();
 const read = (relative) => readFile(path.join(root, relative), "utf8");
 
-test("locale routing is server-rendered for PT-BR and English", async () => {
+test("locale routing is server-rendered for PT-BR, English and Spanish", async () => {
   const locales = await read("src/lib/locales.ts");
   const layout = await read("src/app/[locale]/layout.tsx");
   const routes = await read("src/content/pages.ts");
+  const site = await read("src/content/site.ts");
 
-  assert.match(locales, /publicLocales = \["pt-BR", "en"\]/);
+  assert.match(locales, /publicLocales = \["pt-BR", "en", "es"\]/);
   assert.match(layout, /<html\s+lang=\{locale\}/);
+  assert.match(routes, /const es: Record<PageSlug, LocalizedPageContent>/);
+  assert.match(site, /\n  es: \{/);
   for (const slug of ["features", "aethron", "wear-os", "closed-beta"]) {
     assert.match(routes, new RegExp(`"${slug}"`));
   }
@@ -62,7 +65,8 @@ test("waitlist includes disclosure, limits, honeypot and localized API language"
   assert.match(form, /maxLength=\{320\}/);
   assert.match(form, /waitlist-form__honeypot/);
   assert.match(form, /copy\.disclosure/);
-  assert.match(form, /locale === "pt-BR" \? "pt" : "en"/);
+  assert.match(form, /waitlistLanguage\[locale\]/);
+  assert.match(form, /es: "es"/);
 });
 
 test("mobile navigation exposes state and keyboard close behavior", async () => {
@@ -74,6 +78,8 @@ test("mobile navigation exposes state and keyboard close behavior", async () => 
   assert.match(navigation, /event\.key === "Escape"/);
   assert.match(navigation, /triggerRef\.current\?\.focus\(\)/);
   assert.match(navigation, /\{isOpen \? \(/);
+  assert.match(navigation, /getOtherLocales\(locale\)/);
+  assert.match(navigation, /replacePathLocale\(pathname, candidate\)/);
 });
 
 test("source contains no exact placeholder links", async () => {

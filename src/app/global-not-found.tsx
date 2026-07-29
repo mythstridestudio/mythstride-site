@@ -13,15 +13,19 @@ export default function GlobalNotFound() {
             <p className="section-eyebrow">404 · Caminho perdido</p>
             <h1>A Névoa cobriu esta rota.</h1>
             <p>
-              Esta página não existe. This page does not exist. Escolha um
-              idioma para retornar ao caminho.
+              Esta página não existe.{" "}
+              <span lang="en">This page does not exist.</span>{" "}
+              <span lang="es">Esta página no existe.</span>
             </p>
             <div className="cta-row">
-              <Link className="button button--primary" href="/pt-BR/">
+              <Link className="button button--primary" href="/pt-BR/" lang="pt-BR">
                 Voltar em português
               </Link>
-              <Link className="button button--secondary" href="/en/">
+              <Link className="button button--secondary" href="/en/" lang="en">
                 Return in English
+              </Link>
+              <Link className="button button--secondary" href="/es/" lang="es">
+                Volver en español
               </Link>
             </div>
           </div>

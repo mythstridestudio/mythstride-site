@@ -1,8 +1,9 @@
 # Legal and operational decisions still required
 
-Runtime fallbacks display “Decisão do responsável pendente” or “Owner decision
-pending”. They never invent a value. Configure approved values through the
-server/build environment only after owner and legal review.
+Runtime fallbacks display “Decisão do responsável pendente”, “Owner decision
+pending” or “Decisión pendiente del responsable”. They never invent a value.
+Configure approved values through the server/build environment only after
+owner and legal review.
 
 | Configuration field | Required owner decision |
 | --- | --- |
@@ -33,7 +34,7 @@ server/build environment only after owner and legal review.
   protection.
 - Refund, chargeback, expiry and random-reward probability rules.
 - Support hours, ownership, escalation and response expectations.
-- Final translations and legal equivalence between PT-BR and English.
+- Final translations and legal equivalence across PT-BR, English and Spanish.
 
 Draft pages remain `noindex,nofollow` until these decisions, legal review and
 owner approval are complete.

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
-import type { PublicLocale } from "@/lib/locales";
-import { localePath } from "@/lib/locales";
+import {
+  getLocalizedText,
+  localePath,
+  publicLocales,
+  type PublicLocale,
+} from "@/lib/locales";
 
 export const siteUrl = "https://playmythstride.com";
 
@@ -20,7 +24,14 @@ export function createLocalizedMetadata({
   noIndex = false,
 }: MetadataInput): Metadata {
   const canonical = localePath(locale, path);
-  const alternatePath = localePath(locale === "pt-BR" ? "en" : "pt-BR", path);
+  const languages = Object.fromEntries(
+    publicLocales.map((candidate) => [candidate, localePath(candidate, path)]),
+  );
+  const openGraphLocales: Record<PublicLocale, string> = {
+    "pt-BR": "pt_BR",
+    en: "en_US",
+    es: "es_ES",
+  };
 
   return {
     metadataBase: new URL(siteUrl),
@@ -29,8 +40,7 @@ export function createLocalizedMetadata({
     alternates: {
       canonical,
       languages: {
-        "pt-BR": locale === "pt-BR" ? canonical : alternatePath,
-        en: locale === "en" ? canonical : alternatePath,
+        ...languages,
         "x-default": "/",
       },
     },
@@ -46,8 +56,10 @@ export function createLocalizedMetadata({
         },
     openGraph: {
       type: "website",
-      locale: locale === "pt-BR" ? "pt_BR" : "en_US",
-      alternateLocale: locale === "pt-BR" ? ["en_US"] : ["pt_BR"],
+      locale: openGraphLocales[locale],
+      alternateLocale: publicLocales
+        .filter((candidate) => candidate !== locale)
+        .map((candidate) => openGraphLocales[candidate]),
       url: canonical,
       siteName: "MythStride",
       title,
@@ -57,10 +69,11 @@ export function createLocalizedMetadata({
           url: "/images/social/mythstride-og.jpg",
           width: 1200,
           height: 630,
-          alt:
-            locale === "pt-BR"
-              ? "MythStride — corrida e progressão de RPG"
-              : "MythStride — running and RPG progression",
+          alt: getLocalizedText(locale, {
+            "pt-BR": "MythStride — corrida e progressão de RPG",
+            en: "MythStride — running and RPG progression",
+            es: "MythStride — carrera y progresión de RPG",
+          }),
         },
       ],
     },

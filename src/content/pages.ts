@@ -57,7 +57,16 @@ export function getPageContent(
   slug: PageSlug,
   locale: PublicLocale,
 ): LocalizedPageContent {
-  return locale === "pt-BR" ? ptBR[slug] : en[slug];
+  const contentByLocale: Record<
+    PublicLocale,
+    Record<PageSlug, LocalizedPageContent>
+  > = {
+    "pt-BR": ptBR,
+    en,
+    es,
+  };
+
+  return contentByLocale[locale][slug];
 }
 
 const ptBR: Record<PageSlug, LocalizedPageContent> = {
@@ -1468,6 +1477,714 @@ const en: Record<PageSlug, LocalizedPageContent> = {
         feature: "diamondPurchases",
         paragraphs: [
           "Billing or advertising services will only be described when there is real configuration and approved documentation. No purchases or advertising are active in this phase.",
+        ],
+      },
+    ],
+  },
+};
+
+const es: Record<PageSlug, LocalizedPageContent> = {
+  features: {
+    eyebrow: "El universo del producto",
+    title: "Carrera, progreso y fantasía en el mismo camino.",
+    summary:
+      "Conoce el ciclo completo de MythStride y el estado real de cada parte de la experiencia.",
+    sections: [
+      {
+        title: "Las carreras se convierten en progreso",
+        feature: "runTracking",
+        paragraphs: [
+          "MythStride está diseñado para registrar o recibir una actividad elegible, validar sus datos y convertir la distancia en progreso dentro de Elyndor.",
+          "Las reglas de integridad, sincronización y elegibilidad siguen en validación antes de la apertura de la beta.",
+        ],
+        bullets: [
+          "Registro de actividad en Android",
+          "Progreso basado en distancia elegible",
+          "Conciliación con integraciones compatibles",
+        ],
+      },
+      {
+        title: "Batallas e historias",
+        feature: "bossBattles",
+        paragraphs: [
+          "Los jefes ya forman parte de la experiencia beta. Cada encuentro convierte movimiento validado en contribución a la batalla.",
+          "Las raids y las sagas siguen visibles como partes del universo en desarrollo, sin presentarse como disponibles ahora.",
+        ],
+      },
+      {
+        title: "Inventario, loot y logros",
+        feature: "inventory",
+        paragraphs: [
+          "Objetos, equipo y recompensas registran el viaje. Los logros reconocen constancia y participación, mientras la Espada de Fundador sigue en validación.",
+          "Los diamantes son moneda virtual de MythStride y no tienen valor monetario real.",
+        ],
+      },
+      {
+        title: "Una identidad para compartir",
+        feature: "achievements",
+        paragraphs: [
+          "El perfil, los logros, las relaciones y la participación comunitaria forman una identidad de jugador. Los perfiles públicos no se generan por defecto en el sitio de marketing.",
+        ],
+      },
+    ],
+  },
+  "how-it-works": {
+    eyebrow: "De la calle a Elyndor",
+    title: "Un ciclo sencillo para una aventura profunda.",
+    summary:
+      "El movimiento comienza en el mundo real, pasa por validación y adquiere significado dentro del RPG.",
+    sections: [
+      {
+        title: "1. Registra una actividad",
+        feature: "runTracking",
+        paragraphs: [
+          "La primera fase prioriza Android. El registro y las integraciones deben producir una actividad elegible sin depender de métricas ficticias ni datos públicos de testers.",
+        ],
+      },
+      {
+        title: "2. Valida la distancia",
+        feature: "runTracking",
+        paragraphs: [
+          "El producto comprueba el contexto disponible para reducir abusos y decidir qué puede alimentar el progreso. Los criterios pueden cambiar durante la beta.",
+        ],
+      },
+      {
+        title: "3. Avanza misiones y jefes",
+        feature: "bossBattles",
+        paragraphs: [
+          "La distancia elegible se convierte en progreso del personaje y daño en los encuentros. El resultado es progreso de RPG, no una promesa de rendimiento físico.",
+        ],
+      },
+      {
+        title: "4. Colecciona y comparte",
+        feature: "achievements",
+        paragraphs: [
+          "Loot, inventario, logros, eventos, amistades y grupos registran la historia. El jugador controla dónde aparece su identidad a medida que se validan las funciones.",
+        ],
+      },
+    ],
+  },
+  aethron: {
+    eyebrow: "Guardián de la Llama",
+    title: "Aethron da voz al viaje, con límites claros.",
+    summary:
+      "Un compañero narrativo y motivacional en validación, inspirado por la disciplina del jugador y el mundo de Elyndor.",
+    sections: [
+      {
+        title: "El papel de Aethron",
+        feature: "aethron",
+        paragraphs: [
+          "Aethron usa contexto seleccionado del producto para generar mensajes narrativos y motivacionales. Puede reconocer momentos del viaje, proponer reflexión y conectar el progreso con el lore.",
+          "Una personalización más profunda sigue siendo una visión en validación y desarrollo.",
+        ],
+      },
+      {
+        title: "El contenido generado puede equivocarse",
+        feature: "aethron",
+        paragraphs: [
+          "Las respuestas pueden ser imprecisas, incompletas o inadecuadas para el contexto. El jugador debe evaluar el contenido y no tratar a Aethron como una fuente de hechos garantizados.",
+        ],
+      },
+      {
+        title: "No es asesoramiento médico",
+        feature: "aethron",
+        paragraphs: [
+          "Aethron no ofrece diagnóstico, tratamiento, asesoramiento profesional de salud ni un plan de entrenamiento. Los síntomas, el dolor, las lesiones o las dudas de salud requieren orientación de un profesional cualificado.",
+        ],
+      },
+      {
+        title: "Una presencia más sabia y cercana",
+        paragraphs: [
+          "La presentación pública reserva un espacio para arte futuro aprobado: sereno, protector y coherente con la fantasía oscura, sin convertir a Aethron en una amenaza.",
+        ],
+      },
+    ],
+  },
+  "wear-os": {
+    eyebrow: "Integraciones y plataformas",
+    title: "Wear OS acompaña el camino, todavía en validación.",
+    summary:
+      "La experiencia en el reloj comienza como extensión de Android y depende de pruebas físicas antes de la beta.",
+    sections: [
+      {
+        title: "Teléfono Android emparejado",
+        feature: "wearOs",
+        paragraphs: [
+          "La experiencia prevista para esta fase requiere un teléfono Android compatible y emparejado. El reloj no se presenta como una experiencia totalmente independiente.",
+        ],
+      },
+      {
+        title: "Validación en dispositivos físicos",
+        feature: "wearOs",
+        paragraphs: [
+          "La validación con Galaxy S23 y Galaxy Watch sigue pendiente. Sincronización, consumo de batería, permisos y continuidad de la actividad deben confirmarse fuera de emuladores.",
+        ],
+      },
+      {
+        title: "Strava",
+        feature: "strava",
+        paragraphs: [
+          "La integración con Strava también está en validación. Importación, duplicados, conciliación y tratamiento de errores deben funcionar de extremo a extremo.",
+        ],
+      },
+      {
+        title: "Plataformas futuras",
+        feature: "ios",
+        paragraphs: [
+          "iOS está planificado para una fase posterior. Apple Watch también permanece en la hoja de ruta y no es compatible en esta primera fase.",
+        ],
+      },
+    ],
+  },
+  events: {
+    eyebrow: "Ritmo compartido",
+    title: "Los eventos convierten semanas en capítulos.",
+    summary:
+      "Los desafíos de la beta conectan actividad, jefes, recompensas y participación comunitaria.",
+    sections: [
+      {
+        title: "Eventos de la beta",
+        feature: "events",
+        paragraphs: [
+          "Los eventos pueden definir periodos, objetivos y recompensas dentro de la experiencia de prueba. Las reglas y los resultados siguen sujetos a ajustes.",
+        ],
+      },
+      {
+        title: "Jefes",
+        feature: "bossBattles",
+        paragraphs: [
+          "Los encuentros con jefes forman parte de la beta y usan progreso elegible. Participar no garantiza recompensas fuera de las reglas mostradas en el producto.",
+        ],
+      },
+      {
+        title: "Raids cooperativas",
+        feature: "raids",
+        paragraphs: [
+          "Las raids amplían la visión hacia desafíos colectivos. Siguen en desarrollo y aún no tienen fecha pública.",
+        ],
+      },
+      {
+        title: "Sagas de Elyndor",
+        feature: "sagas",
+        paragraphs: [
+          "Las sagas conectarán eventos, lore y consecuencias a lo largo del tiempo. Es una promesa narrativa de producto en construcción, no una función activa.",
+        ],
+      },
+    ],
+  },
+  community: {
+    eyebrow: "Viaje colectivo",
+    title: "Amigos y grupos hacen que la constancia sea compartida.",
+    summary:
+      "Conexiones, gestión, eventos y clasificaciones forman parte de la beta; la seguridad y la moderación siguen evolucionando.",
+    sections: [
+      {
+        title: "Amigos e invitaciones",
+        feature: "friends",
+        paragraphs: [
+          "Las invitaciones permiten construir una red dentro del juego. Los datos sensibles de actividad no deben ser públicos por defecto.",
+        ],
+      },
+      {
+        title: "Grupos y gestión",
+        feature: "groups",
+        paragraphs: [
+          "Los grupos tienen roles y administración para organizar comunidades pequeñas. Los nombres y las imágenes deben respetar las directrices.",
+        ],
+      },
+      {
+        title: "Clasificación semanal",
+        feature: "weeklyRanking",
+        paragraphs: [
+          "La clasificación da un ritmo común a la semana y depende de actividades elegibles. Las trampas, el GPS falso y la explotación pueden causar restricciones.",
+        ],
+      },
+      {
+        title: "Denuncias, bloqueos y anti-cheat",
+        feature: "communitySafety",
+        paragraphs: [
+          "Las herramientas de denuncia, bloqueo, análisis de abusos y apelación siguen en desarrollo. Las directrices actuales son un borrador, no una política aprobada.",
+        ],
+      },
+    ],
+  },
+  "closed-beta": {
+    eyebrow: "Android primero",
+    title: "La beta cerrada será una etapa de aprendizaje.",
+    summary:
+      "Unirse a la lista registra interés; no garantiza invitación, fecha de acceso ni compatibilidad.",
+    sections: [
+      {
+        title: "Qué se está preparando",
+        feature: "runTracking",
+        paragraphs: [
+          "La versión Android depende de configuración final, integridad del registro, pruebas físicas y capacidad para acompañar a los participantes.",
+        ],
+        bullets: [
+          "Ciclo principal de carrera y progreso",
+          "Jefes, inventario, logros y eventos",
+          "Amigos, grupos y clasificación semanal",
+          "Aethron, Wear OS y Strava en validación",
+        ],
+      },
+      {
+        title: "Cómo funcionarán las invitaciones",
+        paragraphs: [
+          "Las invitaciones se enviarán en oleadas compatibles con la capacidad de prueba. Registrarse no crea una obligación de invitar ni reserva una fecha.",
+          "La compatibilidad del dispositivo, la región y las necesidades de cobertura pueden influir en la selección.",
+        ],
+      },
+      {
+        title: "Qué no estará activo",
+        feature: "diamondPurchases",
+        paragraphs: [
+          "Las compras con dinero real y los anuncios recompensados no estarán activos en esta fase. Aquí no se anuncia un botón público de descarga ni una tienda oficial.",
+        ],
+      },
+      {
+        title: "Después de Android",
+        feature: "ios",
+        paragraphs: [
+          "iOS y Apple Watch siguen planificados. La hoja de ruta puede cambiar con lo aprendido durante la beta.",
+        ],
+      },
+    ],
+  },
+  faq: {
+    eyebrow: "Respuestas directas",
+    title: "Qué saber antes de unirse a la lista.",
+    summary:
+      "Disponibilidad, datos, Aethron, integraciones y hoja de ruta sin convertir planes en promesas activas.",
+    sections: [
+      {
+        title: "Disponibilidad",
+        paragraphs: [
+          "MythStride todavía no tiene descarga pública. La primera etapa es una beta cerrada para Android, sin una fecha pública prometida.",
+          "Unirse a la lista registra interés y no garantiza acceso.",
+        ],
+      },
+      {
+        title: "Carreras e integridad",
+        feature: "runTracking",
+        paragraphs: [
+          "Las actividades elegibles alimentan el progreso. Las reglas de validación y anti-cheat pueden cambiar durante la beta.",
+        ],
+      },
+      {
+        title: "Datos y privacidad",
+        paragraphs: [
+          "Las páginas de privacidad y términos son borradores técnicos. La entidad responsable, los contactos, la retención y la edad mínima aún requieren decisiones formales.",
+        ],
+      },
+      {
+        title: "Compras y anuncios",
+        feature: "rewardedAds",
+        paragraphs: [
+          "Las compras con dinero real y los anuncios recompensados solo se considerarán en fases posteriores y no estarán activos en la beta inicial.",
+        ],
+      },
+      {
+        title: "Aethron y salud",
+        feature: "aethron",
+        paragraphs: [
+          "Aethron genera contexto narrativo y motivacional, puede equivocarse y no ofrece diagnóstico, tratamiento ni asesoramiento profesional de salud.",
+        ],
+      },
+    ],
+  },
+  support: {
+    eyebrow: "Estructura de soporte",
+    title: "La ayuda se está preparando para la beta.",
+    summary:
+      "Esta página registra los canales y procesos necesarios antes del soporte público. No se ha inventado ninguna dirección de contacto.",
+    sections: [
+      {
+        title: "Canal de soporte",
+        paragraphs: [
+          "El canal oficial todavía debe ser configurado y publicado por el responsable. Hasta entonces, el sitio no recoge solicitudes ni dirige a un correo sin confirmar.",
+        ],
+        pendingFields: ["supportEmail", "legalEntityName"],
+      },
+      {
+        title: "Alcance previsto",
+        paragraphs: [
+          "El soporte futuro deberá cubrir acceso a la beta, compatibilidad, cuenta, privacidad, actividad, integraciones, seguridad comunitaria y compras si llegan a existir.",
+        ],
+      },
+      {
+        title: "Emergencias y salud",
+        paragraphs: [
+          "MythStride no es un servicio de emergencia ni de salud. Aethron no sustituye a profesionales. Las situaciones urgentes deben usar los servicios adecuados de la región del usuario.",
+        ],
+      },
+      {
+        title: "Plazos de respuesta",
+        paragraphs: [
+          "No se promete ningún plazo en esta fase. Los niveles de servicio, responsables y horarios dependen de decisiones y capacidad operativa.",
+        ],
+      },
+    ],
+  },
+  privacy: {
+    eyebrow: "Privacidad — borrador",
+    title: "Estructura de tratamiento de datos en preparación.",
+    summary:
+      "Este documento técnico organiza categorías, finalidades, derechos y decisiones pendientes. No es una política aprobada ni vigente.",
+    sections: [
+      {
+        title: "Responsable y contacto",
+        paragraphs: [
+          "La entidad responsable, la dirección y el canal de privacidad deben confirmarse antes de la publicación oficial.",
+        ],
+        pendingFields: [
+          "legalEntityName",
+          "cnpj",
+          "businessAddress",
+          "privacyEmail",
+          "privacyContact",
+          "effectiveDate",
+        ],
+      },
+      {
+        title: "Categorías previstas",
+        paragraphs: [
+          "La arquitectura prevé datos de cuenta y autenticación, perfil, actividad y ubicación necesaria para el registro, dispositivo, integraciones, comunidad, soporte, seguridad, preferencias y lista de la beta.",
+          "El contexto sensible relacionado con salud exige cuidados adicionales y no debe usarse para diagnóstico.",
+        ],
+      },
+      {
+        title: "Finalidades previstas",
+        bullets: [
+          "Operar cuenta, carrera y progreso",
+          "Sincronizar integraciones autorizadas",
+          "Prevenir fraude, abuso y GPS falso",
+          "Administrar comunidad, eventos y soporte",
+          "Generar contexto narrativo mediante Aethron",
+          "Administrar la lista de la beta",
+        ],
+        paragraphs: [
+          "Las bases jurídicas y los detalles por finalidad todavía requieren revisión legal.",
+        ],
+      },
+      {
+        title: "Retención y eliminación",
+        feature: "accountDeletion",
+        paragraphs: [
+          "No se han definido periodos exactos. Algunos registros pueden necesitar conservación por seguridad, fraude, compras u obligaciones legales.",
+        ],
+        pendingFields: [
+          "accountDeletionPeriod",
+          "dataRetentionSchedule",
+          "purchaseRetentionPolicy",
+        ],
+      },
+      {
+        title: "Aethron e IA",
+        feature: "aethron",
+        paragraphs: [
+          "El proveedor, la retención del contexto y cualquier uso de datos para entrenamiento aún no han sido divulgados formalmente.",
+        ],
+        pendingFields: [
+          "aiProviderStatement",
+          "aiDataTrainingStatement",
+        ],
+      },
+      {
+        title: "Derechos y edad",
+        paragraphs: [
+          "El proceso de acceso, corrección, oposición, portabilidad y eliminación todavía debe hacerse operativo. La edad mínima también depende de decisión y revisión.",
+        ],
+        pendingFields: ["minimumAge", "privacyEmail"],
+      },
+    ],
+  },
+  terms: {
+    eyebrow: "Términos — borrador",
+    title: "Reglas de uso todavía pendientes de aprobación.",
+    summary:
+      "Esta estructura describe el acuerdo previsto sin afirmar que los términos ya están vigentes.",
+    sections: [
+      {
+        title: "Partes y vigencia",
+        paragraphs: [
+          "La entidad contratante, el registro, la dirección y la fecha de vigencia todavía deben confirmarse.",
+        ],
+        pendingFields: [
+          "legalEntityName",
+          "cnpj",
+          "businessAddress",
+          "effectiveDate",
+          "minimumAge",
+        ],
+      },
+      {
+        title: "Cuentas y beta",
+        paragraphs: [
+          "El acceso a la beta será limitado, revocable y sujeto a la capacidad de prueba. Los usuarios deberán proteger sus credenciales y aportar información adecuada.",
+        ],
+      },
+      {
+        title: "Actividad y seguridad",
+        paragraphs: [
+          "El usuario sigue siendo responsable de evaluar su condición, entorno, equipo y seguridad. El producto no garantiza rendimiento, salud ni ausencia de riesgos.",
+        ],
+      },
+      {
+        title: "Conducta e integridad",
+        paragraphs: [
+          "El acoso, odio, suplantación, fraude, GPS falso, explotación e interferencia podrán causar restricciones conforme a una política aprobada.",
+        ],
+      },
+      {
+        title: "Contenido, Aethron y disponibilidad",
+        paragraphs: [
+          "El contenido generado puede equivocarse. Las funciones pueden cambiar, quedar indisponibles o eliminarse durante la beta sin convertir la hoja de ruta en garantía.",
+        ],
+      },
+      {
+        title: "Compras futuras",
+        feature: "diamondPurchases",
+        paragraphs: [
+          "Las compras con dinero real no estarán activas en esta fase. Cobros, reembolsos, saldo y eliminación requieren aprobación antes de cualquier activación.",
+        ],
+      },
+    ],
+  },
+  "delete-account": {
+    eyebrow: "Control de cuenta — borrador",
+    title:
+      "La eliminación estará disponible en la aplicación; el flujo aún se está completando.",
+    summary:
+      "Esta página es informativa. No contiene un formulario activo, no recibe solicitudes y no llama a endpoints incompletos.",
+    sections: [
+      {
+        title: "En implementación",
+        feature: "accountDeletion",
+        paragraphs: [
+          "La ejecución final en el backend y la experiencia dentro de la aplicación todavía se están completando. No se puede solicitar una eliminación desde esta página.",
+        ],
+      },
+      {
+        title: "Flujo previsto en la aplicación",
+        paragraphs: [
+          "La experiencia prevista permitirá iniciar la eliminación desde los ajustes de la cuenta, confirmar la intención y seguir el resultado cuando la implementación esté lista.",
+        ],
+      },
+      {
+        title: "Soporte futuro",
+        paragraphs: [
+          "Los usuarios podrán contactar con soporte cuando exista un canal real configurado. El sitio no muestra correos ficticios.",
+        ],
+        pendingFields: ["supportEmail", "privacyEmail"],
+      },
+      {
+        title: "Datos que pueden requerir retención",
+        paragraphs: [
+          "Alguna información puede necesitar conservación por seguridad, prevención del fraude, historial de compras u obligaciones legales. Los periodos exactos no están aprobados.",
+        ],
+        pendingFields: [
+          "accountDeletionPeriod",
+          "dataRetentionSchedule",
+          "purchaseRetentionPolicy",
+          "diamondDeletionPolicy",
+        ],
+      },
+    ],
+  },
+  "community-guidelines": {
+    eyebrow: "Directrices — borrador",
+    title: "Una comunidad de fantasía también necesita reglas reales.",
+    summary:
+      "Esta estructura registra la conducta esperada, herramientas futuras y decisiones de moderación todavía no aprobadas.",
+    sections: [
+      {
+        title: "Nombres, imágenes y suplantación",
+        paragraphs: [
+          "Los nombres, avatares y grupos deberán ser respetuosos, no engañosos y no suplantar a personas, equipos u organizaciones.",
+        ],
+      },
+      {
+        title: "Acoso, odio y abuso",
+        paragraphs: [
+          "El acoso, las amenazas, el discurso de odio, el abuso dirigido y los grupos ofensivos no se aceptarán en la política final.",
+        ],
+      },
+      {
+        title: "Trampas y GPS falso",
+        paragraphs: [
+          "Manipular la ubicación, explotar fallos, automatizar actividad o interferir en clasificaciones perjudica a la comunidad y puede causar restricciones.",
+        ],
+      },
+      {
+        title: "Denuncias y bloqueos",
+        feature: "communitySafety",
+        paragraphs: [
+          "Las herramientas de denuncia y bloqueo siguen en desarrollo. No deben describirse como plenamente operativas.",
+        ],
+      },
+      {
+        title: "Restricciones, revisión y apelaciones",
+        paragraphs: [
+          "Los criterios, niveles de sanción, plazos, pruebas, apelaciones y soporte requieren aprobación y capacidad operativa.",
+        ],
+        pendingFields: ["supportEmail"],
+      },
+    ],
+  },
+  purchases: {
+    eyebrow: "Monetización futura — borrador",
+    title: "Los diamantes siguen en el universo, sin compras reales en la beta.",
+    summary:
+      "Los diamantes son la moneda virtual de MythStride. Las compras con dinero real no estarán activas durante esta fase de la beta.",
+    sections: [
+      {
+        title: "Moneda virtual sin valor en efectivo",
+        feature: "diamondPurchases",
+        paragraphs: [
+          "Los diamantes no tienen valor monetario real, no representan un saldo bancario, no pueden retirarse y no deben negociarse fuera del producto.",
+        ],
+      },
+      {
+        title: "Facturación de la plataforma",
+        paragraphs: [
+          "Si las compras se activan en el futuro, la estructura deberá explicar la facturación de la plataforma, transacciones pendientes y protección contra entregas duplicadas. Ahora no hay ninguna tienda activa.",
+        ],
+      },
+      {
+        title: "Reembolsos y contracargos",
+        paragraphs: [
+          "Las reglas de reembolso, disputa y efecto sobre objetos o saldo dependen de la plataforma, la ley aplicable y decisiones formales. No hay una promesa publicada en esta fase.",
+        ],
+        pendingFields: ["purchaseRetentionPolicy"],
+      },
+      {
+        title: "Eliminación, saldo y caducidad",
+        paragraphs: [
+          "El efecto de eliminar la cuenta sobre diamantes, objetos e historial, así como cualquier caducidad, todavía debe definirse.",
+        ],
+        pendingFields: ["diamondDeletionPolicy", "purchaseRetentionPolicy"],
+      },
+      {
+        title: "Recompensas aleatorias",
+        paragraphs: [
+          "Si se adoptan recompensas aleatorias comercializadas, las probabilidades y reglas deberán divulgarse antes de su activación. Esta mecánica no se presenta como activa.",
+        ],
+      },
+      {
+        title: "Anuncios recompensados",
+        feature: "rewardedAds",
+        paragraphs: [
+          "Los anuncios recompensados son una posibilidad futura. No existe una integración activa ni una afirmación de uso de AdMob en esta fase.",
+        ],
+      },
+    ],
+  },
+  "ai-transparency": {
+    eyebrow: "Aethron — borrador de transparencia",
+    title: "Contenido generado con propósito narrativo y límites explícitos.",
+    summary:
+      "Esta página organiza las divulgaciones necesarias antes de la validación pública de Aethron.",
+    sections: [
+      {
+        title: "Qué hace Aethron",
+        feature: "aethron",
+        paragraphs: [
+          "Aethron genera mensajes narrativos y motivacionales a partir de categorías seleccionadas de contexto del producto. Conecta el viaje del jugador con el mundo de Elyndor.",
+        ],
+      },
+      {
+        title: "Qué no hace Aethron",
+        paragraphs: [
+          "Aethron no ofrece diagnóstico, tratamiento, asesoramiento profesional de salud, garantías de rendimiento, decisiones automatizadas con efecto legal ni atención de emergencia.",
+        ],
+      },
+      {
+        title: "Categorías de contexto",
+        bullets: [
+          "Estado de progreso y logros",
+          "Actividad y eventos seleccionados",
+          "Preferencias de idioma y tono",
+          "Contexto de producto estrictamente necesario",
+        ],
+        paragraphs: [
+          "La lista final, los controles y el consentimiento todavía requieren validación técnica y jurídica.",
+        ],
+      },
+      {
+        title: "Limitaciones del contenido generado",
+        paragraphs: [
+          "Los mensajes pueden ser incorrectos, incompletos, repetitivos o inadecuados. El producto deberá ofrecer contexto y medios de feedback sin afirmar infalibilidad.",
+        ],
+      },
+      {
+        title: "Aviso sobre contexto sensible de salud",
+        paragraphs: [
+          "La información sobre dolor, lesiones, condiciones clínicas o salud exige cuidado especial. Aethron no debe interpretarla como diagnóstico ni prescribir una conducta.",
+        ],
+      },
+      {
+        title: "Proveedor, retención y entrenamiento",
+        paragraphs: [
+          "El proveedor, la ubicación relevante, el periodo de retención y el uso o no de datos para entrenamiento todavía requieren divulgación final.",
+        ],
+        pendingFields: [
+          "aiProviderStatement",
+          "aiDataTrainingStatement",
+          "dataRetentionSchedule",
+        ],
+      },
+      {
+        title: "Mecanismo futuro de denuncia",
+        feature: "communitySafety",
+        paragraphs: [
+          "Está previsto un mecanismo para señalar contenido inadecuado, pero todavía no debe tratarse como operativo.",
+        ],
+      },
+    ],
+  },
+  "third-party-services": {
+    eyebrow: "Terceros — borrador",
+    title: "Las integraciones exigen transparencia antes de una activación amplia.",
+    summary:
+      "Esta estructura identifica categorías de terceros sin inventar proveedores, alojamiento ni términos aún no aprobados.",
+    sections: [
+      {
+        title: "Servicios de infraestructura",
+        paragraphs: [
+          "El alojamiento, la base de datos, la autenticación, la monitorización y la entrega pueden involucrar proveedores. La lista oficial, finalidades y regiones deben confirmarse.",
+        ],
+      },
+      {
+        title: "Strava",
+        feature: "strava",
+        paragraphs: [
+          "La integración está en validación y dependerá de la autorización del usuario y de las reglas aplicables del servicio. Alcance, sincronización y desconexión deben documentarse.",
+        ],
+      },
+      {
+        title: "Wear OS y plataformas",
+        feature: "wearOs",
+        paragraphs: [
+          "Android y Wear OS dependen de servicios de plataforma. iOS y Apple Watch siguen planificados, sin soporte activo anunciado.",
+        ],
+      },
+      {
+        title: "IA",
+        feature: "aethron",
+        paragraphs: [
+          "El proveedor de IA y las condiciones de tratamiento no se publican porque todavía dependen de decisiones y revisión.",
+        ],
+        pendingFields: [
+          "aiProviderStatement",
+          "aiDataTrainingStatement",
+          "dataRetentionSchedule",
+        ],
+      },
+      {
+        title: "Facturación y publicidad futuras",
+        feature: "diamondPurchases",
+        paragraphs: [
+          "Los servicios de facturación o publicidad solo se describirán cuando exista una configuración real y documentación aprobada. No hay compras ni publicidad activas en esta fase.",
         ],
       },
     ],

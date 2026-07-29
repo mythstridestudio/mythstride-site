@@ -18,7 +18,7 @@ to mobile/backend/Wear OS/evidence repositories was performed.
 
 - Safe Next.js/React patch updates with production audit overrides for nested
   PostCSS and Sharp.
-- Stable PT-BR and English server-rendered route architecture.
+- Stable PT-BR, English and Spanish server-rendered route architecture.
 - Accessible x-default language chooser.
 - Central localized feature-status registry and detailed/compact badge.
 - Rebuilt dark-fantasy homepage with truthful beta and roadmap positioning.
@@ -78,8 +78,9 @@ The repository includes repeatable commands for:
 - internal-link and anchor validation;
 - local static preview.
 
-Visual smoke checks cover a 1440-pixel desktop homepage and 500-pixel mobile
-home/legal layouts. Final release should add real-device and 200% zoom testing.
+Visual smoke checks cover a 1440-pixel desktop homepage, a device-emulated
+390-pixel Spanish homepage and 500-pixel mobile home/legal layouts. Final
+release should add real-device and 200% zoom testing.
 
 ## Dependency advisory
 

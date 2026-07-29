@@ -94,6 +94,23 @@ for (const expected of requiredStatusEntries) {
   }
 }
 
+const localizationChecks = [
+  ["src/lib/locales.ts", 'publicLocales = ["pt-BR", "en", "es"]'],
+  ["src/config/product-status.ts", 'label: "Disponible en la beta"'],
+  ["src/content/site.ts", 'language: "Idioma"'],
+  [
+    "src/content/pages.ts",
+    "const es: Record<PageSlug, LocalizedPageContent>",
+  ],
+];
+
+for (const [relative, expected] of localizationChecks) {
+  const content = await readFile(path.join(root, relative), "utf8");
+  if (!content.includes(expected)) {
+    failures.push(`${relative}: missing Spanish localization marker: ${expected}`);
+  }
+}
+
 if (failures.length) {
   console.error("Content validation failed:\n" + failures.join("\n"));
   process.exit(1);

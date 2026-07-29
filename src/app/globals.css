@@ -1344,7 +1344,11 @@ summary:focus-visible {
   color: var(--color-gold-bright);
 }
 
-.locale-switch {
+.locale-switcher {
+  position: relative;
+}
+
+.locale-switcher summary {
   display: inline-flex;
   width: 2.65rem;
   min-height: 2.65rem;
@@ -1352,8 +1356,47 @@ summary:focus-visible {
   justify-content: center;
   border: 1px solid var(--site-border);
   color: var(--color-text-secondary);
+  cursor: pointer;
   font-size: 0.72rem;
   font-weight: 800;
+  list-style: none;
+}
+
+.locale-switcher summary::-webkit-details-marker {
+  display: none;
+}
+
+.locale-switcher[open] summary,
+.locale-switcher summary:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold-bright);
+}
+
+.locale-switcher__panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  display: grid;
+  min-width: 12rem;
+  padding: 0.4rem;
+  border: 1px solid var(--site-border);
+  background: #100d0a;
+  box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.45);
+}
+
+.locale-switcher__panel a {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.5rem;
+  padding: 0.7rem;
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.locale-switcher__panel a:hover {
+  color: var(--color-gold-bright);
+  background: rgba(227, 186, 115, 0.08);
 }
 
 .site-nav__menu-button {

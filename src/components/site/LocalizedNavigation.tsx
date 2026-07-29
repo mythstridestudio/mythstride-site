@@ -7,7 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import { CloseIcon, MenuIcon } from "@/components/Icons";
 import { siteCopy } from "@/content/site";
 import {
-  localeLabels,
+  getLocaleLabel,
+  getOtherLocales,
   localePath,
   replacePathLocale,
   type PublicLocale,
@@ -52,8 +53,12 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
   }, [isOpen]);
 
   const closeMenu = () => setIsOpen(false);
-  const alternateLocale: PublicLocale = locale === "pt-BR" ? "en" : "pt-BR";
-  const alternatePath = replacePathLocale(pathname, alternateLocale);
+  const otherLocales = getOtherLocales(locale);
+  const localeCode: Record<PublicLocale, string> = {
+    "pt-BR": "PT",
+    en: "EN",
+    es: "ES",
+  };
 
   return (
     <nav className="site-nav" aria-label={copy.product}>
@@ -84,15 +89,24 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
               </Link>
             ))}
           </div>
-          <Link
-            className="locale-switch"
-            href={alternatePath}
-            hrefLang={alternateLocale}
-            lang={alternateLocale}
-            aria-label={`${copy.language}: ${localeLabels[alternateLocale]}`}
-          >
-            {alternateLocale === "pt-BR" ? "PT" : "EN"}
-          </Link>
+          <details className="locale-switcher">
+            <summary aria-label={`${copy.language}: ${getLocaleLabel(locale, locale)}`}>
+              {localeCode[locale]}
+            </summary>
+            <div className="locale-switcher__panel">
+              {otherLocales.map((candidate) => (
+                <Link
+                  href={replacePathLocale(pathname, candidate)}
+                  hrefLang={candidate}
+                  lang={candidate}
+                  key={candidate}
+                >
+                  <span>{localeCode[candidate]}</span>
+                  {getLocaleLabel(candidate, locale)}
+                </Link>
+              ))}
+            </div>
+          </details>
           <Link className="tester-link" href="/login/">
             {copy.tester}
           </Link>
@@ -149,9 +163,17 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
           >
             {copy.join}
           </Link>
-          <Link href={alternatePath} hrefLang={alternateLocale} onClick={closeMenu}>
-            {copy.language}: {localeLabels[alternateLocale]}
-          </Link>
+          {otherLocales.map((candidate) => (
+            <Link
+              href={replacePathLocale(pathname, candidate)}
+              hrefLang={candidate}
+              lang={candidate}
+              key={candidate}
+              onClick={closeMenu}
+            >
+              {copy.language}: {getLocaleLabel(candidate, locale)}
+            </Link>
+          ))}
           <Link href="/login/" onClick={closeMenu}>
             {copy.tester}
           </Link>

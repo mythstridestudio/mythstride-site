@@ -14,10 +14,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: path === "/" ? "weekly" : "monthly",
       priority: path === "/" ? 1 : 0.7,
       alternates: {
-        languages: {
-          "pt-BR": new URL(localePath("pt-BR", path), siteUrl).toString(),
-          en: new URL(localePath("en", path), siteUrl).toString(),
-        },
+        languages: Object.fromEntries(
+          publicLocales.map((candidate) => [
+            candidate,
+            new URL(localePath(candidate, path), siteUrl).toString(),
+          ]),
+        ),
       },
     }));
   });

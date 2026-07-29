@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { siteCopy } from "@/content/site";
-import { localeLabels, localePath, type PublicLocale } from "@/lib/locales";
+import {
+  getLocalizedText,
+  localeLabels,
+  localePath,
+  type PublicLocale,
+} from "@/lib/locales";
 
 type LocalizedFooterProps = {
   locale: PublicLocale;
@@ -9,33 +14,44 @@ type LocalizedFooterProps = {
 
 export function LocalizedFooter({ locale }: LocalizedFooterProps) {
   const copy = siteCopy[locale].footer;
-  const isPt = locale === "pt-BR";
+  const text = (ptBR: string, en: string, es: string) =>
+    getLocalizedText(locale, { "pt-BR": ptBR, en, es });
   const productLinks = [
-    ["/features", isPt ? "Recursos" : "Features"],
-    ["/how-it-works", isPt ? "Como funciona" : "How it works"],
-    ["/events", isPt ? "Eventos" : "Events"],
-    ["/community", isPt ? "Comunidade" : "Community"],
+    ["/features", text("Recursos", "Features", "Funciones")],
+    ["/how-it-works", text("Como funciona", "How it works", "Cómo funciona")],
+    ["/events", text("Eventos", "Events", "Eventos")],
+    ["/community", text("Comunidade", "Community", "Comunidad")],
     ["/aethron", "Aethron"],
     ["/wear-os", "Wear OS"],
   ];
   const helpLinks = [
-    ["/closed-beta", isPt ? "Beta fechado" : "Closed beta"],
-    ["/faq", isPt ? "Dúvidas frequentes" : "FAQ"],
-    ["/support", isPt ? "Suporte" : "Support"],
-    ["/delete-account", isPt ? "Excluir conta" : "Delete account"],
+    ["/closed-beta", text("Beta fechado", "Closed beta", "Beta cerrada")],
+    ["/faq", text("Dúvidas frequentes", "FAQ", "Preguntas frecuentes")],
+    ["/support", text("Suporte", "Support", "Soporte")],
+    ["/delete-account", text("Excluir conta", "Delete account", "Eliminar cuenta")],
   ];
   const legalLinks = [
-    ["/privacy", isPt ? "Privacidade — rascunho" : "Privacy — draft"],
-    ["/terms", isPt ? "Termos — rascunho" : "Terms — draft"],
+    [
+      "/privacy",
+      text("Privacidade — rascunho", "Privacy — draft", "Privacidad — borrador"),
+    ],
+    ["/terms", text("Termos — rascunho", "Terms — draft", "Términos — borrador")],
     [
       "/community-guidelines",
-      isPt ? "Diretrizes — rascunho" : "Guidelines — draft",
+      text(
+        "Diretrizes — rascunho",
+        "Guidelines — draft",
+        "Directrices — borrador",
+      ),
     ],
-    ["/purchases", isPt ? "Compras futuras" : "Future purchases"],
-    ["/ai-transparency", isPt ? "Transparência de IA" : "AI transparency"],
+    ["/purchases", text("Compras futuras", "Future purchases", "Compras futuras")],
+    [
+      "/ai-transparency",
+      text("Transparência de IA", "AI transparency", "Transparencia de IA"),
+    ],
     [
       "/third-party-services",
-      isPt ? "Serviços de terceiros" : "Third-party services",
+      text("Serviços de terceiros", "Third-party services", "Servicios de terceros"),
     ],
   ];
 

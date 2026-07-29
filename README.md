@@ -3,14 +3,14 @@
 Official static website for MythStride: a dark-fantasy running RPG preparing
 for an Android closed beta.
 
-The launch site supports Brazilian Portuguese and English at stable,
+The launch site supports Brazilian Portuguese, English and Spanish at stable,
 server-rendered routes:
 
 - `/pt-BR/`
 - `/en/`
+- `/es/`
 
-The root route is an accessible language chooser. Spanish translation assets
-remain in the repository but are not promoted as a supported public locale.
+The root route is an accessible language chooser for all three public locales.
 
 ## Stack
 

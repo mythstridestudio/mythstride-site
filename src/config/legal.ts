@@ -53,43 +53,72 @@ export const legalFieldLabels: Record<
   legalEntityName: {
     "pt-BR": "Entidade responsável",
     en: "Responsible entity",
+    es: "Entidad responsable",
   },
-  cnpj: { "pt-BR": "CNPJ ou registro", en: "Company registration" },
-  businessAddress: { "pt-BR": "Endereço comercial", en: "Business address" },
-  supportEmail: { "pt-BR": "Contato de suporte", en: "Support contact" },
+  cnpj: {
+    "pt-BR": "CNPJ ou registro",
+    en: "Company registration",
+    es: "Registro de la empresa",
+  },
+  businessAddress: {
+    "pt-BR": "Endereço comercial",
+    en: "Business address",
+    es: "Dirección comercial",
+  },
+  supportEmail: {
+    "pt-BR": "Contato de suporte",
+    en: "Support contact",
+    es: "Contacto de soporte",
+  },
   privacyEmail: {
     "pt-BR": "Contato de privacidade",
     en: "Privacy contact",
+    es: "Contacto de privacidad",
   },
   privacyContact: {
     "pt-BR": "Responsável por privacidade",
     en: "Privacy lead",
+    es: "Responsable de privacidad",
   },
-  effectiveDate: { "pt-BR": "Data de vigência", en: "Effective date" },
+  effectiveDate: {
+    "pt-BR": "Data de vigência",
+    en: "Effective date",
+    es: "Fecha de entrada en vigor",
+  },
   accountDeletionPeriod: {
     "pt-BR": "Prazo de exclusão",
     en: "Account deletion period",
+    es: "Plazo de eliminación de la cuenta",
   },
   dataRetentionSchedule: {
     "pt-BR": "Tabela de retenção",
     en: "Data retention schedule",
+    es: "Calendario de retención de datos",
   },
-  minimumAge: { "pt-BR": "Idade mínima", en: "Minimum age" },
+  minimumAge: {
+    "pt-BR": "Idade mínima",
+    en: "Minimum age",
+    es: "Edad mínima",
+  },
   aiProviderStatement: {
     "pt-BR": "Declaração do provedor de IA",
     en: "AI provider statement",
+    es: "Declaración del proveedor de IA",
   },
   aiDataTrainingStatement: {
     "pt-BR": "Uso de dados para treinamento",
     en: "Data use for model training",
+    es: "Uso de datos para entrenar modelos",
   },
   purchaseRetentionPolicy: {
     "pt-BR": "Retenção de compras",
     en: "Purchase retention",
+    es: "Retención de compras",
   },
   diamondDeletionPolicy: {
     "pt-BR": "Diamantes após exclusão",
     en: "Diamonds after deletion",
+    es: "Diamantes después de la eliminación",
   },
 };
 
@@ -99,7 +128,11 @@ export function getLegalDisplayValue(
 ): string {
   return (
     legalConfig[field] ??
-    (locale === "pt-BR" ? "Decisão do responsável pendente" : "Owner decision pending")
+    (locale === "pt-BR"
+      ? "Decisão do responsável pendente"
+      : locale === "es"
+        ? "Decisión pendiente del responsable"
+        : "Owner decision pending")
   );
 }
 

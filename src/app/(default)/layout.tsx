@@ -7,12 +7,13 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "MythStride | Choose your language",
   description:
-    "Choose Portuguese or English to explore MythStride, the running RPG.",
+    "Choose Portuguese, English, or Spanish to explore MythStride, the running RPG.",
   alternates: {
     canonical: "/",
     languages: {
       "pt-BR": "/pt-BR/",
       en: "/en/",
+      es: "/es/",
       "x-default": "/",
     },
   },

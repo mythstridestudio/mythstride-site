@@ -22,6 +22,11 @@ type WaitlistFormProps = {
 };
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const waitlistLanguage: Record<PublicLocale, "pt" | "en" | "es"> = {
+  "pt-BR": "pt",
+  en: "en",
+  es: "es",
+};
 
 export default function WaitlistForm({
   locale = "en",
@@ -72,7 +77,7 @@ export default function WaitlistForm({
       const result = await joinWaitlist({
         email: normalizedEmail,
         ...(trimmedName ? { name: trimmedName } : {}),
-        language: locale === "pt-BR" ? "pt" : "en",
+        language: waitlistLanguage[locale],
         source: "website",
       });
 

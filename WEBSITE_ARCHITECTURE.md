@@ -9,13 +9,13 @@ functions in this repository.
 The route tree uses multiple root layouts:
 
 - `(default)` renders the x-default language chooser with `lang="pt-BR"`;
-- `[locale]` renders public PT-BR and English pages with a server-stable
+- `[locale]` renders public PT-BR, English and Spanish pages with a server-stable
   `html lang`;
 - `(internal)` preserves login, dashboard, admin and player routes while
   isolating authenticated providers from the marketing bundle.
 
 `[locale]/[page]` statically generates the shared public and draft page shells
-from `src/content/pages.ts`. Only the enumerated slugs and the two supported
+from `src/content/pages.ts`. Only the enumerated slugs and the three supported
 locales are emitted.
 
 ## Sources of truth
@@ -99,7 +99,7 @@ states.
 ## External integration
 
 The existing waitlist client remains the only public write integration. It
-sends email, optional name, website source and a safe PT/EN language code to
+sends email, optional name, website source and a safe PT/EN/ES language code to
 the existing API. The form does not promise access.
 
 No account deletion, purchase, moderation, Aethron-provider or store endpoint

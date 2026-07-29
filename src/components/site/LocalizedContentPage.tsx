@@ -8,7 +8,7 @@ import {
   type PageSlug,
 } from "@/content/pages";
 import { siteCopy } from "@/content/site";
-import { localePath, type PublicLocale } from "@/lib/locales";
+import { getLocalizedText, localePath, type PublicLocale } from "@/lib/locales";
 
 type LocalizedContentPageProps = {
   locale: PublicLocale;
@@ -22,7 +22,6 @@ export function LocalizedContentPage({
   const content = getPageContent(slug, locale);
   const copy = siteCopy[locale];
   const isDraft = isDraftPageSlug(slug);
-  const isPt = locale === "pt-BR";
 
   return (
     <>
@@ -46,7 +45,11 @@ export function LocalizedContentPage({
           }
           secondary={{
             href: localePath(locale),
-            label: isPt ? "Voltar ao início" : "Back to home",
+            label: getLocalizedText(locale, {
+              "pt-BR": "Voltar ao início",
+              en: "Back to home",
+              es: "Volver al inicio",
+            }),
           }}
         />
         <div className={isDraft ? "legal-page-wrap" : "content-page-wrap"}>

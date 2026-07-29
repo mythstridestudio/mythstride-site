@@ -22,6 +22,11 @@ export const statusContent: Record<
       description:
         "The feature is present in the beta build and remains subject to change.",
     },
+    es: {
+      label: "Disponible en la beta",
+      description:
+        "La función está presente en la versión beta y sigue sujeta a cambios.",
+    },
   },
   validation: {
     "pt-BR": {
@@ -33,6 +38,11 @@ export const statusContent: Record<
       label: "Under validation",
       description:
         "The implementation exists but still requires testing, configuration or acceptance before wider availability.",
+    },
+    es: {
+      label: "En validación",
+      description:
+        "La implementación existe, pero todavía requiere pruebas, configuración o aceptación antes de una disponibilidad más amplia.",
     },
   },
   development: {
@@ -46,6 +56,11 @@ export const statusContent: Record<
       description:
         "The feature is part of the product vision and is still being completed.",
     },
+    es: {
+      label: "En desarrollo",
+      description:
+        "La función forma parte de la visión del producto y todavía se está completando.",
+    },
   },
   planned: {
     "pt-BR": {
@@ -58,6 +73,11 @@ export const statusContent: Record<
       description:
         "The feature is on the roadmap and is not available in the current beta.",
     },
+    es: {
+      label: "Planificado",
+      description:
+        "La función está en la hoja de ruta y no está disponible en la beta actual.",
+    },
   },
   future: {
     "pt-BR": {
@@ -69,6 +89,11 @@ export const statusContent: Record<
       label: "Coming later",
       description:
         "The feature is intended for a later phase and is not active now.",
+    },
+    es: {
+      label: "Disponible más adelante",
+      description:
+        "La función está prevista para una fase posterior y no está activa ahora.",
     },
   },
 };
