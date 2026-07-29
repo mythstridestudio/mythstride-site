@@ -36,6 +36,34 @@ export function writeStoredAccessToken(accessToken: string) {
   window.localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, accessToken);
 }
 
+export function getAccessTokenRoles(accessToken: string | null | undefined) {
+  if (!accessToken) return [] as string[];
+
+  try {
+    const payloadPart = accessToken.split(".")[1];
+    if (!payloadPart) return [];
+    const normalized = payloadPart.replace(/-/g, "+").replace(/_/g, "/");
+    const payload = JSON.parse(window.atob(normalized)) as Record<string, unknown>;
+    const roleValue =
+      payload.role ??
+      payload.roles ??
+      payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+
+    if (Array.isArray(roleValue)) {
+      return roleValue.map(String);
+    }
+    return roleValue ? [String(roleValue)] : [];
+  } catch {
+    return [];
+  }
+}
+
+export function isAdminAccessToken(accessToken: string | null | undefined) {
+  return getAccessTokenRoles(accessToken).some(
+    (role) => role.toLowerCase() === "admin",
+  );
+}
+
 interface AuthLoginApiResponse {
   token: string;
   usuarioId: number;

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import { isAdminAccessToken } from "@/lib/api/auth";
 import { getAssetPath } from "@/lib/assets";
 import { useTranslations } from "@/lib/i18n";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
@@ -12,6 +13,7 @@ import {
   CrownIcon,
   HomeIcon,
   MenuIcon,
+  ScrollIcon,
   ShieldIcon,
   SwordsIcon,
 } from "@/components/Icons";
@@ -23,11 +25,12 @@ interface AuthenticatedTopbarProps {
 export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTopbarProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, logout } = useAuth();
+  const { user, token, logout } = useAuth();
   const { t } = useTranslations();
   const [mobileOpen, setMobileOpen] = useState(false);
   const username = user?.username?.trim() || profileUsername?.trim() || "";
   const profileHref = username ? `/player?username=${encodeURIComponent(username)}` : null;
+  const isAdmin = isAdminAccessToken(token);
 
   const handleLogout = () => {
     logout();
@@ -76,6 +79,12 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
             <HomeIcon className="h-4 w-4" />
             {t("authTopbar.home")}
           </Link>
+          {isAdmin && (
+            <Link href="/admin/events" className={linkClass(pathname.startsWith("/admin"))}>
+              <ScrollIcon className="h-4 w-4" />
+              Eventos
+            </Link>
+          )}
           <LanguageSwitcher className="px-2" />
           <button type="button" onClick={handleLogout} className="myth-button-primary min-h-10 px-4 py-2 font-display text-xs tracking-wider">
             <SwordsIcon className="h-4 w-4" />
@@ -124,6 +133,12 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
             <HomeIcon className="h-4 w-4" />
             {t("authTopbar.home")}
           </Link>
+          {isAdmin && (
+            <Link href="/admin/events" className={linkClass(pathname.startsWith("/admin"))} onClick={() => setMobileOpen(false)}>
+              <ScrollIcon className="h-4 w-4" />
+              Eventos
+            </Link>
+          )}
           <button type="button" onClick={handleLogout} className="myth-button-primary min-h-10 px-4 py-2 font-display text-xs tracking-wider">
             <SwordsIcon className="h-4 w-4" />
             {t("authTopbar.logout")}
