@@ -1,0 +1,65 @@
+import { ContentSections, LegalPageShell } from "@/components/site/LegalPageShell";
+import { LocalizedFooter } from "@/components/site/LocalizedFooter";
+import { LocalizedNavigation } from "@/components/site/LocalizedNavigation";
+import { PageHero } from "@/components/site/PageHero";
+import {
+  getPageContent,
+  isDraftPageSlug,
+  type PageSlug,
+} from "@/content/pages";
+import { siteCopy } from "@/content/site";
+import { localePath, type PublicLocale } from "@/lib/locales";
+
+type LocalizedContentPageProps = {
+  locale: PublicLocale;
+  slug: PageSlug;
+};
+
+export function LocalizedContentPage({
+  locale,
+  slug,
+}: LocalizedContentPageProps) {
+  const content = getPageContent(slug, locale);
+  const copy = siteCopy[locale];
+  const isDraft = isDraftPageSlug(slug);
+  const isPt = locale === "pt-BR";
+
+  return (
+    <>
+      <a className="skip-link" href="#main-content">
+        {copy.skip}
+      </a>
+      <LocalizedNavigation locale={locale} />
+      <main id="main-content">
+        <PageHero
+          compact
+          eyebrow={content.eyebrow}
+          title={content.title}
+          body={content.summary}
+          primary={
+            isDraft
+              ? undefined
+              : {
+                  href: `${localePath(locale)}#join`,
+                  label: copy.nav.join,
+                }
+          }
+          secondary={{
+            href: localePath(locale),
+            label: isPt ? "Voltar ao início" : "Back to home",
+          }}
+        />
+        <div className={isDraft ? "legal-page-wrap" : "content-page-wrap"}>
+          {isDraft ? (
+            <LegalPageShell locale={locale} content={content} />
+          ) : (
+            <div className="site-container">
+              <ContentSections locale={locale} sections={content.sections} />
+            </div>
+          )}
+        </div>
+      </main>
+      <LocalizedFooter locale={locale} />
+    </>
+  );
+}

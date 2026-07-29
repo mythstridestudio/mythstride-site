@@ -1,39 +1,50 @@
-'use client';
+"use client";
 
-import { FormEvent, useId, useState } from 'react';
-import { ApiConfigurationError } from '@/lib/api/client';
-import { joinWaitlist } from '@/lib/api/waitlist';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { useTranslations } from '@/lib/i18n';
-import { SwordsIcon } from './Icons';
+import Link from "next/link";
+import { type FormEvent, useId, useState } from "react";
+import { SwordsIcon } from "@/components/Icons";
+import { siteCopy } from "@/content/site";
+import { ApiConfigurationError } from "@/lib/api/client";
+import { joinWaitlist } from "@/lib/api/waitlist";
+import { localePath, type PublicLocale } from "@/lib/locales";
 
-type WaitlistFormStatus = 'idle' | 'loading' | 'success' | 'alreadyJoined' | 'validationError' | 'serverError' | 'configError';
+type WaitlistFormStatus =
+  | "idle"
+  | "loading"
+  | "success"
+  | "alreadyJoined"
+  | "validationError"
+  | "serverError";
+
+type WaitlistFormProps = {
+  locale?: PublicLocale;
+  className?: string;
+};
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-interface WaitlistFormProps {
-  className?: string;
-}
-
-export default function WaitlistForm({ className = '' }: WaitlistFormProps) {
-  const { lang } = useLanguage();
-  const { t } = useTranslations();
+export default function WaitlistForm({
+  locale = "en",
+  className = "",
+}: WaitlistFormProps) {
+  const copy = siteCopy[locale].waitlist;
   const formId = useId();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<WaitlistFormStatus>('idle');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [website, setWebsite] = useState("");
+  const [status, setStatus] = useState<WaitlistFormStatus>("idle");
 
   const messageByStatus: Partial<Record<WaitlistFormStatus, string>> = {
-    success: t('waitlist.messages.success'),
-    alreadyJoined: t('waitlist.messages.alreadyJoined'),
-    validationError: t('waitlist.messages.validationError'),
-    serverError: t('waitlist.messages.serverError'),
-    configError: t('waitlist.messages.configError'),
+    success: copy.success,
+    alreadyJoined: copy.duplicate,
+    validationError: copy.invalid,
+    serverError: copy.failure,
   };
 
   const statusMessage = messageByStatus[status];
-  const isLoading = status === 'loading';
-  const isSuccessState = status === 'success' || status === 'alreadyJoined';
+  const isLoading = status === "loading";
+  const isSuccessState =
+    status === "success" || status === "alreadyJoined";
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,96 +52,119 @@ export default function WaitlistForm({ className = '' }: WaitlistFormProps) {
     const normalizedEmail = email.trim().toLowerCase();
     const trimmedName = name.trim();
 
-    if (!emailPattern.test(normalizedEmail)) {
-      setStatus('validationError');
+    if (website) {
+      setStatus("success");
       return;
     }
 
-    setStatus('loading');
+    if (
+      !emailPattern.test(normalizedEmail) ||
+      normalizedEmail.length > 320 ||
+      trimmedName.length > 120
+    ) {
+      setStatus("validationError");
+      return;
+    }
+
+    setStatus("loading");
 
     try {
       const result = await joinWaitlist({
         email: normalizedEmail,
         ...(trimmedName ? { name: trimmedName } : {}),
-        language: lang,
-        source: 'website',
+        language: locale === "pt-BR" ? "pt" : "en",
+        source: "website",
       });
 
       setEmail(normalizedEmail);
-      setStatus(result === 'alreadyJoined' ? 'alreadyJoined' : 'success');
+      setStatus(result === "alreadyJoined" ? "alreadyJoined" : "success");
     } catch (error) {
-      if (error instanceof ApiConfigurationError && process.env.NODE_ENV === 'development') {
-        setStatus('configError');
-        return;
+      if (
+        error instanceof ApiConfigurationError &&
+        process.env.NODE_ENV === "development"
+      ) {
+        console.info("Waitlist API is not configured for this environment.");
       }
-
-      setStatus('serverError');
+      setStatus("serverError");
     }
   };
 
   return (
     <form
-      className={`app-panel app-panel-compact rpg-card relative mx-auto w-full min-w-0 max-w-2xl p-4 text-left sm:p-5 ${className}`}
+      className={`waitlist-form ${className}`.trim()}
       onSubmit={handleSubmit}
       noValidate
     >
-      <div className="pointer-events-none absolute inset-2 border border-gold-dim/12" />
-      <div className="relative z-10 grid gap-4">
-        <div className="grid gap-3 sm:grid-cols-[1fr_1.25fr]">
-          <label className="grid gap-2" htmlFor={`${formId}-name`}>
-            <span className="font-body text-xs uppercase tracking-[0.22em] text-gold-muted">{t('waitlist.fields.name')}</span>
-            <input
-              id={`${formId}-name`}
-              name="name"
-              type="text"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              placeholder={t('waitlist.placeholders.name')}
-            className="myth-input min-w-0 w-full text-sm"
-              autoComplete="name"
-              disabled={isLoading}
-            />
-          </label>
+      <div className="waitlist-form__fields">
+        <label htmlFor={`${formId}-name`}>
+          <span>{copy.name}</span>
+          <input
+            id={`${formId}-name`}
+            name="name"
+            type="text"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            autoComplete="name"
+            maxLength={120}
+            disabled={isLoading}
+          />
+        </label>
 
-          <label className="grid gap-2" htmlFor={`${formId}-email`}>
-            <span className="font-body text-xs uppercase tracking-[0.22em] text-gold-muted">{t('waitlist.fields.email')}</span>
-            <input
-              id={`${formId}-email`}
-              name="email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder={t('waitlist.placeholders.email')}
-              className="myth-input min-w-0 w-full text-sm"
-              autoComplete="email"
-              required
-              disabled={isLoading}
-            />
-          </label>
-        </div>
-
-        <button
-          type="submit"
-          className="myth-button-primary w-full min-w-0 px-5 py-3 font-display text-sm tracking-wider sm:px-8 disabled:cursor-not-allowed"
-          disabled={isLoading}
-        >
-          <SwordsIcon className="h-4 w-4" />
-          {isLoading ? t('waitlist.actions.loading') : t('waitlist.actions.submit')}
-        </button>
-
-        {statusMessage && (
-          <p
-            className={`border px-4 py-3 text-sm leading-relaxed ${
-              isSuccessState
-                ? 'border-fiery-orange/35 bg-fiery-orange/10 text-text-primary'
-                : 'border-hp-red/35 bg-hp-red/10 text-text-secondary'
-            }`}
-            role={isSuccessState ? 'status' : 'alert'}
-          >
-            {statusMessage}
-          </p>
-        )}
+        <label htmlFor={`${formId}-email`}>
+          <span>{copy.email}</span>
+          <input
+            id={`${formId}-email`}
+            name="email"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            autoComplete="email"
+            inputMode="email"
+            maxLength={320}
+            required
+            aria-describedby={`${formId}-disclosure`}
+            disabled={isLoading}
+          />
+        </label>
       </div>
+
+      <label className="waitlist-form__honeypot" aria-hidden="true">
+        <span>{copy.honeypot}</span>
+        <input
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(event) => setWebsite(event.target.value)}
+        />
+      </label>
+
+      <button
+        type="submit"
+        className="button button--primary waitlist-form__submit"
+        disabled={isLoading}
+      >
+        <SwordsIcon className="button__icon" />
+        {isLoading ? copy.loading : copy.submit}
+      </button>
+
+      <div className="waitlist-form__disclosure" id={`${formId}-disclosure`}>
+        <p>{copy.disclosure}</p>
+        <p>{copy.capacity}</p>
+        <Link href={localePath(locale, "/privacy")}>{copy.privacyLink}</Link>
+      </div>
+
+      {statusMessage ? (
+        <p
+          className={`waitlist-form__message waitlist-form__message--${
+            isSuccessState ? "success" : "error"
+          }`}
+          role={isSuccessState ? "status" : "alert"}
+        >
+          {statusMessage}
+        </p>
+      ) : null}
     </form>
   );
 }

@@ -19,7 +19,7 @@ const developmentMockPlayer = (username: string): PublicPlayerProfile => ({
   currentStreakDays: 21,
   currentBoss: {
     name: "Lich do Abismo",
-    imageUrl: "/images/lich-do-abismo.png",
+    imageUrl: "/images/optimized/boss-lich.webp",
     healthPercent: 64,
   },
   guild: {
@@ -31,7 +31,7 @@ const developmentMockPlayer = (username: string): PublicPlayerProfile => ({
       name: "First Boss Defeated",
       rarity: "rare",
       description: "Defeated your first boss.",
-      iconUrl: "/images/boss-medusa-medal.png",
+      iconUrl: "/images/boss-medals/medusa.webp",
       unlockedAt: "2026-06-03T00:00:00Z",
     },
     {
@@ -39,7 +39,7 @@ const developmentMockPlayer = (username: string): PublicPlayerProfile => ({
       name: "Flamekeeper Streak",
       rarity: "epic",
       description: "Kept the Flame alive through repeated effort.",
-      iconUrl: "/images/fire_sword.png",
+      iconUrl: "/images/optimized/founder-sword.webp",
       unlockedAt: "2026-06-03T00:00:00Z",
     },
   ],
