@@ -534,7 +534,7 @@ const ptBR: Record<PageSlug, LocalizedPageContent> = {
       "Esta página é informativa. Ela não contém formulário ativo, não recebe solicitações e não chama endpoints inacabados.",
     sections: [
       {
-        title: "Estado da implementação",
+        title: "Em implementação",
         feature: "accountDeletion",
         paragraphs: [
           "O fluxo final de execução no backend e a experiência no aplicativo ainda estão sendo completados. Nenhuma exclusão pode ser solicitada por esta página.",
@@ -1241,7 +1241,7 @@ const en: Record<PageSlug, LocalizedPageContent> = {
       "This page is informational. It has no active form, receives no requests and calls no unfinished endpoints.",
     sections: [
       {
-        title: "Implementation status",
+        title: "Under implementation",
         feature: "accountDeletion",
         paragraphs: [
           "Final backend execution and the in-app experience are still being completed. No deletion can be requested through this page.",

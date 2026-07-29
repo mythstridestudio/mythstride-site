@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRightIcon } from "@/components/Icons";
+import { CtaGroup } from "@/components/site/CtaGroup";
 
 type PageHeroProps = {
   eyebrow: string;
@@ -32,7 +33,7 @@ export function PageHero({
           <p className="page-hero__lede">{body}</p>
           {children}
           {primary || secondary ? (
-            <div className="cta-row">
+            <CtaGroup>
               {primary ? (
                 <Link className="button button--primary" href={primary.href}>
                   {primary.label}
@@ -44,7 +45,7 @@ export function PageHero({
                   {secondary.label}
                 </Link>
               ) : null}
-            </div>
+            </CtaGroup>
           ) : null}
         </div>
         {aside ? <div className="page-hero__aside">{aside}</div> : null}

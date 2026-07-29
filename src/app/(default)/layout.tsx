@@ -27,6 +27,22 @@ export default function DefaultRootLayout({
       data-scroll-behavior="smooth"
       className={documentFontClasses}
     >
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/images/optimized/hero-mobile.webp"
+          type="image/webp"
+          media="(max-width: 52rem)"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/optimized/hero-desktop.webp"
+          type="image/webp"
+          media="(min-width: 52.001rem)"
+        />
+      </head>
       <body className="min-h-full bg-void font-body text-text-primary">
         {children}
       </body>

@@ -105,6 +105,10 @@ the existing API. The form does not promise access.
 No account deletion, purchase, moderation, Aethron-provider or store endpoint
 was added in this phase.
 
+`src/lib/account-deletion-contract.ts` isolates the shape of a future
+authenticated deletion integration. It exports no service implementation and
+cannot call a backend; activation requires a separate approved runtime task.
+
 ## CI
 
 Pull requests run install, production audit, lint, TypeScript, focused tests,

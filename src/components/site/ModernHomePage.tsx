@@ -22,10 +22,12 @@ import WaitlistForm from "@/components/WaitlistForm";
 import { FeatureStatusBadge } from "@/components/product/FeatureStatusBadge";
 import { FaqAccordion, type FaqItem } from "@/components/site/FaqAccordion";
 import { FeatureCard } from "@/components/site/FeatureCard";
+import { IntegrationCard } from "@/components/site/IntegrationCard";
 import { LocalizedFooter } from "@/components/site/LocalizedFooter";
 import { LocalizedNavigation } from "@/components/site/LocalizedNavigation";
 import { LoreCard } from "@/components/site/LoreCard";
 import { PageHero } from "@/components/site/PageHero";
+import { RoadmapCard } from "@/components/site/RoadmapCard";
 import { ScreenshotGallery } from "@/components/site/ScreenshotGallery";
 import { SectionShell } from "@/components/site/SectionShell";
 import { siteCopy } from "@/content/site";
@@ -430,7 +432,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
           tone="stone"
         >
           <div className="integration-track">
-            <FeatureCard
+            <IntegrationCard
               locale={locale}
               feature="strava"
               icon={<SyncIcon />}
@@ -440,9 +442,8 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
                   ? "Importação e reconciliação de atividades passam por validação."
                   : "Activity import and reconciliation are under validation."
               }
-              detailedStatus
             />
-            <FeatureCard
+            <IntegrationCard
               locale={locale}
               feature="wearOs"
               icon={<WatchIcon />}
@@ -454,9 +455,8 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
               }
               href={localePath(locale, "/wear-os")}
               linkLabel={learnLabel}
-              detailedStatus
             />
-            <FeatureCard
+            <IntegrationCard
               locale={locale}
               feature="ios"
               icon={<StarIcon />}
@@ -466,9 +466,8 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
                   ? "Uma plataforma planejada para uma fase posterior ao beta Android."
                   : "A platform planned for a phase after the Android beta."
               }
-              detailedStatus
             />
-            <FeatureCard
+            <IntegrationCard
               locale={locale}
               feature="appleWatch"
               icon={<WatchIcon />}
@@ -478,7 +477,6 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
                   ? "A experiência de relógio da Apple permanece no roadmap."
                   : "The Apple watch experience remains on the roadmap."
               }
-              detailedStatus
             />
           </div>
         </SectionShell>
@@ -528,7 +526,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
           align="center"
         >
           <div className="roadmap-line">
-            <RoadmapMilestone
+            <RoadmapCard
               number="01"
               locale={locale}
               feature="runTracking"
@@ -539,7 +537,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
                   : "Final configuration, tracking integrity and physical testing."
               }
             />
-            <RoadmapMilestone
+            <RoadmapCard
               number="02"
               locale={locale}
               feature="wearOs"
@@ -550,7 +548,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
                   : "Wear OS and Strava with authorized real test data."
               }
             />
-            <RoadmapMilestone
+            <RoadmapCard
               number="03"
               locale={locale}
               feature="ios"
@@ -692,28 +690,5 @@ function JourneyStep({
       <h3>{title}</h3>
       <p>{body}</p>
     </li>
-  );
-}
-
-function RoadmapMilestone({
-  number,
-  locale,
-  feature,
-  title,
-  body,
-}: {
-  number: string;
-  locale: PublicLocale;
-  feature: "runTracking" | "wearOs" | "ios";
-  title: string;
-  body: string;
-}) {
-  return (
-    <article className="roadmap-milestone">
-      <span className="roadmap-milestone__number">{number}</span>
-      <FeatureStatusBadge feature={feature} locale={locale} />
-      <h3>{title}</h3>
-      <p>{body}</p>
-    </article>
   );
 }

@@ -68,7 +68,6 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
             alt=""
             width={42}
             height={42}
-            priority
           />
           <span>MythStride</span>
         </Link>

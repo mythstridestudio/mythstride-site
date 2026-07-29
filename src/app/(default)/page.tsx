@@ -11,7 +11,6 @@ export default function LocaleChooserPage() {
           width={88}
           height={88}
           alt=""
-          priority
         />
         <p className="section-eyebrow">MythStride</p>
         <h1>Escolha seu idioma</h1>
