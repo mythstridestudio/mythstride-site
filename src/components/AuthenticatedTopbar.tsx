@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { isAdminAccessToken } from "@/lib/api/auth";
@@ -49,9 +50,11 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
     <header className="fixed inset-x-0 top-0 z-50 border-b border-gold-dim/35 bg-void/94 shadow-[0_14px_44px_rgba(0,0,0,0.52),0_1px_0_rgba(227,186,115,0.06)] backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 sm:gap-3 sm:px-6 md:h-20">
         <Link href="/" className="flex min-w-0 items-center gap-2.5" onClick={() => setMobileOpen(false)}>
-          <img
-            src={getAssetPath("/images/mythstride-app-icon.png")}
+          <Image
+            src={getAssetPath("/images/optimized/app-icon.webp")}
             alt=""
+            width={36}
+            height={36}
             className="h-9 w-9 shrink-0 rounded-full object-cover shadow-[0_0_18px_rgba(212,168,83,0.18)]"
           />
           <span className="truncate font-display text-base tracking-wider text-gold sm:text-lg">
