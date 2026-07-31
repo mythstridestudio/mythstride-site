@@ -65,6 +65,27 @@ export type SiteCopy = {
     rights: string;
     draftNote: string;
   };
+  accountDeletion: {
+    formTitle: string;
+    formIntro: string;
+    emailLabel: string;
+    submit: string;
+    loading: string;
+    honeypot: string;
+    requested: string;
+    invalidEmail: string;
+    rateLimited: string;
+    unavailable: string;
+    confirmChecking: string;
+    confirmMissingToken: string;
+    confirmScheduled: string;
+    confirmAwaitingRetention: string;
+    confirmGenericSuccess: string;
+    confirmInvalid: string;
+    confirmRateLimited: string;
+    confirmUnavailable: string;
+    backToRequest: string;
+  };
 };
 
 export const siteCopy: Record<PublicLocale, SiteCopy> = {
@@ -191,6 +212,35 @@ export const siteCopy: Record<PublicLocale, SiteCopy> = {
       invalid: "Informe um email válido.",
       failure: "Não foi possível acessar a lista agora. Tente novamente.",
       honeypot: "Não preencha este campo",
+    },
+    accountDeletion: {
+      formTitle: "Solicitar exclusão de conta",
+      formIntro:
+        "Informe o email da conta. Se existir uma conta associada, enviaremos um link de verificação.",
+      emailLabel: "Email da conta",
+      submit: "Solicitar exclusão",
+      loading: "Enviando...",
+      honeypot: "Não preencha este campo",
+      requested:
+        "Caso exista uma conta associada a esse email, enviaremos as próximas instruções.",
+      invalidEmail: "Informe um email válido.",
+      rateLimited: "Muitas tentativas. Aguarde alguns minutos e tente novamente.",
+      unavailable:
+        "Não foi possível processar a solicitação agora. Tente novamente mais tarde.",
+      confirmChecking: "Verificando o link de confirmação...",
+      confirmMissingToken:
+        "Este link de confirmação está incompleto. Solicite um novo link de exclusão.",
+      confirmScheduled: "Verificação concluída. A exclusão foi agendada.",
+      confirmAwaitingRetention:
+        "Verificação concluída. A execução da exclusão ainda depende da configuração final de retenção de dados pelo responsável.",
+      confirmGenericSuccess: "Verificação concluída.",
+      confirmInvalid:
+        "Este link é inválido ou já expirou. Solicite um novo link de exclusão.",
+      confirmRateLimited:
+        "Muitas tentativas. Aguarde alguns minutos e tente novamente.",
+      confirmUnavailable:
+        "Não foi possível confirmar agora. Tente novamente mais tarde.",
+      backToRequest: "Solicitar novo link",
     },
     footer: {
       product: "Produto",
@@ -329,6 +379,34 @@ export const siteCopy: Record<PublicLocale, SiteCopy> = {
       failure: "The list could not be reached right now. Please try again.",
       honeypot: "Do not fill in this field",
     },
+    accountDeletion: {
+      formTitle: "Request account deletion",
+      formIntro:
+        "Enter the account email. If an account is associated with it, we will send a verification link.",
+      emailLabel: "Account email",
+      submit: "Request deletion",
+      loading: "Sending...",
+      honeypot: "Do not fill in this field",
+      requested:
+        "If an account is associated with this email, we will send the next instructions.",
+      invalidEmail: "Enter a valid email address.",
+      rateLimited: "Too many attempts. Wait a few minutes and try again.",
+      unavailable:
+        "The request could not be processed right now. Please try again later.",
+      confirmChecking: "Verifying the confirmation link...",
+      confirmMissingToken:
+        "This confirmation link is incomplete. Request a new deletion link.",
+      confirmScheduled: "Verification complete. Deletion has been scheduled.",
+      confirmAwaitingRetention:
+        "Verification complete. Executing the deletion still depends on the owner's final data-retention configuration.",
+      confirmGenericSuccess: "Verification complete.",
+      confirmInvalid:
+        "This link is invalid or has expired. Request a new deletion link.",
+      confirmRateLimited: "Too many attempts. Wait a few minutes and try again.",
+      confirmUnavailable:
+        "The request could not be confirmed right now. Please try again later.",
+      backToRequest: "Request a new link",
+    },
     footer: {
       product: "Product",
       support: "Support",
@@ -466,6 +544,35 @@ export const siteCopy: Record<PublicLocale, SiteCopy> = {
       failure:
         "No se pudo acceder a la lista en este momento. Inténtalo de nuevo.",
       honeypot: "No rellenes este campo",
+    },
+    accountDeletion: {
+      formTitle: "Solicitar la eliminación de la cuenta",
+      formIntro:
+        "Indica el email de la cuenta. Si existe una cuenta asociada, enviaremos un enlace de verificación.",
+      emailLabel: "Email de la cuenta",
+      submit: "Solicitar eliminación",
+      loading: "Enviando...",
+      honeypot: "No rellenes este campo",
+      requested:
+        "Si existe una cuenta asociada a este email, enviaremos las próximas instrucciones.",
+      invalidEmail: "Indica un email válido.",
+      rateLimited: "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+      unavailable:
+        "No se pudo procesar la solicitud ahora. Inténtalo de nuevo más tarde.",
+      confirmChecking: "Verificando el enlace de confirmación...",
+      confirmMissingToken:
+        "Este enlace de confirmación está incompleto. Solicita un nuevo enlace de eliminación.",
+      confirmScheduled: "Verificación completada. La eliminación ha sido programada.",
+      confirmAwaitingRetention:
+        "Verificación completada. La ejecución de la eliminación todavía depende de la configuración final de retención de datos del responsable.",
+      confirmGenericSuccess: "Verificación completada.",
+      confirmInvalid:
+        "Este enlace no es válido o ha caducado. Solicita un nuevo enlace de eliminación.",
+      confirmRateLimited:
+        "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
+      confirmUnavailable:
+        "No se pudo confirmar ahora. Inténtalo de nuevo más tarde.",
+      backToRequest: "Solicitar un nuevo enlace",
     },
     footer: {
       product: "Producto",

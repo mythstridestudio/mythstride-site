@@ -55,7 +55,9 @@ screenshots are preserved as source evidence and are not rendered.
 ## Important boundaries
 
 - Legal content is draft architecture, not an approved policy.
-- The deletion page is informational and has no form or backend call.
+- The deletion page's request/confirmation form and backend call were added
+  by the `ship/v1-website-followups-2026-07-31` follow-up; see
+  `WEBSITE_RELEASE_READINESS.md` for the current state.
 - Purchases, real prices, checkout, rewarded ads and store buttons are absent.
 - Aethron is described as generated, fallible and non-medical.
 - Wear OS requires a paired Android phone and physical validation remains.
@@ -100,10 +102,12 @@ separate upgrade plan.
 ## Remaining decisions and dependencies
 
 Every unresolved owner field is listed in
-`WEBSITE_LEGAL_PLACEHOLDERS.md`. Backend/client dependencies remain for account
-deletion, moderation/reporting/blocking, Aethron provider disclosure,
-production support channels, physical Wear OS validation and any future
-monetization.
+`WEBSITE_LEGAL_PLACEHOLDERS.md`. The public website deletion request/confirm
+flow now calls the real backend; irreversible execution still depends on the
+owner's retention configuration (see `WEBSITE_RELEASE_READINESS.md`). Backend/
+client dependencies remain for moderation/reporting/blocking, Aethron provider
+disclosure, production support channels, physical Wear OS validation and any
+future monetization.
 
 Deferred security and operations work is listed in
 `WEBSITE_RELEASE_CHECKLIST.md`.

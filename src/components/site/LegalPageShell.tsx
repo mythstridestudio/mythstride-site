@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { FeatureStatusBadge } from "@/components/product/FeatureStatusBadge";
 import { LegalDraftNotice } from "@/components/site/LegalDraftNotice";
 import {
@@ -10,16 +11,19 @@ import type { PublicLocale } from "@/lib/locales";
 type LegalPageShellProps = {
   locale: PublicLocale;
   content: LocalizedPageContent;
+  children?: ReactNode;
 };
 
 export function LegalPageShell({
   locale,
   content,
+  children,
 }: LegalPageShellProps) {
   return (
     <div className="site-container legal-page">
       <LegalDraftNotice locale={locale} />
       <ContentSections locale={locale} sections={content.sections} />
+      {children}
     </div>
   );
 }
