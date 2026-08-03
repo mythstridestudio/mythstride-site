@@ -30,6 +30,18 @@ export type PublicPageSlug = (typeof publicPageSlugs)[number];
 export type DraftPageSlug = (typeof draftPageSlugs)[number];
 export type PageSlug = (typeof pageSlugs)[number];
 
+// "delete-account" has a dedicated route tree under src/app/[locale]/delete-account
+// because it also hosts the public deletion request/confirm flow, so it is
+// excluded from the generic [locale]/[page] catch-all route.
+export const catchAllPageSlugs = pageSlugs.filter(
+  (slug): slug is Exclude<PageSlug, "delete-account"> => slug !== "delete-account",
+);
+export type CatchAllPageSlug = (typeof catchAllPageSlugs)[number];
+
+export function isCatchAllPageSlug(value: string): value is CatchAllPageSlug {
+  return (catchAllPageSlugs as readonly string[]).includes(value);
+}
+
 export type ContentSection = {
   title: string;
   paragraphs: string[];
@@ -538,27 +550,28 @@ const ptBR: Record<PageSlug, LocalizedPageContent> = {
   },
   "delete-account": {
     eyebrow: "Controle de conta — rascunho",
-    title: "A exclusão será feita no aplicativo; o fluxo ainda está sendo concluído.",
+    title: "Solicite a verificação de exclusão da sua conta por email.",
     summary:
-      "Esta página é informativa. Ela não contém formulário ativo, não recebe solicitações e não chama endpoints inacabados.",
+      "Esta página envia um link de verificação por email para confirmar a titularidade da conta. A execução final da exclusão ainda depende de decisões de retenção pendentes do responsável.",
     sections: [
       {
-        title: "Em implementação",
+        title: "O que esta página faz",
         feature: "accountDeletion",
         paragraphs: [
-          "O fluxo final de execução no backend e a experiência no aplicativo ainda estão sendo completados. Nenhuma exclusão pode ser solicitada por esta página.",
+          "Ao informar o email da conta, enviamos um link de verificação caso exista uma conta associada a ele. O link confirma a titularidade antes de qualquer processamento.",
+          "A resposta é sempre genérica: o site não revela se um email está ou não associado a uma conta.",
         ],
       },
       {
-        title: "Fluxo planejado no aplicativo",
+        title: "O que acontece após a verificação",
         paragraphs: [
-          "A experiência prevista permitirá iniciar a exclusão dentro das configurações da conta, confirmar a intenção e acompanhar o resultado quando a implementação estiver pronta.",
+          "Depois de confirmar o link, a solicitação fica registrada. A execução irreversível da exclusão permanece bloqueada até que o responsável configure os prazos finais de retenção.",
         ],
       },
       {
-        title: "Suporte futuro",
+        title: "Suporte",
         paragraphs: [
-          "Usuários poderão procurar suporte quando um canal real estiver configurado. O site não exibe email fictício.",
+          "Usuários também poderão procurar suporte quando um canal real estiver configurado. O site não exibe email fictício.",
         ],
         pendingFields: ["supportEmail", "privacyEmail"],
       },
@@ -1245,27 +1258,28 @@ const en: Record<PageSlug, LocalizedPageContent> = {
   },
   "delete-account": {
     eyebrow: "Account control — draft",
-    title: "Deletion will be available in the app; the flow is still being completed.",
+    title: "Request account-deletion verification by email.",
     summary:
-      "This page is informational. It has no active form, receives no requests and calls no unfinished endpoints.",
+      "This page sends a verification link by email to confirm account ownership. Final deletion execution still depends on retention decisions the owner has not made yet.",
     sections: [
       {
-        title: "Under implementation",
+        title: "What this page does",
         feature: "accountDeletion",
         paragraphs: [
-          "Final backend execution and the in-app experience are still being completed. No deletion can be requested through this page.",
+          "After you enter the account email, we send a verification link if an account is associated with it. The link confirms ownership before any processing.",
+          "The response is always generic: the site never discloses whether an email is associated with an account.",
         ],
       },
       {
-        title: "Planned in-app flow",
+        title: "What happens after verification",
         paragraphs: [
-          "The intended experience will allow users to start deletion inside account settings, confirm intent and track the outcome once implementation is ready.",
+          "Once the link is confirmed, the request is recorded. Irreversible deletion execution remains blocked until the owner configures final retention periods.",
         ],
       },
       {
-        title: "Future support",
+        title: "Support",
         paragraphs: [
-          "Users will be able to contact support once a real channel is configured. The site does not display a fictional email.",
+          "Users will also be able to contact support once a real channel is configured. The site does not display a fictional email.",
         ],
         pendingFields: ["supportEmail", "privacyEmail"],
       },
@@ -1952,28 +1966,28 @@ const es: Record<PageSlug, LocalizedPageContent> = {
   },
   "delete-account": {
     eyebrow: "Control de cuenta — borrador",
-    title:
-      "La eliminación estará disponible en la aplicación; el flujo aún se está completando.",
+    title: "Solicita la verificación de eliminación de tu cuenta por correo.",
     summary:
-      "Esta página es informativa. No contiene un formulario activo, no recibe solicitudes y no llama a endpoints incompletos.",
+      "Esta página envía un enlace de verificación por correo para confirmar la titularidad de la cuenta. La ejecución final de la eliminación todavía depende de decisiones de retención pendientes del responsable.",
     sections: [
       {
-        title: "En implementación",
+        title: "Qué hace esta página",
         feature: "accountDeletion",
         paragraphs: [
-          "La ejecución final en el backend y la experiencia dentro de la aplicación todavía se están completando. No se puede solicitar una eliminación desde esta página.",
+          "Al indicar el correo de la cuenta, enviamos un enlace de verificación si existe una cuenta asociada a él. El enlace confirma la titularidad antes de cualquier procesamiento.",
+          "La respuesta siempre es genérica: el sitio no revela si un correo está o no asociado a una cuenta.",
         ],
       },
       {
-        title: "Flujo previsto en la aplicación",
+        title: "Qué ocurre después de la verificación",
         paragraphs: [
-          "La experiencia prevista permitirá iniciar la eliminación desde los ajustes de la cuenta, confirmar la intención y seguir el resultado cuando la implementación esté lista.",
+          "Tras confirmar el enlace, la solicitud queda registrada. La ejecución irreversible de la eliminación permanece bloqueada hasta que el responsable configure los plazos finales de retención.",
         ],
       },
       {
-        title: "Soporte futuro",
+        title: "Soporte",
         paragraphs: [
-          "Los usuarios podrán contactar con soporte cuando exista un canal real configurado. El sitio no muestra correos ficticios.",
+          "Los usuarios también podrán contactar con soporte cuando exista un canal real configurado. El sitio no muestra correos ficticios.",
         ],
         pendingFields: ["supportEmail", "privacyEmail"],
       },

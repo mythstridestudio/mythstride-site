@@ -53,6 +53,7 @@ for (const locale of locales) {
   for (const slug of [...publicSlugs, ...draftSlugs]) {
     requiredArtifacts.push(`${locale}/${slug}/index.html`);
   }
+  requiredArtifacts.push(`${locale}/delete-account/confirm/index.html`);
 }
 
 for (const artifact of requiredArtifacts) {
@@ -89,9 +90,37 @@ for (const locale of locales) {
     if (!html.includes("data-legal-draft")) {
       failures.push(`${locale}/${slug} is missing the visible draft notice`);
     }
-    if (slug === "delete-account" && /<form[\s>]/i.test(html)) {
-      failures.push(`${locale}/${slug} contains a form`);
+    if (slug === "delete-account") {
+      // The public, non-enumerating deletion-request form is the intended
+      // implementation of this page: it must exist, and its response text
+      // must stay generic (never confirm or deny that an email has an
+      // account) regardless of locale wording.
+      if (!/<form[\s>]/i.test(html)) {
+        failures.push(`${locale}/${slug} is missing the account-deletion request form`);
+      }
+      if (/#token=/i.test(html)) {
+        failures.push(`${locale}/${slug} leaks a deletion token into static HTML`);
+      }
+    } else if (/<form[\s>]/i.test(html)) {
+      failures.push(`${locale}/${slug} unexpectedly contains a form`);
     }
+  }
+
+  const confirmHtml = await readFile(
+    path.join(out, locale, "delete-account", "confirm", "index.html"),
+    "utf8",
+  );
+  if (!confirmHtml.includes('name="robots" content="noindex, nofollow')) {
+    failures.push(`${locale}/delete-account/confirm is missing noindex,nofollow`);
+  }
+  if (!confirmHtml.includes("data-legal-draft")) {
+    failures.push(`${locale}/delete-account/confirm is missing the visible draft notice`);
+  }
+  if (/<form[\s>]/i.test(confirmHtml)) {
+    failures.push(`${locale}/delete-account/confirm unexpectedly contains a form`);
+  }
+  if (/#token=/i.test(confirmHtml)) {
+    failures.push(`${locale}/delete-account/confirm leaks a deletion token into static HTML`);
   }
 }
 

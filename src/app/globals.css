@@ -2191,6 +2191,107 @@ summary:focus-visible {
   background: rgba(200, 92, 69, 0.08);
 }
 
+.account-deletion-form {
+  display: grid;
+  max-width: 34rem;
+  margin: 2rem 0 0;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  border: 1px solid var(--site-border-strong);
+  background: var(--site-surface);
+  box-shadow: var(--site-shadow);
+  gap: 1rem;
+  text-align: left;
+}
+
+.account-deletion-form h2 {
+  margin: 0;
+}
+
+.account-deletion-form__intro {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.account-deletion-form label {
+  display: grid;
+  gap: 0.5rem;
+  color: var(--color-gold-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.account-deletion-form input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--site-border);
+  border-radius: 0;
+  color: var(--color-text-primary);
+  background: rgba(9, 7, 6, 0.85);
+  font: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.account-deletion-form input:hover,
+.account-deletion-form input:focus {
+  border-color: var(--color-gold-muted);
+}
+
+.account-deletion-form__honeypot {
+  position: absolute !important;
+  overflow: hidden !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  margin: -1px !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+}
+
+.account-deletion-form__submit:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.account-deletion-form__message {
+  margin: 0;
+  padding: 0.85rem;
+  border: 1px solid;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+.account-deletion-form__message--info {
+  border-color: rgba(227, 186, 115, 0.35);
+  color: var(--color-text-secondary);
+  background: rgba(227, 186, 115, 0.06);
+}
+
+.account-deletion-form__message--success {
+  border-color: rgba(120, 212, 138, 0.42);
+  color: #b9e9c2;
+  background: rgba(120, 212, 138, 0.08);
+}
+
+.account-deletion-form__message--error {
+  border-color: rgba(200, 92, 69, 0.42);
+  color: #efb2a5;
+  background: rgba(200, 92, 69, 0.08);
+}
+
+.account-deletion-confirm {
+  display: grid;
+  max-width: 34rem;
+  gap: 1rem;
+  margin: 2rem 0 0;
+}
+
 .site-footer {
   padding-block: 4rem 1.5rem;
   border-top: 1px solid var(--site-border);

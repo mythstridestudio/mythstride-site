@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LocalizedContentPage } from "@/components/site/LocalizedContentPage";
 import {
+  catchAllPageSlugs,
   getPageContent,
+  isCatchAllPageSlug,
   isDraftPageSlug,
-  isPageSlug,
-  pageSlugs,
 } from "@/content/pages";
 import { createLocalizedMetadata } from "@/lib/metadata";
 import { isPublicLocale } from "@/lib/locales";
@@ -15,7 +15,7 @@ type ContentPageProps = {
 };
 
 export function generateStaticParams() {
-  return pageSlugs.map((page) => ({ page }));
+  return catchAllPageSlugs.map((page) => ({ page }));
 }
 
 export const dynamicParams = false;
@@ -25,7 +25,7 @@ export async function generateMetadata({
 }: ContentPageProps): Promise<Metadata> {
   const { locale, page } = await params;
 
-  if (!isPublicLocale(locale) || !isPageSlug(page)) return {};
+  if (!isPublicLocale(locale) || !isCatchAllPageSlug(page)) return {};
 
   const content = getPageContent(page, locale);
 
@@ -41,7 +41,7 @@ export async function generateMetadata({
 export default async function ContentPage({ params }: ContentPageProps) {
   const { locale, page } = await params;
 
-  if (!isPublicLocale(locale) || !isPageSlug(page)) {
+  if (!isPublicLocale(locale) || !isCatchAllPageSlug(page)) {
     notFound();
   }
 

@@ -114,7 +114,7 @@ export const productStatus = {
   sagas: "development",
   founderSword: "validation",
   communitySafety: "development",
-  accountDeletion: "development",
+  accountDeletion: "validation",
   rewardedAds: "future",
   diamondPurchases: "future",
   ios: "planned",

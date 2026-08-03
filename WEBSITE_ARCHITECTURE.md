@@ -16,7 +16,9 @@ The route tree uses multiple root layouts:
 
 `[locale]/[page]` statically generates the shared public and draft page shells
 from `src/content/pages.ts`. Only the enumerated slugs and the three supported
-locales are emitted.
+locales are emitted. `delete-account` and `delete-account/confirm` are
+dedicated route trees (not part of the `[page]` catch-all) because they host
+the public account-deletion request/confirmation flow.
 
 ## Sources of truth
 
@@ -39,6 +41,7 @@ to:
 
 - accessible mobile navigation;
 - waitlist form and API state;
+- account-deletion request form and confirmation-token client;
 - keyboard-operable screenshot gallery.
 
 `AuthProvider` and the legacy language context only wrap internal routes.
@@ -61,7 +64,8 @@ Indexable:
 
 Noindex and nofollow:
 
-- support and every unfinished legal/transparency draft;
+- support and every unfinished legal/transparency draft, including
+  `delete-account` and `delete-account/confirm`;
 - login, dashboard and admin;
 - player routes and the disabled profile preview.
 
@@ -98,20 +102,38 @@ states.
 
 ## External integration
 
-The existing waitlist client remains the only public write integration. It
-sends email, optional name, website source and a safe PT/EN/ES language code to
-the existing API. The form does not promise access.
+The waitlist client sends email, optional name, website source and a safe
+PT/EN/ES language code to the existing API. The form does not promise access.
 
-No account deletion, purchase, moderation, Aethron-provider or store endpoint
-was added in this phase.
+`src/lib/api/account-deletion.ts` calls the real, anonymous, non-enumerating
+backend contract at `POST /api/account-deletion/request-link` and
+`POST /api/account-deletion/confirm-link` (`MythStrideApi`
+`AccountDeletionPublicController`). Both public routes use
+`NEXT_PUBLIC_API_BASE_URL`, the same variable the waitlist client already
+uses; no new environment variable was required. The confirmation token
+travels only in the URL fragment (`#token=...`), is read client-side, is
+stripped from the address bar immediately via `history.replaceState`, and is
+never logged or persisted to storage.
 
-`src/lib/account-deletion-contract.ts` isolates the shape of a future
-authenticated deletion integration. It exports no service implementation and
-cannot call a backend; activation requires a separate approved runtime task.
+No purchase, moderation or Aethron-provider endpoint was added in this phase.
+
+`src/lib/account-deletion-contract.ts` isolates the shape of a *different*,
+still-unbuilt, future *authenticated in-app* deletion integration (initiated
+from the player's account settings after login). It exports no service
+implementation and cannot call a backend; activation requires a separate
+approved runtime task. It is unrelated to the public website flow described
+above.
 
 ## CI
 
 Pull requests run install, production audit, lint, TypeScript, focused tests,
 source-content validation, static build, artifact checks and internal-link
-validation. The workflow has read-only repository permission and never
-deploys.
+validation (`.github/workflows/website-pr-validation.yml`). That workflow has
+read-only repository permission and never deploys.
+
+`.github/workflows/deploy.yml` is separate: it triggers on every push to
+`main` (plus manual `workflow_dispatch`) and publishes `out/` to GitHub Pages,
+which serves the live `playmythstride.com` domain (`public/CNAME`). **Merging
+any PR into `main` triggers a real public deployment.** Anyone merging
+website changes must decide that deployment consciously; it is not something
+a PR-validation-only workflow run implies.

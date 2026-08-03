@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { ContentSections, LegalPageShell } from "@/components/site/LegalPageShell";
 import { LocalizedFooter } from "@/components/site/LocalizedFooter";
 import { LocalizedNavigation } from "@/components/site/LocalizedNavigation";
@@ -13,11 +14,13 @@ import { getLocalizedText, localePath, type PublicLocale } from "@/lib/locales";
 type LocalizedContentPageProps = {
   locale: PublicLocale;
   slug: PageSlug;
+  children?: ReactNode;
 };
 
 export function LocalizedContentPage({
   locale,
   slug,
+  children,
 }: LocalizedContentPageProps) {
   const content = getPageContent(slug, locale);
   const copy = siteCopy[locale];
@@ -54,7 +57,9 @@ export function LocalizedContentPage({
         />
         <div className={isDraft ? "legal-page-wrap" : "content-page-wrap"}>
           {isDraft ? (
-            <LegalPageShell locale={locale} content={content} />
+            <LegalPageShell locale={locale} content={content}>
+              {children}
+            </LegalPageShell>
           ) : (
             <div className="site-container">
               <ContentSections locale={locale} sections={content.sections} />

@@ -12,4 +12,8 @@ export const API_ENDPOINTS = {
     byUsername: (username: string) => `/api/public/player/${encodeURIComponent(username)}`,
   },
   waitlist: "/api/waitlist",
+  accountDeletion: {
+    requestLink: "/api/account-deletion/request-link",
+    confirmLink: "/api/account-deletion/confirm-link",
+  },
 } as const;

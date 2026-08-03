@@ -21,7 +21,7 @@ claim must use this registry.
 | Sagas | Development | Preserved as narrative product vision; not an active feature. |
 | Founder Sword | Validation | Reward identity and eligibility still require acceptance. |
 | Community reporting, blocking and moderation | Development | Public safety promises remain visible without claiming operational completion. |
-| Account deletion | Development | Planned in-app flow and backend execution are incomplete; the website has no form or endpoint call. |
+| Account deletion | Validation | The website's public request/confirmation form calls the real, non-enumerating backend endpoints; irreversible execution remains disabled pending the owner's final data-retention configuration. |
 | Rewarded ads | Future | Not active and no advertising provider is claimed. |
 | Real-money diamond purchases | Future | Not active during this beta phase; no prices, checkout or store badges. |
 | iOS | Planned | Roadmap platform after Android beta learnings; no download claim. |
