@@ -3,20 +3,48 @@
 import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import AuthenticatedTopbar from "@/components/AuthenticatedTopbar";
-import { BookIcon, CheckIcon, MapIcon, ScrollIcon } from "@/components/Icons";
+import {
+  BookIcon,
+  CheckIcon,
+  CopyIcon,
+  CrownIcon,
+  GemIcon,
+  MapIcon,
+  ScrollIcon,
+  SyncIcon,
+  TrophyIcon,
+} from "@/components/Icons";
 import { useAuth } from "@/contexts/AuthContext";
 import {
+  activateAdminEvent,
+  cancelAdminEvent,
   createAdminEvent,
+  createEventReward,
   createOfficialParticipant,
+  disqualifyEventParticipation,
+  EVENT_STATUS,
   exportOfficialParticipants,
+  finishAdminEvent,
+  generateEventCodes,
+  getAdminEventDetails,
   getOfficialParticipantSummary,
   importOfficialParticipants,
   listAdminEvents,
+  listEventResults,
   listOfficialParticipants,
+  publishAdminEvent,
+  removeEventReward,
+  REWARD_DELIVERY,
   removeOfficialParticipant,
   updateAdminEvent,
   updateOfficialParticipant,
   type AdminEvent,
+  type EventResult,
+  type EventReward,
+  type EventStatus,
+  type GeneratedEventCode,
+  type RewardDelivery,
+  type SaveEventRewardRequest,
   type OfficialParticipant,
   type OfficialParticipantPage,
   type OfficialParticipantSummary,
@@ -29,6 +57,163 @@ import {
 } from "@/lib/api/admin-events";
 import { ApiError } from "@/lib/api/client";
 import { isAdminAccessToken } from "@/lib/api/auth";
+
+type EventTab = "lifecycle" | "rewards" | "codes" | "results";
+
+type LifecycleAction = "publicar" | "ativar" | "finalizar" | "cancelar";
+
+// Keys mirror the StatusEvento enum, which the API serializes as numbers.
+const EVENT_STATUS_LABELS: Record<EventStatus, string> = {
+  0: "Rascunho",
+  1: "Publicada",
+  2: "Em andamento",
+  3: "Processando",
+  4: "Finalizada",
+  5: "Cancelada",
+};
+
+const EVENT_STATUS_TONES: Record<EventStatus, string> = {
+  0: "border-text-muted/40 text-text-muted",
+  1: "border-gold/50 text-gold-bright",
+  2: "border-emerald/50 text-emerald",
+  3: "border-violet/50 text-violet",
+  4: "border-gold-dim/45 text-gold-muted",
+  5: "border-hp-red/50 text-hp-red",
+};
+
+/**
+ * Mirrors the transitions enforced by EventoLifecycleService so the buttons
+ * stay honest. The API remains the authority and answers 409 when it disagrees.
+ */
+const LIFECYCLE_ACTIONS: {
+  action: LifecycleAction;
+  label: string;
+  running: string;
+  description: string;
+  allowedFrom: EventStatus[];
+  destructive: boolean;
+}[] = [
+  {
+    action: "publicar",
+    label: "Publicar",
+    running: "Publicando...",
+    description:
+      "Tira a prova do rascunho e a torna visível para os jogadores no aplicativo.",
+    allowedFrom: [EVENT_STATUS.draft, EVENT_STATUS.published],
+    destructive: false,
+  },
+  {
+    action: "ativar",
+    label: "Ativar",
+    running: "Ativando...",
+    description:
+      "Abre a janela oficial de corrida e validação para quem está inscrito.",
+    allowedFrom: [EVENT_STATUS.published, EVENT_STATUS.active],
+    destructive: false,
+  },
+  {
+    action: "finalizar",
+    label: "Finalizar e entregar",
+    running: "Finalizando...",
+    description:
+      "Encerra a prova, calcula o ranking e entrega as recompensas a todos os elegíveis. Não tem volta.",
+    allowedFrom: [EVENT_STATUS.active, EVENT_STATUS.processing],
+    destructive: true,
+  },
+  {
+    action: "cancelar",
+    label: "Cancelar prova",
+    running: "Cancelando...",
+    description:
+      "Cancela a prova e a desativa. Só não é possível depois que ela já foi finalizada.",
+    allowedFrom: [
+      EVENT_STATUS.draft,
+      EVENT_STATUS.published,
+      EVENT_STATUS.active,
+      EVENT_STATUS.processing,
+    ],
+    destructive: true,
+  },
+];
+
+// Free-text on the API, but constrained here to the documented vocabulary.
+const REWARD_TYPES = ["Trofeu", "Item", "Skin", "Titulo", "Moeda"] as const;
+const REWARD_RARITIES = ["Comum", "Raro", "Epico", "Lendario", "Mitico"] as const;
+
+const REWARD_DELIVERY_LABELS: Record<RewardDelivery, string> = {
+  0: "Nenhuma (apenas cosmética)",
+  1: "XP",
+  2: "Gold",
+  3: "Diamonds",
+  4: "Item do inventário",
+};
+
+const GUID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+type RewardFormState = {
+  nome: string;
+  descricao: string;
+  tipo: string;
+  raridade: string;
+  imagemUrl: string;
+  bonusXpPercentual: string;
+  bonusDanoBoss: string;
+  exclusivaEvento: boolean;
+  ativa: boolean;
+  tipoEntrega: RewardDelivery;
+  quantidade: string;
+  itemBaseId: string;
+};
+
+const emptyReward: RewardFormState = {
+  nome: "",
+  descricao: "",
+  tipo: "Trofeu",
+  raridade: "Comum",
+  imagemUrl: "",
+  bonusXpPercentual: "",
+  bonusDanoBoss: "",
+  exclusivaEvento: true,
+  ativa: true,
+  tipoEntrega: 0,
+  quantidade: "",
+  itemBaseId: "",
+};
+
+type CodeFormState = {
+  quantidade: string;
+  maxUsos: string;
+  prefixo: string;
+  expiraEm: string;
+};
+
+const emptyCodeForm: CodeFormState = {
+  quantidade: "10",
+  maxUsos: "1",
+  prefixo: "",
+  expiraEm: "",
+};
+
+/**
+ * Conflicts answer a plain string and validation errors answer JSON, so both
+ * shapes are unwrapped before falling back to a generic message.
+ */
+function describeApiError(caught: unknown, fallback: string) {
+  if (!(caught instanceof ApiError)) return fallback;
+  if (typeof caught.body === "string" && caught.body.trim()) {
+    return caught.body.trim();
+  }
+  if (caught.body && typeof caught.body === "object") {
+    const body = caught.body as {
+      mensagem?: string;
+      message?: string;
+      title?: string;
+    };
+    return body.mensagem ?? body.message ?? body.title ?? fallback;
+  }
+  return fallback;
+}
 
 type FormState = {
   nome: string;
@@ -127,6 +312,28 @@ function eventToForm(event: AdminEvent): FormState {
     bannerUrl: event.bannerUrl ?? "",
     ativo: event.ativo,
   };
+}
+
+function slugifyEventName(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function downloadCsv(content: string, fileName: string) {
+  const url = URL.createObjectURL(
+    new Blob([`\uFEFF${content.replace(/^\uFEFF/, "")}`], {
+      type: "text/csv;charset=utf-8",
+    }),
+  );
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = fileName;
+  anchor.click();
+  URL.revokeObjectURL(url);
 }
 
 function nullable(value: string) {
@@ -240,6 +447,36 @@ export default function AdminEventsPage() {
   const [participantSaving, setParticipantSaving] = useState(false);
   const [confirmingRemovalId, setConfirmingRemovalId] = useState<string | null>(null);
   const [exportingParticipants, setExportingParticipants] = useState(false);
+  const [eventTab, setEventTab] = useState<EventTab>("lifecycle");
+  const [panelMessage, setPanelMessage] = useState<string | null>(null);
+  const [panelError, setPanelError] = useState<string | null>(null);
+  const [lifecycleRunning, setLifecycleRunning] = useState<LifecycleAction | null>(null);
+  const [pendingLifecycle, setPendingLifecycle] = useState<LifecycleAction | null>(null);
+  const [rewards, setRewards] = useState<EventReward[]>([]);
+  const [rewardsLoading, setRewardsLoading] = useState(false);
+  const [rewardDraft, setRewardDraft] = useState<RewardFormState>(emptyReward);
+  const [rewardSaving, setRewardSaving] = useState(false);
+  const [confirmingRewardId, setConfirmingRewardId] = useState<string | null>(null);
+  const [codeForm, setCodeForm] = useState<CodeFormState>(emptyCodeForm);
+  const [generatingCodes, setGeneratingCodes] = useState(false);
+  const [generatedCodes, setGeneratedCodes] = useState<GeneratedEventCode[]>([]);
+  const [codesCopied, setCodesCopied] = useState(false);
+  const [results, setResults] = useState<EventResult[]>([]);
+  const [resultsLoading, setResultsLoading] = useState(false);
+  const [disqualifyTarget, setDisqualifyTarget] = useState<EventResult | null>(null);
+  const [disqualifyReason, setDisqualifyReason] = useState("");
+  const [disqualifying, setDisqualifying] = useState(false);
+
+  const selectedEvent = useMemo(
+    () => events.find((event) => event.id === selectedId) ?? null,
+    [events, selectedId],
+  );
+  const selectedStatus = (selectedEvent?.status ?? EVENT_STATUS.draft) as EventStatus;
+  const rewardNeedsQuantity =
+    rewardDraft.tipoEntrega === REWARD_DELIVERY.xp ||
+    rewardDraft.tipoEntrega === REWARD_DELIVERY.gold ||
+    rewardDraft.tipoEntrega === REWARD_DELIVERY.diamonds;
+  const rewardNeedsItem = rewardDraft.tipoEntrega === REWARD_DELIVERY.item;
 
   const loadEvents = useCallback(async (accessToken: string) => {
     setLoading(true);
@@ -247,8 +484,10 @@ export default function AdminEventsPage() {
     try {
       const result = await listAdminEvents(accessToken);
       setEvents(result);
+      return result;
     } catch {
       setError("Não foi possível carregar as provas.");
+      return null;
     } finally {
       setLoading(false);
     }
@@ -289,6 +528,29 @@ export default function AdminEventsPage() {
       setParticipantSummary(await getOfficialParticipantSummary(accessToken, eventId));
     } catch {
       setError("Não foi possível carregar o resumo das inscrições.");
+    }
+  }, []);
+
+  const loadRewards = useCallback(async (accessToken: string, eventId: string) => {
+    setRewardsLoading(true);
+    try {
+      const details = await getAdminEventDetails(accessToken, eventId);
+      setRewards(details.recompensas ?? []);
+    } catch (caught) {
+      setPanelError(describeApiError(caught, "Não foi possível carregar as recompensas."));
+    } finally {
+      setRewardsLoading(false);
+    }
+  }, []);
+
+  const loadResults = useCallback(async (accessToken: string, eventId: string) => {
+    setResultsLoading(true);
+    try {
+      setResults(await listEventResults(accessToken, eventId));
+    } catch (caught) {
+      setPanelError(describeApiError(caught, "Não foi possível carregar os resultados."));
+    } finally {
+      setResultsLoading(false);
     }
   }, []);
 
@@ -345,6 +607,22 @@ export default function AdminEventsPage() {
     return () => window.clearTimeout(timer);
   }, [loadParticipantSummary, selectedId, token]);
 
+  // Rewards and results are fetched lazily, only for the tab actually opened.
+  // Deferred like the participant loaders so the effect never sets state
+  // synchronously during the render pass.
+  useEffect(() => {
+    if (!token || !selectedId) return;
+    const timer = window.setTimeout(() => {
+      if (eventTab === "rewards") {
+        void loadRewards(token, selectedId);
+      }
+      if (eventTab === "results") {
+        void loadResults(token, selectedId);
+      }
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [eventTab, loadResults, loadRewards, selectedId, token]);
+
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [key]: value }));
   };
@@ -364,6 +642,19 @@ export default function AdminEventsPage() {
     setAddingParticipant(false);
     setParticipantDraft(null);
     setConfirmingRemovalId(null);
+    setEventTab("lifecycle");
+    setPanelMessage(null);
+    setPanelError(null);
+    setPendingLifecycle(null);
+    setRewards([]);
+    setRewardDraft(emptyReward);
+    setConfirmingRewardId(null);
+    setCodeForm(emptyCodeForm);
+    setGeneratedCodes([]);
+    setCodesCopied(false);
+    setResults([]);
+    setDisqualifyTarget(null);
+    setDisqualifyReason("");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -385,6 +676,19 @@ export default function AdminEventsPage() {
     setAddingParticipant(false);
     setParticipantDraft(null);
     setConfirmingRemovalId(null);
+    setEventTab("lifecycle");
+    setPanelMessage(null);
+    setPanelError(null);
+    setPendingLifecycle(null);
+    setRewards([]);
+    setRewardDraft(emptyReward);
+    setConfirmingRewardId(null);
+    setCodeForm(emptyCodeForm);
+    setGeneratedCodes([]);
+    setCodesCopied(false);
+    setResults([]);
+    setDisqualifyTarget(null);
+    setDisqualifyReason("");
   };
 
   const chooseCsv = async (changeEvent: ChangeEvent<HTMLInputElement>) => {
@@ -403,14 +707,7 @@ export default function AdminEventsPage() {
       "nome,numeroInscricao,email,distanciaKm",
       '"Maria Corredora","A-100","maria@example.com","10"',
     ].join("\r\n");
-    const url = URL.createObjectURL(
-      new Blob([`\uFEFF${content}`], { type: "text/csv;charset=utf-8" }),
-    );
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = "modelo-participantes-evento.csv";
-    anchor.click();
-    URL.revokeObjectURL(url);
+    downloadCsv(content, "modelo-participantes-evento.csv");
   };
 
   const importCsv = async () => {
@@ -564,19 +861,8 @@ export default function AdminEventsPage() {
         participantSort,
         participantSortDirection,
       );
-      const url = URL.createObjectURL(new Blob([`\uFEFF${csv.replace(/^\uFEFF/, "")}`], { type: "text/csv;charset=utf-8" }));
-      const selectedEvent = events.find((event) => event.id === selectedId);
-      const safeName = (selectedEvent?.nome ?? "evento")
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "");
-      const anchor = document.createElement("a");
-      anchor.href = url;
-      anchor.download = `participantes-${safeName || selectedId}.csv`;
-      anchor.click();
-      URL.revokeObjectURL(url);
+      const safeName = slugifyEventName(selectedEvent?.nome ?? "evento");
+      downloadCsv(csv, `participantes-${safeName || selectedId}.csv`);
     } catch {
       setError("Não foi possível exportar os participantes.");
     } finally {
@@ -609,6 +895,233 @@ export default function AdminEventsPage() {
     setParticipantSortDirection("asc");
     setParticipantPageSize(25);
     setParticipantPage(1);
+  };
+
+  const runLifecycleAction = async (action: LifecycleAction) => {
+    if (!token || !selectedId) return;
+    setPendingLifecycle(null);
+    setLifecycleRunning(action);
+    setPanelMessage(null);
+    setPanelError(null);
+
+    const successMessages: Record<LifecycleAction, string> = {
+      publicar: "Prova publicada. Já aparece para os jogadores.",
+      ativar: "Prova ativada. A janela de corrida está aberta.",
+      finalizar: "Prova finalizada. As recompensas foram entregues aos elegíveis.",
+      cancelar: "Prova cancelada e desativada.",
+    };
+
+    try {
+      if (action === "publicar") {
+        await publishAdminEvent(token, selectedId);
+      } else if (action === "ativar") {
+        await activateAdminEvent(token, selectedId);
+      } else if (action === "finalizar") {
+        await finishAdminEvent(token, selectedId);
+      } else {
+        await cancelAdminEvent(token, selectedId);
+      }
+
+      setPanelMessage(successMessages[action]);
+      // Cancelling also clears Ativo on the server, so the open form is
+      // resynced to avoid saving a stale value back over it.
+      const refreshed = await loadEvents(token);
+      const updated = refreshed?.find((event) => event.id === selectedId);
+      if (updated) {
+        setForm((current) => ({ ...current, ativo: updated.ativo }));
+      }
+      if (action === "finalizar") {
+        await loadResults(token, selectedId);
+      }
+    } catch (caught) {
+      setPanelError(
+        describeApiError(caught, "Não foi possível concluir a ação no ciclo de vida."),
+      );
+    } finally {
+      setLifecycleRunning(null);
+    }
+  };
+
+  const updateReward = <K extends keyof RewardFormState>(
+    key: K,
+    value: RewardFormState[K],
+  ) => {
+    setRewardDraft((current) => ({ ...current, [key]: value }));
+  };
+
+  const saveReward = async () => {
+    if (!token || !selectedId) return;
+
+    const nome = rewardDraft.nome.trim();
+    const quantidade = rewardDraft.quantidade ? Number(rewardDraft.quantidade) : null;
+    const itemBaseId = rewardDraft.itemBaseId.trim();
+
+    setPanelMessage(null);
+    setPanelError(null);
+
+    if (!nome) {
+      setPanelError("Informe o nome da recompensa.");
+      return;
+    }
+    if (rewardNeedsQuantity && (!quantidade || quantidade <= 0)) {
+      setPanelError(
+        "Entregas de XP, Gold ou Diamonds exigem uma quantidade maior que zero.",
+      );
+      return;
+    }
+    if (rewardNeedsItem && !GUID_PATTERN.test(itemBaseId)) {
+      setPanelError("Entrega de item exige o ID do item base no formato GUID.");
+      return;
+    }
+
+    const request: SaveEventRewardRequest = {
+      nome,
+      descricao: nullable(rewardDraft.descricao),
+      tipo: rewardDraft.tipo,
+      raridade: rewardDraft.raridade,
+      imagemUrl: nullable(rewardDraft.imagemUrl),
+      bonusXpPercentual: rewardDraft.bonusXpPercentual
+        ? Number(rewardDraft.bonusXpPercentual)
+        : null,
+      bonusDanoBoss: rewardDraft.bonusDanoBoss
+        ? Number(rewardDraft.bonusDanoBoss)
+        : null,
+      exclusivaEvento: rewardDraft.exclusivaEvento,
+      ativa: rewardDraft.ativa,
+      tipoEntrega: rewardDraft.tipoEntrega,
+      quantidade: rewardNeedsQuantity ? quantidade : null,
+      itemBaseId: rewardNeedsItem ? itemBaseId : null,
+    };
+
+    setRewardSaving(true);
+    try {
+      await createEventReward(token, selectedId, request);
+      setRewardDraft(emptyReward);
+      setPanelMessage("Recompensa adicionada à prova.");
+      await loadRewards(token, selectedId);
+      await loadEvents(token);
+    } catch (caught) {
+      setPanelError(describeApiError(caught, "Não foi possível salvar a recompensa."));
+    } finally {
+      setRewardSaving(false);
+    }
+  };
+
+  const removeReward = async (reward: EventReward) => {
+    if (!token || !selectedId) return;
+    if (confirmingRewardId !== reward.id) {
+      setConfirmingRewardId(reward.id);
+      return;
+    }
+
+    setRewardSaving(true);
+    setPanelMessage(null);
+    setPanelError(null);
+    try {
+      await removeEventReward(token, selectedId, reward.id);
+      setConfirmingRewardId(null);
+      setPanelMessage("Recompensa removida.");
+      await loadRewards(token, selectedId);
+      await loadEvents(token);
+    } catch (caught) {
+      setPanelError(describeApiError(caught, "Não foi possível remover a recompensa."));
+    } finally {
+      setRewardSaving(false);
+    }
+  };
+
+  const submitCodes = async () => {
+    if (!token || !selectedId) return;
+
+    const quantidade = Number(codeForm.quantidade);
+    const maxUsos = Number(codeForm.maxUsos);
+
+    setPanelMessage(null);
+    setPanelError(null);
+    setCodesCopied(false);
+
+    if (!Number.isInteger(quantidade) || quantidade < 1 || quantidade > 500) {
+      setPanelError("Gere entre 1 e 500 códigos por vez.");
+      return;
+    }
+    if (!Number.isInteger(maxUsos) || maxUsos < 1) {
+      setPanelError("O máximo de usos precisa ser pelo menos 1.");
+      return;
+    }
+
+    setGeneratingCodes(true);
+    try {
+      const created = await generateEventCodes(token, selectedId, {
+        quantidade,
+        maxUsos,
+        expiraEm: toIso(codeForm.expiraEm),
+        prefixo: nullable(codeForm.prefixo),
+      });
+      setGeneratedCodes(created);
+      setPanelMessage(
+        `${created.length} código(s) gerado(s). Copie agora: o servidor guarda apenas o hash e eles não podem ser consultados depois.`,
+      );
+      await loadEvents(token);
+    } catch (caught) {
+      setPanelError(describeApiError(caught, "Não foi possível gerar os códigos."));
+    } finally {
+      setGeneratingCodes(false);
+    }
+  };
+
+  const copyGeneratedCodes = async () => {
+    if (!generatedCodes.length) return;
+    try {
+      await navigator.clipboard.writeText(
+        generatedCodes.map((code) => code.codigo).join("\n"),
+      );
+      setCodesCopied(true);
+    } catch {
+      setPanelError(
+        "O navegador bloqueou a cópia. Baixe o CSV para guardar os códigos.",
+      );
+    }
+  };
+
+  const downloadGeneratedCodes = () => {
+    if (!generatedCodes.length || !selectedId) return;
+    const header = "codigo;maxUsos;expiraEm";
+    const rows = generatedCodes.map(
+      (code) => `${code.codigo};${code.maxUsos};${code.expiraEm ?? ""}`,
+    );
+    const safeName = slugifyEventName(selectedEvent?.nome ?? "evento");
+    downloadCsv([header, ...rows].join("\n"), `codigos-${safeName || selectedId}.csv`);
+  };
+
+  const confirmDisqualification = async () => {
+    if (!token || !selectedId || !disqualifyTarget) return;
+    const motivo = disqualifyReason.trim();
+    if (!motivo) {
+      setPanelError("Informe o motivo da desqualificação.");
+      return;
+    }
+
+    setDisqualifying(true);
+    setPanelMessage(null);
+    setPanelError(null);
+    try {
+      await disqualifyEventParticipation(
+        token,
+        selectedId,
+        disqualifyTarget.jogadorId,
+        motivo,
+      );
+      setPanelMessage(`${disqualifyTarget.nome} foi desqualificado.`);
+      setDisqualifyTarget(null);
+      setDisqualifyReason("");
+      await loadResults(token, selectedId);
+    } catch (caught) {
+      setPanelError(
+        describeApiError(caught, "Não foi possível desqualificar o participante."),
+      );
+    } finally {
+      setDisqualifying(false);
+    }
   };
 
   const submit = async (submitEvent: FormEvent<HTMLFormElement>) => {
@@ -1062,6 +1575,740 @@ export default function AdminEventsPage() {
           </button>
         </form>
 
+        {selectedEvent && (
+          <section className="app-panel rpg-card p-5 sm:p-7 lg:col-start-1">
+            <div className="flex flex-wrap items-start justify-between gap-4 border-b border-gold-dim/25 pb-5">
+              <div>
+                <p className="text-xs uppercase tracking-[0.26em] text-fiery-orange">
+                  Operação da prova
+                </p>
+                <h2 className="mt-2 font-display text-2xl text-gold-bright sm:text-3xl">
+                  {selectedEvent.nome}
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-text-secondary">
+                  Ciclo de vida, recompensas, códigos de acesso e resultados. Cada
+                  ação aqui vale imediatamente para os jogadores.
+                </p>
+              </div>
+              <StatusBadge status={selectedStatus} />
+            </div>
+
+            <div
+              role="tablist"
+              aria-label="Operação da prova"
+              className="mt-5 flex flex-wrap gap-2"
+            >
+              {(
+                [
+                  ["lifecycle", "Ciclo de vida", null],
+                  ["rewards", "Recompensas", selectedEvent.quantidadeRecompensas],
+                  ["codes", "Códigos", selectedEvent.quantidadeCodigos],
+                  ["results", "Resultados", null],
+                ] as const
+              ).map(([tab, label, count]) => (
+                <button
+                  key={tab}
+                  id={`event-tab-${tab}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={eventTab === tab}
+                  aria-controls={`event-panel-${tab}`}
+                  className={`border px-4 py-2 text-xs uppercase tracking-[0.12em] transition-colors ${
+                    eventTab === tab
+                      ? "border-gold/60 bg-gold/15 text-gold-bright"
+                      : "border-gold-dim/20 bg-void/35 text-text-muted hover:border-gold/40 hover:text-text-secondary"
+                  }`}
+                  onClick={() => {
+                    setEventTab(tab);
+                    setPanelMessage(null);
+                    setPanelError(null);
+                  }}
+                >
+                  {label}
+                  {typeof count === "number" && (
+                    <span className="ml-1 opacity-70">({count})</span>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {(panelMessage || panelError) && (
+              <div
+                role="status"
+                className={`mt-5 border px-4 py-3 text-sm ${
+                  panelError
+                    ? "border-hp-red/35 bg-hp-red/10 text-text-secondary"
+                    : "border-emerald/35 bg-emerald/10 text-text-primary"
+                }`}
+              >
+                {panelError ?? panelMessage}
+              </div>
+            )}
+
+            {eventTab === "lifecycle" && (
+              <div
+                role="tabpanel"
+                id="event-panel-lifecycle"
+                aria-labelledby="event-tab-lifecycle"
+                className="mt-5 grid gap-4"
+              >
+                <div className="rpg-inset rounded-[14px] border border-gold-dim/20 p-4">
+                  <div className="flex items-center gap-2 text-gold">
+                    <SyncIcon className="h-5 w-5" />
+                    <h3 className="font-display text-xl">Transições disponíveis</h3>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                    O backend é a autoridade sobre as transições. Ações fora da
+                    ordem são recusadas mesmo que o botão seja acionado.
+                  </p>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {LIFECYCLE_ACTIONS.map((option) => {
+                    const enabled = option.allowedFrom.includes(selectedStatus);
+                    const running = lifecycleRunning === option.action;
+                    const confirming = pendingLifecycle === option.action;
+
+                    return (
+                      <div
+                        key={option.action}
+                        className={`rpg-inset rounded-[14px] border p-4 ${
+                          enabled
+                            ? "border-gold-dim/25"
+                            : "border-gold-dim/10 opacity-55"
+                        }`}
+                      >
+                        <p
+                          className={`font-display text-lg ${
+                            option.destructive ? "text-hp-red" : "text-gold"
+                          }`}
+                        >
+                          {option.label}
+                        </p>
+                        <p className="mt-1 text-xs leading-relaxed text-text-muted">
+                          {option.description}
+                        </p>
+
+                        {confirming ? (
+                          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                            <button
+                              type="button"
+                              className="myth-button-secondary px-3 py-2 text-xs"
+                              onClick={() => setPendingLifecycle(null)}
+                            >
+                              Voltar
+                            </button>
+                            <button
+                              type="button"
+                              className="myth-button-primary px-3 py-2 text-xs"
+                              disabled={running}
+                              onClick={() => void runLifecycleAction(option.action)}
+                            >
+                              {running ? option.running : "Confirmar"}
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            className={`mt-3 w-full px-3 py-2 text-xs ${
+                              option.destructive
+                                ? "myth-button-secondary"
+                                : "myth-button-primary"
+                            }`}
+                            disabled={!enabled || lifecycleRunning !== null}
+                            onClick={() => {
+                              if (option.destructive) {
+                                setPendingLifecycle(option.action);
+                                return;
+                              }
+                              void runLifecycleAction(option.action);
+                            }}
+                          >
+                            {running
+                              ? option.running
+                              : enabled
+                                ? option.label
+                                : "Indisponível neste estado"}
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {selectedStatus === EVENT_STATUS.completed && (
+                  <p className="border border-gold-dim/25 bg-void/45 px-4 py-3 text-sm text-text-secondary">
+                    Prova finalizada. As recompensas já foram entregues e nenhuma
+                    outra transição é possível.
+                  </p>
+                )}
+                {selectedStatus === EVENT_STATUS.cancelled && (
+                  <p className="border border-hp-red/30 bg-hp-red/10 px-4 py-3 text-sm text-text-secondary">
+                    Prova cancelada. Publique novamente apenas se ela voltar a
+                    acontecer.
+                  </p>
+                )}
+              </div>
+            )}
+
+            {eventTab === "rewards" && (
+              <div
+                role="tabpanel"
+                id="event-panel-rewards"
+                aria-labelledby="event-tab-rewards"
+                className="mt-5 grid gap-4"
+              >
+                <div className="rpg-inset rounded-[14px] border border-gold-dim/20 p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-2 text-gold">
+                      <TrophyIcon className="h-5 w-5" />
+                      <h3 className="font-display text-xl">Recompensas da prova</h3>
+                    </div>
+                    <button
+                      type="button"
+                      className="myth-button-secondary px-3 py-2 text-xs"
+                      disabled={rewardsLoading}
+                      onClick={() => {
+                        if (token && selectedId) void loadRewards(token, selectedId);
+                      }}
+                    >
+                      {rewardsLoading ? "Carregando..." : "Atualizar"}
+                    </button>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                    Entregues automaticamente na finalização, para quem concluiu a
+                    prova e não foi desqualificado.
+                  </p>
+                </div>
+
+                {rewardsLoading && rewards.length === 0 && (
+                  <p className="text-sm text-text-muted">Carregando recompensas...</p>
+                )}
+                {!rewardsLoading && rewards.length === 0 && (
+                  <p className="text-sm text-text-muted">
+                    Nenhuma recompensa cadastrada nesta prova.
+                  </p>
+                )}
+
+                {rewards.length > 0 && (
+                  <div className="grid gap-3">
+                    {rewards.map((reward) => (
+                      <div
+                        key={reward.id}
+                        className="rpg-inset grid gap-2 rounded-[14px] border border-gold-dim/25 p-4"
+                      >
+                        <div className="flex flex-wrap items-start justify-between gap-3">
+                          <div>
+                            <p className="font-display text-lg text-gold-bright">
+                              {reward.nome}
+                            </p>
+                            {reward.descricao && (
+                              <p className="mt-1 text-xs leading-relaxed text-text-muted">
+                                {reward.descricao}
+                              </p>
+                            )}
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            <span className="border border-gold-dim/30 px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-gold-muted">
+                              {reward.tipo}
+                            </span>
+                            <span className="border border-violet/30 px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-violet">
+                              {reward.raridade}
+                            </span>
+                            <span
+                              className={`border px-2 py-1 text-[10px] uppercase tracking-[0.16em] ${
+                                reward.ativa
+                                  ? "border-emerald/30 text-emerald"
+                                  : "border-text-muted/30 text-text-muted"
+                              }`}
+                            >
+                              {reward.ativa ? "Ativa" : "Inativa"}
+                            </span>
+                          </div>
+                        </div>
+
+                        <p className="text-xs text-text-secondary">
+                          Entrega: {REWARD_DELIVERY_LABELS[reward.tipoEntrega]}
+                          {reward.quantidade ? ` · ${reward.quantidade}` : ""}
+                          {reward.itemBaseId ? ` · item ${reward.itemBaseId}` : ""}
+                          {reward.exclusivaEvento ? " · exclusiva do evento" : ""}
+                        </p>
+                        {(reward.bonusXpPercentual || reward.bonusDanoBoss) && (
+                          <p className="text-xs text-text-muted">
+                            {reward.bonusXpPercentual
+                              ? `Bônus de XP: ${reward.bonusXpPercentual}%`
+                              : ""}
+                            {reward.bonusXpPercentual && reward.bonusDanoBoss
+                              ? " · "
+                              : ""}
+                            {reward.bonusDanoBoss
+                              ? `Bônus de dano no chefe: ${reward.bonusDanoBoss}`
+                              : ""}
+                          </p>
+                        )}
+
+                        <div className="flex flex-wrap justify-end gap-2">
+                          {confirmingRewardId === reward.id ? (
+                            <>
+                              <button
+                                type="button"
+                                className="myth-button-secondary px-3 py-2 text-xs"
+                                onClick={() => setConfirmingRewardId(null)}
+                              >
+                                Manter
+                              </button>
+                              <button
+                                type="button"
+                                className="border border-hp-red/45 px-3 py-2 text-xs uppercase tracking-[0.14em] text-hp-red transition-colors hover:bg-hp-red/10"
+                                disabled={rewardSaving}
+                                onClick={() => void removeReward(reward)}
+                              >
+                                {rewardSaving ? "Removendo..." : "Confirmar remoção"}
+                              </button>
+                            </>
+                          ) : (
+                            <button
+                              type="button"
+                              className="myth-button-secondary px-3 py-2 text-xs"
+                              disabled={rewardSaving}
+                              onClick={() => void removeReward(reward)}
+                            >
+                              Remover
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="rpg-inset rounded-[16px] border border-gold-dim/20 p-4 sm:p-5">
+                  <div className="mb-4 flex items-center gap-2 text-gold">
+                    <GemIcon className="h-5 w-5" />
+                    <h3 className="font-display text-xl">Nova recompensa</h3>
+                  </div>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <Field
+                      label="Nome"
+                      required
+                      value={rewardDraft.nome}
+                      onChange={(value) => updateReward("nome", value)}
+                    />
+                    <Field
+                      label="Imagem (URL)"
+                      type="url"
+                      value={rewardDraft.imagemUrl}
+                      onChange={(value) => updateReward("imagemUrl", value)}
+                    />
+                    <label className="grid gap-2 sm:col-span-2">
+                      <span className="text-xs uppercase tracking-[0.2em] text-gold-muted">
+                        Descrição
+                      </span>
+                      <textarea
+                        className="myth-input min-h-20"
+                        value={rewardDraft.descricao}
+                        onChange={(event) =>
+                          updateReward("descricao", event.target.value)
+                        }
+                      />
+                    </label>
+                    <SelectField
+                      label="Tipo"
+                      value={rewardDraft.tipo}
+                      onChange={(value) => updateReward("tipo", value)}
+                    >
+                      {REWARD_TYPES.map((type) => (
+                        <option key={type} value={type}>
+                          {type}
+                        </option>
+                      ))}
+                    </SelectField>
+                    <SelectField
+                      label="Raridade"
+                      value={rewardDraft.raridade}
+                      onChange={(value) => updateReward("raridade", value)}
+                    >
+                      {REWARD_RARITIES.map((rarity) => (
+                        <option key={rarity} value={rarity}>
+                          {rarity}
+                        </option>
+                      ))}
+                    </SelectField>
+                    <SelectField
+                      label="Forma de entrega"
+                      value={String(rewardDraft.tipoEntrega)}
+                      onChange={(value) =>
+                        updateReward("tipoEntrega", Number(value) as RewardDelivery)
+                      }
+                    >
+                      {(
+                        Object.entries(REWARD_DELIVERY_LABELS) as [string, string][]
+                      ).map(([value, label]) => (
+                        <option key={value} value={value}>
+                          {label}
+                        </option>
+                      ))}
+                    </SelectField>
+                    {rewardNeedsQuantity && (
+                      <Field
+                        label="Quantidade"
+                        type="number"
+                        min="1"
+                        step="1"
+                        required
+                        value={rewardDraft.quantidade}
+                        onChange={(value) => updateReward("quantidade", value)}
+                      />
+                    )}
+                    {rewardNeedsItem && (
+                      <Field
+                        label="ID do item base (GUID)"
+                        required
+                        value={rewardDraft.itemBaseId}
+                        onChange={(value) => updateReward("itemBaseId", value)}
+                      />
+                    )}
+                    <Field
+                      label="Bônus de XP (%)"
+                      type="number"
+                      min="0"
+                      step="1"
+                      value={rewardDraft.bonusXpPercentual}
+                      onChange={(value) => updateReward("bonusXpPercentual", value)}
+                    />
+                    <Field
+                      label="Bônus de dano no chefe"
+                      type="number"
+                      min="0"
+                      step="1"
+                      value={rewardDraft.bonusDanoBoss}
+                      onChange={(value) => updateReward("bonusDanoBoss", value)}
+                    />
+                    <label className="flex items-center gap-3 border border-gold-dim/25 bg-void/45 px-4 py-3">
+                      <input
+                        type="checkbox"
+                        checked={rewardDraft.exclusivaEvento}
+                        onChange={(event) =>
+                          updateReward("exclusivaEvento", event.target.checked)
+                        }
+                      />
+                      <span className="text-sm text-text-secondary">
+                        Exclusiva do evento
+                      </span>
+                    </label>
+                    <label className="flex items-center gap-3 border border-gold-dim/25 bg-void/45 px-4 py-3">
+                      <input
+                        type="checkbox"
+                        checked={rewardDraft.ativa}
+                        onChange={(event) => updateReward("ativa", event.target.checked)}
+                      />
+                      <span className="text-sm text-text-secondary">
+                        Recompensa ativa
+                      </span>
+                    </label>
+                  </div>
+                  {rewardNeedsItem && (
+                    <p className="mt-3 text-xs leading-relaxed text-text-muted">
+                      A entrega de item exige o identificador de um item base já
+                      existente no catálogo. Não há busca por nome disponível na API.
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    className="myth-button-primary mt-4 w-full px-5 py-3 font-display tracking-wider"
+                    disabled={rewardSaving || !rewardDraft.nome.trim()}
+                    onClick={() => void saveReward()}
+                  >
+                    <CheckIcon className="h-4 w-4" />
+                    {rewardSaving ? "Salvando..." : "Adicionar recompensa"}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {eventTab === "codes" && (
+              <div
+                role="tabpanel"
+                id="event-panel-codes"
+                aria-labelledby="event-tab-codes"
+                className="mt-5 grid gap-4"
+              >
+                <div className="rpg-inset rounded-[14px] border border-gold-dim/20 p-4">
+                  <div className="flex items-center gap-2 text-gold">
+                    <BookIcon className="h-5 w-5" />
+                    <h3 className="font-display text-xl">Códigos de acesso</h3>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                    Os códigos são exibidos uma única vez. O servidor guarda apenas o
+                    hash, então não há como consultá-los depois — copie ou baixe o CSV
+                    antes de sair desta tela.
+                  </p>
+                </div>
+
+                <div className="rpg-inset rounded-[16px] border border-gold-dim/20 p-4 sm:p-5">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <Field
+                      label="Quantidade"
+                      type="number"
+                      min="1"
+                      max="500"
+                      step="1"
+                      value={codeForm.quantidade}
+                      onChange={(value) =>
+                        setCodeForm((current) => ({ ...current, quantidade: value }))
+                      }
+                    />
+                    <Field
+                      label="Máximo de usos por código"
+                      type="number"
+                      min="1"
+                      step="1"
+                      value={codeForm.maxUsos}
+                      onChange={(value) =>
+                        setCodeForm((current) => ({ ...current, maxUsos: value }))
+                      }
+                    />
+                    <Field
+                      label="Prefixo (opcional)"
+                      value={codeForm.prefixo}
+                      onChange={(value) =>
+                        setCodeForm((current) => ({ ...current, prefixo: value }))
+                      }
+                    />
+                    <DateField
+                      label="Expira em (opcional)"
+                      value={codeForm.expiraEm}
+                      onChange={(value) =>
+                        setCodeForm((current) => ({ ...current, expiraEm: value }))
+                      }
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    className="myth-button-primary mt-4 w-full px-5 py-3 font-display tracking-wider"
+                    disabled={generatingCodes}
+                    onClick={() => void submitCodes()}
+                  >
+                    <GemIcon className="h-4 w-4" />
+                    {generatingCodes ? "Gerando..." : "Gerar códigos"}
+                  </button>
+                </div>
+
+                {generatedCodes.length > 0 && (
+                  <div className="rpg-inset rounded-[16px] border border-gold/45 bg-gold/5 p-4 sm:p-5">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <p className="font-display text-lg text-gold-bright">
+                        {generatedCodes.length} código(s) gerado(s)
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          className="myth-button-secondary px-3 py-2 text-xs"
+                          onClick={() => void copyGeneratedCodes()}
+                        >
+                          <CopyIcon className="h-4 w-4" />
+                          {codesCopied ? "Copiado" : "Copiar todos"}
+                        </button>
+                        <button
+                          type="button"
+                          className="myth-button-secondary px-3 py-2 text-xs"
+                          onClick={downloadGeneratedCodes}
+                        >
+                          Baixar CSV
+                        </button>
+                      </div>
+                    </div>
+                    <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                      {generatedCodes.map((code) => (
+                        <li
+                          key={code.id}
+                          className="flex items-center justify-between gap-3 border border-gold-dim/25 bg-void/45 px-3 py-2"
+                        >
+                          <code className="font-mono text-sm text-gold-bright">
+                            {code.codigo}
+                          </code>
+                          <span className="text-[10px] uppercase tracking-[0.16em] text-text-muted">
+                            {code.maxUsos} uso(s)
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {eventTab === "results" && (
+              <div
+                role="tabpanel"
+                id="event-panel-results"
+                aria-labelledby="event-tab-results"
+                className="mt-5 grid gap-4"
+              >
+                <div className="rpg-inset rounded-[14px] border border-gold-dim/20 p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-2 text-gold">
+                      <CrownIcon className="h-5 w-5" />
+                      <h3 className="font-display text-xl">Resultados oficiais</h3>
+                    </div>
+                    <button
+                      type="button"
+                      className="myth-button-secondary px-3 py-2 text-xs"
+                      disabled={resultsLoading}
+                      onClick={() => {
+                        if (token && selectedId) void loadResults(token, selectedId);
+                      }}
+                    >
+                      {resultsLoading ? "Carregando..." : "Atualizar"}
+                    </button>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+                    Lista quem concluiu a prova, na ordem oficial. A desqualificação
+                    deixa de ser possível depois que as recompensas são entregues.
+                  </p>
+                </div>
+
+                {resultsLoading && results.length === 0 && (
+                  <p className="text-sm text-text-muted">Carregando resultados...</p>
+                )}
+                {!resultsLoading && results.length === 0 && (
+                  <p className="text-sm text-text-muted">
+                    Nenhuma corrida validada nesta prova ainda.
+                  </p>
+                )}
+
+                {results.length > 0 && (
+                  <div className="overflow-x-auto">
+                    <table className="w-full min-w-[720px] text-left text-sm">
+                      <thead className="border-b border-gold-dim/25 text-xs uppercase tracking-[0.16em] text-gold-muted">
+                        <tr>
+                          <th className="px-3 py-3">#</th>
+                          <th className="px-3 py-3">Jogador</th>
+                          <th className="px-3 py-3">Distância</th>
+                          <th className="px-3 py-3">Estado</th>
+                          <th className="px-3 py-3">Recompensas</th>
+                          <th className="px-3 py-3 text-right">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {results.map((result) => (
+                          <tr
+                            key={result.jogadorId}
+                            className="border-b border-gold-dim/10"
+                          >
+                            <td className="px-3 py-3 font-display text-lg text-gold">
+                              {result.desqualificado ? "—" : result.rankPosition}
+                            </td>
+                            <td className="px-3 py-3">
+                              <span className="block font-medium text-text-primary">
+                                {result.nome}
+                              </span>
+                              {result.motivoDesqualificacao && (
+                                <span className="block text-xs text-hp-red">
+                                  {result.motivoDesqualificacao}
+                                </span>
+                              )}
+                            </td>
+                            <td className="px-3 py-3 text-text-secondary">
+                              {result.distanciaKm.toFixed(2)} km
+                            </td>
+                            <td className="px-3 py-3">
+                              <span
+                                className={`text-[10px] uppercase tracking-[0.16em] ${
+                                  result.desqualificado ? "text-hp-red" : "text-emerald"
+                                }`}
+                              >
+                                {result.desqualificado ? "Desqualificado" : "Válido"}
+                              </span>
+                            </td>
+                            <td className="px-3 py-3">
+                              <span
+                                className={`text-[10px] uppercase tracking-[0.16em] ${
+                                  result.recompensasEntregues
+                                    ? "text-gold-bright"
+                                    : "text-text-muted"
+                                }`}
+                              >
+                                {result.recompensasEntregues
+                                  ? "Entregues"
+                                  : "Pendentes"}
+                              </span>
+                            </td>
+                            <td className="px-3 py-3 text-right">
+                              <button
+                                type="button"
+                                className="myth-button-secondary px-3 py-2 text-xs"
+                                disabled={
+                                  result.desqualificado || result.recompensasEntregues
+                                }
+                                onClick={() => {
+                                  setDisqualifyTarget(result);
+                                  setDisqualifyReason("");
+                                  setPanelError(null);
+                                }}
+                              >
+                                Desqualificar
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            )}
+          </section>
+        )}
+
+        {disqualifyTarget && (
+          <div className="fixed inset-0 z-50 grid place-items-center bg-void/85 px-4 backdrop-blur-sm">
+            <div className="app-panel rpg-card w-full max-w-xl p-5 sm:p-6">
+              <p className="text-xs uppercase tracking-[0.22em] text-fiery-orange">
+                Resultado oficial
+              </p>
+              <h2 className="mt-2 font-display text-2xl text-gold-bright">
+                Desqualificar {disqualifyTarget.nome}
+              </h2>
+              <p className="mt-2 border border-hp-red/30 bg-hp-red/10 px-3 py-2 text-sm text-text-secondary">
+                A desqualificação remove o jogador do ranking e o exclui da entrega
+                de recompensas. O motivo fica registrado.
+              </p>
+              <label className="mt-5 grid gap-2">
+                <span className="text-xs uppercase tracking-[0.2em] text-gold-muted">
+                  Motivo
+                </span>
+                <textarea
+                  className="myth-input min-h-24"
+                  value={disqualifyReason}
+                  onChange={(event) => setDisqualifyReason(event.target.value)}
+                />
+              </label>
+              <div className="mt-6 grid gap-2 sm:grid-cols-2">
+                <button
+                  type="button"
+                  className="myth-button-secondary px-5 py-3"
+                  disabled={disqualifying}
+                  onClick={() => {
+                    setDisqualifyTarget(null);
+                    setDisqualifyReason("");
+                  }}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="button"
+                  className="myth-button-primary px-5 py-3"
+                  disabled={disqualifying || !disqualifyReason.trim()}
+                  onClick={() => void confirmDisqualification()}
+                >
+                  {disqualifying ? "Registrando..." : "Desqualificar"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {(editingParticipant || addingParticipant) && participantDraft && (
           <div className="fixed inset-0 z-50 grid place-items-center bg-void/85 px-4 backdrop-blur-sm">
             <div className="app-panel rpg-card w-full max-w-xl p-5 sm:p-6">
@@ -1131,7 +2378,7 @@ export default function AdminEventsPage() {
           </div>
         )}
 
-        <aside className="app-panel app-panel-compact rpg-card h-fit p-4 lg:sticky lg:top-28">
+        <aside className="app-panel app-panel-compact rpg-card h-fit p-4 lg:sticky lg:top-28 lg:col-start-2 lg:row-start-1">
           <div className="flex items-center justify-between gap-3">
             <h2 className="font-display text-2xl text-gold">Provas cadastradas</h2>
             <button type="button" onClick={newEvent} className="myth-button-secondary px-3 py-2 text-xs">Nova</button>
@@ -1148,8 +2395,13 @@ export default function AdminEventsPage() {
               >
                 <span className="font-display text-lg text-gold-bright">{event.nome}</span>
                 <span className="text-xs text-text-muted">{event.localNome || "Local ainda não informado"}</span>
-                <span className={`mt-1 text-[10px] uppercase tracking-[0.2em] ${event.ativo ? "text-emerald" : "text-text-muted"}`}>
-                  {event.ativo ? "Ativo" : "Inativo"}
+                <span className="mt-1 flex flex-wrap items-center gap-2">
+                  <StatusBadge status={event.status} />
+                  {!event.ativo && (
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-text-muted">
+                      Inativo
+                    </span>
+                  )}
                 </span>
               </button>
             ))}
@@ -1169,6 +2421,42 @@ function FormSection({ title, icon, children }: { title: string; icon: React.Rea
       </div>
       <div className="grid gap-4 sm:grid-cols-2">{children}</div>
     </section>
+  );
+}
+
+function StatusBadge({ status }: { status: EventStatus }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-2 border px-3 py-1 text-[11px] uppercase tracking-[0.18em] ${EVENT_STATUS_TONES[status]}`}
+    >
+      <span className="h-1.5 w-1.5 rounded-full bg-current" />
+      {EVENT_STATUS_LABELS[status]}
+    </span>
+  );
+}
+
+function SelectField({
+  label,
+  value,
+  onChange,
+  children,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <label className="grid gap-2">
+      <span className="text-xs uppercase tracking-[0.2em] text-gold-muted">{label}</span>
+      <select
+        className="myth-input w-full"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+      >
+        {children}
+      </select>
+    </label>
   );
 }
 
