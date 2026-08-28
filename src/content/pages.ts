@@ -468,12 +468,9 @@ const ptBR: Record<PageSlug, LocalizedPageContent> = {
         title: "Retenção e exclusão",
         feature: "accountDeletion",
         paragraphs: [
-          "Períodos exatos não foram definidos. Certos registros podem precisar ser mantidos para segurança, fraude, compras ou obrigações legais.",
-        ],
-        pendingFields: [
-          "accountDeletionPeriod",
-          "dataRetentionSchedule",
-          "purchaseRetentionPolicy",
+          "Você pode solicitar a exclusão da conta pelo aplicativo ou por esta página. Após confirmar a titularidade por email, a exclusão é agendada para 30 dias depois e pode ser cancelada nesse período.",
+          "Depois desse prazo, os dados da conta e do jogador são excluídos de forma permanente. Registros de segurança podem ser mantidos por até 180 dias para prevenção de fraude, e registros de compra por até 5 anos por obrigação contábil e fiscal.",
+          "Os registros retidos não mantêm vínculo com a conta, endereço IP ou dados do perfil de jogador, e são excluídos automaticamente ao fim de cada prazo.",
         ],
       },
       {
@@ -549,10 +546,10 @@ const ptBR: Record<PageSlug, LocalizedPageContent> = {
     ],
   },
   "delete-account": {
-    eyebrow: "Controle de conta — rascunho",
-    title: "Solicite a verificação de exclusão da sua conta por email.",
+    eyebrow: "Controle de conta",
+    title: "Solicite a exclusão da sua conta por email.",
     summary:
-      "Esta página envia um link de verificação por email para confirmar a titularidade da conta. A execução final da exclusão ainda depende de decisões de retenção pendentes do responsável.",
+      "Esta página envia um link de verificação por email para confirmar a titularidade da conta. Após a confirmação, a exclusão é agendada para 30 dias depois e pode ser cancelada nesse período.",
     sections: [
       {
         title: "O que esta página faz",
@@ -565,7 +562,9 @@ const ptBR: Record<PageSlug, LocalizedPageContent> = {
       {
         title: "O que acontece após a verificação",
         paragraphs: [
-          "Depois de confirmar o link, a solicitação fica registrada. A execução irreversível da exclusão permanece bloqueada até que o responsável configure os prazos finais de retenção.",
+          "Depois de confirmar o link, a exclusão é agendada para 30 dias depois. Durante esse período você pode cancelar a solicitação a qualquer momento pelo aplicativo.",
+          "Passado o prazo, a exclusão se torna irreversível: perfil, corridas, progresso, inventário, conquistas, relações sociais e integrações são excluídos permanentemente.",
+          "Se você lidera uma guilda, transfira a liderança para outro membro antes de excluir a conta. A guilda não é excluída junto com você.",
         ],
       },
       {
@@ -576,15 +575,11 @@ const ptBR: Record<PageSlug, LocalizedPageContent> = {
         pendingFields: ["supportEmail", "privacyEmail"],
       },
       {
-        title: "Dados que podem exigir retenção",
+        title: "Dados retidos por prazo limitado",
         paragraphs: [
-          "Algumas informações podem precisar ser preservadas para segurança, prevenção de fraude, histórico de compras ou obrigações legais. Os períodos exatos ainda não foram aprovados.",
-        ],
-        pendingFields: [
-          "accountDeletionPeriod",
-          "dataRetentionSchedule",
-          "purchaseRetentionPolicy",
-          "diamondDeletionPolicy",
+          "Registros de segurança podem ser mantidos por até 180 dias após a exclusão, exclusivamente para prevenção de fraude. Eles não guardam endereço IP, identificação de dispositivo nem qualquer vínculo com a conta excluída.",
+          "Registros de compra podem ser mantidos por até 5 anos, por obrigação contábil e fiscal. Eles guardam apenas a identificação mínima da transação, sem vínculo com a conta e sem dados do perfil de jogador.",
+          "Encerrado cada prazo, esses registros são excluídos automaticamente pelo servidor. Nenhum deles mantém um perfil de jogador ativo.",
         ],
       },
     ],
@@ -1176,12 +1171,9 @@ const en: Record<PageSlug, LocalizedPageContent> = {
         title: "Retention and deletion",
         feature: "accountDeletion",
         paragraphs: [
-          "Exact periods have not been defined. Certain records may need to be retained for security, fraud, purchases or legal obligations.",
-        ],
-        pendingFields: [
-          "accountDeletionPeriod",
-          "dataRetentionSchedule",
-          "purchaseRetentionPolicy",
+          "You can request account deletion from the app or from this page. After you confirm ownership by email, deletion is scheduled 30 days later and can be cancelled during that period.",
+          "After that period, account and player data are permanently deleted. Security records may be kept for up to 180 days for fraud prevention, and purchase records for up to 5 years for accounting and tax obligations.",
+          "Retained records hold no link to the account, no IP address and no player profile data, and are deleted automatically when each period ends.",
         ],
       },
       {
@@ -1257,10 +1249,10 @@ const en: Record<PageSlug, LocalizedPageContent> = {
     ],
   },
   "delete-account": {
-    eyebrow: "Account control — draft",
-    title: "Request account-deletion verification by email.",
+    eyebrow: "Account control",
+    title: "Request account deletion by email.",
     summary:
-      "This page sends a verification link by email to confirm account ownership. Final deletion execution still depends on retention decisions the owner has not made yet.",
+      "This page sends a verification link by email to confirm account ownership. Once confirmed, deletion is scheduled 30 days later and can be cancelled during that period.",
     sections: [
       {
         title: "What this page does",
@@ -1273,7 +1265,9 @@ const en: Record<PageSlug, LocalizedPageContent> = {
       {
         title: "What happens after verification",
         paragraphs: [
-          "Once the link is confirmed, the request is recorded. Irreversible deletion execution remains blocked until the owner configures final retention periods.",
+          "Once the link is confirmed, deletion is scheduled 30 days later. You can cancel the request at any point during that period from the app.",
+          "After the period ends, deletion becomes irreversible: profile, runs, progress, inventory, achievements, social relationships and integrations are permanently deleted.",
+          "If you lead a guild, transfer leadership to another member before deleting your account. The guild is not deleted along with you.",
         ],
       },
       {
@@ -1284,15 +1278,11 @@ const en: Record<PageSlug, LocalizedPageContent> = {
         pendingFields: ["supportEmail", "privacyEmail"],
       },
       {
-        title: "Data that may require retention",
+        title: "Data retained for a limited period",
         paragraphs: [
-          "Some information may need to be preserved for security, fraud prevention, purchase history or legal obligations. Exact periods are not approved.",
-        ],
-        pendingFields: [
-          "accountDeletionPeriod",
-          "dataRetentionSchedule",
-          "purchaseRetentionPolicy",
-          "diamondDeletionPolicy",
+          "Security records may be kept for up to 180 days after deletion, solely for fraud prevention. They hold no IP address, no device identification and no link to the deleted account.",
+          "Purchase records may be kept for up to 5 years for accounting and tax obligations. They hold only the minimum transaction identity, with no link to the account and no player profile data.",
+          "When each period ends, those records are deleted automatically by the server. Neither keeps an active player profile.",
         ],
       },
     ],
@@ -1884,12 +1874,9 @@ const es: Record<PageSlug, LocalizedPageContent> = {
         title: "Retención y eliminación",
         feature: "accountDeletion",
         paragraphs: [
-          "No se han definido periodos exactos. Algunos registros pueden necesitar conservación por seguridad, fraude, compras u obligaciones legales.",
-        ],
-        pendingFields: [
-          "accountDeletionPeriod",
-          "dataRetentionSchedule",
-          "purchaseRetentionPolicy",
+          "Puedes solicitar la eliminación de la cuenta desde la aplicación o desde esta página. Tras confirmar la titularidad por correo, la eliminación se programa 30 días después y puede cancelarse durante ese período.",
+          "Pasado ese plazo, los datos de la cuenta y del jugador se eliminan de forma permanente. Los registros de seguridad pueden conservarse hasta 180 días para prevención de fraude, y los de compra hasta 5 años por obligaciones contables y fiscales.",
+          "Los registros conservados no mantienen vínculo con la cuenta, dirección IP ni datos del perfil de jugador, y se eliminan automáticamente al terminar cada plazo.",
         ],
       },
       {
@@ -1965,10 +1952,10 @@ const es: Record<PageSlug, LocalizedPageContent> = {
     ],
   },
   "delete-account": {
-    eyebrow: "Control de cuenta — borrador",
-    title: "Solicita la verificación de eliminación de tu cuenta por correo.",
+    eyebrow: "Control de cuenta",
+    title: "Solicita la eliminación de tu cuenta por correo.",
     summary:
-      "Esta página envía un enlace de verificación por correo para confirmar la titularidad de la cuenta. La ejecución final de la eliminación todavía depende de decisiones de retención pendientes del responsable.",
+      "Esta página envía un enlace de verificación por correo para confirmar la titularidad de la cuenta. Tras la confirmación, la eliminación se programa 30 días después y puede cancelarse durante ese período.",
     sections: [
       {
         title: "Qué hace esta página",
@@ -1981,7 +1968,9 @@ const es: Record<PageSlug, LocalizedPageContent> = {
       {
         title: "Qué ocurre después de la verificación",
         paragraphs: [
-          "Tras confirmar el enlace, la solicitud queda registrada. La ejecución irreversible de la eliminación permanece bloqueada hasta que el responsable configure los plazos finales de retención.",
+          "Tras confirmar el enlace, la eliminación se programa 30 días después. Durante ese período puedes cancelar la solicitud en cualquier momento desde la aplicación.",
+          "Pasado el plazo, la eliminación es irreversible: perfil, carreras, progreso, inventario, logros, relaciones sociales e integraciones se eliminan permanentemente.",
+          "Si lideras un gremio, transfiere el liderazgo a otro miembro antes de eliminar tu cuenta. El gremio no se elimina contigo.",
         ],
       },
       {
@@ -1992,15 +1981,11 @@ const es: Record<PageSlug, LocalizedPageContent> = {
         pendingFields: ["supportEmail", "privacyEmail"],
       },
       {
-        title: "Datos que pueden requerir retención",
+        title: "Datos conservados por un período limitado",
         paragraphs: [
-          "Alguna información puede necesitar conservación por seguridad, prevención del fraude, historial de compras u obligaciones legales. Los periodos exactos no están aprobados.",
-        ],
-        pendingFields: [
-          "accountDeletionPeriod",
-          "dataRetentionSchedule",
-          "purchaseRetentionPolicy",
-          "diamondDeletionPolicy",
+          "Los registros de seguridad pueden conservarse hasta 180 días tras la eliminación, únicamente para prevención de fraude. No guardan dirección IP, identificación del dispositivo ni vínculo alguno con la cuenta eliminada.",
+          "Los registros de compra pueden conservarse hasta 5 años por obligaciones contables y fiscales. Solo guardan la identificación mínima de la transacción, sin vínculo con la cuenta y sin datos del perfil de jugador.",
+          "Al terminar cada plazo, esos registros se eliminan automáticamente en el servidor. Ninguno mantiene un perfil de jugador activo.",
         ],
       },
     ],
