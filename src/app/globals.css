@@ -2855,42 +2855,6 @@ summary:focus-visible {
   object-fit: contain;
 }
 
-/* ── RESOURCES ────────────────────────────────────────────────────────────
-   Gold and Diamonds in the pack's balance chip. The value inside is whatever
-   the caller passed; nothing here formats or converts it. */
-.myth-resource {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  min-height: 35px;
-  min-width: 33px;
-  border: 21px solid transparent;
-  border-block-width: 0;
-  border-image-source: var(--relic-frame-image);
-  border-image-slice: var(--relic-frame-slice) fill;
-  border-image-width: var(--relic-frame-width);
-  border-image-repeat: stretch;
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-text-primary);
-  white-space: nowrap;
-}
-
-.myth-resource__icon {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-}
-
-.myth-resource--gold .myth-resource__value {
-  color: var(--color-gold-bright);
-}
-
-.myth-resource--diamond .myth-resource__value {
-  color: var(--color-diamond);
-}
-
 
 /* ── RESPONSIVE ───────────────────────────────────────────────────────────
    The button caps are authored at a fixed 60 px a side. On a narrow phone a
@@ -2909,66 +2873,6 @@ summary:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .button:hover {
     transform: none;
-  }
-}
-
-/* ── CARDS ────────────────────────────────────────────────────────────────
-   `cards/card_frame_clean_landscape` on the feature cards, and only on them.
-
-   This is the hierarchy the app uses: one card family carries the metal and
-   the rest stay plain. Lore, roadmap, integration and safety cards keep their
-   hairline, so a page reads as framed highlights on a clean ground rather than
-   as a wall of ornament.
-
-   The 1 px border and the inset `::before` hairline are dropped where the
-   frame lands — a card wearing both would be the stacked-edge defect, which is
-   the same "cards inside cards" the brief refuses. */
-.feature-card {
-  border: 5px solid transparent;
-  border-inline-width: 30px;
-  border-image-source: url("/assets/mythstride/relic/cards/card_frame_clean_landscape@2x.png");
-  border-image-slice: 10 60 fill;
-  border-image-width: 5px 30px;
-  border-image-repeat: stretch;
-  padding: 1.25rem;
-  background: none;
-}
-
-.feature-card::before {
-  content: none;
-}
-
-/* ── KEY SECTION PANEL ────────────────────────────────────────────────────
-   `surfaces/panel_standard` is the app's grouping surface: one panel holding a
-   section, never a repeated row. The Aethron block is exactly that — a single
-   framed statement — so it is the one section that wears it. */
-.aethron-panel {
-  border: 19px solid transparent;
-  border-inline-width: 43px;
-  border-image-source: url("/assets/mythstride/relic/surfaces/panel_standard@2x.png");
-  border-image-slice: 38 86 fill;
-  border-image-width: 19px 43px;
-  border-image-repeat: stretch;
-  min-width: 87px;
-  min-height: 39px;
-}
-
-/* ── RESPONSIVE ───────────────────────────────────────────────────────────
-   The card and panel caps are authored thicknesses, not percentages, so on a
-   narrow phone they eat the content well. Below 640 px they step down to the
-   next sensible inset — the art is rescaled, never squashed, and the frame
-   still reads because the corners keep their proportion. */
-@media (max-width: 640px) {
-  .feature-card {
-    border-inline-width: 18px;
-    border-image-width: 5px 18px;
-    padding: 1rem;
-  }
-
-  .aethron-panel {
-    border-width: 12px;
-    border-inline-width: 22px;
-    border-image-width: 12px 22px;
   }
 }
 
