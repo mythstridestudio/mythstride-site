@@ -11,6 +11,7 @@ export type ScreenshotGalleryItem = {
   title: string;
   caption: string;
   label: string;
+  image?: { src: string; alt: string };
 };
 
 type ScreenshotGalleryProps = {
@@ -91,6 +92,7 @@ export function ScreenshotGallery({
             title={item.title}
             caption={item.caption}
             label={item.label}
+            image={item.image}
           />
         ))}
       </div>

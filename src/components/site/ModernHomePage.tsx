@@ -280,6 +280,14 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
                   "Sin métricas de prueba, precios ficticios ni promesas de tienda.",
                 ),
                 label: placeholderLabel,
+                image: {
+                  src: `/images/product/inventory-${locale}.webp`,
+                  alt: text(
+                    "Inventário do MythStride mostrando equipamentos obtidos, com raridade e estado de conservação.",
+                    "MythStride inventory showing earned equipment, with rarity and condition.",
+                    "Inventario de MythStride con el equipo obtenido, su rareza y su estado.",
+                  ),
+                },
               },
               {
                 feature: "weeklyRanking",

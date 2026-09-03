@@ -2931,3 +2931,13 @@ summary:focus-visible {
   border: 0;
   background: none;
 }
+
+/* A real capture fills the frame's viewport the way the placeholder did:
+   the phone's own 720x1560 ratio, contained, never cropped or stretched. */
+.screenshot-frame__shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 720 / 1560;
+  object-fit: contain;
+}
