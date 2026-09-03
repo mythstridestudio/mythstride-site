@@ -482,6 +482,7 @@ function CurrentNemesis({ player }: { player: PublicPlayerProfile }) {
                   label={t("publicProfile.labels.healthRemaining")}
                   showPercent={false}
                   size="lg"
+                  framed
                 />
                 <div className="flex flex-col sm:flex-row justify-between gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-text-muted">
                   <span className="flex items-center gap-2">

@@ -2742,3 +2742,288 @@ summary:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+/* ===========================================================================
+   RELIC — the homologated MythStride kit, on the web
+   ===========================================================================
+
+   The frames below are the app's own nine-slice art. The web equivalent of
+   Flutter's `Canvas.drawImageNine` is `border-image`, and the numbers come
+   from `lib/relic-frames.ts`, which transcribes the pack table verbatim.
+
+   Ornament is deliberately NOT applied to every surface. It goes where the
+   product already puts it: the calls to action, the top bar, boss identity and
+   resource values. Long-form reading areas keep the plain surfaces they have.
+   =========================================================================== */
+
+:root {
+  /* Authored insets, so a caller never hardcodes a slice. */
+  --relic-cap-button: 60px;
+  --relic-cap-button-sm: 24px;
+  --relic-cap-topbar: 6px;
+
+  /* Ornament art. */
+  --relic-boss-seat: url("/assets/mythstride/relic/medallions/boss_seat@2x.png");
+}
+
+/* The generic carrier. `RelicFrame` sets the three custom properties. */
+.relic-frame {
+  position: relative;
+  border-style: solid;
+  border-color: transparent;
+  border-image-source: var(--relic-frame-image);
+  border-image-slice: var(--relic-frame-slice) fill;
+  border-image-width: var(--relic-frame-width);
+  border-image-repeat: stretch;
+}
+
+/* ── CTAs ─────────────────────────────────────────────────────────────────
+   The primary call to action wears `buttons/primary_frame`, the same metal
+   the app puts behind its one-action-per-screen control. The solid gold slab
+   it replaces was the generic web treatment.
+
+   `min-width` is the frame's own floor: below 121 px the two 60 px caps meet
+   and the art has nothing left to stretch. The app hits the identical wall
+   and falls back to a plain worked edge — see `relic_kit_dress.dart`. */
+.button--primary {
+  border: 60px solid transparent;
+  border-block-width: 0;
+  border-image-source: url("/assets/mythstride/relic/buttons/primary_frame@2x.png");
+  border-image-slice: 0 120 fill;
+  border-image-width: 0 60px;
+  border-image-repeat: stretch;
+  min-width: 121px;
+  padding-inline: 0;
+  color: var(--color-gold-bright);
+  background: transparent;
+  box-shadow: none;
+}
+
+.button--primary:hover {
+  background: transparent;
+  color: #ffe4ad;
+  filter: brightness(1.08);
+}
+
+.button--secondary {
+  border: 24px solid transparent;
+  border-block-width: 0;
+  border-image-source: url("/assets/mythstride/relic/buttons/secondary_frame@2x.png");
+  border-image-slice: 0 48 fill;
+  border-image-width: 0 24px;
+  border-image-repeat: stretch;
+  min-width: 49px;
+  padding-inline: 0;
+  background: transparent;
+}
+
+.button--secondary:hover {
+  border-color: transparent;
+  color: var(--color-gold-bright);
+  filter: brightness(1.1);
+}
+
+/* ── TOP BAR ──────────────────────────────────────────────────────────────
+   A 6 px cap either side, so the ornament reads as a rail rather than a box.
+   The nav keeps its own background and blur; this only dresses the edge. */
+.site-nav {
+  border: 6px solid transparent;
+  border-block-start-width: 0;
+  border-image-source: url("/assets/mythstride/relic/topbar/top_bar_frame@2x.png");
+  border-image-slice: 0 12 fill;
+  border-image-width: 0 6px 6px;
+  border-image-repeat: stretch;
+}
+
+/* ── BOSS MEDAL ───────────────────────────────────────────────────────────
+   The medal is the boss's identity. `medallions/boss_seat` is the authored
+   mount it sits in — whole art, drawn complete, never nine-sliced. */
+.myth-boss-medal {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  background-image: var(--relic-boss-seat);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.myth-boss-medal__portrait {
+  width: 74%;
+  height: 74%;
+  object-fit: contain;
+}
+
+/* ── RESOURCES ────────────────────────────────────────────────────────────
+   Gold and Diamonds in the pack's balance chip. The value inside is whatever
+   the caller passed; nothing here formats or converts it. */
+.myth-resource {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 35px;
+  min-width: 33px;
+  border: 21px solid transparent;
+  border-block-width: 0;
+  border-image-source: var(--relic-frame-image);
+  border-image-slice: var(--relic-frame-slice) fill;
+  border-image-width: var(--relic-frame-width);
+  border-image-repeat: stretch;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.myth-resource__icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.myth-resource--gold .myth-resource__value {
+  color: var(--color-gold-bright);
+}
+
+.myth-resource--diamond .myth-resource__value {
+  color: var(--color-diamond);
+}
+
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────
+   The button caps are authored at a fixed 60 px a side. On a narrow phone a
+   full-width CTA still has room, but a side-by-side pair does not: 2 x 121 px
+   plus the gap overflows a 320 dp screen. Below that the pair stacks, which is
+   what `CtaGroup` already does, and the caps come down to the smaller
+   authored frame rather than being scaled — the art is never squashed. */
+@media (max-width: 420px) {
+  .button--primary {
+    border-inline-width: 40px;
+    border-image-width: 0 40px;
+    min-width: 81px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button:hover {
+    transform: none;
+  }
+}
+
+/* ── CARDS ────────────────────────────────────────────────────────────────
+   `cards/card_frame_clean_landscape` on the feature cards, and only on them.
+
+   This is the hierarchy the app uses: one card family carries the metal and
+   the rest stay plain. Lore, roadmap, integration and safety cards keep their
+   hairline, so a page reads as framed highlights on a clean ground rather than
+   as a wall of ornament.
+
+   The 1 px border and the inset `::before` hairline are dropped where the
+   frame lands — a card wearing both would be the stacked-edge defect, which is
+   the same "cards inside cards" the brief refuses. */
+.feature-card {
+  border: 5px solid transparent;
+  border-inline-width: 30px;
+  border-image-source: url("/assets/mythstride/relic/cards/card_frame_clean_landscape@2x.png");
+  border-image-slice: 10 60 fill;
+  border-image-width: 5px 30px;
+  border-image-repeat: stretch;
+  padding: 1.25rem;
+  background: none;
+}
+
+.feature-card::before {
+  content: none;
+}
+
+/* ── KEY SECTION PANEL ────────────────────────────────────────────────────
+   `surfaces/panel_standard` is the app's grouping surface: one panel holding a
+   section, never a repeated row. The Aethron block is exactly that — a single
+   framed statement — so it is the one section that wears it. */
+.aethron-panel {
+  border: 19px solid transparent;
+  border-inline-width: 43px;
+  border-image-source: url("/assets/mythstride/relic/surfaces/panel_standard@2x.png");
+  border-image-slice: 38 86 fill;
+  border-image-width: 19px 43px;
+  border-image-repeat: stretch;
+  min-width: 87px;
+  min-height: 39px;
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────────────
+   The card and panel caps are authored thicknesses, not percentages, so on a
+   narrow phone they eat the content well. Below 640 px they step down to the
+   next sensible inset — the art is rescaled, never squashed, and the frame
+   still reads because the corners keep their proportion. */
+@media (max-width: 640px) {
+  .feature-card {
+    border-inline-width: 18px;
+    border-image-width: 5px 18px;
+    padding: 1rem;
+  }
+
+  .aethron-panel {
+    border-width: 12px;
+    border-inline-width: 22px;
+    border-image-width: 12px 22px;
+  }
+}
+
+/* A medal is its own object. The feature card's icon well is a plain square
+   for a line glyph; a medal placed in it would be a struck rim inside a box —
+   two frames around one subject. The well steps aside. */
+.feature-card__icon:has(.myth-boss-medal) {
+  width: auto;
+  height: auto;
+  border: 0;
+  background: none;
+}
+
+/* Only a seated medal carries the mount, and only then does the portrait get
+   inset to sit inside it. An unseated medal is drawn whole. */
+.myth-boss-medal--seated .myth-boss-medal__portrait {
+  width: 74%;
+  height: 74%;
+}
+
+.myth-boss-medal:not(.myth-boss-medal--seated) .myth-boss-medal__portrait {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── BOSS HP RAIL ─────────────────────────────────────────────────────────
+   `energy/hp_hud_frame` is the rail the app draws under a health value. The
+   10 px caps hold their shape and the middle stretches, so one authored piece
+   dresses a bar at any width.
+
+   Opt-in from `MythProgressMeter`: only a real boss-health figure wears it. */
+.myth-progress--framed {
+  border: 10px solid transparent;
+  border-block-width: 0;
+  border-image-source: url("/assets/mythstride/relic/energy/hp_hud_frame@2x.png");
+  border-image-slice: 0 20 fill;
+  border-image-width: 0 10px;
+  border-image-repeat: stretch;
+  border-radius: 0;
+  min-width: 21px;
+}
+
+/* Authored artwork standing in for an icon. It is art, not a glyph font, so
+   it keeps its own colour and is never recoloured by `currentColor`. */
+.myth-glyph {
+  width: 3.25rem;
+  height: 3.25rem;
+  object-fit: contain;
+}
+
+/* Same rule as the medal: an authored piece is its own object and does not sit
+   inside the plain icon well. */
+.feature-card__icon:has(.myth-glyph) {
+  width: auto;
+  height: auto;
+  border: 0;
+  background: none;
+}
