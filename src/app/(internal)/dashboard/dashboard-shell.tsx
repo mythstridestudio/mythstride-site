@@ -208,6 +208,7 @@ function DashboardContent({ data }: { data: DashboardData }) {
                   label={t("dashboard.labels.healthRemaining")}
                   showPercent={false}
                   size="sm"
+                  framed
                 />
               </div>
             </div>

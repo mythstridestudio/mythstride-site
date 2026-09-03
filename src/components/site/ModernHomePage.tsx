@@ -1,15 +1,12 @@
 import Link from "next/link";
 import {
-  AnvilIcon,
   BookIcon,
   CrownIcon,
-  GemIcon,
   MagicWandIcon,
   MapIcon,
   RunIcon,
   ScrollIcon,
   ShieldIcon,
-  SkullIcon,
   StarIcon,
   SwordsIcon,
   SyncIcon,
@@ -18,6 +15,7 @@ import {
   UsersIcon,
   WatchIcon,
 } from "@/components/Icons";
+import { MythBossMedal, MythGlyph } from "@/components/relic";
 import WaitlistForm from "@/components/WaitlistForm";
 import { FeatureStatusBadge } from "@/components/product/FeatureStatusBadge";
 import { FaqAccordion, type FaqItem } from "@/components/site/FaqAccordion";
@@ -308,10 +306,17 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
           tone="ember"
         >
           <div className="feature-grid">
+            {/*
+              A boss's identity in MythStride is its medal, never a skull. The
+              Ancestral Dragon is the app's own emblem for a boss shown without
+              naming one — `events_view.dart` falls back to exactly this
+              artwork for a boss event carrying no image — so it states no
+              relationship the product does not already make.
+            */}
             <FeatureCard
               locale={locale}
               feature="bossBattles"
-              icon={<SkullIcon />}
+              icon={<MythBossMedal name="dragao_ancestral" size="sm" />}
               title={text("Chefes mundiais", "World bosses", "Jefes mundiales")}
               body={text(
                 "Converta movimento validado em dano e avance encontros do beta.",
@@ -356,7 +361,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <FeatureCard
               locale={locale}
               feature="inventory"
-              icon={<AnvilIcon />}
+              icon={<MythGlyph glyph="inventory" />}
               title={text("Inventário", "Inventory", "Inventario")}
               body={text(
                 "Equipamentos e itens obtidos pelo ciclo de progressão do beta.",
@@ -367,7 +372,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <FeatureCard
               locale={locale}
               feature="achievements"
-              icon={<TrophyIcon />}
+              icon={<MythGlyph glyph="achievements" />}
               title={text("Conquistas", "Achievements", "Logros")}
               body={text(
                 "Marcos reconhecem consistência, exploração e participação.",
@@ -393,7 +398,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <FeatureCard
               locale={locale}
               feature="diamondPurchases"
-              icon={<GemIcon />}
+              icon={<MythGlyph glyph="diamond" />}
               title={text("Diamantes", "Diamonds", "Diamantes")}
               body={text(
                 "Moeda virtual sem valor monetário real. Compras não estarão ativas no beta.",

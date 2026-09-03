@@ -13,6 +13,15 @@ interface MythProgressMeterProps {
   showPercent?: boolean;
   size?: MythProgressSize;
   className?: string;
+  /**
+   * Dresses the track in `energy/hp_hud_frame`, the rail the app puts under a
+   * health value.
+   *
+   * Opt-in, so every existing call site keeps the geometry it was laid out
+   * against. Turn it on where the bar carries a real boss health figure; a
+   * generic percentage does not earn the HUD metal.
+   */
+  framed?: boolean;
 }
 
 const variantClasses: Record<MythProgressVariant, string> = {
@@ -37,6 +46,7 @@ export default function MythProgressMeter({
   showPercent = true,
   size = 'md',
   className = '',
+  framed = false,
 }: MythProgressMeterProps) {
   const prefersReducedMotion = useReducedMotion();
   const safeMax = typeof max === 'number' && Number.isFinite(max) && max > 0 ? max : 100;
@@ -52,7 +62,11 @@ export default function MythProgressMeter({
       aria-valuemin={0}
       aria-valuemax={safeMax}
       aria-label={label}
-      className={`relative overflow-hidden rounded-full border border-gold-dim/45 bg-[#090807] p-[2px] shadow-[inset_0_2px_5px_rgba(0,0,0,0.9),0_0_0_1px_rgba(84,62,32,0.24)] ${sizeClasses[size]} ${className}`}
+      className={`relative overflow-hidden bg-[#090807] p-[2px] ${
+        framed
+          ? 'myth-progress--framed'
+          : 'rounded-full border border-gold-dim/45 shadow-[inset_0_2px_5px_rgba(0,0,0,0.9),0_0_0_1px_rgba(84,62,32,0.24)]'
+      } ${sizeClasses[size]} ${className}`}
     >
       <div className="relative h-full overflow-hidden rounded-full bg-[linear-gradient(180deg,#17110d,#080706)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.9)]">
         <motion.div
