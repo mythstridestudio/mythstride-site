@@ -67,47 +67,34 @@ for (const file of files) {
   }
 }
 
-const statusRegistry = await readFile(
-  path.join(root, "src", "config", "product-status.ts"),
-  "utf8",
-);
-const requiredStatusEntries = [
-  'runTracking: "validation"',
-  'bossBattles: "beta"',
-  'friends: "beta"',
-  'groups: "beta"',
-  'weeklyRanking: "beta"',
-  'aethron: "validation"',
-  'strava: "validation"',
-  'wearOs: "validation"',
-  'raids: "development"',
-  'sagas: "development"',
-  'rewardedAds: "future"',
-  'diamondPurchases: "future"',
-  'ios: "planned"',
-  'appleWatch: "planned"',
-];
-
-for (const expected of requiredStatusEntries) {
-  if (!statusRegistry.includes(expected)) {
-    failures.push(`product status registry missing: ${expected}`);
-  }
-}
-
 const localizationChecks = [
   ["src/lib/locales.ts", 'publicLocales = ["pt-BR", "en", "es"]'],
-  ["src/config/product-status.ts", 'label: "Disponible en la beta"'],
   ["src/content/site.ts", 'language: "Idioma"'],
-  [
-    "src/content/pages.ts",
-    "const es: Record<PageSlug, LocalizedPageContent>",
-  ],
+  ["src/content/pages.ts", "  es: {"],
 ];
 
 for (const [relative, expected] of localizationChecks) {
   const content = await readFile(path.join(root, relative), "utf8");
   if (!content.includes(expected)) {
     failures.push(`${relative}: missing Spanish localization marker: ${expected}`);
+  }
+}
+
+const publicContentFiles = [
+  "src/content/site.ts",
+  "src/content/pages.ts",
+  "src/components/site/ModernHomePage.tsx",
+  "src/components/site/LocalizedFooter.tsx",
+  "src/components/site/LocalizedContentPage.tsx",
+  "src/components/site/LegalPageShell.tsx",
+];
+const internalStatusLanguage = /\b(?:draft|pending|under validation|in development|planned|roadmap|placeholder|future)\b|rascunho|pendente|em validação|em desenvolvimento|planejado|disponível futuramente|espaço reservado|arte futura|captura final|decisão do responsável|en validación|en desarrollo|planificado/giu;
+
+for (const relative of publicContentFiles) {
+  const content = await readFile(path.join(root, relative), "utf8");
+  const matches = content.match(internalStatusLanguage);
+  if (matches?.length) {
+    failures.push(`${relative}: public engineering-status language (${matches.join(", ")})`);
   }
 }
 

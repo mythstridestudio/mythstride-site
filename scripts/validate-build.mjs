@@ -13,8 +13,6 @@ const publicSlugs = [
   "community",
   "closed-beta",
   "faq",
-];
-const draftSlugs = [
   "support",
   "privacy",
   "terms",
@@ -25,6 +23,8 @@ const draftSlugs = [
   "third-party-services",
 ];
 const failures = [];
+const publicEngineeringLanguage = /\b(?:draft|pending|under validation|in development|planned|roadmap|placeholder|future)\b|rascunho|pendente|em validação|em desenvolvimento|planejado|disponível futuramente|espaço reservado|arte futura|captura final|decisão do responsável|en validación|en desarrollo|planificado/iu;
+const unsupportedPlatformMarketing = /\b(?:iOS|Apple Watch|Galaxy S23|Galaxy Watch|raids|sagas)\b/iu;
 
 async function exists(relativePath) {
   try {
@@ -50,7 +50,7 @@ const requiredArtifacts = [
 
 for (const locale of locales) {
   requiredArtifacts.push(`${locale}/index.html`);
-  for (const slug of [...publicSlugs, ...draftSlugs]) {
+  for (const slug of publicSlugs) {
     requiredArtifacts.push(`${locale}/${slug}/index.html`);
   }
   requiredArtifacts.push(`${locale}/delete-account/confirm/index.html`);
@@ -78,17 +78,23 @@ for (const locale of locales) {
   if (!home.includes('id="join"')) {
     failures.push(`${locale} home is missing the waitlist target`);
   }
+  if (publicEngineeringLanguage.test(home)) {
+    failures.push(`${locale} home exposes engineering-status language`);
+  }
+  if (unsupportedPlatformMarketing.test(home)) {
+    failures.push(`${locale} home promotes an out-of-scope platform or mode`);
+  }
 
-  for (const slug of draftSlugs) {
+  for (const slug of publicSlugs) {
     const html = await readFile(
       path.join(out, locale, slug, "index.html"),
       "utf8",
     );
-    if (!html.includes('name="robots" content="noindex, nofollow')) {
-      failures.push(`${locale}/${slug} is missing noindex,nofollow`);
+    if (publicEngineeringLanguage.test(html)) {
+      failures.push(`${locale}/${slug} exposes engineering-status language`);
     }
-    if (!html.includes("data-legal-draft")) {
-      failures.push(`${locale}/${slug} is missing the visible draft notice`);
+    if (unsupportedPlatformMarketing.test(html)) {
+      failures.push(`${locale}/${slug} promotes an out-of-scope platform or mode`);
     }
     if (slug === "delete-account") {
       // The public, non-enumerating deletion-request form is the intended
@@ -112,9 +118,6 @@ for (const locale of locales) {
   );
   if (!confirmHtml.includes('name="robots" content="noindex, nofollow')) {
     failures.push(`${locale}/delete-account/confirm is missing noindex,nofollow`);
-  }
-  if (!confirmHtml.includes("data-legal-draft")) {
-    failures.push(`${locale}/delete-account/confirm is missing the visible draft notice`);
   }
   if (/<form[\s>]/i.test(confirmHtml)) {
     failures.push(`${locale}/delete-account/confirm unexpectedly contains a form`);
@@ -149,9 +152,9 @@ for (const file of await collectHtml(out)) {
 }
 
 const sitemap = await readFile(path.join(out, "sitemap.xml"), "utf8");
-for (const slug of draftSlugs) {
-  if (sitemap.includes(`/${slug}/`)) {
-    failures.push(`sitemap includes draft route: ${slug}`);
+for (const slug of publicSlugs) {
+  if (!sitemap.includes(`/${slug}/`)) {
+    failures.push(`sitemap is missing public route: ${slug}`);
   }
 }
 for (const forbidden of ["/login/", "/dashboard/", "/admin/", "/player/"]) {

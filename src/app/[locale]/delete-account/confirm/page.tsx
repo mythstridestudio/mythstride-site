@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AccountDeletionConfirmClient } from "@/components/site/AccountDeletionConfirmClient";
-import { LegalDraftNotice } from "@/components/site/LegalDraftNotice";
 import { LocalizedFooter } from "@/components/site/LocalizedFooter";
 import { LocalizedNavigation } from "@/components/site/LocalizedNavigation";
 import { PageHero } from "@/components/site/PageHero";
@@ -15,9 +14,9 @@ type ConfirmPageProps = {
 
 const pageCopy = {
   eyebrow: {
-    "pt-BR": "Controle de conta — rascunho",
-    en: "Account control — draft",
-    es: "Control de cuenta — borrador",
+    "pt-BR": "Controle de conta",
+    en: "Account control",
+    es: "Control de cuenta",
   },
   title: {
     "pt-BR": "Confirmar exclusão de conta",
@@ -81,9 +80,8 @@ export default async function DeleteAccountConfirmPage({
             label: getLocalizedText(locale, pageCopy.back),
           }}
         />
-        <div className="legal-page-wrap">
+        <div className="content-page-wrap">
           <div className="site-container legal-page">
-            <LegalDraftNotice locale={locale} />
             <AccountDeletionConfirmClient locale={locale} />
           </div>
         </div>

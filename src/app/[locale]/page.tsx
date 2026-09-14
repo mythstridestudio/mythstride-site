@@ -25,9 +25,9 @@ export async function generateMetadata({
     }),
     description: getLocalizedText(locale, {
       "pt-BR":
-        "Corra no mundo real e progrida em Elyndor. Conheça o beta fechado Android do RPG de corrida MythStride.",
-      en: "Run in the real world and progress in Elyndor. Discover the MythStride Android closed beta.",
-      es: "Corre en el mundo real y progresa en Elyndor. Descubre la beta cerrada de MythStride para Android.",
+        "Transforme corridas reais em missões, batalhas, recompensas e progresso de RPG. Conheça MythStride e entre na lista do beta fechado para Android.",
+      en: "Turn real runs into quests, battles, rewards, and RPG progression. Discover MythStride and join the Android closed beta list.",
+      es: "Convierte carreras reales en misiones, batallas, recompensas y progreso de RPG. Descubre MythStride y únete a la lista de la beta cerrada para Android.",
     }),
   });
 }

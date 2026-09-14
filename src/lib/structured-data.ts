@@ -9,9 +9,9 @@ import { siteUrl } from "@/lib/metadata";
 export function getHomeStructuredData(locale: PublicLocale) {
   const localizedUrl = new URL(localePath(locale), siteUrl).toString();
   const description = getLocalizedText(locale, {
-    "pt-BR": "RPG de corrida em preparação para beta fechado Android.",
-    en: "Running RPG preparing for an Android closed beta.",
-    es: "RPG de carrera en preparación para una beta cerrada en Android.",
+    "pt-BR": "RPG de corrida em beta fechado para Android.",
+    en: "Running RPG in closed beta for Android.",
+    es: "RPG de carrera en beta cerrada para Android.",
   });
 
   return [

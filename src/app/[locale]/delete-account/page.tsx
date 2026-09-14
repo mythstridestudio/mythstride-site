@@ -24,7 +24,6 @@ export async function generateMetadata({
     path: "/delete-account",
     title: `${content.title} | MythStride`,
     description: content.summary,
-    noIndex: true,
   });
 }
 

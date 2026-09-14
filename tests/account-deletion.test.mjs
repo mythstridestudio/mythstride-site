@@ -96,7 +96,7 @@ test("delete-account route serves the request form and is excluded from the gene
 
   const deleteAccountPage = await read("src/app/[locale]/delete-account/page.tsx");
   assert.match(deleteAccountPage, /AccountDeletionRequestForm/);
-  assert.match(deleteAccountPage, /noIndex: true/);
+  assert.doesNotMatch(deleteAccountPage, /noIndex: true/);
 
   const confirmPage = await read("src/app/[locale]/delete-account/confirm/page.tsx");
   assert.match(confirmPage, /AccountDeletionConfirmClient/);

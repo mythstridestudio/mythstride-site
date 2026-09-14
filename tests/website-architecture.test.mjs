@@ -14,49 +14,40 @@ test("locale routing is server-rendered for PT-BR, English and Spanish", async (
 
   assert.match(locales, /publicLocales = \["pt-BR", "en", "es"\]/);
   assert.match(layout, /<html\s+lang=\{locale\}/);
-  assert.match(routes, /const es: Record<PageSlug, LocalizedPageContent>/);
+  assert.match(routes, /\n  es: \{/);
   assert.match(site, /\n  es: \{/);
   for (const slug of ["features", "aethron", "wear-os", "closed-beta"]) {
     assert.match(routes, new RegExp(`"${slug}"`));
   }
 });
 
-test("feature status registry contains the truthful roadmap", async () => {
-  const status = await read("src/config/product-status.ts");
-  const expected = {
-    bossBattles: "beta",
-    friends: "beta",
-    weeklyRanking: "beta",
-    aethron: "validation",
-    strava: "validation",
-    wearOs: "validation",
-    raids: "development",
-    diamondPurchases: "future",
-    ios: "planned",
-    appleWatch: "planned",
-  };
-
-  for (const [feature, value] of Object.entries(expected)) {
-    assert.match(status, new RegExp(`${feature}: "${value}"`));
-  }
-});
-
-test("status badge is localized, detailed and not color-only", async () => {
-  const badge = await read(
-    "src/components/product/FeatureStatusBadge.tsx",
-  );
-  assert.match(badge, /getStatusContent\(status, locale\)/);
-  assert.match(badge, /status-badge__mark/);
-  assert.match(badge, /status-badge__label/);
-  assert.match(badge, /status-badge__description/);
-});
-
-test("draft pages receive noindex metadata and a visible notice", async () => {
+test("institutional pages are public content without engineering-status chrome", async () => {
   const route = await read("src/app/[locale]/[page]/page.tsx");
-  const notice = await read("src/components/site/LegalDraftNotice.tsx");
-  assert.match(route, /noIndex: isDraftPageSlug\(page\)/);
-  assert.match(notice, /data-legal-draft/);
-  assert.match(notice, /not an approved policy/);
+  const shell = await read("src/components/site/LocalizedContentPage.tsx");
+  assert.doesNotMatch(route, /isDraftPageSlug|noIndex/);
+  assert.doesNotMatch(shell, /LegalDraftNotice|pendingFields|FeatureStatusBadge/);
+});
+
+test("public marketing contains only the Android closed-beta commercial status", async () => {
+  const files = [
+    "src/content/site.ts",
+    "src/content/pages.ts",
+    "src/components/site/ModernHomePage.tsx",
+    "src/components/site/LocalizedFooter.tsx",
+  ];
+  const forbidden = /\b(?:draft|pending|under validation|in development|planned|roadmap|placeholder|future)\b|rascunho|pendente|em validação|em desenvolvimento|planejado|disponível futuramente|espaço reservado|arte futura|captura final|en validación|en desarrollo|planificado/iu;
+  for (const file of files) {
+    assert.doesNotMatch(await read(file), forbidden, file);
+  }
+  assert.match(await read("src/content/site.ts"), /BETA FECHADO PARA ANDROID/);
+});
+
+test("the public screenshot gallery has real approved media and no empty slots", async () => {
+  const home = await read("src/components/site/ModernHomePage.tsx");
+  const frame = await read("src/components/site/ScreenshotFrame.tsx");
+  assert.match(home, /inventory-\$\{locale\}\.webp/);
+  assert.doesNotMatch(frame, /placeholder|FeatureStatusBadge/);
+  assert.match(frame, /image: \{ src: string; alt: string \}/);
 });
 
 test("waitlist includes disclosure, limits, honeypot and localized API language", async () => {

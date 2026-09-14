@@ -3,15 +3,12 @@
 import { useRef } from "react";
 import { ArrowRightIcon } from "@/components/Icons";
 import { ScreenshotFrame } from "@/components/site/ScreenshotFrame";
-import type { ProductFeature } from "@/config/product-status";
 import { getLocalizedText, type PublicLocale } from "@/lib/locales";
 
 export type ScreenshotGalleryItem = {
-  feature: ProductFeature;
   title: string;
   caption: string;
-  label: string;
-  image?: { src: string; alt: string };
+  image: { src: string; alt: string };
 };
 
 type ScreenshotGalleryProps = {
@@ -87,20 +84,17 @@ export function ScreenshotGallery({
         {items.map((item) => (
           <ScreenshotFrame
             key={item.title}
-            locale={locale}
-            feature={item.feature}
             title={item.title}
             caption={item.caption}
-            label={item.label}
             image={item.image}
           />
         ))}
       </div>
       <p className="screenshot-gallery__hint">
         {text(
-          "Use as setas do teclado ou os controles para percorrer os espaços.",
-          "Use the arrow keys or controls to move through the slots.",
-          "Usa las flechas del teclado o los controles para recorrer los espacios.",
+          "Use as setas do teclado ou os controles para percorrer as imagens.",
+          "Use the arrow keys or controls to browse the images.",
+          "Usa las flechas del teclado o los controles para recorrer las imágenes.",
         )}
       </p>
     </div>

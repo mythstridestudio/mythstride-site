@@ -5,7 +5,6 @@ import {
   catchAllPageSlugs,
   getPageContent,
   isCatchAllPageSlug,
-  isDraftPageSlug,
 } from "@/content/pages";
 import { createLocalizedMetadata } from "@/lib/metadata";
 import { isPublicLocale } from "@/lib/locales";
@@ -32,9 +31,8 @@ export async function generateMetadata({
   return createLocalizedMetadata({
     locale,
     path: `/${page}`,
-    title: `${content.title} | MythStride`,
+    title: content.seoTitle ?? `${content.title} | MythStride`,
     description: content.summary,
-    noIndex: isDraftPageSlug(page),
   });
 }
 

@@ -5,7 +5,6 @@ import { LocalizedNavigation } from "@/components/site/LocalizedNavigation";
 import { PageHero } from "@/components/site/PageHero";
 import {
   getPageContent,
-  isDraftPageSlug,
   type PageSlug,
 } from "@/content/pages";
 import { siteCopy } from "@/content/site";
@@ -24,7 +23,6 @@ export function LocalizedContentPage({
 }: LocalizedContentPageProps) {
   const content = getPageContent(slug, locale);
   const copy = siteCopy[locale];
-  const isDraft = isDraftPageSlug(slug);
 
   return (
     <>
@@ -39,12 +37,10 @@ export function LocalizedContentPage({
           title={content.title}
           body={content.summary}
           primary={
-            isDraft
-              ? undefined
-              : {
-                  href: `${localePath(locale)}#join`,
-                  label: copy.nav.join,
-                }
+            {
+              href: `${localePath(locale)}#join`,
+              label: copy.nav.join,
+            }
           }
           secondary={{
             href: localePath(locale),
@@ -55,15 +51,11 @@ export function LocalizedContentPage({
             }),
           }}
         />
-        <div className={isDraft ? "legal-page-wrap" : "content-page-wrap"}>
-          {isDraft ? (
-            <LegalPageShell locale={locale} content={content}>
-              {children}
-            </LegalPageShell>
+        <div className="content-page-wrap">
+          {children ? (
+            <LegalPageShell content={content}>{children}</LegalPageShell>
           ) : (
-            <div className="site-container">
-              <ContentSections locale={locale} sections={content.sections} />
-            </div>
+            <div className="site-container"><ContentSections sections={content.sections} /></div>
           )}
         </div>
       </main>

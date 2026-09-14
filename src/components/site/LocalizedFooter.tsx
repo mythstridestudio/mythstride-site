@@ -31,27 +31,20 @@ export function LocalizedFooter({ locale }: LocalizedFooterProps) {
     ["/delete-account", text("Excluir conta", "Delete account", "Eliminar cuenta")],
   ];
   const legalLinks = [
-    [
-      "/privacy",
-      text("Privacidade — rascunho", "Privacy — draft", "Privacidad — borrador"),
-    ],
-    ["/terms", text("Termos — rascunho", "Terms — draft", "Términos — borrador")],
+    ["/privacy", text("Privacidade", "Privacy", "Privacidad")],
+    ["/terms", text("Termos de Uso", "Terms of Use", "Términos de Uso")],
     [
       "/community-guidelines",
-      text(
-        "Diretrizes — rascunho",
-        "Guidelines — draft",
-        "Directrices — borrador",
-      ),
+      text("Diretrizes da Comunidade", "Community Guidelines", "Directrices de la Comunidad"),
     ],
-    ["/purchases", text("Compras futuras", "Future purchases", "Compras futuras")],
+    ["/purchases", text("Itens e moedas virtuais", "Items and virtual currency", "Objetos y monedas virtuales")],
     [
       "/ai-transparency",
       text("Transparência de IA", "AI transparency", "Transparencia de IA"),
     ],
     [
       "/third-party-services",
-      text("Serviços de terceiros", "Third-party services", "Servicios de terceros"),
+      text("Serviços e integrações", "Services and integrations", "Servicios e integraciones"),
     ],
   ];
 
@@ -73,24 +66,11 @@ export function LocalizedFooter({ locale }: LocalizedFooterProps) {
         <FooterColumn title={copy.product} locale={locale} links={productLinks} />
         <FooterColumn title={copy.support} locale={locale} links={helpLinks} />
         <FooterColumn title={copy.legal} locale={locale} links={legalLinks} />
-        <div className="site-footer__column">
-          <h2>{copy.social}</h2>
-          <span className="footer-pending" aria-disabled="true">
-            Instagram · {copy.comingSoon}
-          </span>
-          <span className="footer-pending" aria-disabled="true">
-            Discord · {copy.comingSoon}
-          </span>
-          <span className="footer-pending" aria-disabled="true">
-            YouTube · {copy.comingSoon}
-          </span>
-        </div>
       </div>
       <div className="site-container site-footer__base">
         <p>
           © {new Date().getFullYear()} MythStride. {copy.rights}
         </p>
-        <p>{copy.draftNote}</p>
         <p>
           {copy.language}: {localeLabels[locale]}
         </p>

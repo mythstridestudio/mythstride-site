@@ -1,590 +1,144 @@
-import type { PublicLocale } from "@/lib/locales";
-
-export type SiteCopy = {
-  skip: string;
-  nav: {
-    product: string;
-    how: string;
-    events: string;
-    community: string;
-    aethron: string;
-    integrations: string;
-    beta: string;
-    faq: string;
-    join: string;
-    tester: string;
-    openMenu: string;
-    closeMenu: string;
-    language: string;
-  };
-  hero: {
-    eyebrow: string;
-    title: string;
-    body: string;
-    primary: string;
-    secondary: string;
-    note: string;
-  };
-  section: {
-    vision: { eyebrow: string; title: string; body: string };
-    flow: { eyebrow: string; title: string; body: string };
-    interface: { eyebrow: string; title: string; body: string };
-    battle: { eyebrow: string; title: string; body: string };
-    rewards: { eyebrow: string; title: string; body: string };
-    community: { eyebrow: string; title: string; body: string };
-    aethron: { eyebrow: string; title: string; body: string };
-    integrations: { eyebrow: string; title: string; body: string };
-    safety: { eyebrow: string; title: string; body: string };
-    roadmap: { eyebrow: string; title: string; body: string };
-    lore: { eyebrow: string; title: string; body: string };
-    faq: { eyebrow: string; title: string; body: string };
-    waitlist: { eyebrow: string; title: string; body: string };
-  };
-  waitlist: {
-    name: string;
-    email: string;
-    submit: string;
-    loading: string;
-    disclosure: string;
-    capacity: string;
-    privacyLink: string;
-    success: string;
-    duplicate: string;
-    invalid: string;
-    failure: string;
-    honeypot: string;
-  };
-  footer: {
-    product: string;
-    support: string;
-    legal: string;
-    roadmap: string;
-    language: string;
-    social: string;
-    comingSoon: string;
-    rights: string;
-    draftNote: string;
-  };
-  accountDeletion: {
-    formTitle: string;
-    formIntro: string;
-    emailLabel: string;
-    submit: string;
-    loading: string;
-    honeypot: string;
-    requested: string;
-    invalidEmail: string;
-    rateLimited: string;
-    unavailable: string;
-    confirmChecking: string;
-    confirmMissingToken: string;
-    confirmScheduled: string;
-    confirmAwaitingRetention: string;
-    confirmGenericSuccess: string;
-    confirmInvalid: string;
-    confirmRateLimited: string;
-    confirmUnavailable: string;
-    backToRequest: string;
-  };
-};
-
-export const siteCopy: Record<PublicLocale, SiteCopy> = {
+export const siteCopy = {
   "pt-BR": {
     skip: "Pular para o conteúdo",
     nav: {
-      product: "Produto",
-      how: "Como funciona",
-      events: "Eventos",
-      community: "Comunidade",
-      aethron: "Aethron",
-      integrations: "Integrações",
-      beta: "Beta fechado",
-      faq: "Dúvidas",
-      join: "Entrar na lista do beta",
-      tester: "Login de testador",
-      openMenu: "Abrir menu",
-      closeMenu: "Fechar menu",
-      language: "Idioma",
+      product: "Recursos", how: "Como funciona", events: "Eventos",
+      community: "Comunidade", aethron: "Aethron", integrations: "Integrações",
+      beta: "Beta fechado", faq: "Perguntas frequentes",
+      join: "Entrar na lista do beta", tester: "Login de testador",
+      openMenu: "Abrir menu", closeMenu: "Fechar menu", language: "Idioma",
     },
     hero: {
-      eyebrow: "Beta fechado para Android",
+      eyebrow: "BETA FECHADO PARA ANDROID",
       title: "Corra no mundo real. Progrida em outro.",
-      body:
-        "MythStride transforma corridas registradas em missões, chefes, recompensas e progresso de RPG. O universo completo continua evoluindo junto com o beta.",
-      primary: "Entrar na lista do beta",
-      secondary: "Conhecer o MythStride",
-      note:
-        "O acesso ainda não está disponível publicamente. Convites dependem da capacidade de testes e da compatibilidade do dispositivo.",
+      body: "MythStride transforma suas corridas em progresso de RPG. Complete missões, enfrente chefes, conquiste recompensas e construa sua jornada em Elyndor — movida pela distância que você percorre no mundo real.",
+      primary: "Entrar na lista do beta", secondary: "Descobrir o MythStride",
+      note: "O acesso ao beta é realizado por convite para dispositivos Android compatíveis.",
     },
     section: {
-      vision: {
-        eyebrow: "Estado do universo",
-        title: "Uma visão completa, apresentada com clareza.",
-        body:
-          "O MythStride preserva a ambição de unir corrida, RPG, comunidade, inteligência narrativa e novas plataformas. Cada recurso abaixo mostra seu estado real.",
-      },
-      flow: {
-        eyebrow: "Da corrida ao RPG",
-        title: "Seu movimento avança a aventura.",
-        body:
-          "Registre a atividade, valide a distância e transforme o resultado em progresso dentro de Elyndor.",
-      },
-      interface: {
-        eyebrow: "Interface real",
-        title: "A próxima captura precisa ser tão confiável quanto o produto.",
-        body:
-          "Os espaços estão preparados para capturas finais da build de validação. As imagens antigas com métricas de teste não são exibidas.",
-      },
-      battle: {
-        eyebrow: "Conflitos de Elyndor",
-        title: "Chefes no beta. Raids e sagas em desenvolvimento.",
-        body:
-          "A distância validada já move batalhas contra chefes. Raids e sagas permanecem na visão do universo enquanto sua implementação evolui.",
-      },
-      rewards: {
-        eyebrow: "Recompensas e identidade",
-        title: "Inventário, conquistas e relíquias contam a jornada.",
-        body:
-          "Itens, equipamentos, ouro, diamantes, conquistas e a Espada de Fundador continuam no centro da progressão.",
-      },
-      community: {
-        eyebrow: "Comunidade",
-        title: "Amigos, grupos e rankings dão ritmo à semana.",
-        body:
-          "Convites, governança de grupos, eventos e ranking semanal já fazem parte do beta. Os controles de segurança continuam em desenvolvimento.",
-      },
-      aethron: {
-        eyebrow: "Guardião da Chama",
-        title: "Aethron dá contexto narrativo à disciplina.",
-        body:
-          "Aethron gera orientação narrativa e motivacional a partir de contexto selecionado. O conteúdo pode conter erros e não oferece diagnóstico, tratamento ou aconselhamento profissional de saúde.",
-      },
-      integrations: {
-        eyebrow: "Integrações",
-        title: "O caminho começa no Android e se expande.",
-        body:
-          "Wear OS e Strava estão em validação. iOS e Apple Watch permanecem planejados para fases futuras.",
-      },
-      safety: {
-        eyebrow: "Privacidade e comunidade",
-        title: "A evolução do produto inclui controle e segurança.",
-        body:
-          "As estruturas de privacidade, exclusão de conta, denúncia e bloqueio estão sendo completadas. Os documentos desta fase são rascunhos técnicos, não políticas aprovadas.",
-      },
-      roadmap: {
-        eyebrow: "Android primeiro",
-        title: "Beta fechado agora. Mais plataformas depois.",
-        body:
-          "A build Android ainda depende de configuração final, testes físicos e capacidade de convite. Compras com dinheiro real e anúncios recompensados não estarão ativos nesta fase.",
-      },
-      lore: {
-        eyebrow: "Crônicas de Elyndor",
-        title: "Aethron despertou quando a Chama quase se apagou.",
-        body:
-          "Elyndor não caiu em uma única guerra. O propósito desapareceu sob a Névoa, e cada retorno ao caminho passou a alimentar a resistência.",
-      },
-      faq: {
-        eyebrow: "Antes do beta",
-        title: "Respostas diretas sobre o estado atual.",
-        body:
-          "Disponibilidade, plataformas, dados, compras e integrações — sem transformar roadmap em promessa ativa.",
-      },
-      waitlist: {
-        eyebrow: "Lista do beta",
-        title: "Registre seu interesse em testar MythStride.",
-        body:
-          "Entrar na lista não garante acesso automático. Os convites dependem da capacidade de testes e da compatibilidade do dispositivo.",
-      },
+      flow: { eyebrow: "CORRIDA ENCONTRA RPG", title: "Cada quilômetro faz a sua história avançar.", body: "No MythStride, correr não termina quando a atividade é salva. Sua distância alimenta missões, progressão, batalhas e conquistas dentro de Elyndor." },
+      interface: { eyebrow: "SUA JORNADA", title: "Seu progresso ganha forma.", body: "Acompanhe corridas, evolução, batalhas, equipamentos e conquistas em uma experiência criada para conectar performance real e fantasia." },
+      battle: { eyebrow: "BATALHAS DE ELYNDOR", title: "Sua distância se transforma em poder.", body: "As corridas elegíveis contribuem para o dano contra chefes. Cada encontro conecta o esforço realizado no mundo real ao avanço da sua jornada em Elyndor." },
+      rewards: { eyebrow: "PROGRESSÃO", title: "Construa uma jornada que é só sua.", body: "Equipamentos, itens, conquistas, ouro e relíquias registram sua evolução. Cada recompensa conquistada se torna parte da identidade do seu personagem." },
+      community: { eyebrow: "AVANCE JUNTO", title: "Toda jornada pode ser pessoal. Nenhuma precisa ser solitária.", body: "Conecte-se com outros jogadores, acompanhe rankings, participe de grupos e compartilhe conquistas dentro do universo MythStride." },
+      aethron: { eyebrow: "GUARDIÃO DA CHAMA", title: "Aethron transforma progresso em narrativa.", body: "Aethron é o companheiro narrativo do MythStride. Ele utiliza contexto da sua jornada para conectar corridas, progresso e acontecimentos de Elyndor em uma experiência mais pessoal." },
+      integrations: { eyebrow: "CORRA DO SEU JEITO", title: "Do celular ao pulso.", body: "MythStride foi criado para acompanhar a corrida onde ela acontece. No Android, a experiência conecta registro de atividade, progressão e o universo de Elyndor." },
+      privacy: { eyebrow: "SEUS DADOS. SEU CONTROLE.", title: "Privacidade faz parte da experiência.", body: "MythStride utiliza dados necessários para operar sua conta, registrar atividades, proteger a integridade do jogo e oferecer os recursos que você escolhe utilizar." },
+      beta: { eyebrow: "BETA FECHADO", title: "Seja um dos primeiros Striders.", body: "O MythStride está em beta fechado para Android. Os participantes ajudam a colocar a experiência à prova enquanto constroem os primeiros capítulos de Elyndor." },
+      lore: { eyebrow: "CRÔNICAS DE ELYNDOR", title: "Aethron despertou quando a Chama quase se apagou.", body: "Elyndor não caiu em uma única guerra. Sob a Névoa, propósito e memória começaram a desaparecer. Cada Strider que retorna ao caminho fortalece a resistência e mantém a Chama acesa." },
+      faq: { eyebrow: "MYTHSTRIDE", title: "Perguntas frequentes", body: "Tudo o que você precisa saber sobre o MythStride e o beta fechado." },
+      waitlist: { eyebrow: "ENTRE PARA A PRIMEIRA GERAÇÃO", title: "Sua jornada pode começar aqui.", body: "Entre na lista do beta fechado e tenha a oportunidade de explorar Elyndor entre os primeiros jogadores do MythStride." },
     },
     waitlist: {
-      name: "Nome (opcional)",
-      email: "Email",
-      submit: "Entrar na lista do beta",
-      loading: "Enviando...",
-      disclosure:
-        "Usaremos seu email, idioma e informações técnicas de prevenção a abuso para administrar a lista.",
-      capacity:
-        "O cadastro registra interesse; não garante convite ou data de acesso.",
-      privacyLink: "Ler o rascunho de privacidade",
-      success:
-        "Interesse registrado. Um eventual convite dependerá da capacidade de testes e do dispositivo.",
-      duplicate: "Este email já está registrado na lista.",
-      invalid: "Informe um email válido.",
-      failure: "Não foi possível acessar a lista agora. Tente novamente.",
-      honeypot: "Não preencha este campo",
+      name: "Nome (opcional)", email: "Email", submit: "Entrar na lista do beta", loading: "Enviando...",
+      disclosure: "Usaremos seu email e informações técnicas necessárias para administrar a lista, prevenir abuso e entrar em contato sobre o beta.",
+      capacity: "O cadastro na lista não garante convite imediato. As vagas são liberadas de acordo com a capacidade do beta e a compatibilidade do dispositivo.",
+      privacyLink: "Consulte nossa Política de Privacidade",
+      success: "Você está na lista. Avisaremos por email quando houver uma oportunidade de participar do beta.",
+      duplicate: "Este email já está na lista do beta.", invalid: "Informe um email válido.",
+      failure: "Não foi possível acessar a lista agora. Tente novamente.", honeypot: "Não preencha este campo",
     },
+    footer: { product: "Produto", support: "Suporte", legal: "Legal", language: "Idioma", social: "Social", rights: "Todos os direitos reservados." },
     accountDeletion: {
-      formTitle: "Solicitar exclusão de conta",
-      formIntro:
-        "Informe o email da conta. Se existir uma conta associada, enviaremos um link de verificação.",
-      emailLabel: "Email da conta",
-      submit: "Solicitar exclusão",
-      loading: "Enviando...",
-      honeypot: "Não preencha este campo",
-      requested:
-        "Caso exista uma conta associada a esse email, enviaremos as próximas instruções.",
-      invalidEmail: "Informe um email válido.",
-      rateLimited: "Muitas tentativas. Aguarde alguns minutos e tente novamente.",
-      unavailable:
-        "Não foi possível processar a solicitação agora. Tente novamente mais tarde.",
-      confirmChecking: "Verificando o link de confirmação...",
-      confirmMissingToken:
-        "Este link de confirmação está incompleto. Solicite um novo link de exclusão.",
-      confirmScheduled: "Verificação concluída. A exclusão foi agendada.",
-      confirmAwaitingRetention:
-        "Verificação concluída. A execução da exclusão ainda depende da configuração final de retenção de dados pelo responsável.",
-      confirmGenericSuccess: "Verificação concluída.",
-      confirmInvalid:
-        "Este link é inválido ou já expirou. Solicite um novo link de exclusão.",
-      confirmRateLimited:
-        "Muitas tentativas. Aguarde alguns minutos e tente novamente.",
-      confirmUnavailable:
-        "Não foi possível confirmar agora. Tente novamente mais tarde.",
+      formTitle: "Solicitar exclusão de conta", formIntro: "Informe o email da conta. Se existir uma conta associada, enviaremos um link de verificação.",
+      emailLabel: "Email da conta", submit: "Solicitar exclusão", loading: "Enviando...", honeypot: "Não preencha este campo",
+      requested: "Caso exista uma conta associada a esse email, enviaremos as próximas instruções.", invalidEmail: "Informe um email válido.",
+      rateLimited: "Muitas tentativas. Aguarde alguns minutos e tente novamente.", unavailable: "Não foi possível processar a solicitação agora. Tente novamente mais tarde.",
+      confirmChecking: "Verificando o link de confirmação...", confirmMissingToken: "Este link de confirmação está incompleto. Solicite um novo link de exclusão.",
+      confirmScheduled: "Verificação concluída. A exclusão foi agendada para 30 dias.", confirmAwaitingRetention: "Verificação concluída. A exclusão foi agendada para 30 dias.",
+      confirmGenericSuccess: "Verificação concluída.", confirmInvalid: "Este link é inválido ou já expirou. Solicite um novo link de exclusão.",
+      confirmRateLimited: "Muitas tentativas. Aguarde alguns minutos e tente novamente.", confirmUnavailable: "Não foi possível confirmar agora. Tente novamente mais tarde.",
       backToRequest: "Solicitar novo link",
-    },
-    footer: {
-      product: "Produto",
-      support: "Suporte",
-      legal: "Legal",
-      roadmap: "Roadmap",
-      language: "Idioma",
-      social: "Canais sociais",
-      comingSoon: "Disponível futuramente",
-      rights: "Todos os direitos reservados.",
-      draftNote:
-        "Os documentos jurídicos indicados como rascunho aguardam decisões e revisão final.",
     },
   },
   en: {
     skip: "Skip to content",
     nav: {
-      product: "Product",
-      how: "How it works",
-      events: "Events",
-      community: "Community",
-      aethron: "Aethron",
-      integrations: "Integrations",
-      beta: "Closed beta",
-      faq: "FAQ",
-      join: "Join the beta list",
-      tester: "Beta tester login",
-      openMenu: "Open menu",
-      closeMenu: "Close menu",
-      language: "Language",
+      product: "Features", how: "How it works", events: "Events", community: "Community", aethron: "Aethron",
+      integrations: "Integrations", beta: "Closed beta", faq: "FAQ", join: "Join the beta list", tester: "Beta tester login",
+      openMenu: "Open menu", closeMenu: "Close menu", language: "Language",
     },
     hero: {
-      eyebrow: "Android closed beta",
-      title: "Run in the real world. Progress in another.",
-      body:
-        "MythStride turns recorded runs into quests, bosses, rewards and RPG progression. The complete universe continues to evolve alongside the beta.",
-      primary: "Join the beta list",
-      secondary: "Discover MythStride",
-      note:
-        "Public access is not available yet. Invitations depend on testing capacity and device compatibility.",
+      eyebrow: "ANDROID CLOSED BETA", title: "Run in the real world. Progress in another.",
+      body: "MythStride turns your runs into RPG progression. Complete quests, face bosses, earn rewards, and build your journey through Elyndor — powered by the distance you cover in the real world.",
+      primary: "Join the beta list", secondary: "Discover MythStride", note: "Beta access is invite-only for compatible Android devices.",
     },
     section: {
-      vision: {
-        eyebrow: "State of the universe",
-        title: "A complete vision, presented clearly.",
-        body:
-          "MythStride preserves its ambition to unite running, RPG progression, community, narrative intelligence and new platforms. Every feature below shows its real status.",
-      },
-      flow: {
-        eyebrow: "From running to RPG",
-        title: "Your movement advances the adventure.",
-        body:
-          "Record the activity, validate the distance and turn the result into progression inside Elyndor.",
-      },
-      interface: {
-        eyebrow: "Real interface",
-        title: "The next capture must be as trustworthy as the product.",
-        body:
-          "These spaces are prepared for final validation-build captures. Old media containing test metrics is not displayed.",
-      },
-      battle: {
-        eyebrow: "Conflicts of Elyndor",
-        title: "Bosses in beta. Raids and sagas in development.",
-        body:
-          "Validated distance already moves boss battles forward. Raids and sagas remain part of the universe while implementation evolves.",
-      },
-      rewards: {
-        eyebrow: "Rewards and identity",
-        title: "Inventory, achievements and relics record the journey.",
-        body:
-          "Items, equipment, gold, diamonds, achievements and the Founder Sword remain central to progression.",
-      },
-      community: {
-        eyebrow: "Community",
-        title: "Friends, groups and rankings give the week a rhythm.",
-        body:
-          "Invitations, group governance, events and weekly ranking are part of the beta. Safety controls remain in development.",
-      },
-      aethron: {
-        eyebrow: "Keeper of the Flame",
-        title: "Aethron gives narrative context to discipline.",
-        body:
-          "Aethron generates narrative and motivational guidance from selected context. Content can be wrong and does not provide diagnosis, treatment or professional health advice.",
-      },
-      integrations: {
-        eyebrow: "Integrations",
-        title: "The path starts on Android and expands.",
-        body:
-          "Wear OS and Strava are under validation. iOS and Apple Watch remain planned for future phases.",
-      },
-      safety: {
-        eyebrow: "Privacy and community",
-        title: "Product evolution includes control and safety.",
-        body:
-          "Privacy, account deletion, reporting and blocking foundations are being completed. Documents in this phase are technical drafts, not approved policies.",
-      },
-      roadmap: {
-        eyebrow: "Android first",
-        title: "Closed beta now. More platforms later.",
-        body:
-          "The Android build still depends on final configuration, physical testing and invitation capacity. Real-money purchases and rewarded ads will not be active in this phase.",
-      },
-      lore: {
-        eyebrow: "Chronicles of Elyndor",
-        title: "Aethron awakened when the Flame nearly faded.",
-        body:
-          "Elyndor did not fall in a single war. Purpose vanished beneath the Mist, and every return to the path began feeding the resistance.",
-      },
-      faq: {
-        eyebrow: "Before the beta",
-        title: "Direct answers about the current state.",
-        body:
-          "Availability, platforms, data, purchases and integrations — without turning a roadmap into an active promise.",
-      },
-      waitlist: {
-        eyebrow: "Beta list",
-        title: "Register your interest in testing MythStride.",
-        body:
-          "Joining the list does not guarantee automatic access. Invitations depend on testing capacity and device compatibility.",
-      },
+      flow: { eyebrow: "RUNNING MEETS RPG", title: "Every kilometer moves your story forward.", body: "In MythStride, a run does not end when the activity is saved. Your distance fuels quests, progression, battles, and achievements across Elyndor." },
+      interface: { eyebrow: "YOUR JOURNEY", title: "Your progress takes shape.", body: "Follow your runs, growth, battles, equipment, and achievements in an experience designed to connect real performance with fantasy." },
+      battle: { eyebrow: "BATTLES OF ELYNDOR", title: "Your distance becomes power.", body: "Eligible runs contribute damage against bosses. Each encounter connects real-world effort to the progress of your journey through Elyndor." },
+      rewards: { eyebrow: "PROGRESSION", title: "Build a journey that is yours alone.", body: "Equipment, items, achievements, gold, and relics record your growth. Every reward becomes part of your character's identity." },
+      community: { eyebrow: "MOVE FORWARD TOGETHER", title: "Every journey can be personal. None has to be lonely.", body: "Connect with other players, follow rankings, join groups, and share achievements across the MythStride universe." },
+      aethron: { eyebrow: "KEEPER OF THE FLAME", title: "Aethron turns progress into narrative.", body: "Aethron is MythStride's narrative companion. It uses context from your journey to connect runs, progress, and events in Elyndor through a more personal experience." },
+      integrations: { eyebrow: "RUN YOUR WAY", title: "From phone to wrist.", body: "MythStride is designed to follow the run where it happens. On Android, the experience connects activity tracking, progression, and the world of Elyndor." },
+      privacy: { eyebrow: "YOUR DATA. YOUR CONTROL.", title: "Privacy is part of the experience.", body: "MythStride uses the data needed to operate your account, record activities, protect game integrity, and provide the features you choose to use." },
+      beta: { eyebrow: "CLOSED BETA", title: "Become one of the first Striders.", body: "MythStride is in closed beta for Android. Participants help put the experience to the test while building Elyndor's earliest chapters." },
+      lore: { eyebrow: "CHRONICLES OF ELYNDOR", title: "Aethron awoke when the Flame nearly went out.", body: "Elyndor did not fall in a single war. Beneath the Mist, purpose and memory began to fade. Every Strider who returns to the path strengthens the resistance and keeps the Flame alive." },
+      faq: { eyebrow: "MYTHSTRIDE", title: "Frequently asked questions", body: "Everything you need to know about MythStride and the closed beta." },
+      waitlist: { eyebrow: "JOIN THE FIRST GENERATION", title: "Your journey can begin here.", body: "Join the closed beta list for a chance to explore Elyndor among MythStride's first players." },
     },
     waitlist: {
-      name: "Name (optional)",
-      email: "Email",
-      submit: "Join the beta list",
-      loading: "Sending...",
-      disclosure:
-        "We use your email, language and technical abuse-prevention information to administer the list.",
-      capacity:
-        "Registration records interest; it does not guarantee an invitation or access date.",
-      privacyLink: "Read the privacy draft",
-      success:
-        "Interest registered. Any invitation will depend on testing capacity and device compatibility.",
-      duplicate: "This email is already registered on the list.",
-      invalid: "Enter a valid email address.",
-      failure: "The list could not be reached right now. Please try again.",
-      honeypot: "Do not fill in this field",
+      name: "Name (optional)", email: "Email", submit: "Join the beta list", loading: "Sending...",
+      disclosure: "We will use your email and the technical information needed to manage the list, prevent abuse, and contact you about the beta.",
+      capacity: "Joining the list does not guarantee an immediate invitation. Places are released according to beta capacity and device compatibility.",
+      privacyLink: "Read our Privacy Policy", success: "You are on the list. We will email you when there is an opportunity to join the beta.",
+      duplicate: "This email is already on the beta list.", invalid: "Enter a valid email address.", failure: "The list is unavailable right now. Please try again.", honeypot: "Leave this field empty",
     },
+    footer: { product: "Product", support: "Support", legal: "Legal", language: "Language", social: "Social", rights: "All rights reserved." },
     accountDeletion: {
-      formTitle: "Request account deletion",
-      formIntro:
-        "Enter the account email. If an account is associated with it, we will send a verification link.",
-      emailLabel: "Account email",
-      submit: "Request deletion",
-      loading: "Sending...",
-      honeypot: "Do not fill in this field",
-      requested:
-        "If an account is associated with this email, we will send the next instructions.",
-      invalidEmail: "Enter a valid email address.",
-      rateLimited: "Too many attempts. Wait a few minutes and try again.",
-      unavailable:
-        "The request could not be processed right now. Please try again later.",
-      confirmChecking: "Verifying the confirmation link...",
-      confirmMissingToken:
-        "This confirmation link is incomplete. Request a new deletion link.",
-      confirmScheduled: "Verification complete. Deletion has been scheduled.",
-      confirmAwaitingRetention:
-        "Verification complete. Executing the deletion still depends on the owner's final data-retention configuration.",
-      confirmGenericSuccess: "Verification complete.",
-      confirmInvalid:
-        "This link is invalid or has expired. Request a new deletion link.",
-      confirmRateLimited: "Too many attempts. Wait a few minutes and try again.",
-      confirmUnavailable:
-        "The request could not be confirmed right now. Please try again later.",
-      backToRequest: "Request a new link",
-    },
-    footer: {
-      product: "Product",
-      support: "Support",
-      legal: "Legal",
-      roadmap: "Roadmap",
-      language: "Language",
-      social: "Social channels",
-      comingSoon: "Coming later",
-      rights: "All rights reserved.",
-      draftNote:
-        "Legal documents marked as drafts still require final decisions and review.",
+      formTitle: "Request account deletion", formIntro: "Enter the email linked to your account. If an account is associated with it, we will send a verification link.",
+      emailLabel: "Account email", submit: "Request deletion", loading: "Sending...", honeypot: "Leave this field empty",
+      requested: "If an account is associated with this email, we will send the next instructions.", invalidEmail: "Enter a valid email address.",
+      rateLimited: "Too many attempts. Wait a few minutes and try again.", unavailable: "We could not process your request. Please try again later.",
+      confirmChecking: "Verifying the confirmation link...", confirmMissingToken: "This confirmation link is incomplete. Request a new deletion link.",
+      confirmScheduled: "Verification complete. Account deletion is scheduled for 30 days from now.", confirmAwaitingRetention: "Verification complete. Account deletion is scheduled for 30 days from now.",
+      confirmGenericSuccess: "Verification complete.", confirmInvalid: "This link is invalid or has expired. Request a new deletion link.",
+      confirmRateLimited: "Too many attempts. Wait a few minutes and try again.", confirmUnavailable: "We could not confirm the request. Please try again later.", backToRequest: "Request a new link",
     },
   },
   es: {
     skip: "Saltar al contenido",
     nav: {
-      product: "Producto",
-      how: "Cómo funciona",
-      events: "Eventos",
-      community: "Comunidad",
-      aethron: "Aethron",
-      integrations: "Integraciones",
-      beta: "Beta cerrada",
-      faq: "Preguntas",
-      join: "Unirme a la lista de la beta",
-      tester: "Acceso para testers",
-      openMenu: "Abrir menú",
-      closeMenu: "Cerrar menú",
-      language: "Idioma",
+      product: "Funciones", how: "Cómo funciona", events: "Eventos", community: "Comunidad", aethron: "Aethron",
+      integrations: "Integraciones", beta: "Beta cerrada", faq: "Preguntas frecuentes", join: "Unirme a la lista de la beta", tester: "Acceso para participantes",
+      openMenu: "Abrir menú", closeMenu: "Cerrar menú", language: "Idioma",
     },
     hero: {
-      eyebrow: "Beta cerrada para Android",
-      title: "Corre en el mundo real. Progresa en otro.",
-      body:
-        "MythStride convierte carreras registradas en misiones, jefes, recompensas y progreso de RPG. El universo completo sigue evolucionando junto con la beta.",
-      primary: "Unirme a la lista de la beta",
-      secondary: "Descubrir MythStride",
-      note:
-        "El acceso público aún no está disponible. Las invitaciones dependen de la capacidad de prueba y de la compatibilidad del dispositivo.",
+      eyebrow: "BETA CERRADA PARA ANDROID", title: "Corre en el mundo real. Progresa en otro.",
+      body: "MythStride convierte tus carreras en progreso de RPG. Completa misiones, enfréntate a jefes, consigue recompensas y construye tu viaje por Elyndor, impulsado por la distancia que recorres en el mundo real.",
+      primary: "Unirme a la lista de la beta", secondary: "Descubrir MythStride", note: "El acceso a la beta se realiza por invitación para dispositivos Android compatibles.",
     },
     section: {
-      vision: {
-        eyebrow: "Estado del universo",
-        title: "Una visión completa, presentada con claridad.",
-        body:
-          "MythStride conserva su ambición de unir carrera, progreso de RPG, comunidad, inteligencia narrativa y nuevas plataformas. Cada función muestra su estado real.",
-      },
-      flow: {
-        eyebrow: "De la carrera al RPG",
-        title: "Tu movimiento hace avanzar la aventura.",
-        body:
-          "Registra la actividad, valida la distancia y convierte el resultado en progreso dentro de Elyndor.",
-      },
-      interface: {
-        eyebrow: "Interfaz real",
-        title: "La próxima captura debe ser tan fiable como el producto.",
-        body:
-          "Estos espacios están preparados para capturas finales de la versión de validación. No se muestran imágenes antiguas con métricas de prueba.",
-      },
-      battle: {
-        eyebrow: "Conflictos de Elyndor",
-        title: "Jefes en la beta. Raids y sagas en desarrollo.",
-        body:
-          "La distancia validada ya hace avanzar las batallas contra jefes. Las raids y sagas siguen formando parte del universo mientras evoluciona su implementación.",
-      },
-      rewards: {
-        eyebrow: "Recompensas e identidad",
-        title: "Inventario, logros y reliquias cuentan el viaje.",
-        body:
-          "Objetos, equipo, oro, diamantes, logros y la Espada de Fundador siguen en el centro del progreso.",
-      },
-      community: {
-        eyebrow: "Comunidad",
-        title: "Amigos, grupos y clasificaciones dan ritmo a la semana.",
-        body:
-          "Las invitaciones, la gestión de grupos, los eventos y la clasificación semanal forman parte de la beta. Los controles de seguridad siguen en desarrollo.",
-      },
-      aethron: {
-        eyebrow: "Guardián de la Llama",
-        title: "Aethron da contexto narrativo a la disciplina.",
-        body:
-          "Aethron genera orientación narrativa y motivacional a partir de contexto seleccionado. El contenido puede contener errores y no ofrece diagnóstico, tratamiento ni asesoramiento profesional de salud.",
-      },
-      integrations: {
-        eyebrow: "Integraciones",
-        title: "El camino comienza en Android y se expande.",
-        body:
-          "Wear OS y Strava están en validación. iOS y Apple Watch siguen planificados para fases futuras.",
-      },
-      safety: {
-        eyebrow: "Privacidad y comunidad",
-        title: "La evolución del producto incluye control y seguridad.",
-        body:
-          "Se están completando las bases de privacidad, eliminación de cuenta, denuncias y bloqueos. Los documentos de esta fase son borradores técnicos, no políticas aprobadas.",
-      },
-      roadmap: {
-        eyebrow: "Android primero",
-        title: "Beta cerrada ahora. Más plataformas después.",
-        body:
-          "La versión Android todavía depende de configuración final, pruebas físicas y capacidad de invitación. Las compras con dinero real y los anuncios recompensados no estarán activos en esta fase.",
-      },
-      lore: {
-        eyebrow: "Crónicas de Elyndor",
-        title: "Aethron despertó cuando la Llama casi se apagó.",
-        body:
-          "Elyndor no cayó en una sola guerra. El propósito desapareció bajo la Niebla y cada regreso al camino comenzó a alimentar la resistencia.",
-      },
-      faq: {
-        eyebrow: "Antes de la beta",
-        title: "Respuestas directas sobre el estado actual.",
-        body:
-          "Disponibilidad, plataformas, datos, compras e integraciones, sin convertir la hoja de ruta en una promesa activa.",
-      },
-      waitlist: {
-        eyebrow: "Lista de la beta",
-        title: "Registra tu interés en probar MythStride.",
-        body:
-          "Unirse a la lista no garantiza acceso automático. Las invitaciones dependen de la capacidad de prueba y de la compatibilidad del dispositivo.",
-      },
+      flow: { eyebrow: "CARRERA Y RPG", title: "Cada kilómetro hace avanzar tu historia.", body: "En MythStride, la carrera no termina al guardar la actividad. Tu distancia impulsa misiones, progreso, batallas y logros dentro de Elyndor." },
+      interface: { eyebrow: "TU VIAJE", title: "Tu progreso cobra forma.", body: "Sigue tus carreras, evolución, batallas, equipo y logros en una experiencia creada para conectar rendimiento real y fantasía." },
+      battle: { eyebrow: "BATALLAS DE ELYNDOR", title: "Tu distancia se convierte en poder.", body: "Las carreras elegibles contribuyen al daño contra jefes. Cada encuentro conecta el esfuerzo del mundo real con el avance de tu viaje por Elyndor." },
+      rewards: { eyebrow: "PROGRESO", title: "Construye un viaje que sea solo tuyo.", body: "El equipo, los objetos, los logros, el oro y las reliquias registran tu evolución. Cada recompensa se convierte en parte de la identidad de tu personaje." },
+      community: { eyebrow: "AVANCEN JUNTOS", title: "Cada viaje puede ser personal. Ninguno tiene que ser solitario.", body: "Conecta con otros jugadores, sigue las clasificaciones, participa en grupos y comparte logros dentro del universo MythStride." },
+      aethron: { eyebrow: "GUARDIÁN DE LA LLAMA", title: "Aethron convierte el progreso en narrativa.", body: "Aethron es el compañero narrativo de MythStride. Utiliza el contexto de tu viaje para conectar carreras, progreso y acontecimientos de Elyndor en una experiencia más personal." },
+      integrations: { eyebrow: "CORRE A TU MANERA", title: "Del móvil a la muñeca.", body: "MythStride fue creado para acompañar la carrera donde sucede. En Android, la experiencia conecta el registro de actividad, el progreso y el mundo de Elyndor." },
+      privacy: { eyebrow: "TUS DATOS. TU CONTROL.", title: "La privacidad forma parte de la experiencia.", body: "MythStride utiliza los datos necesarios para operar tu cuenta, registrar actividades, proteger la integridad del juego y ofrecer las funciones que eliges utilizar." },
+      beta: { eyebrow: "BETA CERRADA", title: "Conviértete en uno de los primeros Striders.", body: "MythStride está en beta cerrada para Android. Sus participantes ayudan a poner a prueba la experiencia mientras construyen los primeros capítulos de Elyndor." },
+      lore: { eyebrow: "CRÓNICAS DE ELYNDOR", title: "Aethron despertó cuando la Llama casi se apagó.", body: "Elyndor no cayó en una sola guerra. Bajo la Niebla, el propósito y la memoria comenzaron a desaparecer. Cada Strider que regresa al camino fortalece la resistencia y mantiene viva la Llama." },
+      faq: { eyebrow: "MYTHSTRIDE", title: "Preguntas frecuentes", body: "Todo lo que necesitas saber sobre MythStride y la beta cerrada." },
+      waitlist: { eyebrow: "ÚNETE A LA PRIMERA GENERACIÓN", title: "Tu viaje puede comenzar aquí.", body: "Únete a la lista de la beta cerrada y ten la oportunidad de explorar Elyndor entre los primeros jugadores de MythStride." },
     },
     waitlist: {
-      name: "Nombre (opcional)",
-      email: "Correo electrónico",
-      submit: "Unirme a la lista de la beta",
-      loading: "Enviando...",
-      disclosure:
-        "Usaremos tu correo, idioma e información técnica de prevención de abusos para administrar la lista.",
-      capacity:
-        "El registro expresa interés; no garantiza una invitación ni una fecha de acceso.",
-      privacyLink: "Leer el borrador de privacidad",
-      success:
-        "Interés registrado. Cualquier invitación dependerá de la capacidad de prueba y de la compatibilidad del dispositivo.",
-      duplicate: "Este correo ya está registrado en la lista.",
-      invalid: "Introduce una dirección de correo válida.",
-      failure:
-        "No se pudo acceder a la lista en este momento. Inténtalo de nuevo.",
-      honeypot: "No rellenes este campo",
+      name: "Nombre (opcional)", email: "Email", submit: "Unirme a la lista de la beta", loading: "Enviando...",
+      disclosure: "Usaremos tu email y la información técnica necesaria para administrar la lista, prevenir abusos y contactarte sobre la beta.",
+      capacity: "Registrarte no garantiza una invitación inmediata. Las plazas se liberan según la capacidad de la beta y la compatibilidad del dispositivo.",
+      privacyLink: "Consulta nuestra Política de Privacidad", success: "Ya estás en la lista. Te avisaremos por email cuando haya una oportunidad de participar en la beta.",
+      duplicate: "Este email ya está en la lista de la beta.", invalid: "Introduce un email válido.", failure: "No se pudo acceder a la lista. Inténtalo de nuevo.", honeypot: "Deja este campo vacío",
     },
+    footer: { product: "Producto", support: "Soporte", legal: "Legal", language: "Idioma", social: "Social", rights: "Todos los derechos reservados." },
     accountDeletion: {
-      formTitle: "Solicitar la eliminación de la cuenta",
-      formIntro:
-        "Indica el email de la cuenta. Si existe una cuenta asociada, enviaremos un enlace de verificación.",
-      emailLabel: "Email de la cuenta",
-      submit: "Solicitar eliminación",
-      loading: "Enviando...",
-      honeypot: "No rellenes este campo",
-      requested:
-        "Si existe una cuenta asociada a este email, enviaremos las próximas instrucciones.",
-      invalidEmail: "Indica un email válido.",
-      rateLimited: "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
-      unavailable:
-        "No se pudo procesar la solicitud ahora. Inténtalo de nuevo más tarde.",
-      confirmChecking: "Verificando el enlace de confirmación...",
-      confirmMissingToken:
-        "Este enlace de confirmación está incompleto. Solicita un nuevo enlace de eliminación.",
-      confirmScheduled: "Verificación completada. La eliminación ha sido programada.",
-      confirmAwaitingRetention:
-        "Verificación completada. La ejecución de la eliminación todavía depende de la configuración final de retención de datos del responsable.",
-      confirmGenericSuccess: "Verificación completada.",
-      confirmInvalid:
-        "Este enlace no es válido o ha caducado. Solicita un nuevo enlace de eliminación.",
-      confirmRateLimited:
-        "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.",
-      confirmUnavailable:
-        "No se pudo confirmar ahora. Inténtalo de nuevo más tarde.",
-      backToRequest: "Solicitar un nuevo enlace",
-    },
-    footer: {
-      product: "Producto",
-      support: "Soporte",
-      legal: "Legal",
-      roadmap: "Hoja de ruta",
-      language: "Idioma",
-      social: "Canales sociales",
-      comingSoon: "Disponible más adelante",
-      rights: "Todos los derechos reservados.",
-      draftNote:
-        "Los documentos jurídicos marcados como borrador aún requieren decisiones finales y revisión.",
+      formTitle: "Solicitar la eliminación de la cuenta", formIntro: "Introduce el email asociado a tu cuenta. Si existe una cuenta vinculada, enviaremos un enlace de verificación.",
+      emailLabel: "Email de la cuenta", submit: "Solicitar eliminación", loading: "Enviando...", honeypot: "Deja este campo vacío",
+      requested: "Si existe una cuenta asociada a este email, enviaremos las próximas instrucciones.", invalidEmail: "Introduce un email válido.",
+      rateLimited: "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.", unavailable: "No pudimos procesar la solicitud. Inténtalo de nuevo más tarde.",
+      confirmChecking: "Verificando el enlace de confirmación...", confirmMissingToken: "Este enlace de confirmación está incompleto. Solicita un nuevo enlace de eliminación.",
+      confirmScheduled: "Verificación completada. La eliminación se ha programado para dentro de 30 días.", confirmAwaitingRetention: "Verificación completada. La eliminación se ha programado para dentro de 30 días.",
+      confirmGenericSuccess: "Verificación completada.", confirmInvalid: "Este enlace no es válido o ha caducado. Solicita uno nuevo.",
+      confirmRateLimited: "Demasiados intentos. Espera unos minutos e inténtalo de nuevo.", confirmUnavailable: "No pudimos confirmar la solicitud. Inténtalo de nuevo más tarde.", backToRequest: "Solicitar un nuevo enlace",
     },
   },
-};
+} as const;
