@@ -11,7 +11,6 @@ import {
   SwordsIcon,
   SyncIcon,
   TowerIcon,
-  TrophyIcon,
   UsersIcon,
   WatchIcon,
 } from "@/components/Icons";
@@ -219,7 +218,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             />
             <JourneyStep
               number="03"
-              icon={<TrophyIcon />}
+              icon={<MythGlyph glyph="seasonChampion" />}
               title={text("Construa sua lenda", "Build your legend", "Construye tu leyenda")}
               body={text(
                 "Recompensas, conquistas e relações registram uma identidade compartilhável.",
@@ -454,7 +453,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <FeatureCard
               locale={locale}
               feature="weeklyRanking"
-              icon={<TrophyIcon />}
+              icon={<MythGlyph glyph="seasonChampion" />}
               title={text(
                 "Ranking semanal",
                 "Weekly ranking",
@@ -479,7 +478,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
         >
           <div className="aethron-panel">
             <div className="aethron-panel__sigil" aria-hidden="true">
-              <MagicWandIcon />
+              <MythGlyph glyph="aethronSigil" size={128} />
             </div>
             <div>
               <FeatureStatusBadge

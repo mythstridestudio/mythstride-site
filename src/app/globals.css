@@ -1948,10 +1948,26 @@ summary:focus-visible {
   transform: rotate(45deg);
 }
 
+/* The well is rotated 45deg, so whatever sits in it is counter-rotated back
+   upright. This held the drawn wand before it held the authored sigil, and has
+   to reach both an <svg> and the glyph's <img>. */
+.aethron-panel__sigil svg,
+.aethron-panel__sigil .myth-glyph {
+  transform: rotate(-45deg);
+}
+
 .aethron-panel__sigil svg {
   width: 4rem;
   height: 4rem;
-  transform: rotate(-45deg);
+}
+
+/* The sigil is a drawn composition, not a line icon: at the wand's 4rem it
+   read as a speck in a large diamond. 8rem is the widest it goes without
+   asking more of the file than it holds — 128px CSS is exactly the 256px
+   source at 2x. */
+.aethron-panel__sigil .myth-glyph {
+  width: 8rem;
+  height: 8rem;
 }
 
 .aethron-panel .text-link {
@@ -2984,7 +3000,9 @@ summary:focus-visible {
 }
 
 /* Same rule as the medal: an authored piece is its own object and does not sit
-   inside the plain icon well. */
+   inside the plain icon well. The journey steps need it too now that step 03
+   carries the champion trophy rather than a drawn cup. */
+.journey-step__icon:has(.myth-glyph),
 .feature-card__icon:has(.myth-glyph) {
   width: auto;
   height: auto;

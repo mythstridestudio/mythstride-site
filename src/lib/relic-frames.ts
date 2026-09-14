@@ -172,6 +172,15 @@ export const MYTH_GLYPHS = {
   // fiery sword: the Founder mark is light on a cool ground (V100 / L44), and
   // the homologated blade is the cyan one.
   founderSword: "/assets/mythstride/icons/founder_sword.png",
+  // The authored Aethron sigil, from `assets/aethron/sig_aethron_01.png`. The
+  // panel that holds it has always been called `__sigil`; it just had a drawn
+  // wand in it, while the product shipped the real mark.
+  aethronSigil: "/assets/mythstride/icons/aethron_sigil.png",
+  // `assets/trophies/season_champion_gold.png`. One trophy, not the four-tier
+  // ladder: no surface on this site names a bronze or diamond champion, and
+  // shipping the other three would be the dead weight this table already
+  // refuses for gold.
+  seasonChampion: "/assets/mythstride/icons/season_champion.png",
 } as const;
 
 export type MythGlyphName = keyof typeof MYTH_GLYPHS;
@@ -192,6 +201,8 @@ export type MythGlyphName = keyof typeof MYTH_GLYPHS;
  */
 export const MYTH_GLYPH_TILES: ReadonlySet<MythGlyphName> = new Set([
   "achievements",
+  // Measured the same way: 640x640 authored, 0% transparent, corner alpha 255.
+  "seasonChampion",
 ]);
 
 /**
