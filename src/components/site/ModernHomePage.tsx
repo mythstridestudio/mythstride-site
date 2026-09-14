@@ -683,6 +683,22 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
           body={copy.section.lore.body}
           tone="stone"
         >
+          {/*
+            These three keep drawn icons on purpose, Aethron included, even
+            though the Aethron panel above now carries the authored sigil.
+
+            The set is a monochrome triptych: `.lore-card__icon` tints all three
+            emerald through `currentColor`, and they are numbered I-III as one
+            piece. Artwork exists for exactly one of the three subjects, so
+            swapping that one would put a full-colour gold piece beside two
+            emerald line icons — the odd-one-out the RELIC sweep exists to
+            remove, recreated here. The other two cannot follow: the pack has
+            nothing for the Mist, and `evento/mythstrider.png` is the MythStrider
+            event's art, not the Striders faction.
+
+            Revisit if the pack ever authors the Mist and the Striders; until
+            then this is a set, not three slots.
+          */}
           <div className="lore-grid">
             <LoreCard
               number="I"

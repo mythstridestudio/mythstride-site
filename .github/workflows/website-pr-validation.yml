@@ -1,7 +1,29 @@
-name: Website pull request validation
+name: Website validation
 
+# Runs on pull requests and on what actually lands in main.
+#
+# It was pull_request only until 2026-09-14, which meant a merge made over a
+# red check was never re-checked: PRs #3 and #4 were merged with this workflow
+# failing, and because main never ran it, the failure stayed invisible for
+# about three weeks. See issue #5.
+#
+# The two path lists are duplicated on purpose: GitHub Actions does not expand
+# YAML anchors, so they have to be kept in step by hand.
 on:
   pull_request:
+    paths:
+      - "src/**"
+      - "public/**"
+      - "assets/**"
+      - "scripts/**"
+      - "tests/**"
+      - "package.json"
+      - "package-lock.json"
+      - "next.config.ts"
+      - "tsconfig.json"
+      - ".github/workflows/website-pr-validation.yml"
+  push:
+    branches: ["main"]
     paths:
       - "src/**"
       - "public/**"
@@ -17,8 +39,10 @@ on:
 permissions:
   contents: read
 
+# A push carries no pull_request.number, so key the group on the ref there and
+# keep one in-flight run per PR or per branch rather than one for everything.
 concurrency:
-  group: website-pr-${{ github.event.pull_request.number }}
+  group: website-validate-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:

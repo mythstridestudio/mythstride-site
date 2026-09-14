@@ -1,0 +1,55 @@
+name: Dependency audit
+
+# The scheduled half of issue #5.
+#
+# Validation on push and on pull requests catches a vulnerability that a commit
+# introduces. It cannot catch the case that actually bit this repository: a new
+# advisory published against a lockfile nobody touched. Every one of the three
+# vulnerabilities found on 2026-09-14 arrived that way — no commit introduced
+# them, and the two critical Next.js RCEs were disclosed weeks after the
+# lockfile last changed.
+#
+# So this runs on a clock as well as on demand, and is the only job here that
+# can fail for something no one did.
+on:
+  schedule:
+    # Mondays at 06:00 UTC, before the week's work starts.
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Production tree only, matching the gate in website-pr-validation.yml so
+      # the two cannot disagree about what counts as shippable.
+      - name: Audit production dependencies
+        run: npm audit --omit=dev
+
+      # Advisory. The production gate above is what fails the job; this one
+      # reports on tooling without blocking a release for it.
+      - name: Audit dev dependencies (informational)
+        if: always()
+        continue-on-error: true
+        run: npm audit
