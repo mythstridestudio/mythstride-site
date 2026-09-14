@@ -167,6 +167,11 @@ export const MYTH_GLYPHS = {
   diamond: "/assets/mythstride/icons/diamonds.png",
   inventory: "/assets/mythstride/icons/inventory_backpack.png",
   achievements: "/assets/mythstride/icons/achievements.png",
+  // The blade itself, from `assets/itens/mythstride_founder_sword.png`. Note
+  // it is not `images/optimized/founder-sword.webp`, which is a different,
+  // fiery sword: the Founder mark is light on a cool ground (V100 / L44), and
+  // the homologated blade is the cyan one.
+  founderSword: "/assets/mythstride/icons/founder_sword.png",
 } as const;
 
 export type MythGlyphName = keyof typeof MYTH_GLYPHS;

@@ -391,7 +391,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <FeatureCard
               locale={locale}
               feature="founderSword"
-              icon={<CrownIcon />}
+              icon={<MythGlyph glyph="founderSword" />}
               title={text(
                 "Espada de Fundador",
                 "Founder Sword",
