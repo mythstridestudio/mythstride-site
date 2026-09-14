@@ -2923,6 +2923,66 @@ summary:focus-visible {
   object-fit: contain;
 }
 
+/* Tile-family art (`achievement/`, `trophies/`) is authored on its own lit
+   square ground. Framing it makes the square read as a deliberate inset panel
+   instead of a failed cutout beside three floating pieces. The edge is the
+   card's own border token, so it belongs to the site's geometry rather than
+   inventing a second one. */
+.myth-glyph--tile {
+  border: 1px solid var(--color-gold-dim);
+  border-radius: 0.35rem;
+  object-fit: cover;
+}
+
+/* The Founder blade's aura, in the app's own cyan.
+   `MythFounderBladeSweep` paints #55CFFF -> #E8FBFF -> #75DFFF over the blade;
+   these are those stops, held still. Deliberately NOT the #DAD38B mythstride
+   tier token: RFC 0005 split the earned tier from the Founder mark, and the
+   app has never painted this blade in the tier colour. See MYTH_GLYPH_AURAS. */
+.myth-glyph-aura {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.myth-glyph-aura--founder::before {
+  content: "";
+  position: absolute;
+  inset: -22%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(232, 251, 255, 0.22),
+    rgba(85, 207, 255, 0.16) 45%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.myth-glyph-aura .myth-glyph {
+  position: relative;
+}
+
+/* The sweep is motion in the app. Here it stays a still halo unless the
+   visitor accepts motion, and even then it breathes rather than sweeps —
+   cinematic, not distracting. */
+@media (prefers-reduced-motion: no-preference) {
+  .myth-glyph-aura--founder::before {
+    animation: myth-founder-breath 4200ms ease-in-out infinite;
+  }
+}
+
+@keyframes myth-founder-breath {
+  0%,
+  100% {
+    opacity: 0.62;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 /* Same rule as the medal: an authored piece is its own object and does not sit
    inside the plain icon well. */
 .feature-card__icon:has(.myth-glyph) {

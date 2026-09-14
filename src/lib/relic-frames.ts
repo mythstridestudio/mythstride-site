@@ -176,6 +176,44 @@ export const MYTH_GLYPHS = {
 
 export type MythGlyphName = keyof typeof MYTH_GLYPHS;
 
+/**
+ * Glyphs whose art carries its own opaque ground.
+ *
+ * The product authors two different kinds of piece. `itens/` and the currency
+ * icons are cut out — transparent everywhere the subject is not, so they float
+ * on whatever surface holds them. `achievement/` and `trophies/` are authored
+ * as square tiles with a lit ground baked in; `achievements.png` measures 0%
+ * transparent, corner alpha 255, against 47-90% transparent for the other
+ * three.
+ *
+ * That is the family the piece belongs to, not a bad export, so the site does
+ * not cut it out. It frames it instead — a tile reads as a deliberate inset
+ * panel, where a raw square beside three floating cutouts reads as a mistake.
+ */
+export const MYTH_GLYPH_TILES: ReadonlySet<MythGlyphName> = new Set([
+  "achievements",
+]);
+
+/**
+ * Glyphs the app wraps in a Founder aura.
+ *
+ * The blade is tier `mythstride` — `inventoryIsFounder` matches on a rarity
+ * string containing "mythstride", and that tier carries `MythRewardGlow.high`
+ * with `MythRewardMotion.sweep`. The tier's colour token is `#DAD38B`, but the
+ * app never paints the blade with it: `MythFounderBladeSweep` sweeps cyan
+ * (`#55CFFF` -> `#E8FBFF` -> `#75DFFF`), on cyan art.
+ *
+ * RFC 0005 is the reason for the split. The mythstride tier *was*
+ * `_cyanSignature` until that RFC moved it to `#DAD38B` precisely so the top
+ * earned tier and the purchased Founder mark would stop being one colour.
+ * Painting the blade in the tier token would re-merge them. So the aura here
+ * is the app's, verbatim.
+ */
+export const MYTH_GLYPH_AURAS: Readonly<Partial<Record<MythGlyphName, string>>> =
+  {
+    founderSword: "founder",
+  };
+
 /** The CSS custom properties a frame needs, ready to spread onto `style`. */
 export function relicFrameVars(key: RelicFrameKey): CSSProperties {
   const frame = RELIC_FRAMES[key];

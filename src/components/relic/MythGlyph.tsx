@@ -1,7 +1,12 @@
 import Image from "next/image";
 
 import { getAssetPath } from "@/lib/assets";
-import { MYTH_GLYPHS, type MythGlyphName } from "@/lib/relic-frames";
+import {
+  MYTH_GLYPHS,
+  MYTH_GLYPH_AURAS,
+  MYTH_GLYPH_TILES,
+  type MythGlyphName,
+} from "@/lib/relic-frames";
 
 interface MythGlyphProps {
   glyph: MythGlyphName;
@@ -35,17 +40,32 @@ export function MythGlyph({
   alt = "",
   className = "",
 }: MythGlyphProps) {
-  return (
+  const aura = MYTH_GLYPH_AURAS[glyph];
+  const art = (
     <Image
       src={getAssetPath(MYTH_GLYPHS[glyph])}
       alt={alt}
       aria-hidden={alt ? undefined : true}
       width={size}
       height={size}
-      className={`myth-glyph ${className}`.trim()}
+      className={[
+        "myth-glyph",
+        MYTH_GLYPH_TILES.has(glyph) ? "myth-glyph--tile" : "",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
       loading="lazy"
       sizes={`${size}px`}
     />
+  );
+
+  // The aura needs a box of its own to sit behind the art. Only the glyphs the
+  // app actually auras get one, so nothing else pays for an extra element.
+  if (!aura) return art;
+
+  return (
+    <span className={`myth-glyph-aura myth-glyph-aura--${aura}`}>{art}</span>
   );
 }
 
