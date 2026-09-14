@@ -181,6 +181,23 @@ export const MYTH_GLYPHS = {
   // shipping the other three would be the dead weight this table already
   // refuses for gold.
   seasonChampion: "/assets/mythstride/icons/season_champion.png",
+  // The Dashboard's own world-card art, from
+  // `assets/ui/dashboard/world_cards/`. These are the pieces the app puts on
+  // the "Raid Ativa" and "Ameaça da Saga" cards — not the geometric marks in
+  // `dashboard_glyphs.dart`, which that file's own header calls temporary
+  // placeholders awaiting the D-12 wear scale.
+  raidActive: "/assets/mythstride/icons/raid_active.png",
+  sagaThreat: "/assets/mythstride/icons/saga_threat.png",
+  // `assets/ui/icons/social/social.png` — the app's bottom-dock Social
+  // destination. Authored at 96px, like `diamonds` and `inventory`, and kept
+  // there rather than upscaled.
+  social: "/assets/mythstride/icons/social.png",
+  // `assets/glyphs/run_mode_outdoor.png`. Worth naming why this one is here
+  // after being turned down once: it was dismissed as a ~40dp toggle glyph,
+  // which is how the app *uses* it, but the file is authored at 1024px — a
+  // full gold medallion, not a small mark. The size objection was about the
+  // usage, not the asset.
+  runOutdoor: "/assets/mythstride/icons/run_outdoor.png",
 } as const;
 
 export type MythGlyphName = keyof typeof MYTH_GLYPHS;

@@ -2939,6 +2939,38 @@ summary:focus-visible {
   object-fit: contain;
 }
 
+/* MOCK MARKS — a drawn icon standing in where the product has no art.
+   See the `// MOCK:` comments in ModernHomePage for which, and why.
+
+   These used to be unremarkable next to their neighbours, because every
+   neighbour was also a drawn icon. Now that the cards around them carry
+   authored pieces, a 1.5-stroke line mark in a plain box reads as unfinished.
+   It cannot be fixed by pretending to be artwork — inventing RELIC-ish art is
+   the false relic the brief refuses — so instead the well becomes a struck
+   plate: the same --color-gold-dim edge the tile glyphs wear, over a banked
+   ember ground. The mark stays honestly a line mark, but it sits on something
+   that belongs to the set.
+
+   When the asset arrives, the glyph replaces this and the class goes with it. */
+.journey-step__icon:has(.icon-mock),
+.feature-card__icon:has(.icon-mock) {
+  border-color: var(--color-gold-dim);
+  border-radius: 0.35rem;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(193, 122, 47, 0.16), transparent 68%),
+    rgba(19, 14, 11, 0.9);
+}
+
+.icon-mock {
+  stroke-width: 1.25;
+}
+
+.journey-step__icon .icon-mock,
+.feature-card__icon .icon-mock {
+  width: 1.85rem;
+  height: 1.85rem;
+}
+
 /* Tile-family art (`achievement/`, `trophies/`) is authored on its own lit
    square ground. Framing it makes the square read as a deliberate inset panel
    instead of a failed cutout beside three floating pieces. The edge is the

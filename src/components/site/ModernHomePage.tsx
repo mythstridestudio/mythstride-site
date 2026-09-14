@@ -1,17 +1,13 @@
 import Link from "next/link";
 import {
-  BookIcon,
   CrownIcon,
   MagicWandIcon,
   MapIcon,
-  RunIcon,
   ScrollIcon,
   ShieldIcon,
   StarIcon,
   SwordsIcon,
   SyncIcon,
-  TowerIcon,
-  UsersIcon,
   WatchIcon,
 } from "@/components/Icons";
 import { MythBossMedal, MythGlyph } from "@/components/relic";
@@ -190,7 +186,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
           <ol className="journey-steps">
             <JourneyStep
               number="01"
-              icon={<RunIcon />}
+              icon={<MythGlyph glyph="runOutdoor" />}
               title={text("Registre a corrida", "Record the run", "Registra la carrera")}
               body={text(
                 "Acompanhe uma atividade no Android ou traga dados de uma integração compatível.",
@@ -202,7 +198,15 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             />
             <JourneyStep
               number="02"
-              icon={<SwordsIcon />}
+              // MOCK: revisar quando existir asset dedicado para "progresso".
+              // Steps 01 and 03 now carry authored art; this one is the drawn
+              // icon still. Searched for it: the app has no piece for the act
+              // of converting distance into progress — `dashboard_glyphs.dart`
+              // has no mark for it either, and every `assets/` candidate is a
+              // reward for having progressed, not the conversion itself. It
+              // keeps the system gold it already inherits through
+              // `currentColor`, so it is off-material, not off-palette.
+              icon={<SwordsIcon className="icon-mock" />}
               title={text(
                 "Converta em progresso",
                 "Convert it into progress",
@@ -336,7 +340,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <FeatureCard
               locale={locale}
               feature="raids"
-              icon={<TowerIcon />}
+              icon={<MythGlyph glyph="raidActive" />}
               title="Raids"
               body={text(
                 "Desafios coletivos de maior escala permanecem no desenvolvimento do universo.",
@@ -347,7 +351,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <FeatureCard
               locale={locale}
               feature="sagas"
-              icon={<BookIcon />}
+              icon={<MythGlyph glyph="sagaThreat" />}
               title={text("Sagas sazonais", "Seasonal sagas", "Sagas de temporada")}
               body={text(
                 "Arcos narrativos conectarão eventos, chefes e consequências futuras.",
@@ -427,7 +431,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <FeatureCard
               locale={locale}
               feature="friends"
-              icon={<UsersIcon />}
+              icon={<MythGlyph glyph="social" />}
               title={text("Amigos", "Friends", "Amigos")}
               body={text(
                 "Convites e conexões aproximam pessoas sem expor dados de treino por padrão.",
@@ -438,7 +442,15 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <FeatureCard
               locale={locale}
               feature="groups"
-              icon={<ShieldIcon />}
+              // MOCK: revisar quando existir asset dedicado para "guilda".
+              // Friends beside this card took the app's real Social icon, so
+              // this one is now the odd card in the row. Searched: there is no
+              // guild icon. `dashboard_glyphs.dart` defines a `gate` mark
+              // described as the guild symbol but never renders it, and every
+              // `assets/**/guild_*` hit is achievement or trophy art for a
+              // guild feat — a reward, not the group. Keeps the system gold it
+              // already inherits.
+              icon={<ShieldIcon className="icon-mock" />}
               title={text(
                 "Grupos e governança",
                 "Groups and governance",
