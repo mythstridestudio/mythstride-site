@@ -25,7 +25,7 @@ export function FeatureCard({
       <h3>{title}</h3>
       <p>{body}</p>
       {href && linkLabel ? (
-        <Link className="text-link" href={href}>
+        <Link className="text-link" href={href} prefetch={false}>
           {linkLabel}
           <ArrowRightIcon className="text-link__icon" />
         </Link>

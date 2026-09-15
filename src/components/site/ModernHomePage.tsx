@@ -78,7 +78,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <JourneyStep number="02" icon={<SwordsIcon />} title={text("Converta em progresso", "Turn it into progress", "Conviértela en progreso")} body={text("Atividades elegíveis alimentam missões, batalhas e evolução.", "Eligible activities fuel quests, battles, and progression.", "Las actividades elegibles impulsan misiones, batallas y progreso.")} />
             <JourneyStep number="03" icon={<MythGlyph glyph="seasonChampion" />} title={text("Construa sua lenda", "Build your legend", "Construye tu leyenda")} body={text("Conquiste equipamentos, marcos e uma identidade própria em Elyndor.", "Earn equipment, milestones, and an identity of your own in Elyndor.", "Consigue equipo, hitos y una identidad propia en Elyndor.")} />
           </ol>
-          <div className="section-action"><Link className="text-link" href={localePath(locale, "/how-it-works")}>{text("Entender o ciclo completo", "Explore the complete loop", "Explorar el ciclo completo")}</Link></div>
+          <div className="section-action"><Link className="text-link" href={localePath(locale, "/how-it-works")} prefetch={false}>{text("Entender o ciclo completo", "Explore the complete loop", "Explorar el ciclo completo")}</Link></div>
         </SectionShell>
 
         <SectionShell eyebrow={copy.section.interface.eyebrow} title={copy.section.interface.title} body={copy.section.interface.body} align="center">
@@ -122,7 +122,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <div>
               <h3>{text("Companheiro narrativo", "Narrative companion", "Compañero narrativo")}</h3>
               <p>{text("Aethron é um companheiro narrativo baseado em inteligência artificial. O conteúdo gerado pode conter erros e não substitui diagnóstico, tratamento, orientação médica, treinamento profissional ou serviços de emergência.", "Aethron is an AI-powered narrative companion. Generated content may contain errors and does not replace diagnosis, treatment, medical advice, professional coaching, or emergency services.", "Aethron es un compañero narrativo basado en inteligencia artificial. El contenido generado puede contener errores y no sustituye diagnósticos, tratamientos, orientación médica, entrenamiento profesional ni servicios de emergencia.")}</p>
-              <Link className="text-link" href={localePath(locale, "/aethron")}>{learnLabel}</Link>
+              <Link className="text-link" href={localePath(locale, "/aethron")} prefetch={false}>{learnLabel}</Link>
             </div>
             <div className="aethron-panel__screen" aria-hidden="true"><Image src={getAssetPath(`/images/product/aethron-${locale}.webp`)} alt="" width={720} height={1560} sizes="(max-width: 52rem) 72vw, 260px" /></div>
           </div>
@@ -143,7 +143,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
 
         <SectionShell eyebrow={copy.section.beta.eyebrow} title={copy.section.beta.title} body={copy.section.beta.body} tone="ember" align="center">
           <FounderRelic locale={locale} />
-          <Link className="button button--secondary" href="#join">{copy.hero.primary}</Link>
+          <Link className="button button--secondary" href="#join" prefetch={false}>{copy.hero.primary}</Link>
           <p className="beta-capacity-note">{copy.waitlist.capacity}</p>
         </SectionShell>
 
@@ -157,7 +157,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
 
         <SectionShell eyebrow={copy.section.faq.eyebrow} title={copy.section.faq.title} body={copy.section.faq.body}>
           <FaqAccordion items={faqs} />
-          <div className="section-action"><Link className="text-link" href={localePath(locale, "/faq")}>{text("Ver todas as respostas", "View all answers", "Ver todas las respuestas")}</Link></div>
+          <div className="section-action"><Link className="text-link" href={localePath(locale, "/faq")} prefetch={false}>{text("Ver todas as respostas", "View all answers", "Ver todas las respuestas")}</Link></div>
         </SectionShell>
 
         <SectionShell id="join" eyebrow={copy.section.waitlist.eyebrow} title={copy.section.waitlist.title} body={copy.section.waitlist.body} tone="ember" align="center" className="join-section">

@@ -123,6 +123,7 @@ export function AccountDeletionConfirmClient({
 
       {state.phase !== "checking" ? (
         <Link
+          prefetch={false}
           className="button button--secondary"
           href={localePath(locale, "/delete-account")}
         >

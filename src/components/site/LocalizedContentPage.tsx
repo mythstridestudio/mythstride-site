@@ -72,7 +72,7 @@ export function LocalizedContentPage({
 function PrivacyControlLink({ locale }: { locale: PublicLocale }) {
   return (
     <div className="support-links">
-      <Link className="text-link" href={localePath(locale, "/delete-account")}>
+      <Link className="text-link" href={localePath(locale, "/delete-account")} prefetch={false}>
         {getLocalizedText(locale, { "pt-BR": "Solicitar exclusão da conta", en: "Request account deletion", es: "Solicitar la eliminación de la cuenta" })}
       </Link>
     </div>
@@ -88,7 +88,7 @@ function SupportLinks({ locale }: { locale: PublicLocale }) {
 
   return (
     <nav className="support-links" aria-label={getLocalizedText(locale, { "pt-BR": "Links de suporte", en: "Support links", es: "Enlaces de soporte" })}>
-      {links.map(([href, label]) => <Link className="text-link" href={localePath(locale, href)} key={href}>{label}</Link>)}
+      {links.map(([href, label]) => <Link className="text-link" href={localePath(locale, href)} key={href} prefetch={false}>{label}</Link>)}
     </nav>
   );
 }

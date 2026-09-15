@@ -67,6 +67,7 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
           className="site-nav__brand"
           href={localePath(locale)}
           aria-label="MythStride"
+          prefetch={false}
         >
           <Image
             src="/images/optimized/app-icon.webp"
@@ -84,6 +85,7 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
                 href={link.href}
                 key={link.href}
                 aria-current={pathname === link.href ? "page" : undefined}
+                prefetch={false}
               >
                 {link.label}
               </Link>
@@ -100,6 +102,7 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
                   hrefLang={candidate}
                   lang={candidate}
                   key={candidate}
+                  prefetch={false}
                 >
                   <span>{localeCode[candidate]}</span>
                   {getLocaleLabel(candidate, locale)}
@@ -107,12 +110,13 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
               ))}
             </div>
           </details>
-          <Link className="tester-link" href="/login/">
+          <Link className="tester-link" href="/login/" prefetch={false}>
             {copy.tester}
           </Link>
           <Link
             className="button button--nav"
             href={`${localePath(locale)}#join`}
+            prefetch={false}
           >
             {copy.join}
           </Link>
@@ -152,7 +156,7 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
             </button>
           </div>
           {links.map((link) => (
-            <Link href={link.href} key={link.href} onClick={closeMenu}>
+            <Link href={link.href} key={link.href} onClick={closeMenu} prefetch={false}>
               {link.label}
             </Link>
           ))}
@@ -160,6 +164,7 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
             className="button button--primary"
             href={`${localePath(locale)}#join`}
             onClick={closeMenu}
+            prefetch={false}
           >
             {copy.join}
           </Link>
@@ -170,11 +175,12 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
               lang={candidate}
               key={candidate}
               onClick={closeMenu}
+              prefetch={false}
             >
               {copy.language}: {getLocaleLabel(candidate, locale)}
             </Link>
           ))}
-          <Link href="/login/" onClick={closeMenu}>
+          <Link href="/login/" onClick={closeMenu} prefetch={false}>
             {copy.tester}
           </Link>
         </div>

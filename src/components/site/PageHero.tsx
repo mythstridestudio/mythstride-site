@@ -35,13 +35,13 @@ export function PageHero({
           {primary || secondary ? (
             <CtaGroup>
               {primary ? (
-                <Link className="button button--primary" href={primary.href}>
+                <Link className="button button--primary" href={primary.href} prefetch={false}>
                   {primary.label}
                   <ArrowRightIcon className="button__icon" />
                 </Link>
               ) : null}
               {secondary ? (
-                <Link className="button button--secondary" href={secondary.href}>
+                <Link className="button button--secondary" href={secondary.href} prefetch={false}>
                   {secondary.label}
                 </Link>
               ) : null}

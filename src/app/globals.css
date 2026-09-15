@@ -1283,6 +1283,7 @@ summary:focus-visible {
 
 .site-nav__inner {
   display: flex;
+  width: min(100% - 2rem, 86rem);
   min-height: 4.25rem;
   align-items: center;
   justify-content: space-between;

@@ -57,7 +57,7 @@ export function LocalizedFooter({ locale }: LocalizedFooterProps) {
     <footer className="site-footer">
       <div className="site-container site-footer__grid">
         <div className="site-footer__brand">
-          <Link href={localePath(locale)} aria-label="MythStride">
+          <Link href={localePath(locale)} aria-label="MythStride" prefetch={false}>
             <Image
               src="/images/optimized/app-icon.webp"
               alt=""
@@ -105,7 +105,7 @@ function FooterColumn({
     <div className="site-footer__column">
       <h2>{title}</h2>
       {links.map(([href, label]) => (
-        <Link href={localePath(locale, href)} key={href}>
+        <Link href={localePath(locale, href)} key={href} prefetch={false}>
           {label}
         </Link>
       ))}

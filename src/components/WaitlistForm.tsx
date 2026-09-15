@@ -227,7 +227,7 @@ export default function WaitlistForm({
       <div className="waitlist-form__disclosure" id={`${formId}-disclosure`}>
         <p>{copy.disclosure}</p>
         <p>{copy.capacity}</p>
-        <Link href={localePath(locale, "/privacy")}>{copy.privacyLink}</Link>
+        <Link href={localePath(locale, "/privacy")} prefetch={false}>{copy.privacyLink}</Link>
       </div>
 
       {statusMessage ? (
