@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { ContentSections, LegalPageShell } from "@/components/site/LegalPageShell";
 import { LocalizedFooter } from "@/components/site/LocalizedFooter";
 import { LocalizedNavigation } from "@/components/site/LocalizedNavigation";
@@ -55,11 +56,39 @@ export function LocalizedContentPage({
           {children ? (
             <LegalPageShell content={content}>{children}</LegalPageShell>
           ) : (
-            <div className="site-container"><ContentSections sections={content.sections} /></div>
+            <div className="site-container">
+              <ContentSections sections={content.sections} />
+              {slug === "support" ? <SupportLinks locale={locale} /> : null}
+              {slug === "privacy" ? <PrivacyControlLink locale={locale} /> : null}
+            </div>
           )}
         </div>
       </main>
       <LocalizedFooter locale={locale} />
     </>
+  );
+}
+
+function PrivacyControlLink({ locale }: { locale: PublicLocale }) {
+  return (
+    <div className="support-links">
+      <Link className="text-link" href={localePath(locale, "/delete-account")}>
+        {getLocalizedText(locale, { "pt-BR": "Solicitar exclusão da conta", en: "Request account deletion", es: "Solicitar la eliminación de la cuenta" })}
+      </Link>
+    </div>
+  );
+}
+
+function SupportLinks({ locale }: { locale: PublicLocale }) {
+  const links = [
+    ["/privacy", getLocalizedText(locale, { "pt-BR": "Política de Privacidade", en: "Privacy Policy", es: "Política de Privacidad" })],
+    ["/delete-account", getLocalizedText(locale, { "pt-BR": "Excluir minha conta", en: "Delete my account", es: "Eliminar mi cuenta" })],
+    ["/community-guidelines", getLocalizedText(locale, { "pt-BR": "Diretrizes da Comunidade", en: "Community Guidelines", es: "Directrices de la Comunidad" })],
+  ];
+
+  return (
+    <nav className="support-links" aria-label={getLocalizedText(locale, { "pt-BR": "Links de suporte", en: "Support links", es: "Enlaces de soporte" })}>
+      {links.map(([href, label]) => <Link className="text-link" href={localePath(locale, href)} key={href}>{label}</Link>)}
+    </nav>
   );
 }

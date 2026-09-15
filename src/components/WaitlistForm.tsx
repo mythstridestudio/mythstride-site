@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type FormEvent, useId, useState } from "react";
+import { type FormEvent, useEffect, useId, useState } from "react";
 import { SwordsIcon } from "@/components/Icons";
 import { siteCopy } from "@/content/site";
 import { ApiConfigurationError } from "@/lib/api/client";
@@ -13,6 +13,7 @@ type WaitlistFormStatus =
   | "loading"
   | "success"
   | "alreadyJoined"
+  | "ageError"
   | "validationError"
   | "serverError";
 
@@ -28,6 +29,47 @@ const waitlistLanguage: Record<PublicLocale, "pt" | "en" | "es"> = {
   es: "es",
 };
 
+const campaignKeys = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_content",
+  "utm_term",
+] as const;
+
+export type CampaignAttribution = Partial<Record<(typeof campaignKeys)[number], string>>;
+
+export function getSessionCampaignAttribution(): CampaignAttribution {
+  if (typeof window === "undefined") return {};
+
+  const params = new URLSearchParams(window.location.search);
+  const attribution: CampaignAttribution = {};
+  for (const key of campaignKeys) {
+    const value = params.get(key)?.trim().slice(0, 200);
+    if (value) attribution[key] = value;
+  }
+
+  if (Object.keys(attribution).length > 0) {
+    try {
+      window.sessionStorage.setItem(
+        "mythstride:campaign-attribution",
+        JSON.stringify(attribution),
+      );
+    } catch {
+      // Attribution is best-effort and must never block signup.
+    }
+    return attribution;
+  }
+
+  try {
+    return JSON.parse(
+      window.sessionStorage.getItem("mythstride:campaign-attribution") ?? "{}",
+    ) as CampaignAttribution;
+  } catch {
+    return {};
+  }
+}
+
 export default function WaitlistForm({
   locale = "en",
   className = "",
@@ -37,11 +79,17 @@ export default function WaitlistForm({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
+  const [isAdult, setIsAdult] = useState(false);
   const [status, setStatus] = useState<WaitlistFormStatus>("idle");
+
+  useEffect(() => {
+    getSessionCampaignAttribution();
+  }, []);
 
   const messageByStatus: Partial<Record<WaitlistFormStatus, string>> = {
     success: copy.success,
     alreadyJoined: copy.duplicate,
+    ageError: copy.ageRequired,
     validationError: copy.invalid,
     serverError: copy.failure,
   };
@@ -71,6 +119,11 @@ export default function WaitlistForm({
       return;
     }
 
+    if (!isAdult) {
+      setStatus("ageError");
+      return;
+    }
+
     setStatus("loading");
 
     try {
@@ -82,7 +135,11 @@ export default function WaitlistForm({
       });
 
       setEmail(normalizedEmail);
-      setStatus(result === "alreadyJoined" ? "alreadyJoined" : "success");
+      const nextStatus = result === "alreadyJoined" ? "alreadyJoined" : "success";
+      setStatus(nextStatus);
+      if (nextStatus === "success") {
+        window.dispatchEvent(new CustomEvent("mythstride:waitlist-success"));
+      }
     } catch (error) {
       if (
         error instanceof ApiConfigurationError &&
@@ -143,6 +200,19 @@ export default function WaitlistForm({
           value={website}
           onChange={(event) => setWebsite(event.target.value)}
         />
+      </label>
+
+      <label className="waitlist-form__age" htmlFor={`${formId}-age`}>
+        <input
+          id={`${formId}-age`}
+          name="age-confirmation"
+          type="checkbox"
+          checked={isAdult}
+          onChange={(event) => setIsAdult(event.target.checked)}
+          required
+          disabled={isLoading}
+        />
+        <span>{copy.ageConfirmation}</span>
       </label>
 
       <button

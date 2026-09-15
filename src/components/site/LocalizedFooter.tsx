@@ -47,6 +47,11 @@ export function LocalizedFooter({ locale }: LocalizedFooterProps) {
       text("Serviços e integrações", "Services and integrations", "Servicios e integraciones"),
     ],
   ];
+  const socialLinks = [
+    ["https://instagram.com/mythstride", "Instagram"],
+    ["https://www.youtube.com/@mythstride", "YouTube"],
+    ["https://x.com/mythstride", "X"],
+  ];
 
   return (
     <footer className="site-footer">
@@ -61,11 +66,19 @@ export function LocalizedFooter({ locale }: LocalizedFooterProps) {
             />
             <span>MythStride</span>
           </Link>
-          <p>Run in the real world. Progress in another.</p>
+          <p>{text("Corra no mundo real. Progrida em outro.", "Run in the real world. Progress in another.", "Corre en el mundo real. Progresa en otro.")}</p>
         </div>
         <FooterColumn title={copy.product} locale={locale} links={productLinks} />
         <FooterColumn title={copy.support} locale={locale} links={helpLinks} />
         <FooterColumn title={copy.legal} locale={locale} links={legalLinks} />
+        <div className="site-footer__column">
+          <h2>{copy.social}</h2>
+          {socialLinks.map(([href, label]) => (
+            <a href={href} key={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} — MythStride`}>
+              {label}
+            </a>
+          ))}
+        </div>
       </div>
       <div className="site-container site-footer__base">
         <p>

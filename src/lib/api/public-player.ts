@@ -39,7 +39,7 @@ const developmentMockPlayer = (username: string): PublicPlayerProfile => ({
       name: "Flamekeeper Streak",
       rarity: "epic",
       description: "Kept the Flame alive through repeated effort.",
-      iconUrl: "/images/optimized/founder-sword.webp",
+      iconUrl: "/assets/mythstride/icons/founder_sword.png",
       unlockedAt: "2026-06-03T00:00:00Z",
     },
   ],

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   CrownIcon,
@@ -6,7 +7,6 @@ import {
   ScrollIcon,
   ShieldIcon,
   SwordsIcon,
-  SyncIcon,
   WatchIcon,
 } from "@/components/Icons";
 import { MythBossMedal, MythGlyph } from "@/components/relic";
@@ -22,6 +22,7 @@ import { ScreenshotGallery } from "@/components/site/ScreenshotGallery";
 import { SectionShell } from "@/components/site/SectionShell";
 import { siteCopy } from "@/content/site";
 import { getLocalizedText, localePath, type PublicLocale } from "@/lib/locales";
+import { getAssetPath } from "@/lib/assets";
 import { getHomeStructuredData, serializeStructuredData } from "@/lib/structured-data";
 
 type ModernHomePageProps = { locale: PublicLocale };
@@ -38,21 +39,21 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
       { question: "Como minhas corridas viram progresso?", answer: "Atividades elegíveis são processadas pelo MythStride e utilizadas para alimentar progressão, missões, batalhas e outros sistemas do jogo." },
       { question: "Aethron é um treinador?", answer: "Não. Aethron é um companheiro narrativo baseado em inteligência artificial. Ele não oferece diagnóstico, tratamento ou orientação profissional de saúde." },
       { question: "Existem compras com dinheiro real?", answer: "Compras com dinheiro real não fazem parte do beta fechado atual. Diamantes existentes no jogo são moeda virtual e não possuem valor monetário fora do MythStride." },
-      { question: "Posso excluir minha conta?", answer: "Sim. O MythStride oferece um fluxo de exclusão com verificação de titularidade e período de segurança antes da remoção definitiva dos dados aplicáveis." },
+      { question: "Posso excluir minha conta?", answer: "Sim. O MythStride disponibiliza um fluxo público de solicitação de exclusão com verificação do email associado à conta." },
     ],
     en: [
       { question: "Is MythStride available?", answer: "MythStride is in closed beta for Android. Access is invite-only for participants selected from the beta list." },
       { question: "How do my runs become progress?", answer: "MythStride processes eligible activities and uses them to fuel progression, quests, battles, and other game systems." },
       { question: "Is Aethron a coach?", answer: "No. Aethron is an AI-powered narrative companion. It does not provide diagnosis, treatment, or professional health advice." },
       { question: "Are there real-money purchases?", answer: "Real-money purchases are not part of the current closed beta. Diamonds are virtual game currency and have no monetary value outside MythStride." },
-      { question: "Can I delete my account?", answer: "Yes. MythStride provides an account deletion flow with ownership verification and a safety period before applicable data is permanently removed." },
+      { question: "Can I delete my account?", answer: "Yes. MythStride provides a public deletion request flow that verifies the email associated with the account." },
     ],
     es: [
       { question: "¿MythStride ya está disponible?", answer: "MythStride está en beta cerrada para Android. El acceso se realiza por invitación para participantes seleccionados de la lista." },
       { question: "¿Cómo se convierten mis carreras en progreso?", answer: "MythStride procesa las actividades elegibles y las utiliza para impulsar el progreso, las misiones, las batallas y otros sistemas del juego." },
       { question: "¿Aethron es un entrenador?", answer: "No. Aethron es un compañero narrativo basado en inteligencia artificial. No ofrece diagnóstico, tratamiento ni orientación profesional de salud." },
       { question: "¿Hay compras con dinero real?", answer: "Las compras con dinero real no forman parte de la beta cerrada actual. Los diamantes son moneda virtual y no tienen valor monetario fuera de MythStride." },
-      { question: "¿Puedo eliminar mi cuenta?", answer: "Sí. MythStride ofrece un flujo de eliminación con verificación de titularidad y un período de seguridad antes de eliminar definitivamente los datos aplicables." },
+      { question: "¿Puedo eliminar mi cuenta?", answer: "Sí. MythStride ofrece un flujo público de solicitud de eliminación que verifica el email asociado a la cuenta." },
     ],
   });
 
@@ -68,34 +69,33 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
           body={copy.hero.body}
           primary={{ href: "#join", label: copy.hero.primary }}
           secondary={{ href: "#how", label: copy.hero.secondary }}
-          aside={<BetaInvitationCard locale={locale} />}
-        >
-          <p className="hero-note">{copy.hero.note}</p>
-        </PageHero>
+          aside={<HeroProductPreview locale={locale} />}
+        />
 
         <SectionShell id="how" eyebrow={copy.section.flow.eyebrow} title={copy.section.flow.title} body={copy.section.flow.body} tone="stone">
-          <ol className="journey-steps journey-steps--four">
-            <JourneyStep number="01" icon={<MythGlyph glyph="runOutdoor" />} title={text("Corra", "Run", "Corre")} body={text("Registre sua atividade e acompanhe distância, duração e ritmo.", "Track your activity and follow distance, duration, and pace.", "Registra tu actividad y sigue la distancia, la duración y el ritmo.")} />
-            <JourneyStep number="02" icon={<SwordsIcon />} title={text("Progrida", "Progress", "Progresa")} body={text("Atividades elegíveis geram avanço dentro da sua jornada.", "Eligible activities move your journey forward.", "Las actividades elegibles hacen avanzar tu viaje.")} />
-            <JourneyStep number="03" icon={<MythBossMedal name="dragao_ancestral" size="sm" />} title={text("Enfrente", "Fight", "Enfréntate")} body={text("Sua corrida contribui para batalhas contra chefes de Elyndor.", "Your run contributes to battles against the bosses of Elyndor.", "Tu carrera contribuye a las batallas contra los jefes de Elyndor.")} />
-            <JourneyStep number="04" icon={<MythGlyph glyph="seasonChampion" />} title={text("Conquiste", "Achieve", "Conquista")} body={text("Evolua, desbloqueie conquistas e construa um inventário que registra sua trajetória.", "Grow, unlock achievements, and build an inventory that records your path.", "Evoluciona, desbloquea logros y construye un inventario que registre tu trayectoria.")} />
+          <ol className="journey-steps">
+            <JourneyStep number="01" icon={<MythGlyph glyph="runOutdoor" />} title={text("Registre a corrida", "Track your run", "Registra la carrera")} body={text("Acompanhe distância, duração e ritmo da sua atividade.", "Follow the distance, duration, and pace of your activity.", "Sigue la distancia, la duración y el ritmo de tu actividad.")} />
+            <JourneyStep number="02" icon={<SwordsIcon />} title={text("Converta em progresso", "Turn it into progress", "Conviértela en progreso")} body={text("Atividades elegíveis alimentam missões, batalhas e evolução.", "Eligible activities fuel quests, battles, and progression.", "Las actividades elegibles impulsan misiones, batallas y progreso.")} />
+            <JourneyStep number="03" icon={<MythGlyph glyph="seasonChampion" />} title={text("Construa sua lenda", "Build your legend", "Construye tu leyenda")} body={text("Conquiste equipamentos, marcos e uma identidade própria em Elyndor.", "Earn equipment, milestones, and an identity of your own in Elyndor.", "Consigue equipo, hitos y una identidad propia en Elyndor.")} />
           </ol>
           <div className="section-action"><Link className="text-link" href={localePath(locale, "/how-it-works")}>{text("Entender o ciclo completo", "Explore the complete loop", "Explorar el ciclo completo")}</Link></div>
         </SectionShell>
 
         <SectionShell eyebrow={copy.section.interface.eyebrow} title={copy.section.interface.title} body={copy.section.interface.body} align="center">
-          <ScreenshotGallery locale={locale} items={[{
-            title: text("Inventário do herói", "Hero inventory", "Inventario del héroe"),
-            caption: text("Equipamentos conquistados, raridade e estado de conservação em uma captura real do MythStride.", "Earned equipment, rarity, and condition in a real MythStride capture.", "Equipo conseguido, rareza y estado en una captura real de MythStride."),
-            image: { src: `/images/product/inventory-${locale}.webp`, alt: text("Inventário do MythStride mostrando equipamentos obtidos, com raridade e estado de conservação.", "MythStride inventory showing earned equipment, rarity, and condition.", "Inventario de MythStride con el equipo obtenido, su rareza y su estado.") },
-          }]} />
+          <ScreenshotGallery locale={locale} items={[
+            { title: text("Sua jornada", "Your journey", "Tu viaje"), caption: text("Acompanhe sua evolução, objetivos e o que está acontecendo em Elyndor.", "Follow your progression, goals, and what is happening across Elyndor.", "Sigue tu evolución, tus objetivos y lo que ocurre en Elyndor."), image: { src: `/images/product/dashboard-${locale}.webp`, alt: text("Painel principal do MythStride com progresso e chefe atual.", "MythStride home screen with progression and the current boss.", "Pantalla principal de MythStride con el progreso y el jefe actual.") } },
+            { title: text("Inventário", "Inventory", "Inventario"), caption: text("Equipe itens conquistados e construa a identidade do seu personagem.", "Equip earned items and shape your character's identity.", "Equipa los objetos conseguidos y define la identidad de tu personaje."), image: { src: `/images/product/inventory-${locale}.webp`, alt: text("Inventário do MythStride com equipamentos e raridades.", "MythStride inventory with equipment and item rarities.", "Inventario de MythStride con equipo y rarezas.") } },
+            { title: text("Eventos", "Events", "Eventos"), caption: text("Participe de desafios que conectam sua atividade ao mundo do MythStride.", "Take part in challenges that connect your activity to the world of MythStride.", "Participa en desafíos que conectan tu actividad con el mundo de MythStride."), image: { src: `/images/product/events-${locale}.webp`, alt: text("Tela de eventos do MythStride com desafios de corrida.", "MythStride events screen with running challenges.", "Pantalla de eventos de MythStride con desafíos de carrera.") } },
+            { title: "Aethron", caption: text("Leve o contexto da sua jornada para uma experiência narrativa mais pessoal.", "Bring the context of your journey into a more personal narrative experience.", "Lleva el contexto de tu viaje a una experiencia narrativa más personal."), image: { src: `/images/product/aethron-${locale}.webp`, alt: text("Tela de Aethron com orientação narrativa da jornada.", "Aethron screen with narrative guidance for the journey.", "Pantalla de Aethron con orientación narrativa para el viaje.") } },
+          ]} />
         </SectionShell>
 
         <SectionShell eyebrow={copy.section.battle.eyebrow} title={copy.section.battle.title} body={copy.section.battle.body} tone="ember">
-          <div className="feature-grid">
-            <FeatureCard icon={<MythBossMedal name="arpia" size="sm" />} title={text("Arpia", "Harpy", "Arpía")} body={text("Uma ameaça dos céus de Elyndor.", "A threat from the skies of Elyndor.", "Una amenaza de los cielos de Elyndor.")} />
-            <FeatureCard icon={<MythBossMedal name="lich_do_abismo" size="sm" />} title={text("Lich do Abismo", "Abyss Lich", "Liche del Abismo")} body={text("Poder antigo contra a resistência dos Striders.", "Ancient power against the Striders' resistance.", "Poder antiguo contra la resistencia de los Striders.")} />
-            <FeatureCard icon={<MythBossMedal name="dragao_ancestral" size="sm" />} title={text("Dragão Ancestral", "Ancestral Dragon", "Dragón Ancestral")} body={text("Um encontro em que cada distância elegível importa.", "An encounter where every eligible distance matters.", "Un encuentro donde cada distancia elegible importa.")} href={localePath(locale, "/events")} linkLabel={learnLabel} />
+          <div className="boss-showcase">
+            <div className="boss-showcase__medals" aria-hidden="true">
+              <MythBossMedal name="arpia" size="sm" /><MythBossMedal name="lich_do_abismo" size="sm" /><MythBossMedal name="dragao_ancestral" size="sm" /><MythBossMedal name="medusa" size="sm" /><MythBossMedal name="cerberus" size="sm" />
+            </div>
+            <FeatureCard icon={<SwordsIcon />} title={text("Chefes", "Bosses", "Jefes")} body={text("Transforme distância elegível em dano e avance nas batalhas de Elyndor.", "Turn eligible distance into damage and advance through the battles of Elyndor.", "Convierte la distancia elegible en daño y avanza en las batallas de Elyndor.")} href={localePath(locale, "/events")} linkLabel={learnLabel} />
           </div>
         </SectionShell>
 
@@ -104,6 +104,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
             <FeatureCard icon={<MythGlyph glyph="inventory" />} title={text("Inventário", "Inventory", "Inventario")} body={text("Reúna e equipe itens obtidos ao longo da sua jornada.", "Collect and equip items earned throughout your journey.", "Reúne y equipa objetos obtenidos durante tu viaje.")} />
             <FeatureCard icon={<MythGlyph glyph="achievements" />} title={text("Conquistas", "Achievements", "Logros")} body={text("Transforme consistência, exploração e desafios concluídos em marcos permanentes.", "Turn consistency, exploration, and completed challenges into lasting milestones.", "Convierte la constancia, la exploración y los desafíos completados en hitos permanentes.")} />
             <FeatureCard icon={<MythGlyph glyph="founderSword" />} title={text("Espada do Fundador", "Founder Sword", "Espada del Fundador")} body={text("Uma relíquia exclusiva para marcar quem esteve presente no início da jornada do MythStride.", "An exclusive relic for those present at the beginning of MythStride's journey.", "Una reliquia exclusiva para quienes estuvieron al comienzo del viaje de MythStride.")} />
+            <FeatureCard icon={<MythGlyph glyph="diamond" />} title={text("Diamantes", "Diamonds", "Diamantes")} body={text("Moeda virtual utilizada dentro do MythStride. Não possui valor monetário fora do jogo. Compras com dinheiro real não fazem parte do beta fechado atual.", "Virtual currency used within MythStride. It has no monetary value outside the game. Real-money purchases are not part of the current closed beta.", "Moneda virtual utilizada dentro de MythStride. No tiene valor monetario fuera del juego. Las compras con dinero real no forman parte de la beta cerrada actual.")} />
           </div>
         </SectionShell>
 
@@ -116,20 +117,20 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
         </SectionShell>
 
         <SectionShell eyebrow={copy.section.aethron.eyebrow} title={copy.section.aethron.title} body={copy.section.aethron.body} tone="ember">
-          <div className="aethron-panel">
+          <div className="aethron-panel aethron-panel--product">
             <div className="aethron-panel__sigil" aria-hidden="true"><MythGlyph glyph="aethronSigil" size={128} /></div>
             <div>
               <h3>{text("Companheiro narrativo", "Narrative companion", "Compañero narrativo")}</h3>
-              <p>{text("Como todo conteúdo gerado por inteligência artificial, suas mensagens podem conter erros. Aethron não oferece diagnóstico, tratamento ou aconselhamento profissional de saúde.", "Like all AI-generated content, its messages may contain errors. Aethron does not provide diagnosis, treatment, or professional health advice.", "Como todo contenido generado por inteligencia artificial, sus mensajes pueden contener errores. Aethron no ofrece diagnóstico, tratamiento ni orientación profesional de salud.")}</p>
+              <p>{text("Aethron é um companheiro narrativo baseado em inteligência artificial. O conteúdo gerado pode conter erros e não substitui diagnóstico, tratamento, orientação médica, treinamento profissional ou serviços de emergência.", "Aethron is an AI-powered narrative companion. Generated content may contain errors and does not replace diagnosis, treatment, medical advice, professional coaching, or emergency services.", "Aethron es un compañero narrativo basado en inteligencia artificial. El contenido generado puede contener errores y no sustituye diagnósticos, tratamientos, orientación médica, entrenamiento profesional ni servicios de emergencia.")}</p>
               <Link className="text-link" href={localePath(locale, "/aethron")}>{learnLabel}</Link>
             </div>
+            <div className="aethron-panel__screen" aria-hidden="true"><Image src={getAssetPath(`/images/product/aethron-${locale}.webp`)} alt="" width={720} height={1560} sizes="(max-width: 52rem) 72vw, 260px" /></div>
           </div>
         </SectionShell>
 
         <SectionShell eyebrow={copy.section.integrations.eyebrow} title={copy.section.integrations.title} body={copy.section.integrations.body} tone="stone">
-          <div className="integration-track">
+          <div className="integration-track integration-track--single">
             <IntegrationCard icon={<WatchIcon />} title="Wear OS" body={text("A experiência para Wear OS complementa o aplicativo Android e mantém informações essenciais da corrida acessíveis durante a atividade.", "The Wear OS experience complements the Android app and keeps essential run information accessible during activity.", "La experiencia para Wear OS complementa la aplicación Android y mantiene accesible la información esencial durante la actividad.")} href={localePath(locale, "/wear-os")} linkLabel={learnLabel} />
-            <IntegrationCard icon={<SyncIcon />} title={text("Serviços de atividade", "Activity services", "Servicios de actividad")} body={text("Conecte o MythStride ao seu ecossistema de corrida quando uma integração estiver disponível para sua conta.", "Connect MythStride to your running ecosystem when an integration is available for your account.", "Conecta MythStride con tu ecosistema de carrera cuando una integración esté disponible para tu cuenta.")} href={localePath(locale, "/third-party-services")} linkLabel={learnLabel} />
           </div>
         </SectionShell>
 
@@ -141,8 +142,9 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
         </SectionShell>
 
         <SectionShell eyebrow={copy.section.beta.eyebrow} title={copy.section.beta.title} body={copy.section.beta.body} tone="ember" align="center">
-          <div className="founder-callout"><MythGlyph glyph="founderSword" size={96} /><div><h3>{text("Espada do Fundador", "Founder Sword", "Espada del Fundador")}</h3><p>{text("Jogadores elegíveis que participarem desta fase recebem uma relíquia exclusiva criada para marcar o início da jornada do MythStride.", "Eligible players who join this phase receive an exclusive relic created to mark the beginning of MythStride's journey.", "Los jugadores elegibles que participen en esta fase reciben una reliquia exclusiva creada para marcar el inicio del viaje de MythStride.")}</p></div></div>
+          <FounderRelic locale={locale} />
           <Link className="button button--secondary" href="#join">{copy.hero.primary}</Link>
+          <p className="beta-capacity-note">{copy.waitlist.capacity}</p>
         </SectionShell>
 
         <SectionShell eyebrow={copy.section.lore.eyebrow} title={copy.section.lore.title} body={copy.section.lore.body} tone="stone">
@@ -159,7 +161,7 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
         </SectionShell>
 
         <SectionShell id="join" eyebrow={copy.section.waitlist.eyebrow} title={copy.section.waitlist.title} body={copy.section.waitlist.body} tone="ember" align="center" className="join-section">
-          <WaitlistForm locale={locale} />
+          <div className="join-grid"><FounderRelic locale={locale} compact /><WaitlistForm locale={locale} /></div>
         </SectionShell>
       </main>
       <LocalizedFooter locale={locale} />
@@ -167,16 +169,19 @@ export function ModernHomePage({ locale }: ModernHomePageProps) {
   );
 }
 
-function BetaInvitationCard({ locale }: { locale: PublicLocale }) {
+function HeroProductPreview({ locale }: { locale: PublicLocale }) {
   const text = (ptBR: string, en: string, es: string) => getLocalizedText(locale, { "pt-BR": ptBR, en, es });
   return (
-    <aside className="field-report" aria-label={text("Acesso ao beta", "Beta access", "Acceso a la beta")}>
-      <div className="field-report__top"><span>{text("Convites", "Invitations", "Invitaciones")}</span><strong>Android</strong></div>
-      <div className="field-report__crest" aria-hidden="true"><SwordsIcon /></div>
-      <h2>{text("Beta fechado", "Closed beta", "Beta cerrada")}</h2>
-      <p>{text("Entre na lista para ter a oportunidade de explorar Elyndor entre os primeiros Striders.", "Join the list for a chance to explore Elyndor among the first Striders.", "Únete a la lista para tener la oportunidad de explorar Elyndor entre los primeros Striders.")}</p>
-    </aside>
+    <figure className="hero-product" aria-label={text("Interface do MythStride", "MythStride interface", "Interfaz de MythStride")}>
+      <div className="hero-product__aura" aria-hidden="true" />
+      <div className="hero-product__device"><Image src={getAssetPath(`/images/product/dashboard-${locale}.webp`)} alt={text("Tela inicial do MythStride com progresso, chefe atual e Aethron.", "MythStride home screen with progression, the current boss, and Aethron.", "Pantalla principal de MythStride con progreso, el jefe actual y Aethron.")} width={720} height={1560} priority sizes="(max-width: 52rem) 72vw, 360px" /></div>
+    </figure>
   );
+}
+
+function FounderRelic({ locale, compact = false }: { locale: PublicLocale; compact?: boolean }) {
+  const text = (ptBR: string, en: string, es: string) => getLocalizedText(locale, { "pt-BR": ptBR, en, es });
+  return <div className={`founder-relic${compact ? " founder-relic--compact" : ""}`}><div className="founder-relic__artifact" aria-hidden="true"><Image src={getAssetPath("/assets/mythstride/icons/founder_sword.png")} alt="" width={256} height={256} /></div><div className="founder-relic__copy"><span>{text("ESPADA DO FUNDADOR", "FOUNDER SWORD", "ESPADA DEL FUNDADOR")}</span><h3>{text("Espada do Fundador", "Founder Sword", "Espada del Fundador")}</h3><p>{text("Participantes elegíveis convidados para o beta recebem uma relíquia exclusiva vinculada à sua jornada.", "Eligible participants invited to the beta receive an exclusive relic tied to their journey.", "Los participantes elegibles invitados a la beta reciben una reliquia exclusiva vinculada a su viaje.")}</p></div></div>;
 }
 
 function JourneyStep({ number, icon, title, body }: { number: string; icon: React.ReactNode; title: string; body: string }) {

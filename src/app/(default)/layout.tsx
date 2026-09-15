@@ -5,9 +5,9 @@ import { siteUrl } from "@/lib/metadata";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "MythStride | Choose your language",
+  title: "MythStride | Run in the real world. Progress in another.",
   description:
-    "Choose Portuguese, English, or Spanish to explore MythStride, the running RPG.",
+    "MythStride turns real-world running into RPG progression. Available in Portuguese, English, and Spanish.",
   alternates: {
     canonical: "/",
     languages: {
