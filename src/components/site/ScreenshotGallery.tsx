@@ -70,6 +70,11 @@ export function ScreenshotGallery({
         className="screenshot-gallery__track"
         ref={trackRef}
         tabIndex={0}
+        aria-label={text(
+          "Percorra as capturas com as setas do teclado.",
+          "Browse the captures with the arrow keys.",
+          "Recorre las capturas con las flechas del teclado.",
+        )}
         onKeyDown={(event) => {
           if (event.key === "ArrowLeft") {
             event.preventDefault();
@@ -90,13 +95,6 @@ export function ScreenshotGallery({
           />
         ))}
       </div>
-      <p className="screenshot-gallery__hint">
-        {text(
-          "Use as setas do teclado ou os controles para percorrer as imagens.",
-          "Use the arrow keys or controls to browse the images.",
-          "Usa las flechas del teclado o los controles para recorrer las imágenes.",
-        )}
-      </p>
     </div>
   );
 }
