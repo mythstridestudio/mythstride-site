@@ -22,7 +22,7 @@ export async function generateMetadata({
   return createLocalizedMetadata({
     locale,
     path: "/delete-account",
-    title: `${content.title} | MythStride`,
+    title: content.seoTitle ?? `${content.title} | MythStride`,
     description: content.summary,
   });
 }

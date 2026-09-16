@@ -1272,6 +1272,14 @@ summary:focus-visible {
   text-decoration-color: currentColor;
 }
 
+/* Third-party policy URLs are printed in full so the destination is visible
+   before the tap. They are long and unbreakable, so they need to flow as text
+   rather than as the inline-flex row the default link uses. */
+.text-link--url {
+  display: inline;
+  overflow-wrap: anywhere;
+}
+
 .site-nav {
   position: sticky;
   z-index: 100;

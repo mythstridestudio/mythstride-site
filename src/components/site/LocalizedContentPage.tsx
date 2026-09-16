@@ -82,7 +82,9 @@ function PrivacyControlLink({ locale }: { locale: PublicLocale }) {
 function SupportLinks({ locale }: { locale: PublicLocale }) {
   const links = [
     ["/privacy", getLocalizedText(locale, { "pt-BR": "Política de Privacidade", en: "Privacy Policy", es: "Política de Privacidad" })],
+    ["/terms", getLocalizedText(locale, { "pt-BR": "Termos de Uso", en: "Terms of Use", es: "Términos de Uso" })],
     ["/delete-account", getLocalizedText(locale, { "pt-BR": "Excluir minha conta", en: "Delete my account", es: "Eliminar mi cuenta" })],
+    ["/third-party-services", getLocalizedText(locale, { "pt-BR": "Serviços e integrações", en: "Services and integrations", es: "Servicios e integraciones" })],
     ["/community-guidelines", getLocalizedText(locale, { "pt-BR": "Diretrizes da Comunidade", en: "Community Guidelines", es: "Directrices de la Comunidad" })],
   ];
 

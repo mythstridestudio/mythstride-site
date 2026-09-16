@@ -33,12 +33,16 @@ export function ContentSections({
           <div className="content-section__body">
             <h2>{section.title}</h2>
             {section.paragraphs.map((paragraph) => (
-              <ContactParagraph key={paragraph} text={paragraph} />
+              <p key={paragraph}>
+                <LinkedText text={paragraph} />
+              </p>
             ))}
             {section.bullets ? (
               <ul>
                 {section.bullets.map((bullet) => (
-                  <li key={bullet}>{bullet}</li>
+                  <li key={bullet}>
+                    <LinkedText text={bullet} />
+                  </li>
                 ))}
               </ul>
             ) : null}
@@ -51,13 +55,42 @@ export function ContentSections({
 
 const supportEmail = "contato@playmythstride.com";
 
-function ContactParagraph({ text }: { text: string }) {
-  if (!text.includes(supportEmail)) return <p>{text}</p>;
+// Legal copy is authored as plain strings so it stays translatable and
+// diffable. The support address and the third-party policy URLs still have to
+// be reachable, so they are turned into real links at render time instead of
+// being embedded as markup in the content file.
+const linkPattern = new RegExp(`(${supportEmail}|https://[^\\s]+[^\\s.,;:)])`, "g");
 
-  const [before, after] = text.split(supportEmail);
+function LinkedText({ text }: { text: string }) {
+  const parts = text.split(linkPattern);
+
   return (
-    <p>
-      {before}<a className="text-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>{after}
-    </p>
+    <>
+      {parts.map((part, index) => {
+        if (part === supportEmail) {
+          return (
+            <a className="text-link" href={`mailto:${supportEmail}`} key={index}>
+              {supportEmail}
+            </a>
+          );
+        }
+
+        if (part.startsWith("https://")) {
+          return (
+            <a
+              className="text-link text-link--url"
+              href={part}
+              key={index}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {part}
+            </a>
+          );
+        }
+
+        return part;
+      })}
+    </>
   );
 }
