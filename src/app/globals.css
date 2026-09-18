@@ -1078,6 +1078,15 @@ body {
   --site-surface: rgba(19, 14, 11, 0.94);
   --site-surface-raised: rgba(32, 23, 17, 0.92);
   --site-shadow: 0 28px 80px rgba(0, 0, 0, 0.4);
+
+  /* The legibility floor for small type. Everything that used to sit between
+     0.58rem and 0.78rem now resolves to one of these three steps, so "how
+     small may this get" has a single answer that can be raised in one place.
+     Named `--type-*` rather than `--text-*` to stay clear of Tailwind v4's own
+     font-size namespace. */
+  --type-micro: 0.7rem;    /* 11.2px - tracked uppercase micro-labels */
+  --type-label: 0.78rem;   /* 12.5px - eyebrows, chips, rail and rarity labels */
+  --type-caption: 0.84rem; /* 13.4px - captions, notes, consent copy */
 }
 
 body {
@@ -1133,7 +1142,7 @@ summary:focus-visible {
 .section-eyebrow {
   margin: 0;
   color: var(--color-gold-bright);
-  font-size: 0.72rem;
+  font-size: var(--type-label);
   font-weight: 700;
   letter-spacing: 0.23em;
   line-height: 1.4;
@@ -1249,9 +1258,10 @@ summary:focus-visible {
 
 .button--nav {
   min-height: 2.5rem;
-  padding: 0.65rem 0.85rem;
+  padding: 0.65rem 0.95rem;
   border-color: var(--site-border-strong);
-  font-size: 0.66rem;
+  font-size: var(--type-label);
+  white-space: nowrap;
 }
 
 .button__icon,
@@ -1339,19 +1349,22 @@ summary:focus-visible {
 .site-nav__desktop {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: clamp(1.1rem, 1.65vw, 1.5rem);
 }
 
 .site-nav__links {
   display: flex;
   align-items: center;
-  gap: 1.75rem;
+  gap: clamp(1.25rem, 1.95vw, 1.75rem);
 }
 
 .site-nav__links a {
   position: relative;
   color: var(--color-text-secondary);
-  font-size: 0.86rem;
+  /* The primary menu. It sat at 0.86rem, which read as secondary text next to
+     the destinations it names. */
+  font-size: 0.95rem;
+  white-space: nowrap;
   font-weight: 500;
   transition: color 180ms ease;
 }
@@ -1379,7 +1392,8 @@ summary:focus-visible {
 
 .tester-link {
   color: var(--color-text-muted);
-  font-size: 0.74rem;
+  font-size: var(--type-caption);
+  white-space: nowrap;
   letter-spacing: 0.04em;
   transition: color 180ms ease;
 }
@@ -1395,7 +1409,7 @@ summary:focus-visible {
   padding: 0.2rem;
   border: 1px solid var(--site-border);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: var(--type-label);
   letter-spacing: 0.08em;
 }
 
@@ -1757,7 +1771,7 @@ summary:focus-visible {
   display: grid;
   gap: 0.5rem;
   color: var(--color-gold-muted);
-  font-size: 0.68rem;
+  font-size: var(--type-label);
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1823,7 +1837,7 @@ summary:focus-visible {
 
 .waitlist-form__disclosure {
   color: var(--color-text-muted);
-  font-size: 0.78rem;
+  font-size: var(--type-caption);
   line-height: 1.55;
 }
 
@@ -1884,7 +1898,7 @@ summary:focus-visible {
   display: grid;
   gap: 0.5rem;
   color: var(--color-gold-muted);
-  font-size: 0.68rem;
+  font-size: var(--type-label);
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1981,7 +1995,7 @@ summary:focus-visible {
   margin: 0 0 0.4rem;
   color: var(--color-gold-bright);
   font-family: var(--font-display);
-  font-size: 0.77rem;
+  font-size: var(--type-caption);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -2005,7 +2019,7 @@ summary:focus-visible {
   padding-top: 1.25rem;
   border-top: 1px solid rgba(227, 186, 115, 0.1);
   color: var(--color-text-muted);
-  font-size: 0.7rem;
+  font-size: var(--type-label);
   line-height: 1.5;
 }
 
@@ -2188,11 +2202,13 @@ summary:focus-visible {
   border-top: 1px solid var(--site-border);
 }
 
-@media (max-width: 72rem) {
+@media (max-width: 78rem) {
   .site-nav__links {
     display: none;
   }
+}
 
+@media (max-width: 72rem) {
   .site-footer__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -2627,7 +2643,7 @@ summary:focus-visible {
   border: 1px solid rgba(227, 186, 115, 0.34);
   color: var(--color-gold-bright);
   background: rgba(9, 7, 6, 0.6);
-  font-size: 0.66rem;
+  font-size: var(--type-label);
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -2711,7 +2727,7 @@ summary:focus-visible {
   max-width: 24rem;
   margin: 1.5rem auto 0;
   color: var(--color-text-muted);
-  font-size: 0.74rem;
+  font-size: var(--type-caption);
   line-height: 1.6;
   text-align: center;
 }
@@ -2766,7 +2782,7 @@ summary:focus-visible {
 .hero-hud__label {
   display: block;
   color: var(--color-text-muted);
-  font-size: 0.58rem;
+  font-size: var(--type-micro);
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -2841,7 +2857,7 @@ summary:focus-visible {
   margin-top: 0.45rem;
   color: var(--color-text-secondary);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--type-label);
 }
 
 @keyframes damage-float {
@@ -3031,7 +3047,7 @@ summary:focus-visible {
 
 .boss-readout dt {
   color: var(--color-text-muted);
-  font-size: 0.6rem;
+  font-size: var(--type-micro);
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -3079,7 +3095,7 @@ summary:focus-visible {
 .boss-hud__eyebrow {
   margin: 0;
   color: var(--color-gold-bright);
-  font-size: 0.6rem;
+  font-size: var(--type-micro);
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -3210,7 +3226,7 @@ summary:focus-visible {
   margin-top: 0.25rem;
   color: var(--color-text-muted);
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: var(--type-micro);
 }
 
 /* ---- Loot ---------------------------------------------------------------- */
@@ -3229,7 +3245,7 @@ summary:focus-visible {
   align-items: center;
   gap: 0.45rem;
   color: var(--color-text-muted);
-  font-size: 0.72rem;
+  font-size: var(--type-label);
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -3320,7 +3336,7 @@ summary:focus-visible {
 .loot-card__rarity {
   margin: 0.4rem 0 0;
   color: var(--rarity);
-  font-size: 0.66rem;
+  font-size: var(--type-label);
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -3406,7 +3422,7 @@ summary:focus-visible {
   gap: 0.5rem;
   margin: 0;
   color: var(--color-text-muted);
-  font-size: 0.66rem;
+  font-size: var(--type-label);
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -3428,7 +3444,7 @@ summary:focus-visible {
   justify-content: space-between;
   color: var(--color-text-muted);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: var(--type-label);
 }
 
 .character-sheet__bar {
@@ -3468,7 +3484,7 @@ summary:focus-visible {
 .character-sheet__label {
   margin: 1.75rem 0 0.9rem;
   color: var(--color-text-muted);
-  font-size: 0.62rem;
+  font-size: var(--type-micro);
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -3528,7 +3544,7 @@ summary:focus-visible {
 
 .character-slot__slot {
   color: var(--rarity);
-  font-size: 0.6rem;
+  font-size: var(--type-micro);
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -3570,7 +3586,7 @@ summary:focus-visible {
 .character-shot figcaption {
   margin-top: 0.9rem;
   color: var(--color-text-muted);
-  font-size: 0.74rem;
+  font-size: var(--type-label);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -3721,7 +3737,7 @@ summary:focus-visible {
 .chronicle-card__more {
   margin-top: 0.35rem;
   color: var(--color-gold-bright);
-  font-size: 0.7rem;
+  font-size: var(--type-label);
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -4341,7 +4357,7 @@ summary:focus-visible {
 
 .site-footer__locales span {
   color: var(--color-gold-muted);
-  font-size: 0.64rem;
+  font-size: var(--type-micro);
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -4554,9 +4570,6 @@ summary:focus-visible {
     padding-inline: 0.35rem;
   }
 
-  .boss-ladder__meta {
-    font-size: 0.62rem;
-  }
 }
 
 /* ---- Anchors under a sticky header ---------------------------------------
@@ -4572,13 +4585,8 @@ summary:focus-visible {
 }
 
 /* Supporting figures stay above the 10px line even on the densest row. */
-.boss-ladder__meta {
-  font-size: 0.7rem;
-}
-
 @media (min-width: 72.001rem) {
   .boss-ladder__meta {
-    font-size: 0.66rem;
     letter-spacing: -0.01em;
   }
 }

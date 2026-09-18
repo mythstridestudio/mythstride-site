@@ -3,7 +3,7 @@
 Data: 18 de setembro de 2026
 Origem: export estático local em `http://127.0.0.1:4173`
 Captura: Google Chrome headless, controlado pelo Chrome DevTools Protocol (sem dependências adicionais)
-Escopo: rodada 1 — redesenho completo da HOME; rodada 2 — QA final de lançamento; rodada 3 — ajuste estratégico de eventos, comunidade e chefes. As páginas institucionais foram recapturadas nas duas para confirmar que o novo cabeçalho e o novo rodapé não as afetaram.
+Escopo: rodada 1 — redesenho completo da HOME; rodada 2 — QA final de lançamento; rodada 3 — ajuste estratégico de eventos, comunidade e chefes; rodada 4 — legibilidade tipográfica. As páginas institucionais foram recapturadas nas duas para confirmar que o novo cabeçalho e o novo rodapé não as afetaram.
 
 ## Resultado
 
@@ -141,6 +141,56 @@ O CTA reutiliza o canal que já existe, `legalConfig.contactEmail`, como um `mai
 - CTA de organizador: `<a>` real com `mailto:`, 46 px de altura, dentro da viewport nas três línguas em 1440×900 e 390×844, `<h3>` sob o `<h2>` da seção.
 - Checagem de copy: nenhuma contagem de chefes, frequência de eventos, métrica de público, promessa de alcance, garantia de aprovação ou modelo comercial no HTML gerado das três línguas.
 - Regressão visual: as 9 capturas de primeira dobra e as páginas institucionais continuam **pixel-idênticas**. Só as duas capturas de página inteira em PT-BR mudaram de altura (14.357 → 14.823 no desktop; 19.346 → 19.999 no mobile), que é o bloco de organizadores mais a copy mais longa.
+
+## Rodada 4 — legibilidade tipográfica
+
+Ajuste só de tamanho de fonte nos textos pequenos. Nenhum título, CTA, cor, espaçamento, animação, imagem ou copy foi alterado.
+
+### Método
+
+Um script mediu todos os tamanhos de texto efetivamente renderizados na Home, do menor para o maior, em vez de decidir no olho. O piso era **9,3 px** (`hero-hud__label`), com 11 estilos distintos abaixo de 11 px.
+
+### O que mudou
+
+Três tokens novos substituem os ~20 valores soltos que existiam entre 0,58 rem e 0,78 rem, de modo que "quão pequeno isto pode ficar" passe a ter uma resposta só:
+
+| Token | Valor | Usado em |
+| --- | --- | --- |
+| `--type-micro` | 0,7 rem (11,2 px) | micro-rótulos maiúsculos: HUD, `dt` do boss, slots do personagem, campanha, idioma no rodapé |
+| `--type-label` | 0,78 rem (12,5 px) | eyebrows, CTA do cabeçalho, seletor de idiomas, raridades, legendas, rótulos de formulário, base do rodapé |
+| `--type-caption` | 0,84 rem (13,4 px) | legenda da hero, login de testador, títulos de coluna do rodapé, texto de consentimento |
+
+Os links do menu principal foram de 0,86 rem para **0,95 rem (15,2 px)**, tratados à parte por serem navegação e não microcopy.
+
+Piso final: **11,2 px**, contra 9,3 px antes. Nada abaixo disso.
+
+### Menu: uma quebra encontrada e corrigida
+
+Com as fontes maiores, a barra do cabeçalho passou a não caber numa faixa estreita: em espanhol entre 1153 px e ~1200 px os links quebravam em duas linhas e o CTA virava um botão de duas alturas (52 px). A medição mostrou que a faixa já era apertada antes — o aumento só a deslocou para cima.
+
+Correção pelo mecanismo que já existia: os links inline passam a ceder lugar ao menu compacto em **78 rem (1248 px)** em vez de 72 rem, e os espaçamentos do cabeçalho viraram `clamp()` que mantém exatamente o valor aprovado em 1440 px e acima. Um `white-space: nowrap` garante que nenhum rótulo quebre no meio.
+
+Resultado medido em pt-BR, en e es, de 840 px a 1440 px: **uma linha em todas as larguras**, sem quebra e sem overflow. Os quatro viewports pedidos — 1280, 1366, 1440 e 1920 — continuam mostrando o menu completo.
+
+### Verificação
+
+- 30 combinações (3 línguas × 10 viewports): overflow **0**, elementos extrapolando **0**, imagens quebradas **0**, reveals invisíveis **0**, `h1` **1**, saltos de heading **0**, âncoras inválidas **0**, erros de console **0**, requests falhos **0**. CTA principal dentro da primeira dobra em todos.
+- Altura da página: **+51 px** no desktop e **+122 px** no mobile. Nenhuma seção mudou de estrutura.
+- Regressão visual: a diferença aparece em todas as páginas porque o cabeçalho e os eyebrows são comuns — 2,8% a 8,4% dos pixels no desktop, 23,8% na primeira dobra mobile (viewport pequeno, texto pequeno pesa mais). A inspeção lado a lado do cabeçalho confirma mesmo layout, mesmo logo, mesmo botão ornamentado, só o texto maior.
+
+## Arte da Medusa — reencode
+
+A `medusa.webp` original tinha sido gerada com `quality: 74` e `alphaQuality: 80`. A medição explicou por que ficou ruim: **61% da imagem é alfa suave**, e compressão agressiva do canal alfa nesse caso destrói o brilho dourado e o detalhe das escamas. Contra o PNG de origem, aquele arquivo media **22,6 dB de PSNR** (RMSE 19, erro máximo 198) — visivelmente lavado e borrado.
+
+O arquivo foi regerado a partir do PNG de 1254 px com `quality: 90` e `alphaQuality: 100`, a 960 px — o suficiente para 2x no desktop (416 px de CSS) e 3x no mobile (320 px de CSS):
+
+| | Tamanho | PSNR |
+| --- | --- | --- |
+| PNG de origem | 2.486 KB | referência |
+| WebP antigo | 139 KB | 22,6 dB |
+| WebP novo | 403 KB | ~32 dB |
+
+O PNG de origem foi movido para `assets/source/art/medusa.png`, junto das outras artes originais, para não ser publicado no export. Peso da página inteira: **4.795 KB → 2.712 KB**.
 
 ## Pendências para decisão humana
 
