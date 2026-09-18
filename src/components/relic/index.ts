@@ -12,6 +12,7 @@
 
 export { RelicFrame, default as RelicFrameDefault } from "./RelicFrame";
 export { MythBossMedal } from "./MythBossMedal";
+export { BossHealthBar } from "./BossHealthBar";
 export { MythGlyph } from "./MythGlyph";
 
 export {

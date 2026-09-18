@@ -136,7 +136,7 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="myth-button-primary w-full min-w-0 px-5 py-3 font-display text-sm tracking-wider sm:px-8 disabled:cursor-not-allowed"
+              className="button button--primary w-full min-w-0"
               disabled={isLoading}
             >
               <SwordsIcon className="h-4 w-4" />
@@ -156,7 +156,7 @@ export default function LoginPage() {
               </p>
             )}
 
-            <Link href="/en/#join" className="myth-button-secondary w-full min-w-0 px-4 py-3 font-display text-sm tracking-wider sm:px-6">
+            <Link href="/en/#join" className="button button--secondary w-full min-w-0">
               {t("login.actions.waitlist")}
               <ArrowRightIcon className="h-4 w-4" />
             </Link>

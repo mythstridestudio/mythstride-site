@@ -1205,7 +1205,7 @@ export default function AdminEventsPage() {
               </p>
             </div>
             {selectedId && (
-              <button type="button" className="myth-button-secondary px-4 py-2 text-xs" onClick={newEvent}>
+              <button type="button" className="button button--secondary" onClick={newEvent}>
                 Nova prova
               </button>
             )}
@@ -1259,11 +1259,11 @@ export default function AdminEventsPage() {
                     Use vírgula ou ponto e vírgula. A importação inteira é cancelada se qualquer linha for inválida.
                   </p>
                   <div className="grid gap-2 sm:grid-cols-2">
-                    <label className="myth-button-secondary cursor-pointer px-4 py-3 text-center text-sm">
+                    <label className="button button--secondary cursor-pointer text-center">
                       Selecionar arquivo CSV
                       <input type="file" accept=".csv,text/csv" className="sr-only" onChange={chooseCsv} />
                     </label>
-                    <button type="button" className="myth-button-secondary px-4 py-3 text-sm" onClick={downloadCsvTemplate}>
+                    <button type="button" className="button button--secondary" onClick={downloadCsvTemplate}>
                       Baixar modelo CSV
                     </button>
                   </div>
@@ -1295,7 +1295,7 @@ export default function AdminEventsPage() {
                       )}
                       <button
                         type="button"
-                        className="myth-button-primary mt-4 w-full px-5 py-3 text-sm"
+                        className="button button--primary mt-4 w-full"
                         disabled={importing || csvPreview.errors.length > 0 || csvPreview.rows.length === 0}
                         onClick={importCsv}
                       >
@@ -1365,7 +1365,7 @@ export default function AdminEventsPage() {
                     </label>
                     <button
                       type="button"
-                      className="myth-button-secondary px-4 py-3 text-xs"
+                      className="button button--secondary"
                       disabled={exportingParticipants}
                       onClick={() => void exportParticipants()}
                     >
@@ -1452,14 +1452,14 @@ export default function AdminEventsPage() {
                   </label>
                   <button
                     type="button"
-                    className="myth-button-secondary self-end px-3 py-3 text-xs"
+                    className="button button--secondary self-end"
                     onClick={clearParticipantFilters}
                   >
                     Limpar
                   </button>
                   <button
                     type="button"
-                    className="myth-button-secondary self-end px-3 py-3 text-xs"
+                    className="button button--secondary self-end"
                     disabled={participantsLoading}
                     onClick={() => void refreshParticipantManagement()}
                   >
@@ -1467,7 +1467,7 @@ export default function AdminEventsPage() {
                   </button>
                   <button
                     type="button"
-                    className="myth-button-primary self-end px-3 py-3 text-xs"
+                    className="button button--primary self-end"
                     onClick={beginParticipantAdd}
                   >
                     Novo participante
@@ -1505,7 +1505,7 @@ export default function AdminEventsPage() {
                             <div className="flex justify-end gap-2">
                               <button
                                 type="button"
-                                className="myth-button-secondary px-3 py-2 text-xs"
+                                className="button button--secondary"
                                 onClick={() => beginParticipantEdit(participant)}
                               >
                                 Editar
@@ -1540,7 +1540,7 @@ export default function AdminEventsPage() {
                   <div className="mt-4 flex items-center justify-between gap-3">
                     <button
                       type="button"
-                      className="myth-button-secondary px-4 py-2 text-xs"
+                      className="button button--secondary"
                       disabled={participantPage <= 1 || participantsLoading}
                       onClick={() => setParticipantPage((page) => Math.max(1, page - 1))}
                     >
@@ -1551,7 +1551,7 @@ export default function AdminEventsPage() {
                     </span>
                     <button
                       type="button"
-                      className="myth-button-secondary px-4 py-2 text-xs"
+                      className="button button--secondary"
                       disabled={participantPage >= participants.totalPaginas || participantsLoading}
                       onClick={() => setParticipantPage((page) => page + 1)}
                     >
@@ -1569,7 +1569,7 @@ export default function AdminEventsPage() {
             </div>
           )}
 
-          <button type="submit" className="myth-button-primary mt-6 w-full px-6 py-3 font-display tracking-wider" disabled={saving}>
+          <button type="submit" className="button button--primary mt-6 w-full" disabled={saving}>
             <CheckIcon className="h-4 w-4" />
             {saving ? "Salvando..." : selectedId ? "Salvar alterações" : "Criar prova oficial"}
           </button>
@@ -1693,14 +1693,14 @@ export default function AdminEventsPage() {
                           <div className="mt-3 grid gap-2 sm:grid-cols-2">
                             <button
                               type="button"
-                              className="myth-button-secondary px-3 py-2 text-xs"
+                              className="button button--secondary"
                               onClick={() => setPendingLifecycle(null)}
                             >
                               Voltar
                             </button>
                             <button
                               type="button"
-                              className="myth-button-primary px-3 py-2 text-xs"
+                              className="button button--primary"
                               disabled={running}
                               onClick={() => void runLifecycleAction(option.action)}
                             >
@@ -1712,8 +1712,8 @@ export default function AdminEventsPage() {
                             type="button"
                             className={`mt-3 w-full px-3 py-2 text-xs ${
                               option.destructive
-                                ? "myth-button-secondary"
-                                : "myth-button-primary"
+                                ? "button button--secondary"
+                                : "button button--primary"
                             }`}
                             disabled={!enabled || lifecycleRunning !== null}
                             onClick={() => {
@@ -1766,7 +1766,7 @@ export default function AdminEventsPage() {
                     </div>
                     <button
                       type="button"
-                      className="myth-button-secondary px-3 py-2 text-xs"
+                      className="button button--secondary"
                       disabled={rewardsLoading}
                       onClick={() => {
                         if (token && selectedId) void loadRewards(token, selectedId);
@@ -1852,7 +1852,7 @@ export default function AdminEventsPage() {
                             <>
                               <button
                                 type="button"
-                                className="myth-button-secondary px-3 py-2 text-xs"
+                                className="button button--secondary"
                                 onClick={() => setConfirmingRewardId(null)}
                               >
                                 Manter
@@ -1869,7 +1869,7 @@ export default function AdminEventsPage() {
                           ) : (
                             <button
                               type="button"
-                              className="myth-button-secondary px-3 py-2 text-xs"
+                              className="button button--secondary"
                               disabled={rewardSaving}
                               onClick={() => void removeReward(reward)}
                             >
@@ -2015,7 +2015,7 @@ export default function AdminEventsPage() {
                   )}
                   <button
                     type="button"
-                    className="myth-button-primary mt-4 w-full px-5 py-3 font-display tracking-wider"
+                    className="button button--primary mt-4 w-full"
                     disabled={rewardSaving || !rewardDraft.nome.trim()}
                     onClick={() => void saveReward()}
                   >
@@ -2085,7 +2085,7 @@ export default function AdminEventsPage() {
                   </div>
                   <button
                     type="button"
-                    className="myth-button-primary mt-4 w-full px-5 py-3 font-display tracking-wider"
+                    className="button button--primary mt-4 w-full"
                     disabled={generatingCodes}
                     onClick={() => void submitCodes()}
                   >
@@ -2103,7 +2103,7 @@ export default function AdminEventsPage() {
                       <div className="flex flex-wrap gap-2">
                         <button
                           type="button"
-                          className="myth-button-secondary px-3 py-2 text-xs"
+                          className="button button--secondary"
                           onClick={() => void copyGeneratedCodes()}
                         >
                           <CopyIcon className="h-4 w-4" />
@@ -2111,7 +2111,7 @@ export default function AdminEventsPage() {
                         </button>
                         <button
                           type="button"
-                          className="myth-button-secondary px-3 py-2 text-xs"
+                          className="button button--secondary"
                           onClick={downloadGeneratedCodes}
                         >
                           Baixar CSV
@@ -2153,7 +2153,7 @@ export default function AdminEventsPage() {
                     </div>
                     <button
                       type="button"
-                      className="myth-button-secondary px-3 py-2 text-xs"
+                      className="button button--secondary"
                       disabled={resultsLoading}
                       onClick={() => {
                         if (token && selectedId) void loadResults(token, selectedId);
@@ -2237,7 +2237,7 @@ export default function AdminEventsPage() {
                             <td className="px-3 py-3 text-right">
                               <button
                                 type="button"
-                                className="myth-button-secondary px-3 py-2 text-xs"
+                                className="button button--secondary"
                                 disabled={
                                   result.desqualificado || result.recompensasEntregues
                                 }
@@ -2287,7 +2287,7 @@ export default function AdminEventsPage() {
               <div className="mt-6 grid gap-2 sm:grid-cols-2">
                 <button
                   type="button"
-                  className="myth-button-secondary px-5 py-3"
+                  className="button button--secondary"
                   disabled={disqualifying}
                   onClick={() => {
                     setDisqualifyTarget(null);
@@ -2298,7 +2298,7 @@ export default function AdminEventsPage() {
                 </button>
                 <button
                   type="button"
-                  className="myth-button-primary px-5 py-3"
+                  className="button button--primary"
                   disabled={disqualifying || !disqualifyReason.trim()}
                   onClick={() => void confirmDisqualification()}
                 >
@@ -2355,7 +2355,7 @@ export default function AdminEventsPage() {
               <div className="mt-6 grid gap-2 sm:grid-cols-2">
                 <button
                   type="button"
-                  className="myth-button-secondary px-5 py-3"
+                  className="button button--secondary"
                   disabled={participantSaving}
                   onClick={() => {
                     setEditingParticipant(null);
@@ -2367,7 +2367,7 @@ export default function AdminEventsPage() {
                 </button>
                 <button
                   type="button"
-                  className="myth-button-primary px-5 py-3"
+                  className="button button--primary"
                   disabled={participantSaving || !participantDraft.nome.trim() || !participantDraft.numeroInscricao.trim()}
                   onClick={() => void saveParticipant()}
                 >
@@ -2381,7 +2381,7 @@ export default function AdminEventsPage() {
         <aside className="app-panel app-panel-compact rpg-card h-fit p-4 lg:sticky lg:top-28 lg:col-start-2 lg:row-start-1">
           <div className="flex items-center justify-between gap-3">
             <h2 className="font-display text-2xl text-gold">Provas cadastradas</h2>
-            <button type="button" onClick={newEvent} className="myth-button-secondary px-3 py-2 text-xs">Nova</button>
+            <button type="button" onClick={newEvent} className="button button--secondary shrink-0">Nova</button>
           </div>
           <div className="mt-4 grid gap-3">
             {loading && <p className="text-sm text-text-muted">Carregando...</p>}

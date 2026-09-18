@@ -89,7 +89,7 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
             </Link>
           )}
           <LanguageSwitcher className="px-2" />
-          <button type="button" onClick={handleLogout} className="myth-button-primary min-h-10 px-4 py-2 font-display text-xs tracking-wider">
+          <button type="button" onClick={handleLogout} className="button button--primary button--nav">
             <SwordsIcon className="h-4 w-4" />
             {t("authTopbar.logout")}
           </button>
@@ -142,7 +142,7 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
               Eventos
             </Link>
           )}
-          <button type="button" onClick={handleLogout} className="myth-button-primary min-h-10 px-4 py-2 font-display text-xs tracking-wider">
+          <button type="button" onClick={handleLogout} className="button button--primary button--nav">
             <SwordsIcon className="h-4 w-4" />
             {t("authTopbar.logout")}
           </button>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { MythBossMedal } from "@/components/relic";
+import { BossHealthBar, MythBossMedal } from "@/components/relic";
 import { homeCopy } from "@/content/home";
 import { bossScene, campaignBosses, homeSectionIds } from "@/content/home-data";
 import { getAssetPath } from "@/lib/assets";
@@ -12,7 +12,6 @@ type BossSectionProps = { locale: PublicLocale };
 const full = bossScene.health;
 const before = bossScene.remaining;
 const after = before - bossScene.damage;
-const percent = (value: number) => `${((value / full) * 100).toFixed(1)}%`;
 
 /**
  * The battle, shown at the scale the game shows it: the boss large, its health
@@ -78,15 +77,12 @@ export function BossSection({ locale }: BossSectionProps) {
             <figcaption className="boss-hud">
               <p className="boss-hud__eyebrow">{copy.bossEyebrow}</p>
               <p className="boss-hud__name">{copy.bossNames[bossScene.slug]}</p>
-              <div className="boss-hud__bar">
-                <span
-                  className="boss-hud__bar-fill"
-                  style={{
-                    ["--hp-from" as string]: percent(before),
-                    ["--hp-to" as string]: percent(after),
-                  }}
-                />
-              </div>
+              <BossHealthBar
+                value={after}
+                max={full}
+                from={before}
+                label={`${copy.bossNames[bossScene.slug]} — ${copy.healthLabel}`}
+              />
               <p className="boss-hud__values">
                 <span>{copy.healthLabel}</span>
                 <strong>

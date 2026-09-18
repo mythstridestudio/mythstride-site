@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { getLanguageLocale, useLanguage } from "@/contexts/LanguageContext";
 import { getAssetPath } from "@/lib/assets";
 import { getBossImagePath, getBossMedalPath } from "@/lib/boss-medals";
+import { parseApiDate } from "@/lib/dates";
 import { ApiConfigurationError, ApiError, ApiNetworkError } from "@/lib/api/client";
 import { getPublicPlayer, type PublicPlayerResult } from "@/lib/api/public-player";
 import type { AchievementRarity, PublicPlayerProfile } from "@/lib/api/types";
@@ -97,11 +98,19 @@ function formatNumber(value: number, locale: string) {
 }
 
 function formatDate(value: string, locale: string) {
+  const date = parseApiDate(value);
+
+  // Same fallback the dashboard uses for a date it cannot render: show nothing
+  // rather than "Invalid Date", and never throw.
+  if (!date) {
+    return "";
+  }
+
   return new Intl.DateTimeFormat(locale, {
     month: "short",
     day: "numeric",
     year: "numeric",
-  }).format(new Date(`${value}T00:00:00`));
+  }).format(date);
 }
 
 function getErrorMessageKey(error: unknown) {
@@ -174,7 +183,7 @@ function ProfileError({ messageKey }: { messageKey: string }) {
         </div>
         <h1 className="font-display text-3xl text-gold md:text-4xl">{t("publicProfile.unavailable")}</h1>
         <p className="mx-auto mt-4 max-w-xl leading-relaxed text-text-secondary">{t(messageKey)}</p>
-        <a href={`${getAssetPath("/")}#join`} className="myth-button-primary mt-8 px-8 py-3 font-display text-sm tracking-wider">
+        <a href={`${getAssetPath("/")}#join`} className="button button--primary mt-8">
           {t("publicProfile.beginJourney")}
           <ArrowRightIcon className="h-4 w-4" />
         </a>
@@ -290,7 +299,7 @@ function ProfileActions() {
       <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
         <button
           onClick={handleCopy}
-          className="myth-button-secondary group relative flex items-center justify-center gap-2 px-6 py-3 font-display text-xs tracking-widest flex-1 lg:flex-none"
+          className="button button--secondary group flex-1 lg:flex-none"
         >
           {copied ? (
             <>
@@ -306,7 +315,7 @@ function ProfileActions() {
         </button>
         <button
           onClick={handleShare}
-          className="myth-button-primary group flex items-center justify-center gap-2 px-6 py-3 font-display text-xs tracking-widest flex-1 lg:flex-none"
+          className="button button--primary button--compact-frame group flex-1 lg:flex-none"
         >
           <ShareIcon className="h-4 w-4 transition-transform group-hover:-translate-y-0.5" />
           {t("publicProfile.actions.shareProfile")}
@@ -730,12 +739,9 @@ function FinalProfileCTA() {
             {t("publicProfile.cta.description")}
           </p>
           
-          <a href={`${getAssetPath("/")}#join`} className="myth-button-primary mt-4 group relative overflow-hidden px-8 sm:px-10 py-4 font-display text-sm tracking-widest bg-emerald/10 border-emerald/40 hover:bg-emerald/20 hover:border-emerald/60 text-emerald-bright w-full sm:w-auto">
-            <div className="absolute inset-0 bg-emerald/10 translate-y-full transition-transform group-hover:translate-y-0" />
-            <span className="relative flex items-center justify-center gap-3">
-              <SwordsIcon className="h-4 w-4" />
-              {t("publicProfile.beginJourney")}
-            </span>
+          <a href={`${getAssetPath("/")}#join`} className="button button--primary mt-4 w-full sm:w-auto">
+            <SwordsIcon className="h-4 w-4" />
+            {t("publicProfile.beginJourney")}
           </a>
         </div>
       </div>

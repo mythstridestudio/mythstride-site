@@ -2364,6 +2364,24 @@ summary:focus-visible {
   filter: brightness(1.1);
 }
 
+/* ── DISABLED ─────────────────────────────────────────────────────────────
+   Every call to action on the Home is a link, so the system never needed this.
+   The authenticated pages submit real forms — a login that is sending, a copy
+   button with nothing to copy — so the state belongs here, in the system, and
+   not as a utility repeated on each page. Nothing on the Home is ever
+   disabled, so nothing there changes. */
+.button:disabled,
+.button[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.button:disabled:hover,
+.button[aria-disabled="true"]:hover {
+  filter: none;
+  transform: none;
+}
+
 /* ── TOP BAR ──────────────────────────────────────────────────────────────
    A 6 px cap either side, so the ornament reads as a rail rather than a box.
    The nav keeps its own background and blur; this only dresses the edge.
@@ -4740,4 +4758,18 @@ summary:focus-visible {
   .organizer-steps li {
     align-items: flex-start;
   }
+}
+
+/* A narrow column cannot hold the full primary frame. The ornate caps reserve
+   60 px a side, so inside the public profile's 290 px action rail a label like
+   "Compartilhar perfil" is left ~170 px, wraps to a second line and then sits
+   on top of the border art instead of inside it.
+
+   This is the same trade the 420 px breakpoint above already makes: step down
+   to the smaller authored cap rather than squash the art, buying back 40 px of
+   label width. It is opt-in, so no existing button changes. */
+.button--compact-frame.button--primary {
+  border-inline-width: 40px;
+  border-image-width: 0 40px;
+  min-width: 81px;
 }

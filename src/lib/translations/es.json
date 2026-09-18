@@ -474,46 +474,46 @@
     "theSpectralKingWaitsBeneathTheMist": "Lich do Abismo espera bajo la Niebla.",
     "mythStrideGivesEveryRunAPlace": "MythStride gives every run a place in this fight: the Flame grows through discipline, and the Mist weakens when the player returns."
   },
-    "appShowcase": {
-      "sectionHeader": {
-        "label": "App Codex",
-        "title": "The Adventure Already Lives Inside the App",
-        "description": "Real MythStride screens show the full loop: progress, runs, bosses, rewards, Aethron, and shareable proof."
-      },
-      "archiveLabel": "Journey Archive",
-      "screens": [
-        {
-          "title": "Dashboard",
-          "chapter": "Start your journey",
-          "copy": "Player level, HP, XP, currencies, current boss, missions, and navigation are already in the live app interface."
-        },
-        {
-          "title": "Run Screen",
-          "chapter": "Complete real-world runs",
-          "copy": "The run mission screen connects distance, time, pace, calories, XP, and active mission status in one RPG workout view."
-        },
-        {
-          "title": "Boss Screen",
-          "chapter": "Damage powerful enemies",
-          "copy": "Boss progress is visible during the mission, turning effort into damage against the weekly enemy."
-        },
-        {
-          "title": "Inventory",
-          "chapter": "Collect rewards",
-          "copy": "The arsenal already shows gear, prices, rarity, vendors, gold, and diamonds with a consistent fantasy interface."
-        },
-        {
-          "title": "Aethron",
-          "chapter": "Receive guidance",
-          "copy": "Aethron gives post-run context and makes the app feel guided, not just tracked."
-        },
-        {
-          "title": "Achievements",
-          "chapter": "Become a legend",
-          "copy": "The shareable chronicle records distance, pace, duration, boss damage, streak, and the run identity earned that day."
-        }
-      ]
+  "appShowcase": {
+    "sectionHeader": {
+      "label": "App Codex",
+      "title": "The Adventure Already Lives Inside the App",
+      "description": "Real MythStride screens show the full loop: progress, runs, bosses, rewards, Aethron, and shareable proof."
     },
+    "archiveLabel": "Journey Archive",
+    "screens": [
+      {
+        "title": "Dashboard",
+        "chapter": "Start your journey",
+        "copy": "Player level, HP, XP, currencies, current boss, missions, and navigation are already in the live app interface."
+      },
+      {
+        "title": "Run Screen",
+        "chapter": "Complete real-world runs",
+        "copy": "The run mission screen connects distance, time, pace, calories, XP, and active mission status in one RPG workout view."
+      },
+      {
+        "title": "Boss Screen",
+        "chapter": "Damage powerful enemies",
+        "copy": "Boss progress is visible during the mission, turning effort into damage against the weekly enemy."
+      },
+      {
+        "title": "Inventory",
+        "chapter": "Collect rewards",
+        "copy": "The arsenal already shows gear, prices, rarity, vendors, gold, and diamonds with a consistent fantasy interface."
+      },
+      {
+        "title": "Aethron",
+        "chapter": "Receive guidance",
+        "copy": "Aethron gives post-run context and makes the app feel guided, not just tracked."
+      },
+      {
+        "title": "Achievements",
+        "chapter": "Become a legend",
+        "copy": "The shareable chronicle records distance, pace, duration, boss damage, streak, and the run identity earned that day."
+      }
+    ]
+  },
   "characterSection": {
     "sectionHeader": {
       "label": "The New Champion",
@@ -578,19 +578,52 @@
       "terms": "Terms of Service"
     },
     "footerLinks": [
-      { "label": "Privacy", "href": "#" },
-      { "label": "Terms", "href": "#" },
-      { "label": "Contact", "href": "#" },
-      { "label": "Press Kit", "href": "#" },
-      { "label": "Support", "href": "#" }
+      {
+        "label": "Privacy",
+        "href": "#"
+      },
+      {
+        "label": "Terms",
+        "href": "#"
+      },
+      {
+        "label": "Contact",
+        "href": "#"
+      },
+      {
+        "label": "Press Kit",
+        "href": "#"
+      },
+      {
+        "label": "Support",
+        "href": "#"
+      }
     ],
     "footerSocialLinks": [
-      { "label": "Twitter / X", "href": "#" },
-      { "label": "Discord", "href": "#" },
-      { "label": "Instagram", "href": "#" },
-      { "label": "TikTok", "href": "#" }
+      {
+        "label": "Twitter / X",
+        "href": "#"
+      },
+      {
+        "label": "Discord",
+        "href": "#"
+      },
+      {
+        "label": "Instagram",
+        "href": "#"
+      },
+      {
+        "label": "TikTok",
+        "href": "#"
+      }
     ],
     "copyright": "&copy; {new Date().getFullYear()} MythStride. All rights reserved.",
     "transformYourRunsConquerTheRealm": "Transform your runs. Conquer the realm."
+  },
+  "errorBoundary": {
+    "title": "Algo se salió del camino",
+    "body": "No se pudo mostrar esta página. Inténtalo de nuevo; si continúa, vuelve al inicio y prueba más tarde.",
+    "retry": "Intentar de nuevo",
+    "home": "Volver al Sitio"
   }
 }

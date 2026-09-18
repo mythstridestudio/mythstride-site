@@ -10,10 +10,11 @@ import { getDashboardData, type DashboardData } from "@/lib/api/player";
 import { useAuth } from "@/contexts/AuthContext";
 import { getLanguageLocale, useLanguage } from "@/contexts/LanguageContext";
 import { getAssetPath } from "@/lib/assets";
+import { BossHealthBar } from "@/components/relic";
 import { getBossImagePath, getBossMedalPath } from "@/lib/boss-medals";
+import { parseApiDate } from "@/lib/dates";
 import { useTranslations } from "@/lib/i18n";
 import AuthenticatedTopbar from "@/components/AuthenticatedTopbar";
-import MythProgressMeter from "@/components/ui/MythProgressMeter";
 import {
   ArrowRightIcon,
   BookIcon,
@@ -39,11 +40,19 @@ function formatDistance(value: number | null | undefined, locale: string) {
 }
 
 function formatDate(value: string, locale: string) {
+  const date = parseApiDate(value);
+
+  // Same fallback `formatDistance` above already uses for a value it cannot
+  // render: show nothing rather than "Invalid Date", and never throw.
+  if (!date) {
+    return "";
+  }
+
   return new Intl.DateTimeFormat(locale, {
     month: "short",
     day: "numeric",
     year: "numeric",
-  }).format(new Date(`${value}T00:00:00`));
+  }).format(date);
 }
 
 function getErrorMessageKey(error: unknown) {
@@ -203,12 +212,10 @@ function DashboardContent({ data }: { data: DashboardData }) {
                   <span>{t("dashboard.labels.healthRemaining")}</span>
                   <span className="text-fiery-orange">{bossHealth}%</span>
                 </div>
-                <MythProgressMeter
+                <BossHealthBar
                   value={bossHealth}
-                  label={t("dashboard.labels.healthRemaining")}
-                  showPercent={false}
-                  size="sm"
-                  framed
+                  max={100}
+                  label={`${currentBoss.name} — ${t("dashboard.labels.healthRemaining")}`}
                 />
               </div>
             </div>
@@ -273,25 +280,25 @@ function DashboardContent({ data }: { data: DashboardData }) {
         <Panel title={t("dashboard.sections.accountActions")} icon={ShieldIcon}>
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             {profileHref ? (
-              <Link href={profileHref} className="myth-button-secondary px-6 py-3 font-display text-sm tracking-wider">
+              <Link href={profileHref} className="button button--secondary">
                 {t("dashboardUsability.viewPublicProfile")}
                 <ArrowRightIcon className="h-4 w-4" />
               </Link>
             ) : (
-              <span className="myth-button-secondary cursor-not-allowed px-6 py-3 font-display text-sm tracking-wider opacity-45" aria-disabled="true">
+              <span className="button button--secondary" aria-disabled="true">
                 {t("dashboardUsability.viewPublicProfile")}
               </span>
             )}
             <button
               type="button"
               onClick={copyProfileLink}
-              className="myth-button-secondary px-6 py-3 font-display text-sm tracking-wider disabled:cursor-not-allowed disabled:opacity-45"
+              className="button button--secondary"
               disabled={!profileHref}
             >
               <ShieldIcon className="h-4 w-4" />
               {t("dashboardUsability.copyProfileLink")}
             </button>
-            <Link href="/" className="myth-button-secondary px-6 py-3 font-display text-sm tracking-wider">
+            <Link href="/" className="button button--secondary">
               <HomeIcon className="h-4 w-4" />
               {t("dashboardUsability.backToSite")}
             </Link>

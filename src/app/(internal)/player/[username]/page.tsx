@@ -4,6 +4,7 @@ import { API_ENDPOINTS } from "@/lib/api/endpoints";
 import { getBossImagePath, getBossMedalPath } from "@/lib/boss-medals";
 import type { PublicPlayerProfile } from "@/lib/api/types";
 import PublicPlayerProfilePage from "./public-player-profile-page";
+import { ProfileUnavailable } from "../profile-unavailable";
 
 export const dynamicParams = false;
 
@@ -104,16 +105,7 @@ export default async function PlayerPage({
   const { username } = await params;
 
   if (username === disabledProfileRoute) {
-    return (
-      <main className="internal-disabled-page">
-        <h1>Public profile export is disabled</h1>
-        <p>
-          No player data is included in this static marketing build. The public
-          profile feature code remains available for a separately approved
-          runtime.
-        </p>
-      </main>
-    );
+    return <ProfileUnavailable />;
   }
 
   return <PublicPlayerProfilePage username={username} />;

@@ -3,7 +3,7 @@
 Data: 18 de setembro de 2026
 Origem: export estático local em `http://127.0.0.1:4173`
 Captura: Google Chrome headless, controlado pelo Chrome DevTools Protocol (sem dependências adicionais)
-Escopo: rodada 1 — redesenho completo da HOME; rodada 2 — QA final de lançamento; rodada 3 — ajuste estratégico de eventos, comunidade e chefes; rodada 4 — legibilidade tipográfica. As páginas institucionais foram recapturadas nas duas para confirmar que o novo cabeçalho e o novo rodapé não as afetaram.
+Escopo: rodada 1 — redesenho completo da HOME; rodada 2 — QA final de lançamento; rodada 3 — ajuste estratégico de eventos, comunidade e chefes; rodada 4 — legibilidade tipográfica; rodada 5 — consistência visual das páginas autenticadas. As páginas institucionais foram recapturadas nas duas para confirmar que o novo cabeçalho e o novo rodapé não as afetaram.
 
 ## Resultado
 
@@ -192,6 +192,84 @@ O arquivo foi regerado a partir do PNG de 1254 px com `quality: 90` e `alphaQual
 
 O PNG de origem foi movido para `assets/source/art/medusa.png`, junto das outras artes originais, para não ser publicado no export. Peso da página inteira: **4.795 KB → 2.712 KB**.
 
+## Rodada 5 — consistência entre Home, login e dashboard
+
+Correção só de apresentação. Nenhuma rota, API, validação, sessão ou texto foi alterado.
+
+### Barra de HP do chefe
+
+O dashboard desenhava a vida do chefe com `MythProgressMeter` e a moldura HUD do RELIC — outro objeto, arredondado e pensado para percentual, que ao lado da Home parecia outro produto.
+
+A barra da Home foi extraída para `components/relic/BossHealthBar.tsx` e passou a ser usada pelos dois lugares. O componente não tem estilo próprio: `.boss-hud__bar` e `.boss-hud__bar-fill` já existiam e não foram tocados, então a Home renderiza exatamente o que renderizava. Ele ganhou `role="progressbar"` com os valores, que a barra não tinha — a Home não muda visualmente e passa a ser legível por leitor de tela.
+
+A prop `from` existe só para a Home: é ela que faz a barra drenar quando a seção aparece. O dashboard não a usa, então pinta o valor uma vez.
+
+### Botões
+
+Cinco superfícies saíram do sistema antigo `myth-button-*` e passaram para o sistema da Home, `.button` + `.button--primary` / `.button--secondary`, que é o que veste as molduras RELIC:
+
+| Tela | Antes | Agora |
+| --- | --- | --- |
+| Login — Entrar | `myth-button-primary` | `button button--primary` |
+| Login — Junte-se à lista | `myth-button-secondary` | `button button--secondary` |
+| Topbar — Sair (desktop e menu mobile) | `myth-button-primary` | `button button--primary button--nav` |
+| Dashboard — 3 ações da conta | `myth-button-secondary` | `button button--secondary` |
+
+O "Sair" usa `button--nav`, a mesma variante compacta do CTA do cabeçalho da Home, porque é o mesmo tipo de controle no mesmo lugar.
+
+### Estado `disabled` incorporado ao sistema
+
+Todo CTA da Home é um link, então `.button` nunca precisou de estado desabilitado. As telas autenticadas enviam formulários de verdade — um login enviando, um "copiar link" sem link — e ficariam com aparência de ativas. O estado foi adicionado ao sistema (`.button:disabled`, `.button[aria-disabled="true"]`), e as utilidades repetidas nas páginas foram removidas. Nada na Home é desabilitado, então nada nela muda.
+
+### Verificação
+
+- **Home intacta:** comparação pixel a pixel — `home-pt-desktop-full.png` (página inteira, ~14.900 px de altura) **0 pixels alterados**, primeira dobra desktop e mobile **0**, EN e ES **0**, todas as páginas institucionais **0**. Alturas de página idênticas nos 10 viewports.
+- **Dashboard e login**, 10 viewports de 320×568 a 1920×1080: overflow **0**, botões cortados **0**, texto cortado **0**, botões sobrepostos **0**, alvos abaixo de 40 px **0**, erros de console **0**, requests falhos **0**. Nenhum `myth-button-*` restante nas três telas.
+- **Estados:** foco com anel de 2 px em todas as paradas de teclado, inclusive nos botões novos; envio do login com botão desabilitado, texto "Entrando...", opacidade 0,45 e cursor `not-allowed`; após a falha volta a habilitado.
+
+### Observação encontrada de passagem
+
+`dashboard-shell.tsx` formata a data da corrida como `new Date(\`${value}T00:00:00\`)`. Se a API devolver um timestamp ISO completo em vez de `YYYY-MM-DD`, o valor vira `Invalid Date` e a exceção derruba a página inteira, sem estado de erro. Descobri isso porque meu stub de QA usou o formato completo. Não faz parte desta rodada e não foi alterado.
+
+## Rodada 6 — fechamento técnico (perfil público, botões, error boundary)
+
+### 1. `/player/[username]`
+
+O 500 relatado antes **não era um defeito de produção**, e a formulação anterior foi forte demais. `WEBSITE_ARCHITECTURE.md` (seção "Public profiles") documenta que a geração estática de perfis fica desligada por padrão e que o export emite de propósito só o marcador não pessoal; `src/lib/api/TODO.md` registra a mudança para um host com runtime antes de depender da rota dinâmica; `validate-build.mjs` **exige** o artefato `player/profile-preview-disabled/index.html`; e o aplicativo só liga para `/player?username=X` (`dashboard-shell.tsx:131`, `AuthenticatedTopbar.tsx:33`), nunca para `/player/<username>/`. O 500 era o diagnóstico do servidor de desenvolvimento para `output: export` com um parâmetro fora de `generateStaticParams`.
+
+O defeito real era outro: a página marcadora imprimia um aviso de engenharia só em inglês ("this static marketing build"), numa rota que qualquer pessoa alcança. Foi substituída por `player/profile-unavailable.tsx`, que reaproveita chaves já existentes (`publicProfile.unavailable`, `publicProfile.usernameRequired`, `authTopbar.home`) nas três línguas e oferece caminho de volta. Nenhum username foi inventado, nenhuma validação removida, nenhum runtime adicionado.
+
+### 2. `/player/` — botões
+
+Quatro botões migrados do sistema legado para `.button`. As seis formas de data continuam corretas na rota real (`/player/?username=strider`): `2026-09-18` → 18 de set.; `...T00:00:00.000Z` → 17 de set. (instante, correto a oeste de Greenwich); `...T15:30:00Z` e `...-03:00` → 18 de set.; `not-a-date` e `""` → vazio, sem `Invalid Date` e sem exceção.
+
+**Defeito introduzido pela migração e corrigido.** `.button--primary` reserva 60 px de cada lado para a moldura nine-slice. Na coluna de ações do perfil (290 px em 1440), sobravam 170 px de conteúdo e "Compartilhar perfil" quebrava em duas linhas, esticando o botão para 57 px contra 46 px do irmão. Correção: `.button--compact-frame`, classe opcional que aplica a mesma troca que o projeto já faz abaixo de 420 px — desce para a cápsula menor já autorada em vez de espremer a arte. Resultado 46 px em pt/en/es a 1024, 1280 e 1440.
+
+### 3. `/admin/events/` — botões
+
+30 usos migrados para `.button`, preservando utilitários de layout e trocando só padding e tipografia. O botão "Nova" recebeu `shrink-0`: `min-width` sobrepõe o `min-width: auto` do flex, então ele encolhia abaixo do próprio rótulo.
+
+Seis controles ficaram **deliberadamente** fora do sistema, e nenhum deles usava o sistema legado: dois são abas/filtros segmentados (`role="tab"`, `aria-pressed`), um é o cartão selecionável de cada prova, um é item de menu, e dois são ações destrutivas em `hp-red`. Vesti-los com a moldura ornamentada de CTA seria errado, e o sistema não tem variante destrutiva.
+
+### 4. Error boundary
+
+`(internal)/error.tsx` cobre o grupo de rotas autenticadas e reaproveita o CSS de `.not-found-page` (zero CSS novo). Verificado com uma resposta malformada da API injetada por CDP: a boundary aparece com `role="alert"`, título e corpo nas três línguas, botão de nova tentativa e volta ao início; a tela não fica em branco e **não vaza stack trace nem token**. O erro segue para o console.
+
+Ela não substitui o tratamento das páginas: com a API fora do ar, o dashboard continua mostrando a própria mensagem tratada ("Dashboard indisponível"), não a boundary.
+
+### Verificação
+
+- **Home intacta.** Mobile 390×844: **0 pixels** alterados. Desktop 1440×1200: 0,39 % concentrados numa única faixa (x 509–933, y 1138–1182), que é o elemento `.reveal` de "Uma corrida." ainda não revelado — o `rootMargin` de −12 % mantém oculto o que está no rodapé da viewport. Confirmado que revela normalmente ao rolar (opacity 0 → 1). Os números são idênticos antes e depois da mudança de CSS desta rodada, ou seja, `.button--compact-frame` não tocou a Home. Nenhum arquivo da Home importa nada do grupo `(internal)`, e a Home usa `src/content/*`, não `lib/translations/*`.
+- **10 viewports (320×568 a 1920×1080) × 4 rotas:** overflow 0, botões cortados 0, texto cortado 0, sobrepostos 0, erros de console 0, requests falhos 0, `myth-button-*` 0.
+
+### Problemas que permanecem
+
+1. **Estado "copiado" em espanhol.** "Enlace del Perfil Copiado" (25 caracteres) quebra em duas linhas no botão secundário a 1440 px (57 px contra 46 px). É transitório, só em espanhol, e a cápsula secundária já é a menor autorada — corrigir exigiria arte nova ou mexer no texto, os dois fora do escopo desta rodada.
+2. **`min-width` permite encolher abaixo do rótulo.** `.button--primary` (121 px) e `.button--secondary` (49 px) sobrepõem o `min-width: auto` do flex. Em qualquer linha flex o botão pode encolher abaixo do próprio texto, como aconteceu com "Nova". Hoje está resolvido caso a caso com `shrink-0`; vale considerar tornar isso padrão do sistema.
+3. **36 declarações mortas.** `myth-button-primary/secondary/ghost/ornate`, `gold-button` e `ghost-button` não são mais referenciados por nenhum componente, mas seguem em `globals.css`. Não removi por estarem fora do escopo pedido.
+4. **Alvos de toque de 28 px.** Os seletores de língua EN/PT/ES ficam abaixo da diretriz de 44 px. É anterior a esta rodada.
+5. **`<Link>` sem `prefetch={false}`.** Links internos preexistentes geram 404 de RSC sob `output: export`. Os dois componentes criados nesta rodada já seguem a convenção do projeto.
+
 ## Pendências para decisão humana
 
 1. **Pendência principal, reconfirmada.** `dashboard-*.webp`, `events-*.webp`, `groups-*.webp` e `inventory-*.webp` são o mesmo arquivo nas três línguas, com a interface em português. Nas páginas em inglês e espanhol o celular mostra texto em português. É anterior ao redesenho e só se resolve com capturas reais do aplicativo em cada língua — nada foi editado, traduzido por cima ou fabricado.
@@ -202,12 +280,14 @@ O PNG de origem foi movido para `assets/source/art/medusa.png`, junto das outras
 
 ## Validações
 
-- `npm run typecheck` — PASS
+- `npx tsc --noEmit` — PASS
 - `npm run lint` — PASS
-- `npm test` — PASS (19/19)
-- `npm run build` — PASS (62 páginas estáticas)
-- `npm run validate:content` — PASS (80 arquivos)
+- `npm test` — PASS (27/27)
+- `npm run build` — PASS
+- `npm run validate:content` — PASS (84 arquivos)
 - `npm run validate:build` — PASS (64 artefatos)
 - `npm run validate:links` — PASS
+
+Números da rodada 6. As rodadas anteriores registraram 19/19 testes e 80 arquivos de conteúdo.
 
 Nenhum commit, push ou deploy foi realizado.
