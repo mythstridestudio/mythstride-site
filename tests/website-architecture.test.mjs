@@ -32,6 +32,7 @@ test("public marketing contains only the Android closed-beta commercial status",
   const files = [
     "src/content/site.ts",
     "src/content/pages.ts",
+    "src/content/home.ts",
     "src/components/site/ModernHomePage.tsx",
     "src/components/site/LocalizedFooter.tsx",
   ];
@@ -42,12 +43,47 @@ test("public marketing contains only the Android closed-beta commercial status",
   assert.match(await read("src/content/site.ts"), /BETA FECHADO PARA ANDROID/);
 });
 
-test("the public screenshot gallery has real approved media and no empty slots", async () => {
-  const home = await read("src/components/site/ModernHomePage.tsx");
-  const frame = await read("src/components/site/ScreenshotFrame.tsx");
-  assert.match(home, /inventory-\$\{locale\}\.webp/);
-  assert.doesNotMatch(frame, /placeholder|FeatureStatusBadge/);
-  assert.match(frame, /image: \{ src: string; alt: string \}/);
+test("the home's product captures are real per-locale media with real alt text", async () => {
+  const sections = {
+    "src/components/site/home/HeroSection.tsx": [
+      /dashboard-\$\{locale\}\.webp/,
+      /alt=\{copy\.deviceAlt\}/,
+    ],
+    "src/components/site/home/CharacterSection.tsx": [
+      /inventory-\$\{locale\}\.webp/,
+      /alt=\{copy\.screenshotAlt\}/,
+    ],
+    "src/components/site/home/CommunitySection.tsx": [
+      /groups-\$\{locale\}\.webp/,
+      /events-\$\{locale\}\.webp/,
+      /alt=\{copy\.community\.screenshotAlt\}/,
+      /alt=\{copy\.events\.screenshotAlt\}/,
+    ],
+  };
+
+  for (const [file, patterns] of Object.entries(sections)) {
+    const source = await read(file);
+    assert.doesNotMatch(source, /placeholder|FeatureStatusBadge/i, file);
+    for (const pattern of patterns) assert.match(source, pattern, file);
+  }
+});
+
+test("every home string exists in all three languages", async () => {
+  const home = await read("src/content/home.ts");
+
+  for (const locale of ["ptBR", "en", "es"]) {
+    assert.match(home, new RegExp(`const ${locale}: HomeCopy = \{`), locale);
+  }
+
+  // A screen a visitor is told about must be described in each language, so
+  // no capture falls back to an empty or English-only alt.
+  for (const key of ["deviceAlt", "screenshotAlt", "portraitAlt", "sceneAlt"]) {
+    const occurrences = home.match(new RegExp(`${key}:`, "g")) ?? [];
+    assert.ok(
+      occurrences.length >= 3,
+      `${key} is described ${occurrences.length} times, expected one per locale`,
+    );
+  }
 });
 
 test("waitlist includes disclosure, limits, honeypot and localized API language", async () => {

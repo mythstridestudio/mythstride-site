@@ -6,7 +6,12 @@ import {
 } from "@/lib/locales";
 import { siteUrl } from "@/lib/metadata";
 
-export function getHomeStructuredData(locale: PublicLocale) {
+type FaqEntry = { question: string; answer: string };
+
+export function getHomeStructuredData(
+  locale: PublicLocale,
+  faqs: readonly FaqEntry[] = [],
+) {
   const localizedUrl = new URL(localePath(locale), siteUrl).toString();
   const description = getLocalizedText(locale, {
     "pt-BR": "RPG de corrida em beta fechado para Android.",
@@ -43,6 +48,22 @@ export function getHomeStructuredData(locale: PublicLocale) {
       inLanguage: locale,
       publisher: { "@id": `${siteUrl}/#organization` },
     },
+    // Only emitted when the page actually renders these questions, so the
+    // markup can never describe an answer a reader cannot find.
+    ...(faqs.length
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            inLanguage: locale,
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: { "@type": "Answer", text: faq.answer },
+            })),
+          },
+        ]
+      : []),
   ];
 }
 

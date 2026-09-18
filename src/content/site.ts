@@ -4,9 +4,10 @@ export const siteCopy = {
     nav: {
       product: "Recursos", how: "Como funciona", events: "Eventos",
       community: "Comunidade", aethron: "Aethron", integrations: "Integrações",
-      beta: "Beta fechado", faq: "Perguntas frequentes",
-      join: "Entrar na lista do beta", tester: "Login de testador",
+      beta: "Beta fechado", faq: "Perguntas frequentes", elyndor: "Elyndor",
+      join: "Entrar no beta", tester: "Login de testador",
       openMenu: "Abrir menu", closeMenu: "Fechar menu", language: "Idioma",
+      primary: "Navegação principal", menuTitle: "Menu",
     },
     hero: {
       eyebrow: "BETA FECHADO PARA ANDROID",
@@ -39,7 +40,7 @@ export const siteCopy = {
       duplicate: "Este email já está na lista do beta.", invalid: "Informe um email válido.",
       failure: "Não foi possível acessar a lista agora. Tente novamente.", honeypot: "Não preencha este campo",
     },
-    footer: { product: "Produto", support: "Suporte", legal: "Legal", language: "Idioma", social: "Social", rights: "Todos os direitos reservados." },
+    footer: { product: "Produto", universe: "Universo", support: "Suporte", legal: "Legal", language: "Idioma", social: "Social", rights: "Todos os direitos reservados." },
     accountDeletion: {
       formTitle: "Solicitar exclusão de conta", formIntro: "Informe o email da conta. Se existir uma conta associada, enviaremos um link de verificação.",
       emailLabel: "Email da conta", submit: "Solicitar exclusão", loading: "Enviando...", honeypot: "Não preencha este campo",
@@ -56,8 +57,10 @@ export const siteCopy = {
     skip: "Skip to content",
     nav: {
       product: "Features", how: "How it works", events: "Events", community: "Community", aethron: "Aethron",
-      integrations: "Integrations", beta: "Closed beta", faq: "FAQ", join: "Join the beta list", tester: "Beta tester login",
+      integrations: "Integrations", beta: "Closed beta", faq: "FAQ", elyndor: "Elyndor",
+      join: "Join the beta", tester: "Beta tester login",
       openMenu: "Open menu", closeMenu: "Close menu", language: "Language",
+      primary: "Main navigation", menuTitle: "Menu",
     },
     hero: {
       eyebrow: "ANDROID CLOSED BETA", title: "Run in the real world. Progress in another.",
@@ -86,7 +89,7 @@ export const siteCopy = {
       privacyLink: "Read our Privacy Policy", success: "You are on the list. We will email you when there is an opportunity to join the beta.",
       duplicate: "This email is already on the beta list.", invalid: "Enter a valid email address.", failure: "The list is unavailable right now. Please try again.", honeypot: "Leave this field empty",
     },
-    footer: { product: "Product", support: "Support", legal: "Legal", language: "Language", social: "Social", rights: "All rights reserved." },
+    footer: { product: "Product", universe: "Universe", support: "Support", legal: "Legal", language: "Language", social: "Social", rights: "All rights reserved." },
     accountDeletion: {
       formTitle: "Request account deletion", formIntro: "Enter the email linked to your account. If an account is associated with it, we will send a verification link.",
       emailLabel: "Account email", submit: "Request deletion", loading: "Sending...", honeypot: "Leave this field empty",
@@ -102,8 +105,10 @@ export const siteCopy = {
     skip: "Saltar al contenido",
     nav: {
       product: "Funciones", how: "Cómo funciona", events: "Eventos", community: "Comunidad", aethron: "Aethron",
-      integrations: "Integraciones", beta: "Beta cerrada", faq: "Preguntas frecuentes", join: "Unirme a la lista de la beta", tester: "Acceso para participantes",
+      integrations: "Integraciones", beta: "Beta cerrada", faq: "Preguntas frecuentes", elyndor: "Elyndor",
+      join: "Unirme a la beta", tester: "Acceso para participantes",
       openMenu: "Abrir menú", closeMenu: "Cerrar menú", language: "Idioma",
+      primary: "Navegación principal", menuTitle: "Menú",
     },
     hero: {
       eyebrow: "BETA CERRADA PARA ANDROID", title: "Corre en el mundo real. Progresa en otro.",
@@ -132,7 +137,7 @@ export const siteCopy = {
       privacyLink: "Consulta nuestra Política de Privacidad", success: "Ya estás en la lista. Te avisaremos por email cuando haya una oportunidad de participar en la beta.",
       duplicate: "Este email ya está en la lista de la beta.", invalid: "Introduce un email válido.", failure: "No se pudo acceder a la lista. Inténtalo de nuevo.", honeypot: "Deja este campo vacío",
     },
-    footer: { product: "Producto", support: "Soporte", legal: "Legal", language: "Idioma", social: "Social", rights: "Todos los derechos reservados." },
+    footer: { product: "Producto", universe: "Universo", support: "Soporte", legal: "Legal", language: "Idioma", social: "Social", rights: "Todos los derechos reservados." },
     accountDeletion: {
       formTitle: "Solicitar la eliminación de la cuenta", formIntro: "Introduce el email asociado a tu cuenta. Si existe una cuenta vinculada, enviaremos un enlace de verificación.",
       emailLabel: "Email de la cuenta", submit: "Solicitar eliminación", loading: "Enviando...", honeypot: "Deja este campo vacío",

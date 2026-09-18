@@ -80,13 +80,23 @@ for (const [relative, expected] of localizationChecks) {
   }
 }
 
+// Every file a visitor reads words out of. The Home's prose lives in
+// `content/home.ts`, so that is where the check has to look; the section
+// components under `site/home/` are listed as well, because a stray sentence
+// typed straight into one of them would otherwise slip past.
 const publicContentFiles = [
   "src/content/site.ts",
   "src/content/pages.ts",
+  "src/content/home.ts",
+  "src/content/home-data.ts",
   "src/components/site/ModernHomePage.tsx",
   "src/components/site/LocalizedFooter.tsx",
+  "src/components/site/LocalizedNavigation.tsx",
   "src/components/site/LocalizedContentPage.tsx",
   "src/components/site/LegalPageShell.tsx",
+  ...(await readdir(path.join(root, "src", "components", "site", "home")))
+    .filter((entry) => entry.endsWith(".tsx"))
+    .map((entry) => `src/components/site/home/${entry}`),
 ];
 const internalStatusLanguage = /\b(?:draft|pending|under validation|in development|planned|roadmap|placeholder|future)\b|rascunho|pendente|em validação|em desenvolvimento|planejado|disponível futuramente|espaço reservado|arte futura|captura final|decisão do responsável|en validación|en desarrollo|planificado/giu;
 

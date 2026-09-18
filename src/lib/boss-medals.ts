@@ -31,11 +31,24 @@ function normalizeBossSlug(value: string) {
     .replace(/^_+|_+$/g, "");
 }
 
-export function getBossMedalPath(name: string | null | undefined) {
+/**
+ * The medal for a boss, at one of the two sizes we ship.
+ *
+ * The authored medals are 384px squares, which is right where a profile or a
+ * dashboard shows one large. A row of them at 56px would be roughly seven
+ * times the pixels it can draw, so `"thumb"` resolves the 128px cut instead —
+ * still sharp on a 2x screen, at about a sixth of the bytes.
+ */
+export function getBossMedalPath(
+  name: string | null | undefined,
+  size: "full" | "thumb" = "full",
+) {
   const slug = normalizeBossSlug(name ?? "");
   const filename = bossMedalBySlug[slug];
+  if (!filename) return null;
 
-  return filename ? getAssetPath(`/images/boss-medals/${filename}`) : null;
+  const directory = size === "thumb" ? "boss-medals/thumb" : "boss-medals";
+  return getAssetPath(`/images/${directory}/${filename}`);
 }
 
 export function getBossImagePath(value: string | null | undefined) {

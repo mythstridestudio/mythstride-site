@@ -203,6 +203,30 @@ export const MYTH_GLYPHS = {
 export type MythGlyphName = keyof typeof MYTH_GLYPHS;
 
 /**
+ * The same glyphs, cut to 128px and re-encoded as WebP.
+ *
+ * The authored files run from 96px to 384px, which is what a phone screen
+ * needs when it shows one of these as a reward or a header mark. The site puts
+ * them beside a heading at 36–52px, where the largest of them — the champion
+ * trophy, at 106 KB — would be downloading roughly forty times the pixels it
+ * can draw. Anything asking for a small box gets this cut instead; the whole
+ * set costs 52 KB against 359 KB.
+ *
+ * The authored PNG stays the source of truth and is still what a larger slot
+ * resolves, so nothing here replaces an approved asset.
+ */
+export const MYTH_GLYPHS_SMALL: Readonly<Record<MythGlyphName, string>> =
+  Object.fromEntries(
+    Object.entries(MYTH_GLYPHS).map(([name, file]) => [
+      name,
+      file.replace("/icons/", "/icons/sm/").replace(/\.png$/, ".webp"),
+    ]),
+  ) as Record<MythGlyphName, string>;
+
+/** Above this the authored file is worth its bytes. */
+export const MYTH_GLYPH_SMALL_MAX = 64;
+
+/**
  * Glyphs whose art carries its own opaque ground.
  *
  * The product authors two different kinds of piece. `itens/` and the currency

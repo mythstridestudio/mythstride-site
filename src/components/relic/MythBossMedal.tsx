@@ -67,7 +67,8 @@ export function MythBossMedal({
   seated = false,
 }: MythBossMedalProps) {
   const px = SIZES[size];
-  const medal = src ?? getBossMedalPath(name);
+  // The small size never needs the 384px art; anything larger does.
+  const medal = src ?? getBossMedalPath(name, size === "sm" ? "thumb" : "full");
   const decorative = !alt;
 
   return (

@@ -3,7 +3,9 @@ import Image from "next/image";
 import { getAssetPath } from "@/lib/assets";
 import {
   MYTH_GLYPHS,
+  MYTH_GLYPHS_SMALL,
   MYTH_GLYPH_AURAS,
+  MYTH_GLYPH_SMALL_MAX,
   MYTH_GLYPH_TILES,
   type MythGlyphName,
 } from "@/lib/relic-frames";
@@ -41,9 +43,12 @@ export function MythGlyph({
   className = "",
 }: MythGlyphProps) {
   const aura = MYTH_GLYPH_AURAS[glyph];
+  // A small slot draws the 128px cut; anything larger keeps the authored file.
+  const source =
+    size <= MYTH_GLYPH_SMALL_MAX ? MYTH_GLYPHS_SMALL[glyph] : MYTH_GLYPHS[glyph];
   const art = (
     <Image
-      src={getAssetPath(MYTH_GLYPHS[glyph])}
+      src={getAssetPath(source)}
       alt={alt}
       aria-hidden={alt ? undefined : true}
       width={size}
