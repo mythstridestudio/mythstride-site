@@ -1,4 +1,5 @@
 import { apiFetch } from "./client";
+import type { SaveExternalRegistrationRequest } from "../external-registration";
 
 export const EVENT_STATUS = {
   draft: 0,
@@ -36,6 +37,10 @@ export interface AdminEvent {
   quantidadeCodigos?: number;
   quantidadeParticipantesOficiais?: number;
   quantidadeRecompensas?: number;
+  // Player-facing flags only; the links themselves come from the admin-only
+  // external registration endpoint below.
+  externalRegistrationOpen?: boolean;
+  externalRegistrationProvider?: string | null;
 }
 
 export interface SaveAdminEventRequest {
@@ -434,6 +439,47 @@ export function disqualifyEventParticipation(
       accessToken,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ motivo }),
+    },
+  );
+}
+
+/**
+ * External registration (Sympla first). Admin-only on the API: the links,
+ * which one runners are sent to (affiliate first, then public), whether the
+ * button is visible in the app, warnings and outbound click counts. Clicks
+ * are visits to the registration page — never registrations or sales.
+ */
+export interface EventExternalRegistration {
+  eventoId: string;
+  provider?: string | null;
+  registrationUrl?: string | null;
+  affiliateRegistrationUrl?: string | null;
+  updatedAtUtc?: string | null;
+  activeDestination: "affiliate" | "public" | "none";
+  registrationOpen: boolean;
+  warnings: string[];
+  clicks: { total: number; affiliate: number; last7Days: number };
+}
+
+export function getEventExternalRegistration(accessToken: string, eventId: string) {
+  return apiFetch<EventExternalRegistration>(
+    `/api/Eventos/${eventId}/inscricao-externa`,
+    { accessToken },
+  );
+}
+
+export function saveEventExternalRegistration(
+  accessToken: string,
+  eventId: string,
+  request: SaveExternalRegistrationRequest,
+) {
+  return apiFetch<EventExternalRegistration>(
+    `/api/Eventos/${eventId}/inscricao-externa`,
+    {
+      method: "PUT",
+      accessToken,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(request),
     },
   );
 }

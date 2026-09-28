@@ -57,8 +57,9 @@ import {
 } from "@/lib/api/admin-events";
 import { ApiError } from "@/lib/api/client";
 import { isAdminAccessToken } from "@/lib/api/auth";
+import ExternalRegistrationPanel from "./external-registration-panel";
 
-type EventTab = "lifecycle" | "rewards" | "codes" | "results";
+type EventTab = "lifecycle" | "rewards" | "codes" | "registration" | "results";
 
 type LifecycleAction = "publicar" | "ativar" | "finalizar" | "cancelar";
 
@@ -1586,7 +1587,7 @@ export default function AdminEventsPage() {
                   {selectedEvent.nome}
                 </h2>
                 <p className="mt-2 max-w-2xl text-sm leading-relaxed text-text-secondary">
-                  Ciclo de vida, recompensas, códigos de acesso e resultados. Cada
+                  Ciclo de vida, recompensas, códigos de acesso, inscrição externa e resultados. Cada
                   ação aqui vale imediatamente para os jogadores.
                 </p>
               </div>
@@ -1603,6 +1604,7 @@ export default function AdminEventsPage() {
                   ["lifecycle", "Ciclo de vida", null],
                   ["rewards", "Recompensas", selectedEvent.quantidadeRecompensas],
                   ["codes", "Códigos", selectedEvent.quantidadeCodigos],
+                  ["registration", "Inscrição externa", null],
                   ["results", "Resultados", null],
                 ] as const
               ).map(([tab, label, count]) => (
@@ -2136,6 +2138,18 @@ export default function AdminEventsPage() {
                   </div>
                 )}
               </div>
+            )}
+
+            {eventTab === "registration" && token && (
+              <ExternalRegistrationPanel
+                key={selectedEvent.id}
+                token={token}
+                eventId={selectedEvent.id}
+                frozen={
+                  selectedStatus === EVENT_STATUS.completed ||
+                  selectedStatus === EVENT_STATUS.cancelled
+                }
+              />
             )}
 
             {eventTab === "results" && (
