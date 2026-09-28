@@ -57,7 +57,9 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # The tests import TypeScript modules directly (src/lib/*.ts), which
+          # needs Node's built-in type stripping (22.18+). Node 20 fails them.
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
