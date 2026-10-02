@@ -4,33 +4,53 @@ import { FormEvent, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ApiConfigurationError, ApiError } from "@/lib/api/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { getAssetPath } from "@/lib/assets";
 import { useTranslations } from "@/lib/i18n";
 import { ArrowRightIcon, ShieldIcon, SwordsIcon } from "@/components/Icons";
+import { ForgotPasswordForm } from "./forgot-password-form";
 
-type LoginStatus = "idle" | "loading" | "success" | "invalidCredentials" | "serverError" | "configError";
+type LoginStatus =
+  | "idle"
+  | "loading"
+  | "success"
+  | "invalidCredentials"
+  | "serverError"
+  | "configError"
+  | "passwordResetSuccess";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
   const { t } = useTranslations();
   const prefersReducedMotion = useReducedMotion();
+  const [view, setView] = useState<"login" | "forgotPassword">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState<LoginStatus>("idle");
 
   const isLoading = status === "loading";
-  const isSuccess = status === "success";
+  const isSuccess = status === "success" || status === "passwordResetSuccess";
   const statusMessage: Partial<Record<LoginStatus, string>> = {
     success: t("login.messages.success"),
     invalidCredentials: t("login.messages.invalidCredentials"),
     serverError: t("login.messages.serverError"),
     configError: t("login.messages.configError"),
+    passwordResetSuccess: t("login.messages.passwordResetSuccess"),
   };
   const message = statusMessage[status];
+
+  const handleBackFromForgotPassword = (resetEmail?: string) => {
+    setView("login");
+
+    if (resetEmail) {
+      setEmail(resetEmail);
+      setPassword("");
+      setStatus("passwordResetSuccess");
+    }
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -103,64 +123,101 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <form className="relative grid min-w-0 gap-5 p-6 sm:p-8" onSubmit={handleSubmit}>
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/30 bg-gold/10 text-gold">
-              <ShieldIcon className="h-6 w-6" />
-            </div>
-
-            <label className="grid gap-2">
-              <span className="text-xs uppercase tracking-[0.22em] text-gold-muted">{t("login.fields.email")}</span>
-              <input
-                type="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                className="myth-input min-w-0 w-full text-sm"
-                autoComplete="email"
-                required
-                disabled={isLoading}
-              />
-            </label>
-
-            <label className="grid gap-2">
-              <span className="text-xs uppercase tracking-[0.22em] text-gold-muted">{t("login.fields.password")}</span>
-              <input
-                type="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                className="myth-input min-w-0 w-full text-sm"
-                autoComplete="current-password"
-                required
-                disabled={isLoading}
-              />
-            </label>
-
-            <button
-              type="submit"
-              className="button button--primary w-full min-w-0"
-              disabled={isLoading}
+          <AnimatePresence mode="wait" initial={false}>
+          {view === "forgotPassword" ? (
+            <motion.div
+              key="forgotPassword"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={prefersReducedMotion ? undefined : { opacity: 0, y: -12 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.25, 0.4, 0.2, 1] }}
             >
-              <SwordsIcon className="h-4 w-4" />
-              {isLoading ? t("login.actions.loading") : t("login.actions.submit")}
-            </button>
+              <ForgotPasswordForm onBackToLogin={handleBackFromForgotPassword} />
+            </motion.div>
+          ) : (
+            <motion.form
+              key="login"
+              className="relative grid min-w-0 gap-5 p-6 sm:p-8"
+              onSubmit={handleSubmit}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={prefersReducedMotion ? undefined : { opacity: 0, y: -12 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.3, ease: [0.25, 0.4, 0.2, 1] }}
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-full border border-gold/30 bg-gold/10 text-gold">
+                <ShieldIcon className="h-6 w-6" />
+              </div>
 
-            {message && (
-              <p
-                className={`border px-4 py-3 text-sm leading-relaxed ${
-                  isSuccess
-                    ? "border-emerald/35 bg-emerald/10 text-text-primary"
-                    : "border-hp-red/35 bg-hp-red/10 text-text-secondary"
-                }`}
-                role={isSuccess ? "status" : "alert"}
+              <label className="grid gap-2">
+                <span className="text-xs uppercase tracking-[0.22em] text-gold-muted">{t("login.fields.email")}</span>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  className="myth-input min-w-0 w-full text-sm"
+                  autoComplete="email"
+                  required
+                  disabled={isLoading}
+                />
+              </label>
+
+              <label className="grid gap-2">
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="text-xs uppercase tracking-[0.22em] text-gold-muted">
+                    {t("login.fields.password")}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setView("forgotPassword");
+                      setStatus("idle");
+                    }}
+                    className="text-xs text-gold-muted transition-colors hover:text-gold"
+                    disabled={isLoading}
+                  >
+                    {t("login.actions.forgotPassword")}
+                  </button>
+                </div>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  className="myth-input min-w-0 w-full text-sm"
+                  autoComplete="current-password"
+                  required
+                  disabled={isLoading}
+                />
+              </label>
+
+              <button
+                type="submit"
+                className="button button--primary w-full min-w-0"
+                disabled={isLoading}
               >
-                {message}
-              </p>
-            )}
+                <SwordsIcon className="h-4 w-4" />
+                {isLoading ? t("login.actions.loading") : t("login.actions.submit")}
+              </button>
 
-            <Link href="/en/#join" className="button button--secondary w-full min-w-0">
-              {t("login.actions.waitlist")}
-              <ArrowRightIcon className="h-4 w-4" />
-            </Link>
-          </form>
+              {message && (
+                <p
+                  className={`border px-4 py-3 text-sm leading-relaxed ${
+                    isSuccess
+                      ? "border-emerald/35 bg-emerald/10 text-text-primary"
+                      : "border-hp-red/35 bg-hp-red/10 text-text-secondary"
+                  }`}
+                  role={isSuccess ? "status" : "alert"}
+                >
+                  {message}
+                </p>
+              )}
+
+              <Link href="/en/#join" className="button button--secondary w-full min-w-0">
+                {t("login.actions.waitlist")}
+                <ArrowRightIcon className="h-4 w-4" />
+              </Link>
+            </motion.form>
+          )}
+          </AnimatePresence>
         </div>
       </motion.section>
     </main>

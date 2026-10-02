@@ -1,6 +1,8 @@
 export const API_ENDPOINTS = {
   auth: {
     login: "/api/auth/login",
+    forgotPassword: "/api/auth/forgot-password",
+    resetPassword: "/api/auth/reset-password",
   },
   player: {
     profile: "/api/player/profile",

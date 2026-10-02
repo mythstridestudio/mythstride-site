@@ -187,13 +187,49 @@
     "actions": {
       "submit": "Entrar",
       "loading": "Entrando...",
-      "waitlist": "Junte-se à Lista de Espera"
+      "waitlist": "Junte-se à Lista de Espera",
+      "forgotPassword": "Esqueceu sua senha?"
     },
     "messages": {
       "success": "Login realizado. Abrindo seu dashboard.",
       "invalidCredentials": "Email ou senha incorretos.",
       "serverError": "A API do MythStride não conseguiu concluir o login. Tente novamente.",
-      "configError": "A API do MythStride não está configurada neste ambiente."
+      "configError": "A API do MythStride não está configurada neste ambiente.",
+      "passwordResetSuccess": "Sua senha foi redefinida. Entre com sua nova senha."
+    }
+  },
+  "forgotPassword": {
+    "kicker": "Recuperação de conta",
+    "requestTitle": "Recupere sua senha",
+    "requestDescription": "Informe o email vinculado à sua conta. Se estiver cadastrado, enviaremos um código de 6 dígitos.",
+    "resetTitle": "Defina uma nova senha",
+    "resetDescription": "Informe o código de 6 dígitos enviado ao seu email e escolha uma nova senha.",
+    "fields": {
+      "email": "Email",
+      "code": "Código de 6 dígitos",
+      "newPassword": "Nova senha",
+      "confirmPassword": "Confirmar nova senha"
+    },
+    "hints": {
+      "password": "De 8 a 25 caracteres."
+    },
+    "actions": {
+      "sendCode": "Enviar código",
+      "sending": "Enviando...",
+      "resendCode": "Reenviar código",
+      "resetPassword": "Redefinir senha",
+      "resetting": "Redefinindo...",
+      "backToLogin": "Voltar ao login"
+    },
+    "messages": {
+      "codeSent": "Se esse email estiver cadastrado, um código de 6 dígitos está a caminho. Verifique sua caixa de entrada.",
+      "rateLimited": "Muitas tentativas. Aguarde um pouco antes de tentar novamente.",
+      "unavailable": "A API do MythStride não conseguiu concluir esta solicitação. Tente novamente.",
+      "invalidCode": "Não foi possível redefinir sua senha com esse código. Verifique o código e a nova senha e tente novamente.",
+      "validationEmail": "Informe um email válido.",
+      "validationCode": "Informe o código de 6 dígitos enviado ao seu email.",
+      "validationPasswordLength": "A senha deve ter entre 8 e 25 caracteres.",
+      "validationPasswordMismatch": "As senhas não coincidem."
     }
   },
   "howItWorks": {

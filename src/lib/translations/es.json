@@ -187,13 +187,49 @@
     "actions": {
       "submit": "Entrar",
       "loading": "Entrando...",
-      "waitlist": "Únete a la Lista"
+      "waitlist": "Únete a la Lista",
+      "forgotPassword": "¿Olvidaste tu contraseña?"
     },
     "messages": {
       "success": "Inicio de sesión correcto. Abriendo tu dashboard.",
       "invalidCredentials": "El correo electrónico o la contraseña son incorrectos.",
       "serverError": "La API de MythStride no pudo completar el inicio de sesión. Inténtalo de nuevo.",
-      "configError": "La API de MythStride no está configurada en este entorno."
+      "configError": "La API de MythStride no está configurada en este entorno.",
+      "passwordResetSuccess": "Tu contraseña fue restablecida. Inicia sesión con tu nueva contraseña."
+    }
+  },
+  "forgotPassword": {
+    "kicker": "Recuperación de cuenta",
+    "requestTitle": "Recupera tu contraseña",
+    "requestDescription": "Ingresa el correo vinculado a tu cuenta. Si está registrado, te enviaremos un código de 6 dígitos.",
+    "resetTitle": "Define una nueva contraseña",
+    "resetDescription": "Ingresa el código de 6 dígitos que enviamos a tu correo y elige una nueva contraseña.",
+    "fields": {
+      "email": "Correo electrónico",
+      "code": "Código de 6 dígitos",
+      "newPassword": "Nueva contraseña",
+      "confirmPassword": "Confirmar nueva contraseña"
+    },
+    "hints": {
+      "password": "De 8 a 25 caracteres."
+    },
+    "actions": {
+      "sendCode": "Enviar código",
+      "sending": "Enviando...",
+      "resendCode": "Reenviar código",
+      "resetPassword": "Restablecer contraseña",
+      "resetting": "Restableciendo...",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "messages": {
+      "codeSent": "Si ese correo está registrado, un código de 6 dígitos está en camino. Revisa tu bandeja de entrada.",
+      "rateLimited": "Demasiados intentos. Espera un momento antes de volver a intentarlo.",
+      "unavailable": "La API de MythStride no pudo completar esta solicitud. Inténtalo de nuevo.",
+      "invalidCode": "No pudimos restablecer tu contraseña con ese código. Verifica el código y la nueva contraseña, luego inténtalo de nuevo.",
+      "validationEmail": "Ingresa un correo electrónico válido.",
+      "validationCode": "Ingresa el código de 6 dígitos enviado a tu correo.",
+      "validationPasswordLength": "La contraseña debe tener entre 8 y 25 caracteres.",
+      "validationPasswordMismatch": "Las contraseñas no coinciden."
     }
   },
   "howItWorks": {

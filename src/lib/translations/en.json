@@ -187,13 +187,49 @@
     "actions": {
       "submit": "Login",
       "loading": "Entering...",
-      "waitlist": "Join the Waitlist"
+      "waitlist": "Join the Waitlist",
+      "forgotPassword": "Forgot your password?"
     },
     "messages": {
       "success": "Login successful. Opening your dashboard.",
       "invalidCredentials": "Email or password is incorrect.",
       "serverError": "The MythStride API could not complete login. Please try again.",
-      "configError": "The MythStride API is not configured in this environment."
+      "configError": "The MythStride API is not configured in this environment.",
+      "passwordResetSuccess": "Your password has been reset. Sign in with your new password."
+    }
+  },
+  "forgotPassword": {
+    "kicker": "Account recovery",
+    "requestTitle": "Recover your password",
+    "requestDescription": "Enter the email linked to your account. If it's registered, we'll send a 6-digit code.",
+    "resetTitle": "Set a new password",
+    "resetDescription": "Enter the 6-digit code we sent to your email, then choose a new password.",
+    "fields": {
+      "email": "Email",
+      "code": "6-digit code",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm new password"
+    },
+    "hints": {
+      "password": "8 to 25 characters."
+    },
+    "actions": {
+      "sendCode": "Send code",
+      "sending": "Sending...",
+      "resendCode": "Resend code",
+      "resetPassword": "Reset password",
+      "resetting": "Resetting...",
+      "backToLogin": "Back to login"
+    },
+    "messages": {
+      "codeSent": "If that email is registered, a 6-digit code is on its way. Check your inbox.",
+      "rateLimited": "Too many attempts. Please wait a bit before trying again.",
+      "unavailable": "The MythStride API could not complete this request. Please try again.",
+      "invalidCode": "We couldn't reset your password with that code. Check the code and your new password, then try again.",
+      "validationEmail": "Enter a valid email address.",
+      "validationCode": "Enter the 6-digit code from your email.",
+      "validationPasswordLength": "Password must be between 8 and 25 characters.",
+      "validationPasswordMismatch": "Passwords do not match."
     }
   },
   "howItWorks": {
