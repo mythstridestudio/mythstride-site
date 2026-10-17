@@ -34,6 +34,7 @@ import {
   listOfficialParticipants,
   publishAdminEvent,
   removeEventReward,
+  saveEventExternalRegistration,
   REWARD_DELIVERY,
   removeOfficialParticipant,
   updateAdminEvent,
@@ -55,6 +56,16 @@ import {
   type SortDirection,
   type OfficialParticipantImportRow,
 } from "@/lib/api/admin-events";
+import {
+  buildRegistrationRequest,
+  DESTINATION_LABELS,
+  previewDestination,
+  REGISTRATION_PROVIDERS,
+  REGISTRATION_URL_MAX_LENGTH,
+  type RegistrationDraft,
+  type RegistrationProviderValue,
+  type SaveExternalRegistrationRequest,
+} from "@/lib/external-registration";
 import { ApiError } from "@/lib/api/client";
 import { isAdminAccessToken } from "@/lib/api/auth";
 import ExternalRegistrationPanel from "./external-registration-panel";
@@ -260,6 +271,12 @@ const emptyForm: FormState = {
   ativo: true,
 };
 
+const emptyRegistrationDraft: RegistrationDraft = {
+  provider: "",
+  registrationUrl: "",
+  affiliateRegistrationUrl: "",
+};
+
 type CsvPreview = {
   rows: OfficialParticipantImportRow[];
   errors: string[];
@@ -427,6 +444,7 @@ export default function AdminEventsPage() {
   const [events, setEvents] = useState<AdminEvent[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
+  const [registrationDraft, setRegistrationDraft] = useState<RegistrationDraft>(emptyRegistrationDraft);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -628,9 +646,17 @@ export default function AdminEventsPage() {
     setForm((current) => ({ ...current, [key]: value }));
   };
 
+  const updateRegistration = <K extends keyof RegistrationDraft>(
+    key: K,
+    value: RegistrationDraft[K],
+  ) => {
+    setRegistrationDraft((current) => ({ ...current, [key]: value }));
+  };
+
   const selectEvent = (event: AdminEvent) => {
     setSelectedId(event.id);
     setForm(eventToForm(event));
+    setRegistrationDraft(emptyRegistrationDraft);
     setMessage(null);
     setError(null);
     setParticipantSearch("");
@@ -662,6 +688,7 @@ export default function AdminEventsPage() {
   const newEvent = () => {
     setSelectedId(null);
     setForm(emptyForm);
+    setRegistrationDraft(emptyRegistrationDraft);
     setMessage(null);
     setError(null);
     setCsvPreview(null);
@@ -1128,6 +1155,18 @@ export default function AdminEventsPage() {
   const submit = async (submitEvent: FormEvent<HTMLFormElement>) => {
     submitEvent.preventDefault();
     if (!token) return;
+
+    let registrationRequest: SaveExternalRegistrationRequest | null = null;
+    if (!selectedId) {
+      const registrationValidation = buildRegistrationRequest(registrationDraft);
+      if (!registrationValidation.ok) {
+        setMessage(null);
+        setError(registrationValidation.error);
+        return;
+      }
+      registrationRequest = registrationValidation.request;
+    }
+
     setSaving(true);
     setMessage(null);
     setError(null);
@@ -1163,9 +1202,37 @@ export default function AdminEventsPage() {
         await updateAdminEvent(token, selectedId, request);
         setMessage("Prova atualizada com sucesso.");
       } else {
-        await createAdminEvent(token, request);
-        setMessage("Prova criada com sucesso.");
+        const created = await createAdminEvent(token, request);
+
+        if (registrationRequest?.provider) {
+          try {
+            await saveEventExternalRegistration(token, created.id, registrationRequest);
+          } catch (caught) {
+            const refreshed = await loadEvents(token);
+            const createdEvent = refreshed?.find((event) => event.id === created.id) ?? created;
+            setSelectedId(created.id);
+            setForm(eventToForm(createdEvent));
+            setRegistrationDraft(emptyRegistrationDraft);
+            setEventTab("registration");
+            setMessage(null);
+            setError(
+              `Prova criada, mas o link de inscrição não foi salvo. ${describeApiError(
+                caught,
+                "Abra a aba Inscrição externa e tente novamente.",
+              )}`,
+            );
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+          }
+        }
+
+        setMessage(
+          registrationRequest?.provider
+            ? "Prova e link de inscrição criados com sucesso."
+            : "Prova criada com sucesso.",
+        );
         setForm(emptyForm);
+        setRegistrationDraft(emptyRegistrationDraft);
       }
       await loadEvents(token);
     } catch (caught) {
@@ -1244,6 +1311,60 @@ export default function AdminEventsPage() {
               <Field label="Imagem do evento" type="url" value={form.imagemUrl} onChange={(value) => update("imagemUrl", value)} />
               <Field label="Banner do evento" type="url" value={form.bannerUrl} onChange={(value) => update("bannerUrl", value)} />
             </FormSection>
+
+            {!selectedId && (
+              <FormSection title="Inscrição externa" icon={<BookIcon className="h-5 w-5" />}>
+                <SelectField
+                  label="Provedor"
+                  value={registrationDraft.provider}
+                  onChange={(value) =>
+                    updateRegistration("provider", value as RegistrationProviderValue)
+                  }
+                >
+                  {REGISTRATION_PROVIDERS.map((provider) => (
+                    <option key={provider.value || "none"} value={provider.value}>
+                      {provider.label}
+                    </option>
+                  ))}
+                </SelectField>
+                <Field
+                  label="Link público de inscrição"
+                  type="url"
+                  inputMode="url"
+                  autoComplete="off"
+                  spellCheck={false}
+                  maxLength={REGISTRATION_URL_MAX_LENGTH}
+                  placeholder="https://www.sympla.com.br/evento/..."
+                  value={registrationDraft.registrationUrl}
+                  disabled={!registrationDraft.provider}
+                  onChange={(value) => updateRegistration("registrationUrl", value)}
+                />
+                <Field
+                  label="Link afiliado / promoter (opcional)"
+                  type="url"
+                  inputMode="url"
+                  autoComplete="off"
+                  spellCheck={false}
+                  maxLength={REGISTRATION_URL_MAX_LENGTH}
+                  placeholder="Link individual gerado para o MythStride"
+                  value={registrationDraft.affiliateRegistrationUrl}
+                  disabled={!registrationDraft.provider}
+                  onChange={(value) => updateRegistration("affiliateRegistrationUrl", value)}
+                />
+                <div className="grid gap-2 border border-gold-dim/25 bg-void/45 px-4 py-3 sm:col-span-2">
+                  <p className="text-sm leading-relaxed text-text-secondary">
+                    O link afiliado tem prioridade sobre o link público. Se a prova não
+                    exigir inscrição em uma plataforma externa, deixe “Sem inscrição externa”.
+                  </p>
+                  <p className="text-xs uppercase tracking-[0.16em] text-text-muted">
+                    Destino ao criar:{" "}
+                    <strong className="text-gold-bright">
+                      {DESTINATION_LABELS[previewDestination(registrationDraft)]}
+                    </strong>
+                  </p>
+                </div>
+              </FormSection>
+            )}
 
             {!selectedId && (
               <FormSection title="Acesso oficial opcional" icon={<BookIcon className="h-5 w-5" />}>
