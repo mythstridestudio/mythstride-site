@@ -106,3 +106,14 @@ test("the admin page exposes the tab and never shows sales or revenue", async ()
   assert.doesNotMatch(panel, /dangerouslySetInnerHTML/);
   assert.doesNotMatch(panel, /R\$|Receita|Vendas:|Convers[aã]o/);
 });
+
+
+test("event creation can configure external registration without changing the backend contract", async () => {
+  const page = await readFile(path.join(root, "src/app/(internal)/admin/events/admin-events-page.tsx"), "utf8");
+
+  assert.match(page, /<FormSection title="Inscrição externa"/);
+  assert.match(page, /buildRegistrationRequest\(registrationDraft\)/);
+  assert.match(page, /saveEventExternalRegistration\(token, created\.id, registrationRequest\)/);
+  assert.match(page, /Prova criada, mas o link de inscrição não foi salvo/);
+  assert.match(page, /setEventTab\("registration"\)/);
+});
