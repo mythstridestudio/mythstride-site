@@ -531,6 +531,23 @@ export interface AdminMedalPlayer {
   level: number;
 }
 
+export interface CreateEventMedalRequest {
+  eventoId: string;
+  internalKey: string;
+  nome: string;
+  descricao?: string | null;
+  imagemUrl?: string | null;
+}
+
+export function createAdminEventMedal(token: string, request: CreateEventMedalRequest) {
+  return apiFetch<{ id: string; eventoId: string; nome: string }>("/api/medalhas", {
+    method: "POST",
+    accessToken: token,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(request),
+  });
+}
+
 export interface AdminMedalCatalogItem {
   eventId: string;
   medalId: string;
