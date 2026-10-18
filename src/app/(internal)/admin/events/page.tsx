@@ -1,5 +1,5 @@
-import AdminEventsPage from "./admin-events-page";
+import AdminEventsIndexPage from "./events-index-page";
 
 export default function Page() {
-  return <AdminEventsPage />;
+  return <AdminEventsIndexPage />;
 }
