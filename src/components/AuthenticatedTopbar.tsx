@@ -83,7 +83,7 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
             {t("authTopbar.home")}
           </Link>
           {isAdmin && (
-            <Link href="/admin/events" className={linkClass(pathname.startsWith("/admin"))}>
+            <Link href="/admin" className={linkClass(pathname.startsWith("/admin"))}>
               <ScrollIcon className="h-4 w-4" />
               Admin
             </Link>
@@ -137,7 +137,7 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
             {t("authTopbar.home")}
           </Link>
           {isAdmin && (
-            <Link href="/admin/events" className={linkClass(pathname.startsWith("/admin"))} onClick={() => setMobileOpen(false)}>
+            <Link href="/admin" className={linkClass(pathname.startsWith("/admin"))} onClick={() => setMobileOpen(false)}>
               <ScrollIcon className="h-4 w-4" />
               Admin
             </Link>
