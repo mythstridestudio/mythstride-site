@@ -12,6 +12,7 @@ test("admin is a left sidebar with working routes, mobile drawer and current-pag
   const topbar = await source("src/components/AuthenticatedTopbar.tsx");
   for (const [label, url] of [
     ["Visão Geral", "/admin"],
+    ["Estatísticas", "/admin/statistics"],
     ["Usuários", "/admin/users"],
     ["Eventos", "/admin/events"],
     ["Medalhas", "/admin/medals"],
