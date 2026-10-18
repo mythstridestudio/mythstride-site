@@ -5,17 +5,21 @@ import Link from "next/link";
 import { EVENT_STATUS, listAdminEvents, listAdminMedalCatalog } from "@/lib/api/admin-events";
 import { getAdminAuditLogs, MANUAL_MEDAL_GRANT_EVENT, type AdminAuditLog } from "@/lib/api/admin-console";
 import AdminProtectedWorkspace from "@/components/AdminProtectedWorkspace";
-import { ScrollIcon, UsersIcon, TrophyIcon, CrownIcon } from "@/components/Icons";
+import { ScrollIcon, UsersIcon, TrophyIcon, CrownIcon, ChartIcon } from "@/components/Icons";
+import { getAdminRegistrationStatistics } from "@/lib/api/admin-statistics";
 
 type DashboardData = {
   registeredEvents: number | null;
   liveEvents: number | null;
   catalogMedals: number | null;
   manualGrants: number | null;
+  registeredPlayers: number | null;
+  eventRegistrations: number | null;
   recent: AdminAuditLog[];
 };
 const initial: DashboardData = {
-  registeredEvents: null, liveEvents: null, catalogMedals: null, manualGrants: null, recent: [],
+  registeredEvents: null, liveEvents: null, catalogMedals: null, manualGrants: null,
+  registeredPlayers: null, eventRegistrations: null, recent: [],
 };
 
 function Overview({ token }: { token: string }) {
@@ -26,10 +30,11 @@ function Overview({ token }: { token: string }) {
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
-      const [events, catalog, log] = await Promise.allSettled([
+      const [events, catalog, log, registrationStats] = await Promise.allSettled([
         listAdminEvents(token),
         listAdminMedalCatalog(token),
         getAdminAuditLogs(token, { page: 1, pageSize: 5, eventType: MANUAL_MEDAL_GRANT_EVENT }),
+        getAdminRegistrationStatistics(token),
       ]);
       if (cancelled) return;
       setData({
@@ -38,9 +43,11 @@ function Overview({ token }: { token: string }) {
           ? events.value.filter((x) => x.status === EVENT_STATUS.active && x.ativo).length : null,
         catalogMedals: catalog.status === "fulfilled" ? catalog.value.length : null,
         manualGrants: log.status === "fulfilled" ? log.value.total : null,
+        registeredPlayers: registrationStats.status === "fulfilled" ? registrationStats.value.totalPlayers : null,
+        eventRegistrations: registrationStats.status === "fulfilled" ? registrationStats.value.totalEventRegistrations : null,
         recent: log.status === "fulfilled" ? log.value.items : [],
       });
-      setWarning(events.status !== "fulfilled" || catalog.status !== "fulfilled" || log.status !== "fulfilled");
+      setWarning(events.status !== "fulfilled" || catalog.status !== "fulfilled" || log.status !== "fulfilled" || registrationStats.status !== "fulfilled");
       setPending(false);
     };
     void load();
@@ -48,6 +55,8 @@ function Overview({ token }: { token: string }) {
   }, [token]);
 
   const cards = [
+    { name: "Jogadores cadastrados", count: data.registeredPlayers, icon: UsersIcon, href: "/admin/statistics" },
+    { name: "Inscrições em eventos", count: data.eventRegistrations, icon: ChartIcon, href: "/admin/statistics" },
     { name: "Eventos cadastrados", count: data.registeredEvents, icon: ScrollIcon, href: "/admin/events" },
     { name: "Eventos ativos", count: data.liveEvents, icon: CrownIcon, href: "/admin/events" },
     { name: "Medalhas no catálogo*", count: data.catalogMedals, icon: TrophyIcon, href: "/admin/medals" },
@@ -67,7 +76,7 @@ function Overview({ token }: { token: string }) {
         Parte dos indicadores não pôde ser consultada. Valores indisponíveis aparecem como “—”, nunca como zero.
       </p>}
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6">
         {cards.map(({ name, count, icon: Icon, href }) => (
           <Link key={name} href={href}
             className="rpg-inset group flex min-h-32 flex-col justify-between rounded-xl border border-gold-dim/30 p-4 transition-colors hover:border-gold/65">
@@ -109,6 +118,7 @@ function Overview({ token }: { token: string }) {
             <Link href="/admin/events" className="button button--secondary justify-center">Cadastrar ou editar evento</Link>
             <Link href="/admin/medals" className="button button--secondary justify-center">Entregar medalha</Link>
             <Link href="/admin/users" className="button button--secondary justify-center">Consultar jogador</Link>
+            <Link href="/admin/statistics" className="button button--secondary justify-center">Estatísticas de jogadores</Link>
             <Link href="/admin/logs" className="button button--secondary justify-center">Consultar auditoria</Link>
           </div>
         </section>
