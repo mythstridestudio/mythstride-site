@@ -2,7 +2,7 @@
 
 import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import AuthenticatedTopbar from "@/components/AuthenticatedTopbar";
+import AdminWorkspace from "@/components/AdminWorkspace";
 import {
   BookIcon,
   CheckIcon,
@@ -69,7 +69,6 @@ import {
 import { ApiError } from "@/lib/api/client";
 import { isAdminAccessToken } from "@/lib/api/auth";
 import ExternalRegistrationPanel from "./external-registration-panel";
-import AdminSectionTabs from "@/components/AdminSectionTabs";
 
 type EventTab = "lifecycle" | "rewards" | "codes" | "registration" | "results";
 
@@ -1252,10 +1251,8 @@ export default function AdminEventsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-void text-text-primary">
-      <AuthenticatedTopbar />
-      <AdminSectionTabs active="events" />
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 pb-16 pt-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+    <AdminWorkspace active="events">
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
         <form className="app-panel rpg-card p-5 sm:p-7 lg:col-start-1" onSubmit={submit}>
           <div className="flex flex-wrap items-start justify-between gap-4 border-b border-gold-dim/25 pb-5">
             <div>
@@ -2545,7 +2542,7 @@ export default function AdminEventsPage() {
           </div>
         </aside>
       </div>
-    </main>
+    </AdminWorkspace>
   );
 }
 

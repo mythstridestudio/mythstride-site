@@ -2,8 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import AuthenticatedTopbar from "@/components/AuthenticatedTopbar";
-import AdminSectionTabs from "@/components/AdminSectionTabs";
+import AdminWorkspace from "@/components/AdminWorkspace";
 import { useAuth } from "@/contexts/AuthContext";
 import { isAdminAccessToken } from "@/lib/api/auth";
 import AdminMedalGrantsPanel from "./admin-medal-grants-panel";
@@ -24,10 +23,8 @@ export default function MedalsAdminPage() {
   }
 
   return (
-    <main className="min-h-screen bg-void text-text-primary">
-      <AuthenticatedTopbar />
-      <AdminSectionTabs active="medals" />
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 pb-16 pt-6 sm:px-6 lg:grid-cols-2">
+    <AdminWorkspace active="medals">
+      <div className="grid min-w-0 gap-6 xl:grid-cols-2">
         <div className="lg:col-span-2">
           <AdminMedalGrantsPanel token={token} />
         </div>
@@ -35,6 +32,6 @@ export default function MedalsAdminPage() {
           <MedalTestDeliveryPanel token={token} username={user?.username} />
         </div>
       </div>
-    </main>
+    </AdminWorkspace>
   );
 }
