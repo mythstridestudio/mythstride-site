@@ -1264,6 +1264,7 @@ export default function AdminEventsPage() {
             </div>
           </div>
 
+          {loading && <p role="status" className="mt-4 text-xs text-text-muted">Carregando eventos...</p>}
           <div className="mt-6 grid gap-6">
             <FormSection title="Identidade da prova" icon={<ScrollIcon className="h-5 w-5" />}>
               <Field label="Nome oficial" required value={form.nome} onChange={(value) => update("nome", value)} />
