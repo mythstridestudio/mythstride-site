@@ -1,0 +1,53 @@
+# Temporary maintenance workflow: regenerate the npm lockfile on the issue-10 branch
+# without hand-editing integrity hashes. Remove before merging the fix PR.
+name: Issue 10 regenerate secure lockfile
+on:
+  push:
+    branches: ["fix/issue-10-security-dependencies"]
+    paths:
+      - "package.json"
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    if: github.repository == 'mythstridestudio/mythstride-site'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Regenerate npm lockfile from npm registry
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Validate reproducible installs
+        run: npm ci
+      - name: Audit production dependencies
+        run: npm audit --omit=dev
+      - name: Lint and typecheck
+        run: |
+          npm run lint
+          npm run typecheck
+      - name: Tests and static export
+        run: |
+          npm test
+          npm run validate:content
+          npm run build
+          npm run validate:build
+          npm run validate:links
+        env:
+          NEXT_PUBLIC_API_BASE_URL: https://api.mythstride.app
+          NEXT_PUBLIC_BASE_PATH: /
+      - name: Commit valid lockfile to the fix branch only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git diff --cached --quiet && exit 0
+          git commit -m "chore(deps): regenerate audited npm lockfile for issue #10"
+          git push origin HEAD:refs/heads/fix/issue-10-security-dependencies
