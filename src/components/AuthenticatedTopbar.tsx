@@ -85,7 +85,7 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
           {isAdmin && (
             <Link href="/admin/events" className={linkClass(pathname.startsWith("/admin"))}>
               <ScrollIcon className="h-4 w-4" />
-              Eventos
+              Admin
             </Link>
           )}
           <LanguageSwitcher className="px-2" />
@@ -139,7 +139,7 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
           {isAdmin && (
             <Link href="/admin/events" className={linkClass(pathname.startsWith("/admin"))} onClick={() => setMobileOpen(false)}>
               <ScrollIcon className="h-4 w-4" />
-              Eventos
+              Admin
             </Link>
           )}
           <button type="button" onClick={handleLogout} className="button button--primary button--nav">
