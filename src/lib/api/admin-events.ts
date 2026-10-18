@@ -71,6 +71,42 @@ export function listAdminEvents(accessToken: string) {
   return apiFetch<AdminEvent[]>("/api/Eventos", { accessToken });
 }
 
+/** Backend's real medal collection status for the JWT's own character. */
+export interface PlayerMedalCollection {
+  key: string;
+  year: number;
+  earnedCount: number;
+  totalPieces: number;
+  complete: boolean;
+  pieces: { element: string; earned: boolean; earnedAtUtc: string | null }[];
+}
+
+export function getMyMedalCollections(accessToken: string, playerId: string) {
+  return apiFetch<PlayerMedalCollection[]>(
+    `/api/players/${encodeURIComponent(playerId)}/medals/collections`,
+    { accessToken, cache: "no-store" },
+  );
+}
+
+/** Admin QA: the API awards only to the signed-in JWT player (no recipient ID).
+ * Available for 2027 Draft events, with audit logs and idempotent grants.
+ */
+export async function grantAdminTestEventMedal(accessToken: string, eventId: string) {
+  const result = await apiFetch<{ awarded: boolean }>(
+    `/api/Eventos/${encodeURIComponent(eventId)}/medalha/teste`,
+    { method: "POST", accessToken },
+  );
+  return result.awarded === true;
+}
+
+export async function removeAdminTestEventMedal(accessToken: string, eventId: string) {
+  const result = await apiFetch<{ removed: boolean }>(
+    `/api/Eventos/${encodeURIComponent(eventId)}/medalha/teste`,
+    { method: "DELETE", accessToken },
+  );
+  return result.removed === true;
+}
+
 export function createAdminEvent(
   accessToken: string,
   request: SaveAdminEventRequest,
