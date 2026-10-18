@@ -13,7 +13,7 @@ test("site names the section Admin and splits Eventos / Entrega de Medalhas", as
   const medals = await file("src/app/(internal)/admin/medals/medals-page.tsx");
   assert.match(topbar, /<ScrollIcon className="h-4 w-4" \/>\s*Admin/);
   assert.match(tabs, /label: "Eventos"/);
-  assert.match(tabs, /label: "Entrega de Medalhas"/);
+  assert.match(tabs, /label: "Medalhas"/);
   assert.match(events, /<AdminWorkspace active="events"/);
   assert.doesNotMatch(events, /<MedalTestDeliveryPanel/);
   assert.match(medals, /<AdminWorkspace active="medals"/);
