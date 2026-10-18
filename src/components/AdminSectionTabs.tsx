@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   CrownIcon,
   HomeIcon,
+  ChartIcon,
   MenuIcon,
   ScrollIcon,
   ShieldIcon,
@@ -14,10 +15,11 @@ import {
   CloseIcon,
 } from "@/components/Icons";
 
-export type AdminSection = "overview" | "users" | "events" | "medals" | "deliveries" | "logs";
+export type AdminSection = "overview" | "statistics" | "users" | "events" | "medals" | "deliveries" | "logs";
 
 const links = [
   { id: "overview", label: "Visão Geral", href: "/admin", icon: HomeIcon },
+  { id: "statistics", label: "Estatísticas", href: "/admin/statistics", icon: ChartIcon },
   { id: "users", label: "Usuários", href: "/admin/users", icon: UsersIcon },
   { id: "events", label: "Eventos", href: "/admin/events", icon: ScrollIcon },
   { id: "medals", label: "Medalhas", href: "/admin/medals", icon: TrophyIcon },
