@@ -15,6 +15,7 @@ test("admin is a left sidebar with working routes, mobile drawer and current-pag
     ["Estatísticas", "/admin/statistics"],
     ["Usuários", "/admin/users"],
     ["Eventos", "/admin/events"],
+    ["Cadastrar Evento", "/admin/events/create"],
     ["Medalhas", "/admin/medals"],
     ["Entregas", "/admin/deliveries"],
     ["Logs", "/admin/logs"],
@@ -36,7 +37,7 @@ test("admin navigation does not break event editing or medal delivery", async ()
   const events = await source("src/app/(internal)/admin/events/admin-events-page.tsx");
   const medals = await source("src/app/(internal)/admin/medals/medals-page.tsx");
   const protectedScreen = await source("src/components/AdminProtectedWorkspace.tsx");
-  assert.match(events, /<AdminWorkspace active="events"/);
+  assert.match(events, /<AdminWorkspace active="create-event"/);
   assert.match(events, /onSubmit=\{submit\}/);
   assert.match(medals, /<AdminWorkspace active="medals"/);
   assert.match(medals, /<AdminMedalGrantsPanel token=\{token\}/);

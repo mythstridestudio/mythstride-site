@@ -15,13 +15,14 @@ import {
   CloseIcon,
 } from "@/components/Icons";
 
-export type AdminSection = "overview" | "statistics" | "users" | "events" | "medals" | "deliveries" | "logs";
+export type AdminSection = "overview" | "statistics" | "users" | "events" | "create-event" | "medals" | "deliveries" | "logs";
 
 const links = [
   { id: "overview", label: "Visão Geral", href: "/admin", icon: HomeIcon },
   { id: "statistics", label: "Estatísticas", href: "/admin/statistics", icon: ChartIcon },
   { id: "users", label: "Usuários", href: "/admin/users", icon: UsersIcon },
   { id: "events", label: "Eventos", href: "/admin/events", icon: ScrollIcon },
+  { id: "create-event", label: "Cadastrar Evento", href: "/admin/events/create", icon: CrownIcon },
   { id: "medals", label: "Medalhas", href: "/admin/medals", icon: TrophyIcon },
   { id: "deliveries", label: "Entregas", href: "/admin/deliveries", icon: CrownIcon },
   { id: "logs", label: "Logs", href: "/admin/logs", icon: ShieldIcon },

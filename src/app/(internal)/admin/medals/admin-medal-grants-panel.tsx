@@ -23,7 +23,13 @@ function explain(error: unknown) {
   return "Não foi possível comunicar com a API. Atualize o histórico antes de tentar novamente.";
 }
 
-export default function AdminMedalGrantsPanel({ token }: { token: string }) {
+export default function AdminMedalGrantsPanel({
+  token,
+  catalogRefreshKey = 0,
+}: {
+  token: string;
+  catalogRefreshKey?: number;
+}) {
   const [query, setQuery] = useState("");
   const [players, setPlayers] = useState<AdminMedalPlayer[]>([]);
   const [selectedPlayer, setSelectedPlayer] = useState<AdminMedalPlayer | null>(null);
@@ -55,12 +61,13 @@ export default function AdminMedalGrantsPanel({ token }: { token: string }) {
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
+      setCatalogQuery("");
       void loadCatalog("").catch(() => {
         setError("Não foi possível consultar o catálogo de medalhas. O backend precisa ser atualizado.");
       });
     }, 0);
     return () => window.clearTimeout(timer);
-  }, [loadCatalog]);
+  }, [loadCatalog, catalogRefreshKey]);
 
   const searchPlayers = async () => {
     setError(null);
@@ -206,7 +213,7 @@ export default function AdminMedalGrantsPanel({ token }: { token: string }) {
             ))}
           </select>
           <span className="text-xs text-text-muted">
-            Catálogo limitado a 80 opções por pesquisa. Medalhas de eventos já encerrados permanecem disponíveis.
+            Exibindo até 80 medalhas por pesquisa. Para encontrar outras, digite o nome do evento ou da medalha e clique em Filtrar. Se não existir, cadastre a medalha no formulário abaixo.
           </span>
           {selectedPlayer && medal && (
             <p className={`text-sm ${alreadyOwned ? "text-emerald" : "text-gold"}`}>

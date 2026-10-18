@@ -14,7 +14,7 @@ test("site names the section Admin and splits Eventos / Entrega de Medalhas", as
   assert.match(topbar, /<ScrollIcon className="h-4 w-4" \/>\s*Admin/);
   assert.match(tabs, /label: "Eventos"/);
   assert.match(tabs, /label: "Medalhas"/);
-  assert.match(events, /<AdminWorkspace active="events"/);
+  assert.match(events, /<AdminWorkspace active="create-event"/);
   assert.doesNotMatch(events, /<MedalTestDeliveryPanel/);
   assert.match(medals, /<AdminWorkspace active="medals"/);
   assert.match(medals, /if \(status === "loading" \|\| !token \|\| !isAdmin\)/);

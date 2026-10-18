@@ -67,8 +67,29 @@ export interface SaveAdminEventRequest {
   maxUsosCodigo?: number;
 }
 
-export function listAdminEvents(accessToken: string) {
-  return apiFetch<AdminEvent[]>("/api/Eventos", { accessToken });
+interface PagedAdminEvents {
+  items: AdminEvent[];
+  page: number;
+  totalPages: number;
+  hasNextPage: boolean;
+}
+
+/** Admin uses the database-backed paginated listing, not the active-events
+ * cache. This includes draft and inactive events even for large catalogs.
+ */
+export async function listAdminEvents(accessToken: string): Promise<AdminEvent[]> {
+  const all: AdminEvent[] = [];
+  let page = 1;
+  while (true) {
+    const result = await apiFetch<PagedAdminEvents>(
+      `/api/Eventos/paged?page=${page}&pageSize=100`,
+      { accessToken, cache: "no-store" },
+    );
+    all.push(...result.items);
+    if (!result.hasNextPage || page >= result.totalPages) break;
+    page += 1;
+  }
+  return all;
 }
 
 /** Backend's real medal collection status for the JWT's own character. */
@@ -529,6 +550,23 @@ export interface AdminMedalPlayer {
   name: string;
   email: string;
   level: number;
+}
+
+export interface CreateEventMedalRequest {
+  eventoId: string;
+  internalKey: string;
+  nome: string;
+  descricao?: string | null;
+  imagemUrl?: string | null;
+}
+
+export function createAdminEventMedal(token: string, request: CreateEventMedalRequest) {
+  return apiFetch<{ id: string; eventoId: string; nome: string }>("/api/medalhas", {
+    method: "POST",
+    accessToken: token,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(request),
+  });
 }
 
 export interface AdminMedalCatalogItem {
