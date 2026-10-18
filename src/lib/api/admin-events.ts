@@ -519,3 +519,72 @@ export function saveEventExternalRegistration(
     },
   );
 }
+
+/**
+ * Administrative compensation for players who missed an event medal.
+ * Authorization and audit are enforced by the .NET backend.
+ */
+export interface AdminMedalPlayer {
+  playerId: string;
+  name: string;
+  email: string;
+  level: number;
+}
+
+export interface AdminMedalCatalogItem {
+  eventId: string;
+  medalId: string;
+  medalName: string;
+  eventName: string;
+  eventStart: string;
+  eventEnd: string;
+  imageUrl?: string | null;
+}
+
+export interface AdminPlayerMedal {
+  eventId: string;
+  medalId: string;
+  medalName: string;
+  earnedAtUtc: string;
+}
+
+export interface AdminMedalGrantResult {
+  eventId: string;
+  playerId: string;
+  awarded: boolean;
+}
+
+export function searchAdminMedalPlayers(token: string, query: string) {
+  return apiFetch<AdminMedalPlayer[]>(
+    `/api/admin/medals/players?query=${encodeURIComponent(query.trim())}`,
+    { accessToken: token, cache: "no-store" },
+  );
+}
+
+export function listAdminMedalCatalog(token: string, query = "") {
+  return apiFetch<AdminMedalCatalogItem[]>(
+    `/api/admin/medals/catalog?query=${encodeURIComponent(query.trim())}`,
+    { accessToken: token, cache: "no-store" },
+  );
+}
+
+export function listAdminPlayerMedals(token: string, playerId: string) {
+  return apiFetch<AdminPlayerMedal[]>(
+    `/api/admin/medals/players/${encodeURIComponent(playerId)}`,
+    { accessToken: token, cache: "no-store" },
+  );
+}
+
+export function grantAdminMedalToPlayer(
+  token: string,
+  playerId: string,
+  eventId: string,
+  reason: string,
+) {
+  return apiFetch<AdminMedalGrantResult>("/api/admin/medals/grants", {
+    accessToken: token,
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ playerId, eventId, reason: reason.trim() }),
+  });
+}
