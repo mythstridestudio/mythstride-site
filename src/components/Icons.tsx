@@ -308,3 +308,12 @@ export function UserIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+export function ChartIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M4 20V12M10 20V6M16 20V10M22 20V4" />
+      <path d="M2 20H23" />
+    </svg>
+  );
+}
