@@ -69,7 +69,7 @@ import {
 import { ApiError } from "@/lib/api/client";
 import { isAdminAccessToken } from "@/lib/api/auth";
 import ExternalRegistrationPanel from "./external-registration-panel";
-import MedalTestDeliveryPanel from "./medal-test-delivery-panel";
+import AdminSectionTabs from "@/components/AdminSectionTabs";
 
 type EventTab = "lifecycle" | "rewards" | "codes" | "registration" | "results";
 
@@ -440,7 +440,7 @@ function parseParticipantsCsv(content: string, fileName: string): CsvPreview {
 
 export default function AdminEventsPage() {
   const router = useRouter();
-  const { token, status, user } = useAuth();
+  const { token, status } = useAuth();
   const isAdmin = useMemo(() => isAdminAccessToken(token), [token]);
   const [events, setEvents] = useState<AdminEvent[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -1254,8 +1254,8 @@ export default function AdminEventsPage() {
   return (
     <main className="min-h-screen bg-void text-text-primary">
       <AuthenticatedTopbar />
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 pb-16 pt-24 sm:px-6 md:pt-28 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <MedalTestDeliveryPanel token={token} username={user?.username} />
+      <AdminSectionTabs active="events" />
+      <div className="mx-auto grid max-w-7xl gap-6 px-4 pb-16 pt-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_340px]">
         <form className="app-panel rpg-card p-5 sm:p-7 lg:col-start-1" onSubmit={submit}>
           <div className="flex flex-wrap items-start justify-between gap-4 border-b border-gold-dim/25 pb-5">
             <div>
