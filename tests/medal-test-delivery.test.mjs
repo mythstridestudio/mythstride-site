@@ -41,7 +41,7 @@ test("collection status can be requested only for the JWT's own player", () => {
 });
 
 test("website delivers actual awards, not simulated artwork or a recipient selector", async () => {
-  const page = await readFile(path.join(root, "src/app/(internal)/admin/events/admin-events-page.tsx"), "utf8");
+  const page = await readFile(path.join(root, "src/app/(internal)/admin/medals/medals-page.tsx"), "utf8");
   const panel = await readFile(path.join(root, "src/app/(internal)/admin/events/medal-test-delivery-panel.tsx"), "utf8");
   const api = await readFile(path.join(root, "src/lib/api/admin-events.ts"), "utf8");
 
