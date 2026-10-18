@@ -65,9 +65,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Audit production dependencies
-        run: npm audit --omit=dev
-
       - name: Lint
         run: npm run lint
 
@@ -88,3 +85,8 @@ jobs:
 
       - name: Validate internal links
         run: npm run validate:links
+
+      # Keep the security gate; run functional checks first so an existing
+      # dependency advisory cannot conceal whether a feature regressed.
+      - name: Audit production dependencies
+        run: npm audit --omit=dev
