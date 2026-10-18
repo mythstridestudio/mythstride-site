@@ -1,7 +1,8 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import AdminWorkspace from "@/components/AdminWorkspace";
 import {
   BookIcon,
@@ -442,6 +443,7 @@ export default function AdminEventsPage() {
   const { token, status } = useAuth();
   const isAdmin = useMemo(() => isAdminAccessToken(token), [token]);
   const [events, setEvents] = useState<AdminEvent[]>([]);
+  const initialEventHandled = useRef(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [registrationDraft, setRegistrationDraft] = useState<RegistrationDraft>(emptyRegistrationDraft);
@@ -503,6 +505,19 @@ export default function AdminEventsPage() {
     try {
       const result = await listAdminEvents(accessToken);
       setEvents(result);
+      if (!initialEventHandled.current) {
+        initialEventHandled.current = true;
+        const requestedId = new URLSearchParams(window.location.search).get("eventId");
+        if (requestedId) {
+          const requested = result.find((event) => event.id.toLowerCase() === requestedId.toLowerCase());
+          if (requested) {
+            setSelectedId(requested.id);
+            setForm(eventToForm(requested));
+          } else {
+            setError("O evento solicitado não foi encontrado. Volte para Todos os Eventos.");
+          }
+        }
+      }
       return result;
     } catch {
       setError("Não foi possível carregar as provas.");
@@ -651,38 +666,6 @@ export default function AdminEventsPage() {
     value: RegistrationDraft[K],
   ) => {
     setRegistrationDraft((current) => ({ ...current, [key]: value }));
-  };
-
-  const selectEvent = (event: AdminEvent) => {
-    setSelectedId(event.id);
-    setForm(eventToForm(event));
-    setRegistrationDraft(emptyRegistrationDraft);
-    setMessage(null);
-    setError(null);
-    setParticipantSearch("");
-    setParticipantStatus("all");
-    setParticipantPage(1);
-    setParticipantPageSize(25);
-    setParticipantSort("name");
-    setParticipantSortDirection("asc");
-    setEditingParticipant(null);
-    setAddingParticipant(false);
-    setParticipantDraft(null);
-    setConfirmingRemovalId(null);
-    setEventTab("lifecycle");
-    setPanelMessage(null);
-    setPanelError(null);
-    setPendingLifecycle(null);
-    setRewards([]);
-    setRewardDraft(emptyReward);
-    setConfirmingRewardId(null);
-    setCodeForm(emptyCodeForm);
-    setGeneratedCodes([]);
-    setCodesCopied(false);
-    setResults([]);
-    setDisqualifyTarget(null);
-    setDisqualifyReason("");
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const newEvent = () => {
@@ -1251,9 +1234,9 @@ export default function AdminEventsPage() {
   }
 
   return (
-    <AdminWorkspace active="events">
-      <div className="grid min-w-0 gap-6 xl:grid-cols-[minmax(0,1fr)_300px]">
-        <form className="app-panel rpg-card p-5 sm:p-7 lg:col-start-1" onSubmit={submit}>
+    <AdminWorkspace active="create-event">
+      <div className="grid min-w-0 gap-6">
+        <form className="app-panel rpg-card p-5 sm:p-7" onSubmit={submit}>
           <div className="flex flex-wrap items-start justify-between gap-4 border-b border-gold-dim/25 pb-5">
             <div>
               <p className="text-xs uppercase tracking-[0.26em] text-fiery-orange">
@@ -1271,11 +1254,14 @@ export default function AdminEventsPage() {
                 noindex não substitui controle de acesso.
               </p>
             </div>
-            {selectedId && (
-              <button type="button" className="button button--secondary" onClick={newEvent}>
-                Nova prova
-              </button>
-            )}
+            <div className="flex flex-wrap gap-2">
+              <Link href="/admin/events" className="button button--secondary">Todos os Eventos</Link>
+              {selectedId && (
+                <button type="button" className="button button--secondary" onClick={newEvent}>
+                  Nova prova
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="mt-6 grid gap-6">
@@ -1697,7 +1683,7 @@ export default function AdminEventsPage() {
         </form>
 
         {selectedEvent && (
-          <section className="app-panel rpg-card p-5 sm:p-7 lg:col-start-1">
+          <section className="app-panel rpg-card p-5 sm:p-7">
             <div className="flex flex-wrap items-start justify-between gap-4 border-b border-gold-dim/25 pb-5">
               <div>
                 <p className="text-xs uppercase tracking-[0.26em] text-fiery-orange">
@@ -2512,35 +2498,7 @@ export default function AdminEventsPage() {
           </div>
         )}
 
-        <aside className="app-panel app-panel-compact rpg-card h-fit p-4 lg:sticky lg:top-28 lg:col-start-2 lg:row-start-1">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="font-display text-2xl text-gold">Provas cadastradas</h2>
-            <button type="button" onClick={newEvent} className="button button--secondary shrink-0">Nova</button>
-          </div>
-          <div className="mt-4 grid gap-3">
-            {loading && <p className="text-sm text-text-muted">Carregando...</p>}
-            {!loading && events.length === 0 && <p className="text-sm text-text-muted">Nenhuma prova cadastrada.</p>}
-            {events.map((event) => (
-              <button
-                type="button"
-                key={event.id}
-                onClick={() => selectEvent(event)}
-                className={`rpg-inset grid gap-1 rounded-[14px] border p-4 text-left transition-colors ${selectedId === event.id ? "border-gold/60 bg-gold/10" : "border-gold-dim/20 hover:border-gold/40"}`}
-              >
-                <span className="font-display text-lg text-gold-bright">{event.nome}</span>
-                <span className="text-xs text-text-muted">{event.localNome || "Local ainda não informado"}</span>
-                <span className="mt-1 flex flex-wrap items-center gap-2">
-                  <StatusBadge status={event.status} />
-                  {!event.ativo && (
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-text-muted">
-                      Inativo
-                    </span>
-                  )}
-                </span>
-              </button>
-            ))}
-          </div>
-        </aside>
+
       </div>
     </AdminWorkspace>
   );
