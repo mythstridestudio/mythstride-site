@@ -8,7 +8,7 @@ import type { PublicLocale } from "@/lib/locales";
  *
  * Product claims are traceable. Item and boss names are the game's own
  * localised catalogue; the conversion figures come from the reward calculator;
- * the beta is described exactly as it is — closed, Android, invitation only.
+ * launch availability and official platform links are maintained across locales.
  */
 
 type Step = {
@@ -562,7 +562,7 @@ const ptBR: HomeCopy = {
       {
         question: "Como funciona a Espada do Fundador?",
         answer:
-          "Participantes elegíveis convidados para o beta fechado recebem a Espada do Fundador, uma relíquia exclusiva vinculada à sua jornada no MythStride.",
+          "A Espada do Fundador é uma relíquia exclusiva concedida aos jogadores elegíveis conforme as regras da campanha de lançamento.",
       },
       {
         question: "Haverá compras dentro do jogo?",
@@ -927,7 +927,7 @@ const en: HomeCopy = {
       {
         question: "How does the Founder Sword work?",
         answer:
-          "Eligible participants invited to the closed beta receive the Founder Sword, an exclusive relic tied to their journey in MythStride.",
+          "The Founder Sword is an exclusive relic awarded to eligible players under the launch campaign rules.",
       },
       {
         question: "Will there be in-game purchases?",
@@ -1292,7 +1292,7 @@ const es: HomeCopy = {
       {
         question: "¿Cómo funciona la Espada del Fundador?",
         answer:
-          "Los participantes elegibles invitados a la beta cerrada reciben la Espada del Fundador, una reliquia exclusiva vinculada a su viaje en MythStride.",
+          "La Espada del Fundador es una reliquia exclusiva que reciben los jugadores elegibles según las reglas de la campaña de lanzamiento.",
       },
       {
         question: "¿Habrá compras dentro del juego?",
