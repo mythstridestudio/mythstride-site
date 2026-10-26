@@ -211,7 +211,7 @@ export type HomeCopy = {
 
 const ptBR: HomeCopy = {
   hero: {
-    badge: "Beta fechado · Android",
+    badge: "Disponível · iOS e Android",
     titleTop: "Corra no mundo real.",
     titleBottom: "Progrida em outro.",
     lede: "Transforme seus quilômetros em XP, equipamentos, missões e batalhas dentro de Elyndor.",
@@ -489,9 +489,10 @@ const ptBR: HomeCopy = {
   platforms: {
     eyebrow: "Onde jogar",
     title: "Começamos no Android.",
-    lede: "O beta fechado roda em dispositivos Android compatíveis. Estas são as integrações disponíveis hoje.",
+    lede: "MythStride já está disponível para iPhone e Android. Baixe nas lojas oficiais.",
     rows: [
-      { name: "Android", status: "Disponível no beta fechado" },
+      { name: "Android", status: "Disponível no Google Play" },
+      { name: "iOS", status: "Disponível na App Store" },
       { name: "Wear OS", status: "Acompanha a corrida no pulso" },
       { name: "Strava", status: "Conexão opcional, ativada por você" },
     ],
@@ -521,7 +522,7 @@ const ptBR: HomeCopy = {
     title: "Sua primeira quest começa agora.",
     lede: "Entre para o beta fechado do MythStride e esteja entre os primeiros a explorar Elyndor.",
     cta: "Torne-se um Strider",
-    note: "Android · Beta fechado",
+    note: "iOS · Android",
   },
   join: {
     eyebrow: "Lista do beta",
@@ -575,7 +576,7 @@ const ptBR: HomeCopy = {
 
 const en: HomeCopy = {
   hero: {
-    badge: "Closed beta · Android",
+    badge: "Available · iOS and Android",
     titleTop: "Run in the real world.",
     titleBottom: "Progress in another.",
     lede: "Turn your kilometers into XP, equipment, quests and battles inside Elyndor.",
@@ -853,9 +854,10 @@ const en: HomeCopy = {
   platforms: {
     eyebrow: "Where to play",
     title: "We start on Android.",
-    lede: "The closed beta runs on compatible Android devices. These are the integrations available today.",
+    lede: "MythStride is now available on iPhone and Android. Download it from the official stores.",
     rows: [
-      { name: "Android", status: "Available in the closed beta" },
+      { name: "Android", status: "Available on Google Play" },
+      { name: "iOS", status: "Available on the App Store" },
       { name: "Wear OS", status: "Follows the run on your wrist" },
       { name: "Strava", status: "Optional connection, enabled by you" },
     ],
@@ -885,7 +887,7 @@ const en: HomeCopy = {
     title: "Your first quest starts now.",
     lede: "Join the MythStride closed beta and be among the first to explore Elyndor.",
     cta: "Become a Strider",
-    note: "Android · Closed beta",
+    note: "iOS · Android",
   },
   join: {
     eyebrow: "Beta list",
@@ -939,7 +941,7 @@ const en: HomeCopy = {
 
 const es: HomeCopy = {
   hero: {
-    badge: "Beta cerrada · Android",
+    badge: "Disponible · iOS y Android",
     titleTop: "Corre en el mundo real.",
     titleBottom: "Progresa en otro.",
     lede: "Convierte tus kilómetros en XP, equipo, misiones y batallas dentro de Elyndor.",
@@ -1217,9 +1219,10 @@ const es: HomeCopy = {
   platforms: {
     eyebrow: "Dónde jugar",
     title: "Empezamos en Android.",
-    lede: "La beta cerrada funciona en dispositivos Android compatibles. Estas son las integraciones disponibles hoy.",
+    lede: "MythStride ya está disponible para iPhone y Android. Descárgalo desde las tiendas oficiales.",
     rows: [
-      { name: "Android", status: "Disponible en la beta cerrada" },
+      { name: "Android", status: "Disponible en Google Play" },
+      { name: "iOS", status: "Disponible en App Store" },
       { name: "Wear OS", status: "Acompaña la carrera en tu muñeca" },
       { name: "Strava", status: "Conexión opcional, activada por ti" },
     ],
@@ -1249,7 +1252,7 @@ const es: HomeCopy = {
     title: "Tu primera misión empieza ahora.",
     lede: "Únete a la beta cerrada de MythStride y sé de los primeros en explorar Elyndor.",
     cta: "Conviértete en Strider",
-    note: "Android · Beta cerrada",
+    note: "iOS · Android",
   },
   join: {
     eyebrow: "Lista de la beta",
