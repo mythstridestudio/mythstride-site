@@ -57,7 +57,6 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
     { href: localePath(locale, "/features"), label: copy.product },
     { href: localePath(locale, "/events"), label: copy.events },
     { href: localePath(locale, "/wear-os"), label: copy.integrations },
-    { href: localePath(locale, "/closed-beta"), label: copy.beta },
     { href: localePath(locale, "/faq"), label: copy.faq },
   ];
 
