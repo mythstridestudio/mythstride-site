@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon } from "@/components/Icons";
-import WaitlistForm from "@/components/WaitlistForm";
 import { FaqAccordion } from "@/components/site/FaqAccordion";
 import { homeCopy } from "@/content/home";
 import { homeSectionIds } from "@/content/home-data";
@@ -45,7 +44,7 @@ export function ClosingSections({ locale }: ClosingProps) {
           <div className="cta-row cta-row--center">
             <Link
               className="button button--primary"
-              href={`${localePath(locale)}#${homeSectionIds.join}`}
+              href="https://play.google.com/store/apps/details?id=com.playmythstride.mythstride"
               prefetch={false}
             >
               {copy.finalCta.cta}
@@ -66,7 +65,10 @@ export function ClosingSections({ locale }: ClosingProps) {
           </div>
 
           <div className="join-panel">
-            <WaitlistForm locale={locale} />
+            <div className="cta-row cta-row--center">
+              <a className="button button--primary" href="https://play.google.com/store/apps/details?id=com.playmythstride.mythstride" target="_blank" rel="noopener noreferrer">Google Play</a>
+              <a className="button button--secondary" href="https://apps.apple.com/app/id6823412625" target="_blank" rel="noopener noreferrer">App Store</a>
+            </div>
           </div>
         </div>
       </section>
