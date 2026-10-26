@@ -11,20 +11,18 @@ const publicSlugs = [
   "wear-os",
   "events",
   "community",
-  "closed-beta",
   "faq",
   "support",
   "privacy",
   "terms",
   "delete-account",
   "community-guidelines",
-  "purchases",
   "ai-transparency",
   "third-party-services",
 ];
 const failures = [];
 const publicEngineeringLanguage = /\b(?:draft|pending|under validation|in development|planned|roadmap|placeholder|future)\b|rascunho|pendente|em validação|em desenvolvimento|planejado|disponível futuramente|espaço reservado|arte futura|captura final|decisão do responsável|en validación|en desarrollo|planificado/iu;
-const unsupportedPlatformMarketing = /\b(?:iOS|Apple Watch|Galaxy S23|Galaxy Watch|raids|sagas)\b/iu;
+const unsupportedPlatformMarketing = /\b(?:Galaxy S23|raids|sagas)\b/iu;
 
 async function exists(relativePath) {
   try {
@@ -76,7 +74,7 @@ for (const locale of locales) {
     failures.push(`${locale} home is missing hreflang alternates`);
   }
   if (!home.includes('id="join"')) {
-    failures.push(`${locale} home is missing the waitlist target`);
+    failures.push(`${locale} home is missing the download target`);
   }
   if (publicEngineeringLanguage.test(home)) {
     failures.push(`${locale} home exposes engineering-status language`);
