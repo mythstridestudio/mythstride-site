@@ -37,7 +37,6 @@ export function LocalizedFooter({ locale }: LocalizedFooterProps) {
 
   const universeLinks: [string, string][] = [
     ["/aethron", "Aethron"],
-    ["/closed-beta", text("Beta fechado", "Closed beta", "Beta cerrada")],
   ];
 
   const helpLinks: [string, string][] = [
@@ -58,14 +57,6 @@ export function LocalizedFooter({ locale }: LocalizedFooterProps) {
         "Diretrizes da Comunidade",
         "Community Guidelines",
         "Directrices de la Comunidad",
-      ),
-    ],
-    [
-      "/purchases",
-      text(
-        "Itens e moedas virtuais",
-        "Items and virtual currency",
-        "Objetos y monedas virtuales",
       ),
     ],
     [
