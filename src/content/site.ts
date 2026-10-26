@@ -4,17 +4,17 @@ export const siteCopy = {
     nav: {
       product: "Recursos", how: "Como funciona", events: "Eventos",
       community: "Comunidade", aethron: "Aethron", integrations: "Integrações",
-      beta: "Beta fechado", faq: "Perguntas frequentes", elyndor: "Elyndor",
-      join: "Entrar no beta", tester: "Login de testador",
+      beta: "Baixar aplicativo", faq: "Perguntas frequentes", elyndor: "Elyndor",
+      join: "Baixar agora", tester: "Login de testador",
       openMenu: "Abrir menu", closeMenu: "Fechar menu", language: "Idioma",
       primary: "Navegação principal", menuTitle: "Menu",
     },
     hero: {
-      eyebrow: "BETA FECHADO PARA ANDROID",
+      eyebrow: "DISPONÍVEL PARA IOS E ANDROID",
       title: "Corra no mundo real. Progrida em outro.",
       body: "MythStride transforma suas corridas em progresso de RPG. Complete missões, enfrente chefes, conquiste recompensas e construa sua jornada em Elyndor — movida pela distância que você percorre no mundo real.",
-      primary: "Entrar na lista do beta", secondary: "Descobrir o MythStride",
-      note: "O acesso ao beta é realizado por convite para dispositivos Android compatíveis.",
+      primary: "Baixar MythStride", secondary: "Descobrir o MythStride",
+      note: "Disponível na App Store e Google Play.",
     },
     section: {
       flow: { eyebrow: "CORRIDA ENCONTRA RPG", title: "Cada quilômetro faz a sua história avançar.", body: "No MythStride, correr não termina quando a atividade é salva. Sua distância alimenta missões, progressão, batalhas e conquistas dentro de Elyndor." },
@@ -31,7 +31,7 @@ export const siteCopy = {
       waitlist: { eyebrow: "ENTRE PARA A PRIMEIRA GERAÇÃO", title: "Sua jornada pode começar aqui.", body: "Entre na lista do beta fechado e tenha a oportunidade de explorar Elyndor entre os primeiros jogadores do MythStride." },
     },
     waitlist: {
-      name: "Nome (opcional)", email: "Email", submit: "Entrar na lista do beta", loading: "Enviando...",
+      name: "Nome (opcional)", email: "Email", submit: "Baixar MythStride", loading: "Enviando...",
       disclosure: "Usaremos seu email e as informações técnicas necessárias para administrar a lista, prevenir abuso e entrar em contato sobre o beta. Ao se cadastrar, você confirma ter 18 anos ou mais.",
       ageConfirmation: "Declaro ter 18 anos ou mais.", ageRequired: "Confirme que você tem 18 anos ou mais.",
       capacity: "O cadastro na lista não garante convite imediato. As vagas são liberadas de acordo com a capacidade do beta e a compatibilidade do dispositivo.",
@@ -57,15 +57,15 @@ export const siteCopy = {
     skip: "Skip to content",
     nav: {
       product: "Features", how: "How it works", events: "Events", community: "Community", aethron: "Aethron",
-      integrations: "Integrations", beta: "Closed beta", faq: "FAQ", elyndor: "Elyndor",
-      join: "Join the beta", tester: "Beta tester login",
+      integrations: "Integrations", beta: "Download app", faq: "FAQ", elyndor: "Elyndor",
+      join: "Download now", tester: "Beta tester login",
       openMenu: "Open menu", closeMenu: "Close menu", language: "Language",
       primary: "Main navigation", menuTitle: "Menu",
     },
     hero: {
-      eyebrow: "ANDROID CLOSED BETA", title: "Run in the real world. Progress in another.",
+      eyebrow: "AVAILABLE ON IOS AND ANDROID", title: "Run in the real world. Progress in another.",
       body: "MythStride turns your runs into RPG progression. Complete quests, face bosses, earn rewards, and build your journey through Elyndor — powered by the distance you cover in the real world.",
-      primary: "Join the beta list", secondary: "Discover MythStride", note: "Beta access is invite-only for compatible Android devices.",
+      primary: "Download now list", secondary: "Discover MythStride", note: "Available on the App Store and Google Play.",
     },
     section: {
       flow: { eyebrow: "RUNNING MEETS RPG", title: "Every kilometer moves your story forward.", body: "In MythStride, a run does not end when the activity is saved. Your distance fuels quests, progression, battles, and achievements across Elyndor." },
@@ -82,7 +82,7 @@ export const siteCopy = {
       waitlist: { eyebrow: "JOIN THE FIRST GENERATION", title: "Your journey can begin here.", body: "Join the closed beta list for a chance to explore Elyndor among MythStride's first players." },
     },
     waitlist: {
-      name: "Name (optional)", email: "Email", submit: "Join the beta list", loading: "Sending...",
+      name: "Name (optional)", email: "Email", submit: "Download now list", loading: "Sending...",
       disclosure: "We will use your email and the technical information needed to manage the list, prevent abuse, and contact you about the beta. By signing up, you confirm that you are 18 or older.",
       ageConfirmation: "I confirm that I am 18 years of age or older.", ageRequired: "Confirm that you are 18 years of age or older.",
       capacity: "Joining the list does not guarantee an immediate invitation. Places are released according to beta capacity and device compatibility.",
@@ -105,15 +105,15 @@ export const siteCopy = {
     skip: "Saltar al contenido",
     nav: {
       product: "Funciones", how: "Cómo funciona", events: "Eventos", community: "Comunidad", aethron: "Aethron",
-      integrations: "Integraciones", beta: "Beta cerrada", faq: "Preguntas frecuentes", elyndor: "Elyndor",
-      join: "Unirme a la beta", tester: "Acceso para participantes",
+      integrations: "Integraciones", beta: "Descargar aplicación", faq: "Preguntas frecuentes", elyndor: "Elyndor",
+      join: "Descargar ahora", tester: "Acceso para participantes",
       openMenu: "Abrir menú", closeMenu: "Cerrar menú", language: "Idioma",
       primary: "Navegación principal", menuTitle: "Menú",
     },
     hero: {
-      eyebrow: "BETA CERRADA PARA ANDROID", title: "Corre en el mundo real. Progresa en otro.",
+      eyebrow: "DISPONIBLE PARA IOS Y ANDROID", title: "Corre en el mundo real. Progresa en otro.",
       body: "MythStride convierte tus carreras en progreso de RPG. Completa misiones, enfréntate a jefes, consigue recompensas y construye tu viaje por Elyndor, impulsado por la distancia que recorres en el mundo real.",
-      primary: "Unirme a la lista de la beta", secondary: "Descubrir MythStride", note: "El acceso a la beta se realiza por invitación para dispositivos Android compatibles.",
+      primary: "Descargar MythStride", secondary: "Descubrir MythStride", note: "Disponible en App Store y Google Play.",
     },
     section: {
       flow: { eyebrow: "CARRERA Y RPG", title: "Cada kilómetro hace avanzar tu historia.", body: "En MythStride, la carrera no termina al guardar la actividad. Tu distancia impulsa misiones, progreso, batallas y logros dentro de Elyndor." },
@@ -130,7 +130,7 @@ export const siteCopy = {
       waitlist: { eyebrow: "ÚNETE A LA PRIMERA GENERACIÓN", title: "Tu viaje puede comenzar aquí.", body: "Únete a la lista de la beta cerrada y ten la oportunidad de explorar Elyndor entre los primeros jugadores de MythStride." },
     },
     waitlist: {
-      name: "Nombre (opcional)", email: "Email", submit: "Unirme a la lista de la beta", loading: "Enviando...",
+      name: "Nombre (opcional)", email: "Email", submit: "Descargar MythStride", loading: "Enviando...",
       disclosure: "Usaremos tu email y la información técnica necesaria para administrar la lista, prevenir abusos y contactarte sobre la beta. Al registrarte, confirmas que tienes 18 años o más.",
       ageConfirmation: "Declaro que tengo 18 años o más.", ageRequired: "Confirma que tienes 18 años o más.",
       capacity: "Registrarte no garantiza una invitación inmediata. Las plazas se liberan según la capacidad de la beta y la compatibilidad del dispositivo.",
