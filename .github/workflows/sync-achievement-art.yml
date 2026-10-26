@@ -1,0 +1,51 @@
+name: Sync achievement artwork from mobile
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-achievement-art.yml'
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout site
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Checkout mobile artwork
+        uses: actions/checkout@v4
+        with:
+          repository: mythstridestudio/mythstride
+          ref: main
+          path: mobile-source
+          sparse-checkout: |
+            assets/achievement
+          sparse-checkout-cone-mode: false
+      - name: Sync originals and verify counts
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_dir=mobile-source/assets/achievement
+          destination=public/assets/mythstride/achievement
+          test -d "$source_dir"
+          mkdir -p "$destination"
+          find "$destination" -maxdepth 1 -type f -name '*.png' -delete
+          cp "$source_dir"/*.png "$destination/"
+          original=$(find "$source_dir" -maxdepth 1 -name '*.png' | wc -l)
+          copied=$(find "$destination" -maxdepth 1 -name '*.png' | wc -l)
+          test "$original" -eq "$copied"
+          echo "Transferred $copied achievement art files."
+          rm -rf mobile-source
+      - name: Commit artwork to site
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/assets/mythstride/achievement
+          if ! git diff --cached --quiet; then
+            git commit -m "assets: sync mobile achievement artwork"
+            git push
+          fi
