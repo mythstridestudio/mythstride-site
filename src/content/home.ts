@@ -481,14 +481,14 @@ const ptBR: HomeCopy = {
     lede: "Uma relíquia exclusiva marca quem esteve presente no começo do MythStride.",
     relicName: "Espada do Fundador MythStride",
     criteria: [
-      "Participantes elegíveis convidados para o beta fechado recebem a relíquia vinculada à sua jornada.",
+      "A relíquia do Fundador é exclusiva para jogadores que atenderam aos critérios da campanha de lançamento.",
       "Baixe o aplicativo diretamente na App Store ou no Google Play.",
     ],
     cta: "Torne-se um Strider",
   },
   platforms: {
     eyebrow: "Onde jogar",
-    title: "Começamos no Android.",
+    title: "Disponível no iPhone e Android.",
     lede: "MythStride já está disponível para iPhone e Android. Baixe nas lojas oficiais.",
     rows: [
       { name: "Android", status: "Disponível no Google Play" },
@@ -525,9 +525,9 @@ const ptBR: HomeCopy = {
     note: "iOS · Android",
   },
   join: {
-    eyebrow: "Lista do beta",
+    eyebrow: "Baixe o aplicativo",
     title: "Entre para a primeira geração.",
-    lede: "Deixe seu email e avisaremos quando houver uma oportunidade de participar.",
+    lede: "Disponível gratuitamente para começar sua jornada no iPhone e Android. Compras digitais acontecem apenas dentro do aplicativo.",
   },
   faq: {
     eyebrow: "Perguntas frequentes",
@@ -537,7 +537,7 @@ const ptBR: HomeCopy = {
       {
         question: "O que é o MythStride?",
         answer:
-          "Um RPG de corrida para Android. Suas atividades reais alimentam progressão, missões, batalhas contra chefes, equipamentos e conquistas dentro de Elyndor.",
+          "Uma plataforma de corridas e exercícios com progressão de RPG para iOS e Android. Suas atividades reais alimentam progressão, missões, batalhas contra chefes, equipamentos e conquistas dentro de Elyndor.",
       },
       {
         question: "Como minhas corridas viram progresso?",
@@ -552,7 +552,7 @@ const ptBR: HomeCopy = {
       {
         question: "Em quais dispositivos posso jogar?",
         answer:
-          "Em dispositivos Android compatíveis. A experiência para Wear OS complementa o aplicativo durante a corrida, e o Strava pode ser conectado de forma opcional.",
+          "Em dispositivos iOS e Android compatíveis. A experiência para Wear OS complementa o aplicativo durante a corrida, e o Strava pode ser conectado de forma opcional.",
       },
       {
         question: "Aethron é um treinador?",
@@ -846,14 +846,14 @@ const en: HomeCopy = {
     lede: "An exclusive relic marks the people who were there at the beginning of MythStride.",
     relicName: "MythStride Founder Sword",
     criteria: [
-      "Eligible participants invited to the closed beta receive the relic, tied to their journey.",
+      "The Founder relic is exclusive to players who met the launch campaign eligibility criteria.",
       "Download the app directly from the App Store or Google Play.",
     ],
     cta: "Become a Strider",
   },
   platforms: {
     eyebrow: "Where to play",
-    title: "We start on Android.",
+    title: "Available on iPhone and Android.",
     lede: "MythStride is now available on iPhone and Android. Download it from the official stores.",
     rows: [
       { name: "Android", status: "Available on Google Play" },
@@ -890,9 +890,9 @@ const en: HomeCopy = {
     note: "iOS · Android",
   },
   join: {
-    eyebrow: "Beta list",
+    eyebrow: "Get the app",
     title: "Join the first generation.",
-    lede: "Leave your email and we will let you know when there is an opportunity to take part.",
+    lede: "Start your journey on iPhone and Android. Digital purchases take place only inside the app.",
   },
   faq: {
     eyebrow: "Frequently asked questions",
@@ -902,7 +902,7 @@ const en: HomeCopy = {
       {
         question: "What is MythStride?",
         answer:
-          "A running RPG for Android. Your real activities fuel progression, quests, boss battles, equipment and achievements inside Elyndor.",
+          "A running and fitness tracking platform with RPG progression for iOS and Android. Your real activities fuel progression, quests, boss battles, equipment and achievements inside Elyndor.",
       },
       {
         question: "How do my runs become progress?",
@@ -917,7 +917,7 @@ const en: HomeCopy = {
       {
         question: "Which devices can I play on?",
         answer:
-          "Compatible Android devices. The Wear OS experience complements the app during a run, and Strava can be connected optionally.",
+          "Compatible iOS and Android devices. The Wear OS experience complements the app during a run, and Strava can be connected optionally.",
       },
       {
         question: "Is Aethron a coach?",
@@ -1211,14 +1211,14 @@ const es: HomeCopy = {
     lede: "Una reliquia exclusiva marca a quienes estuvieron presentes al comienzo de MythStride.",
     relicName: "Espada del Fundador de MythStride",
     criteria: [
-      "Los participantes elegibles invitados a la beta cerrada reciben la reliquia, vinculada a su viaje.",
+      "La reliquia del Fundador es exclusiva de los jugadores que cumplieron los requisitos de la campaña de lanzamiento.",
       "Descarga la aplicación directamente desde App Store o Google Play.",
     ],
     cta: "Conviértete en Strider",
   },
   platforms: {
     eyebrow: "Dónde jugar",
-    title: "Empezamos en Android.",
+    title: "Disponible en iPhone y Android.",
     lede: "MythStride ya está disponible para iPhone y Android. Descárgalo desde las tiendas oficiales.",
     rows: [
       { name: "Android", status: "Disponible en Google Play" },
@@ -1255,9 +1255,9 @@ const es: HomeCopy = {
     note: "iOS · Android",
   },
   join: {
-    eyebrow: "Lista de la beta",
+    eyebrow: "Descarga la aplicación",
     title: "Únete a la primera generación.",
-    lede: "Déjanos tu email y te avisaremos cuando haya una oportunidad de participar.",
+    lede: "Comienza tu aventura en iPhone y Android. Las compras digitales se realizan solo dentro de la aplicación.",
   },
   faq: {
     eyebrow: "Preguntas frecuentes",
@@ -1267,7 +1267,7 @@ const es: HomeCopy = {
       {
         question: "¿Qué es MythStride?",
         answer:
-          "Un RPG de carrera para Android. Tus actividades reales impulsan el progreso, las misiones, las batallas contra jefes, el equipo y los logros dentro de Elyndor.",
+          "Una plataforma de carreras y ejercicios con progresión RPG para iOS y Android. Tus actividades reales impulsan el progreso, las misiones, las batallas contra jefes, el equipo y los logros dentro de Elyndor.",
       },
       {
         question: "¿Cómo se convierten mis carreras en progreso?",
@@ -1282,7 +1282,7 @@ const es: HomeCopy = {
       {
         question: "¿En qué dispositivos puedo jugar?",
         answer:
-          "En dispositivos Android compatibles. La experiencia para Wear OS complementa la aplicación durante la carrera, y Strava se puede conectar de forma opcional.",
+          "En dispositivos iOS y Android compatibles. La experiencia para Wear OS complementa la aplicación durante la carrera, y Strava se puede conectar de forma opcional.",
       },
       {
         question: "¿Aethron es un entrenador?",
