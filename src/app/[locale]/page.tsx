@@ -25,9 +25,9 @@ export async function generateMetadata({
     }),
     description: getLocalizedText(locale, {
       "pt-BR":
-        "Transforme corridas reais em missões, batalhas, recompensas e progresso de RPG. Conheça MythStride e entre na lista do beta fechado para Android.",
-      en: "Turn real runs into quests, battles, rewards, and RPG progression. Discover MythStride and join the Android closed beta list.",
-      es: "Convierte carreras reales en misiones, batallas, recompensas y progreso de RPG. Descubre MythStride y únete a la lista de la beta cerrada para Android.",
+        "Transforme corridas reais em missões, batalhas, recompensas e progresso de RPG. MythStride está disponível na App Store e no Google Play. Registre suas corridas e acompanhe sua evolução.",
+      en: "Turn real runs into quests, battles, rewards, and RPG progression. Download MythStride on the App Store or Google Play to track runs and follow your progress.",
+      es: "Convierte carreras reales en misiones, batallas, recompensas y progreso de RPG. Descarga MythStride en App Store o Google Play para registrar tus carreras y seguir tu progreso.",
     }),
   });
 }
