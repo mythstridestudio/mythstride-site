@@ -47,14 +47,16 @@ export function HeroSection({ locale }: HeroSectionProps) {
           <div className="cta-row">
             <Link
               className="button button--primary"
-              href={`${localePath(locale)}#${homeSectionIds.join}`}
+              href="https://play.google.com/store/apps/details?id=com.playmythstride.mythstride"
               prefetch={false}
             >
               {copy.primary}
               <ArrowRightIcon className="button__icon" />
             </Link>
-            <Link
-              className="button button--secondary"
+            <Link className="button button--secondary" href="https://apps.apple.com/app/id6823412625" prefetch={false}>
+              {locale === "pt-BR" ? "Baixar na App Store" : locale === "es" ? "Descargar en App Store" : "Download on the App Store"}
+            </Link>
+            <Link className="button button--secondary"
               href={`${localePath(locale)}#${homeSectionIds.loop}`}
               prefetch={false}
             >
