@@ -4773,3 +4773,73 @@ summary:focus-visible {
   border-image-width: 0 40px;
   min-width: 81px;
 }
+
+
+/* MythStride premium boss life rail — shared by the home boss and HUD. */
+.hero-hud__bar,
+.boss-hud__bar {
+  isolation: isolate;
+  height: 17px;
+  border-radius: 999px;
+  overflow: visible;
+  border: 1px solid rgba(225, 162, 78, 0.82);
+  background: linear-gradient(180deg, #20130d 0%, #0a0807 45%, #060505 100%);
+  box-shadow: 0 0 0 2px rgba(9, 6, 4, 0.92),
+    0 0 0 3px rgba(164, 109, 43, 0.35),
+    inset 0 2px 4px rgba(0,0,0,.9),
+    0 5px 15px rgba(0,0,0,.42);
+}
+.hero-hud__bar::before,
+.boss-hud__bar::before {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: 3;
+  inset: 2px 5px auto;
+  height: 2px;
+  border-radius: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 226, 168, .4), transparent);
+}
+.hero-hud__bar::after,
+.boss-hud__bar::after {
+  content: "◆";
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #d9a65b;
+  font-size: 11px;
+  text-shadow: 0 0 7px #a75a25;
+}
+.hero-hud__bar-fill,
+.boss-hud__bar-fill {
+  inset: 2px auto 2px 2px;
+  width: max(0px, calc(var(--hp-to) - 4px));
+  border-radius: 999px;
+  background:
+    linear-gradient(180deg, rgba(255, 235, 168, .8), transparent 32%),
+    linear-gradient(90deg, #ae301b 0%, #eb4d20 38%, #ff982e 78%, #ffd16a 100%);
+  box-shadow: inset 0 1px 2px rgba(255, 248, 215, .55),
+    0 0 10px rgba(255, 79, 20, .6),
+    0 0 20px rgba(230, 60, 13, .2);
+}
+.hero-hud__bar-fill::after,
+.boss-hud__bar-fill::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -1px;
+  bottom: -1px;
+  width: 3px;
+  background: #ffcf77;
+  border-radius: 50%;
+  box-shadow: 0 0 7px 2px rgba(255, 98, 18, .85);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-hud__bar-fill,
+  .reveal[data-revealed="true"] .boss-hud__bar-fill {
+    animation: none !important;
+  }
+}
