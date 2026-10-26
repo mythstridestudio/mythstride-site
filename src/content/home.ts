@@ -282,7 +282,7 @@ const ptBR: HomeCopy = {
     ability: "Olhar maldito que reduz velocidade e controle do ritmo.",
     ladderTitle: "Os primeiros chefes",
     ladderNote:
-      "O conteúdo inicial do beta fechado, do nível 1 em diante. O mais forte deles já exige 7.200 de vida, e Elyndor foi construído para receber novos inimigos, equipamentos e histórias.",
+      "O conteúdo inicial do jogo, do nível 1 em diante. O mais forte deles já exige 7.200 de vida, e Elyndor foi construído para receber novos inimigos, equipamentos e histórias.",
     levelLabel: "Nível",
     link: "Conhecer as batalhas",
     bossNames: {
@@ -482,7 +482,7 @@ const ptBR: HomeCopy = {
     relicName: "Espada do Fundador MythStride",
     criteria: [
       "Participantes elegíveis convidados para o beta fechado recebem a relíquia vinculada à sua jornada.",
-      "O cadastro na lista não garante convite imediato: as vagas são liberadas conforme a capacidade do beta e a compatibilidade do dispositivo Android.",
+      "Baixe o aplicativo diretamente na App Store ou no Google Play.",
     ],
     cta: "Torne-se um Strider",
   },
@@ -501,7 +501,7 @@ const ptBR: HomeCopy = {
   horizon: {
     eyebrow: "Elyndor",
     title: "A história está apenas começando.",
-    lede: "O beta fechado é o primeiro capítulo. Estes sistemas já fazem parte dele.",
+    lede: "O lançamento é o primeiro capítulo. Estes sistemas já fazem parte dele.",
     cards: [
       {
         title: "Missões diárias",
@@ -520,7 +520,7 @@ const ptBR: HomeCopy = {
   finalCta: {
     eyebrow: "Sua primeira quest",
     title: "Sua primeira quest começa agora.",
-    lede: "Entre para o beta fechado do MythStride e esteja entre os primeiros a explorar Elyndor.",
+    lede: "Baixe MythStride na App Store ou Google Play e comece sua jornada em Elyndor.",
     cta: "Torne-se um Strider",
     note: "iOS · Android",
   },
@@ -545,9 +545,9 @@ const ptBR: HomeCopy = {
           "Atividades elegíveis são processadas pelo MythStride e convertidas em experiência e dano contra o chefe da sua campanha, além de alimentar missões e outros sistemas do jogo.",
       },
       {
-        question: "O beta está disponível?",
+        question: "Onde posso baixar o MythStride?",
         answer:
-          "O MythStride está em beta fechado para Android. O acesso é liberado por convite para participantes selecionados da lista do beta, conforme a capacidade disponível.",
+          "MythStride já está disponível oficialmente na App Store e no Google Play.",
       },
       {
         question: "Em quais dispositivos posso jogar?",
@@ -567,7 +567,7 @@ const ptBR: HomeCopy = {
       {
         question: "Haverá compras dentro do jogo?",
         answer:
-          "Compras com dinheiro real não fazem parte do beta fechado atual. Os diamantes são moeda virtual do jogo e não possuem valor monetário fora do MythStride.",
+          "Compras digitais são feitas exclusivamente dentro do aplicativo, por meio da App Store ou do Google Play. O site não vende moedas virtuais.",
       },
     ],
     link: "Ver todas as respostas",
@@ -647,7 +647,7 @@ const en: HomeCopy = {
     ability: "A cursed gaze that reduces speed and pace control.",
     ladderTitle: "The first bosses",
     ladderNote:
-      "The opening content of the closed beta, from level 1 onward. The strongest of them already holds 7,200 health, and Elyndor was built to take on new enemies, equipment and stories.",
+      "The opening content of the game, from level 1 onward. The strongest of them already holds 7,200 health, and Elyndor was built to take on new enemies, equipment and stories.",
     levelLabel: "Level",
     link: "Explore the battles",
     bossNames: {
@@ -847,7 +847,7 @@ const en: HomeCopy = {
     relicName: "MythStride Founder Sword",
     criteria: [
       "Eligible participants invited to the closed beta receive the relic, tied to their journey.",
-      "Joining the list does not guarantee an immediate invitation: places are released according to beta capacity and Android device compatibility.",
+      "Download the app directly from the App Store or Google Play.",
     ],
     cta: "Become a Strider",
   },
@@ -866,7 +866,7 @@ const en: HomeCopy = {
   horizon: {
     eyebrow: "Elyndor",
     title: "The story is only beginning.",
-    lede: "The closed beta is the first chapter. These systems are already part of it.",
+    lede: "The official launch is the first chapter. These systems are already part of it.",
     cards: [
       {
         title: "Daily quests",
@@ -885,7 +885,7 @@ const en: HomeCopy = {
   finalCta: {
     eyebrow: "Your first quest",
     title: "Your first quest starts now.",
-    lede: "Join the MythStride closed beta and be among the first to explore Elyndor.",
+    lede: "Download MythStride on the App Store or Google Play and begin your journey in Elyndor.",
     cta: "Become a Strider",
     note: "iOS · Android",
   },
@@ -910,9 +910,9 @@ const en: HomeCopy = {
           "MythStride processes eligible activities and converts them into experience and damage against your campaign boss, as well as feeding quests and other game systems.",
       },
       {
-        question: "Is the beta available?",
+        question: "Where can I download MythStride?",
         answer:
-          "MythStride is in closed beta for Android. Access is invite-only for participants selected from the beta list, according to the capacity available.",
+          "MythStride is officially available on the App Store and Google Play.",
       },
       {
         question: "Which devices can I play on?",
@@ -932,7 +932,7 @@ const en: HomeCopy = {
       {
         question: "Will there be in-game purchases?",
         answer:
-          "Real-money purchases are not part of the current closed beta. Diamonds are virtual game currency and have no monetary value outside MythStride.",
+          "Digital purchases are available exclusively in the app through the App Store or Google Play. This website does not sell virtual currency.",
       },
     ],
     link: "View all answers",
@@ -1012,7 +1012,7 @@ const es: HomeCopy = {
     ability: "Mirada maldita que reduce la velocidad y el control del ritmo.",
     ladderTitle: "Los primeros jefes",
     ladderNote:
-      "El contenido inicial de la beta cerrada, del nivel 1 en adelante. El más fuerte ya exige 7.200 de vida, y Elyndor fue construido para recibir nuevos enemigos, equipo e historias.",
+      "El contenido inicial del juego, del nivel 1 en adelante. El más fuerte ya exige 7.200 de vida, y Elyndor fue construido para recibir nuevos enemigos, equipo e historias.",
     levelLabel: "Nivel",
     link: "Conocer las batallas",
     bossNames: {
@@ -1212,7 +1212,7 @@ const es: HomeCopy = {
     relicName: "Espada del Fundador de MythStride",
     criteria: [
       "Los participantes elegibles invitados a la beta cerrada reciben la reliquia, vinculada a su viaje.",
-      "Registrarte no garantiza una invitación inmediata: las plazas se liberan según la capacidad de la beta y la compatibilidad del dispositivo Android.",
+      "Descarga la aplicación directamente desde App Store o Google Play.",
     ],
     cta: "Conviértete en Strider",
   },
@@ -1231,7 +1231,7 @@ const es: HomeCopy = {
   horizon: {
     eyebrow: "Elyndor",
     title: "La historia apenas comienza.",
-    lede: "La beta cerrada es el primer capítulo. Estos sistemas ya forman parte de él.",
+    lede: "El lanzamiento oficial es el primer capítulo. Estos sistemas ya forman parte de él.",
     cards: [
       {
         title: "Misiones diarias",
@@ -1250,7 +1250,7 @@ const es: HomeCopy = {
   finalCta: {
     eyebrow: "Tu primera misión",
     title: "Tu primera misión empieza ahora.",
-    lede: "Únete a la beta cerrada de MythStride y sé de los primeros en explorar Elyndor.",
+    lede: "Descarga MythStride en App Store o Google Play y comienza tu aventura en Elyndor.",
     cta: "Conviértete en Strider",
     note: "iOS · Android",
   },
@@ -1275,9 +1275,9 @@ const es: HomeCopy = {
           "MythStride procesa las actividades elegibles y las convierte en experiencia y daño contra el jefe de tu campaña, además de alimentar misiones y otros sistemas del juego.",
       },
       {
-        question: "¿La beta está disponible?",
+        question: "¿Dónde puedo descargar MythStride?",
         answer:
-          "MythStride está en beta cerrada para Android. El acceso se realiza por invitación para participantes seleccionados de la lista, según la capacidad disponible.",
+          "MythStride ya está disponible oficialmente en App Store y Google Play.",
       },
       {
         question: "¿En qué dispositivos puedo jugar?",
@@ -1297,7 +1297,7 @@ const es: HomeCopy = {
       {
         question: "¿Habrá compras dentro del juego?",
         answer:
-          "Las compras con dinero real no forman parte de la beta cerrada actual. Los diamantes son moneda virtual del juego y no tienen valor monetario fuera de MythStride.",
+          "Las compras digitales se realizan exclusivamente dentro de la aplicación mediante App Store o Google Play. Este sitio no vende monedas virtuales.",
       },
     ],
     link: "Ver todas las respuestas",
