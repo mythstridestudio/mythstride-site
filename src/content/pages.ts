@@ -9,7 +9,8 @@ export const pageSlugs = [
 export const publicPageSlugs = pageSlugs;
 export type PageSlug = (typeof pageSlugs)[number];
 export const catchAllPageSlugs = pageSlugs.filter(
-  (slug): slug is Exclude<PageSlug, "delete-account"> => slug !== "delete-account",
+  (slug): slug is Exclude<PageSlug, "delete-account" | "purchases" | "closed-beta"> =>
+    slug !== "delete-account" && slug !== "purchases" && slug !== "closed-beta",
 );
 export type CatchAllPageSlug = (typeof catchAllPageSlugs)[number];
 
