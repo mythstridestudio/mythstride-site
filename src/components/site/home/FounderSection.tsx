@@ -2,9 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRightIcon } from "@/components/Icons";
 import { homeCopy } from "@/content/home";
-import { homeSectionIds } from "@/content/home-data";
 import { getAssetPath } from "@/lib/assets";
-import { localePath, type PublicLocale } from "@/lib/locales";
+import type { PublicLocale } from "@/lib/locales";
 import { Reveal } from "./Reveal";
 
 type FounderSectionProps = { locale: PublicLocale };
@@ -51,7 +50,7 @@ export function FounderSection({ locale }: FounderSectionProps) {
           <div className="cta-row">
             <Link
               className="button button--primary"
-              href={`${localePath(locale)}#${homeSectionIds.join}`}
+              href="https://play.google.com/store/apps/details?id=com.playmythstride.mythstride"
               prefetch={false}
             >
               {copy.cta}
