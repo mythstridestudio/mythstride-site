@@ -108,7 +108,7 @@ const pages: Record<PublicLocale, Record<PageSlug, LocalizedPageContent>> = {
       ],
     },
     faq: {
-      eyebrow: "PERGUNTAS FREQUENTES", title: "Tudo sobre o MythStride e o beta fechado.", summary: "Respostas diretas sobre acesso, progressão, Aethron, compras e conta.",
+      eyebrow: "PERGUNTAS FREQUENTES", title: "Tudo sobre o MythStride, disponível na App Store e Google Play.", summary: "Respostas diretas sobre acesso, progressão, Aethron, compras e conta.",
       sections: [
         { title: "O MythStride já está disponível?", paragraphs: ["MythStride está disponível oficialmente para iOS na App Store e para Android no Google Play."] },
         { title: "Como minhas corridas viram progresso?", paragraphs: ["Atividades elegíveis são processadas pelo MythStride e utilizadas para alimentar progressão, missões, batalhas e outros sistemas do jogo."] },
@@ -119,7 +119,7 @@ const pages: Record<PublicLocale, Record<PageSlug, LocalizedPageContent>> = {
     },
     support: {
       eyebrow: "SUPORTE", title: "Suporte do MythStride", seoTitle: "Suporte | MythStride",
-      summary: "Canal oficial de atendimento do MythStride Studio para conta, acesso ao beta, corridas, privacidade, comunidade e exclusão de dados.",
+      summary: "Canal oficial de atendimento do MythStride Studio para conta, acesso ao aplicativo, corridas, privacidade, comunidade e exclusão de dados.",
       sections: [
         { title: "Quem atende", paragraphs: ["O MythStride é desenvolvido e publicado por MythStride Studio. O atendimento é feito pelo email contato@playmythstride.com, em português, inglês e espanhol."] },
         { title: "Conta e acesso", paragraphs: ["Para questões relacionadas à conta ou ao acesso ao beta, escreva informando o email associado à sua conta e uma descrição do problema. Nunca envie sua senha, códigos de verificação ou links de confirmação."] },
@@ -280,12 +280,12 @@ const pages: Record<PublicLocale, Record<PageSlug, LocalizedPageContent>> = {
       { title: "What you will find", paragraphs: ["An experience connecting real activity and fantasy."], bullets: ["Runs and progression", "Quests", "Boss battles", "Inventory and equipment", "Achievements", "Events", "Friends and community", "Aethron"] },
       { title: "Invitations", paragraphs: ["Invitations are sent by email according to available places and Android device compatibility."] }, { title: "Participation", paragraphs: ["The closed beta is intended for people aged 18 or older."] }, { title: "Founder Sword", paragraphs: ["Eligible participants invited to this phase receive the Founder Sword, an exclusive relic tied to their MythStride journey."] }, { title: "Monetization", paragraphs: ["Real-money purchases are not part of the current closed beta."] },
     ] },
-    faq: { eyebrow: "FREQUENTLY ASKED QUESTIONS", title: "Everything about MythStride and the closed beta.", summary: "Straight answers about access, progression, Aethron, purchases, and accounts.", sections: [
+    faq: { eyebrow: "FREQUENTLY ASKED QUESTIONS", title: "Everything about MythStride, available on the App Store and Google Play.", summary: "Straight answers about access, progression, Aethron, purchases, and accounts.", sections: [
       { title: "Is MythStride available?", paragraphs: ["MythStride is officially available for iOS on the App Store and for Android on Google Play."] }, { title: "How do my runs become progress?", paragraphs: ["MythStride processes eligible activities and uses them to fuel progression, quests, battles, and other game systems."] }, { title: "Is Aethron a coach?", paragraphs: ["No. Aethron is an AI-powered narrative companion. It does not provide diagnosis, treatment, or professional health advice."] }, { title: "Are there real-money purchases?", paragraphs: ["Real-money purchases are not part of the current closed beta. Diamonds are virtual game currency and have no monetary value outside MythStride."] }, { title: "Can I delete my account?", paragraphs: ["Yes. MythStride provides a public deletion request flow that verifies the email associated with the account."] },
     ] },
     support: {
       eyebrow: "SUPPORT", title: "MythStride support", seoTitle: "Support | MythStride",
-      summary: "The official MythStride Studio help channel for accounts, beta access, runs, privacy, community, and data deletion.",
+      summary: "The official MythStride Studio help channel for accounts, app access, runs, privacy, community, and data deletion.",
       sections: [
         { title: "Who answers", paragraphs: ["MythStride is developed and published by MythStride Studio. Support is handled by email at contato@playmythstride.com, in Portuguese, English, and Spanish."] },
         { title: "Account and access", paragraphs: ["For account or beta-access questions, write to us with the email linked to your account and a description of the issue. Never send your password, verification codes, or confirmation links."] },
@@ -436,12 +436,12 @@ const pages: Record<PublicLocale, Record<PageSlug, LocalizedPageContent>> = {
     "closed-beta": { eyebrow: "BETA CERRADA PARA ANDROID", title: "Únete al comienzo del viaje.", summary: "La beta cerrada reúne a los primeros jugadores que tendrán acceso a MythStride para Android.", sections: [
       { title: "Lo que encontrarás", paragraphs: ["Una experiencia que conecta actividad real y fantasía."], bullets: ["Carreras y progreso", "Misiones", "Batallas contra jefes", "Inventario y equipo", "Logros", "Eventos", "Amigos y comunidad", "Aethron"] }, { title: "Invitaciones", paragraphs: ["Las invitaciones se envían por email según las plazas disponibles y la compatibilidad del dispositivo Android."] }, { title: "Participación", paragraphs: ["La beta cerrada está destinada a personas de 18 años o más."] }, { title: "Espada del Fundador", paragraphs: ["Los participantes elegibles invitados a esta fase reciben la Espada del Fundador, una reliquia exclusiva vinculada a su viaje en MythStride."] }, { title: "Monetización", paragraphs: ["Las compras con dinero real no forman parte de la beta cerrada actual."] },
     ] },
-    faq: { eyebrow: "PREGUNTAS FRECUENTES", title: "Todo sobre MythStride y la beta cerrada.", summary: "Respuestas directas sobre acceso, progreso, Aethron, compras y cuentas.", sections: [
+    faq: { eyebrow: "PREGUNTAS FRECUENTES", title: "Todo sobre MythStride, disponible en App Store y Google Play.", summary: "Respuestas directas sobre acceso, progreso, Aethron, compras y cuentas.", sections: [
       { title: "¿MythStride ya está disponible?", paragraphs: ["MythStride ya está disponible oficialmente para iOS en App Store y Android en Google Play."] }, { title: "¿Cómo se convierten mis carreras en progreso?", paragraphs: ["MythStride procesa las actividades elegibles y las utiliza para impulsar el progreso, las misiones, las batallas y otros sistemas del juego."] }, { title: "¿Aethron es un entrenador?", paragraphs: ["No. Aethron es un compañero narrativo basado en inteligencia artificial. No ofrece diagnóstico, tratamiento ni orientación profesional de salud."] }, { title: "¿Hay compras con dinero real?", paragraphs: ["Las compras con dinero real no forman parte de la beta cerrada actual. Los diamantes son moneda virtual y no tienen valor monetario fuera de MythStride."] }, { title: "¿Puedo eliminar mi cuenta?", paragraphs: ["Sí. MythStride ofrece un flujo público de solicitud de eliminación que verifica el email asociado a la cuenta."] },
     ] },
     support: {
       eyebrow: "SOPORTE", title: "Soporte de MythStride", seoTitle: "Soporte | MythStride",
-      summary: "Canal oficial de atención de MythStride Studio para cuenta, acceso a la beta, carreras, privacidad, comunidad y eliminación de datos.",
+      summary: "Canal oficial de atención de MythStride Studio para cuenta, acceso a la aplicación, carreras, privacidad, comunidad y eliminación de datos.",
       sections: [
         { title: "Quién atiende", paragraphs: ["MythStride es desarrollado y publicado por MythStride Studio. La atención se realiza por email en contato@playmythstride.com, en portugués, inglés y español."] },
         { title: "Cuenta y acceso", paragraphs: ["Para cuestiones sobre tu cuenta o el acceso a la beta, escríbenos indicando el email asociado a tu cuenta y una descripción del problema. Nunca envíes tu contraseña, códigos de verificación ni enlaces de confirmación."] },
