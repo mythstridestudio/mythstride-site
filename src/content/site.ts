@@ -2,7 +2,7 @@ export const siteCopy = {
   "pt-BR": {
     skip: "Pular para o conteúdo",
     nav: {
-      product: "Recursos", how: "Como funciona", events: "Eventos",
+      product: "Recursos", how: "Como funciona", events: "Eventos", organizers: "Organizadores",
       community: "Comunidade", aethron: "Aethron", integrations: "Integrações",
       beta: "Baixar aplicativo", faq: "Perguntas frequentes", elyndor: "Elyndor",
       join: "Baixar agora", tester: "Entrar na conta",
@@ -56,7 +56,7 @@ export const siteCopy = {
   en: {
     skip: "Skip to content",
     nav: {
-      product: "Features", how: "How it works", events: "Events", community: "Community", aethron: "Aethron",
+      product: "Features", how: "How it works", events: "Events", organizers: "Organizers", community: "Community", aethron: "Aethron",
       integrations: "Integrations", beta: "Download app", faq: "FAQ", elyndor: "Elyndor",
       join: "Download now", tester: "Account login",
       openMenu: "Open menu", closeMenu: "Close menu", language: "Language",
@@ -104,7 +104,7 @@ export const siteCopy = {
   es: {
     skip: "Saltar al contenido",
     nav: {
-      product: "Funciones", how: "Cómo funciona", events: "Eventos", community: "Comunidad", aethron: "Aethron",
+      product: "Funciones", how: "Cómo funciona", events: "Eventos", organizers: "Organizadores", community: "Comunidad", aethron: "Aethron",
       integrations: "Integraciones", beta: "Descargar aplicación", faq: "Preguntas frecuentes", elyndor: "Elyndor",
       join: "Descargar ahora", tester: "Iniciar sesión",
       openMenu: "Abrir menú", closeMenu: "Cerrar menú", language: "Idioma",
