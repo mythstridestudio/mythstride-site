@@ -17,6 +17,7 @@ import {
   ScrollIcon,
   ShieldIcon,
   SwordsIcon,
+  TrophyIcon,
 } from "@/components/Icons";
 
 interface AuthenticatedTopbarProps {
@@ -31,6 +32,7 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
   const [mobileOpen, setMobileOpen] = useState(false);
   const username = user?.username?.trim() || profileUsername?.trim() || "";
   const profileHref = username ? `/player?username=${encodeURIComponent(username)}` : null;
+  const medalWallHref = username ? "/medals?username=" + encodeURIComponent(username) : "/medals";
   const isAdmin = isAdminAccessToken(token);
 
   const handleLogout = () => {
@@ -78,6 +80,10 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
               {t("authTopbar.publicProfile")}
             </span>
           )}
+          <Link href={medalWallHref} className={linkClass(pathname === "/medals")}>
+            <TrophyIcon className="h-4 w-4" />
+            {t("authTopbar.medals")}
+          </Link>
           <Link href="/" className={linkClass(false)}>
             <HomeIcon className="h-4 w-4" />
             {t("authTopbar.home")}
@@ -132,6 +138,10 @@ export default function AuthenticatedTopbar({ profileUsername }: AuthenticatedTo
               {t("authTopbar.publicProfile")}
             </span>
           )}
+          <Link href={medalWallHref} className={linkClass(pathname === "/medals")} onClick={() => setMobileOpen(false)}>
+            <TrophyIcon className="h-4 w-4" />
+            {t("authTopbar.medals")}
+          </Link>
           <Link href="/" className={linkClass(false)} onClick={() => setMobileOpen(false)}>
             <HomeIcon className="h-4 w-4" />
             {t("authTopbar.home")}

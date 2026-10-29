@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { getLanguageLocale, useLanguage } from "@/contexts/LanguageContext";
@@ -529,6 +530,11 @@ function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
             {t("publicProfile.journey.legendaryAchievements")}
           </h2>
         </div>
+        <Link href={"/medals?username=" + encodeURIComponent(player.username)} className="button button--secondary shrink-0">
+          <TrophyIcon className="h-4 w-4" />
+          {t("medalWall.viewWall")}
+          <ArrowRightIcon className="h-4 w-4" />
+        </Link>
       </div>
 
       {achievements.length > 0 ? (

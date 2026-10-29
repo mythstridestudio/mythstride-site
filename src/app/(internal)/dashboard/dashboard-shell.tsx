@@ -279,6 +279,12 @@ function DashboardContent({ data }: { data: DashboardData }) {
 
         <Panel title={t("dashboard.sections.accountActions")} icon={ShieldIcon}>
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            {username && (
+              <Link href={"/medals?username=" + encodeURIComponent(username)} className="button button--secondary">
+                <TrophyIcon className="h-4 w-4" />
+                {t("medalWall.viewWall")}
+              </Link>
+            )}
             {profileHref ? (
               <Link href={profileHref} className="button button--secondary">
                 {t("dashboardUsability.viewPublicProfile")}
