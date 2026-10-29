@@ -166,6 +166,9 @@
     "journey": {
       "relicsTitle": "Relics of the Journey",
       "legendaryAchievements": "Legendary Achievements",
+    "achievementGalleryTitle": "Featured Achievements",
+    "featuredAchievementCount": "A selection of {count} achievements earned along this journey.",
+    "unlockedOn": "Unlocked",
       "distanceDetail": "Ground crossed in the real world and carried into Elyndor.",
       "runsDetail": "Adventures recorded in the runner's public chronicle.",
       "streakDetail": "The Flame kept alive through repeated effort.",
