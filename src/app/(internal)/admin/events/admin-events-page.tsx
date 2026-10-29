@@ -20,6 +20,7 @@ import {
   activateAdminEvent,
   cancelAdminEvent,
   createAdminEvent,
+  createAdminEventMedal,
   createEventReward,
   createOfficialParticipant,
   disqualifyEventParticipation,
@@ -39,11 +40,13 @@ import {
   REWARD_DELIVERY,
   removeOfficialParticipant,
   updateAdminEvent,
+  updateAdminEventMedal,
   updateOfficialParticipant,
   type AdminEvent,
   type EventResult,
   type EventReward,
   type EventStatus,
+  type EventMediaKind,
   type GeneratedEventCode,
   type RewardDelivery,
   type SaveEventRewardRequest,
@@ -70,6 +73,7 @@ import {
 import { ApiError } from "@/lib/api/client";
 import { isAdminAccessToken } from "@/lib/api/auth";
 import ExternalRegistrationPanel from "./external-registration-panel";
+import EventImageUploadField from "./event-image-upload-field";
 
 type EventTab = "lifecycle" | "rewards" | "codes" | "registration" | "results";
 
@@ -272,6 +276,9 @@ const emptyForm: FormState = {
   ativo: true,
 };
 
+type MedalFormState = { nome: string; descricao: string; imagemUrl: string };
+const emptyMedalForm: MedalFormState = { nome: "", descricao: "", imagemUrl: "" };
+
 const emptyRegistrationDraft: RegistrationDraft = {
   provider: "",
   registrationUrl: "",
@@ -446,6 +453,15 @@ export default function AdminEventsPage() {
   const initialEventHandled = useRef(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
+  const [medalForm, setMedalForm] = useState<MedalFormState>(emptyMedalForm);
+  const [medalId, setMedalId] = useState<string | null>(null);
+  const [medalLoaded, setMedalLoaded] = useState(true);
+  const [uploadingAssets, setUploadingAssets] = useState<Record<EventMediaKind, boolean>>({
+    event: false, banner: false, medal: false,
+  });
+  const isUploading = Object.values(uploadingAssets).some(Boolean);
+  const setAssetUploading = (kind: EventMediaKind, uploading: boolean) =>
+    setUploadingAssets((current) => ({ ...current, [kind]: uploading }));
   const [registrationDraft, setRegistrationDraft] = useState<RegistrationDraft>(emptyRegistrationDraft);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -657,6 +673,29 @@ export default function AdminEventsPage() {
     return () => window.clearTimeout(timer);
   }, [eventTab, loadResults, loadRewards, selectedId, token]);
 
+  useEffect(() => {
+    if (!token || !selectedId) return;
+    let disposed = false;
+    const timer = window.setTimeout(async () => {
+      setMedalLoaded(false);
+      try {
+        const details = await getAdminEventDetails(token, selectedId);
+        if (disposed) return;
+        setMedalId(details.medalha?.id ?? null);
+        setMedalForm({
+          nome: details.medalha?.nome ?? "",
+          descricao: details.medalha?.descricao ?? "",
+          imagemUrl: details.medalha?.imagemUrl ?? "",
+        });
+      } catch (caught) {
+        if (!disposed) setError(describeApiError(caught, "Falha ao carregar a medalha deste evento."));
+      } finally {
+        if (!disposed) setMedalLoaded(true);
+      }
+    }, 0);
+    return () => { disposed = true; window.clearTimeout(timer); };
+  }, [selectedId, token]);
+
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [key]: value }));
   };
@@ -671,6 +710,9 @@ export default function AdminEventsPage() {
   const newEvent = () => {
     setSelectedId(null);
     setForm(emptyForm);
+    setMedalForm(emptyMedalForm);
+    setMedalId(null);
+    setMedalLoaded(true);
     setRegistrationDraft(emptyRegistrationDraft);
     setMessage(null);
     setError(null);
@@ -1137,23 +1179,25 @@ export default function AdminEventsPage() {
 
   const submit = async (submitEvent: FormEvent<HTMLFormElement>) => {
     submitEvent.preventDefault();
-    if (!token) return;
+    if (!token || saving) return;
+    if (isUploading || (selectedId && !medalLoaded)) {
+      setError("Aguarde o carregamento da medalha e o término do envio de imagens.");
+      return;
+    }
 
     let registrationRequest: SaveExternalRegistrationRequest | null = null;
     if (!selectedId) {
-      const registrationValidation = buildRegistrationRequest(registrationDraft);
-      if (!registrationValidation.ok) {
-        setMessage(null);
-        setError(registrationValidation.error);
+      const validation = buildRegistrationRequest(registrationDraft);
+      if (!validation.ok) {
+        setError(validation.error);
         return;
       }
-      registrationRequest = registrationValidation.request;
+      registrationRequest = validation.request;
     }
 
     setSaving(true);
     setMessage(null);
     setError(null);
-
     const request: SaveAdminEventRequest = {
       nome: form.nome.trim(),
       descricao: nullable(form.descricao),
@@ -1163,9 +1207,7 @@ export default function AdminEventsPage() {
       inicioValidacaoCorrida: toIso(form.inicioValidacaoCorrida),
       fimValidacaoCorrida: toIso(form.fimValidacaoCorrida),
       prazoSincronizacao: toIso(form.prazoSincronizacao),
-      distanciaMinimaKm: form.distanciaMinimaKm
-        ? Number(form.distanciaMinimaKm)
-        : null,
+      distanciaMinimaKm: form.distanciaMinimaKm ? Number(form.distanciaMinimaKm) : null,
       localNome: nullable(form.localNome),
       endereco: nullable(form.endereco),
       organizador: nullable(form.organizador),
@@ -1180,50 +1222,57 @@ export default function AdminEventsPage() {
       maxUsosCodigo: Number(form.maxUsosCodigo) || 1,
     };
 
+    let persistedId = selectedId;
     try {
-      if (selectedId) {
-        await updateAdminEvent(token, selectedId, request);
-        setMessage("Prova atualizada com sucesso.");
-      } else {
-        const created = await createAdminEvent(token, request);
+      const saved = selectedId
+        ? await updateAdminEvent(token, selectedId, request)
+        : await createAdminEvent(token, request);
+      persistedId = saved.id;
 
-        if (registrationRequest?.provider) {
-          try {
-            await saveEventExternalRegistration(token, created.id, registrationRequest);
-          } catch (caught) {
-            const refreshed = await loadEvents(token);
-            const createdEvent = refreshed?.find((event) => event.id === created.id) ?? created;
-            setSelectedId(created.id);
-            setForm(eventToForm(createdEvent));
-            setRegistrationDraft(emptyRegistrationDraft);
-            setEventTab("registration");
-            setMessage(null);
-            setError(
-              `Prova criada, mas o link de inscrição não foi salvo. ${describeApiError(
-                caught,
-                "Abra a aba Inscrição externa e tente novamente.",
-              )}`,
-            );
-            window.scrollTo({ top: 0, behavior: "smooth" });
-            return;
-          }
-        }
+      // Medal and event both live in SQL Server; their artwork is a URL
+      // hosted by the API, not an asset bundled into the installed app.
+      if (medalId) {
+        await updateAdminEventMedal(token, medalId, {
+          nome: medalForm.nome.trim() || `Medalha ${request.nome}`,
+          descricao: nullable(medalForm.descricao),
+          imagemUrl: nullable(medalForm.imagemUrl),
+        });
+      } else if (medalForm.imagemUrl) {
+        const medal = await createAdminEventMedal(token, {
+          eventoId: saved.id,
+          internalKey: `event-${slugifyEventName(request.nome).slice(0, 40)}-${saved.id.slice(0, 8)}`,
+          nome: medalForm.nome.trim() || `Medalha ${request.nome}`,
+          descricao: nullable(medalForm.descricao),
+          imagemUrl: medalForm.imagemUrl,
+        });
+        setMedalId(medal.id);
+      }
 
-        setMessage(
-          registrationRequest?.provider
-            ? "Prova e link de inscrição criados com sucesso."
-            : "Prova criada com sucesso.",
-        );
-        setForm(emptyForm);
+      if (!selectedId && registrationRequest?.provider) {
+        await saveEventExternalRegistration(token, saved.id, registrationRequest);
+      }
+
+      // An API-created event is a Draft. Publish only after its metadata,
+      // registration link and medal have been saved.
+      const publish = request.ativo && (!selectedId || selectedStatus === EVENT_STATUS.draft);
+      if (publish) await publishAdminEvent(token, saved.id);
+
+      if (!selectedId) {
+        setSelectedId(saved.id);
+        setForm(eventToForm(saved));
         setRegistrationDraft(emptyRegistrationDraft);
       }
       await loadEvents(token);
+      setMessage(publish
+        ? "Evento e imagens sincronizados. A prova já está publicada na API do aplicativo."
+        : "Prova salva no servidor em rascunho. Publique quando estiver pronta.");
     } catch (caught) {
-      setError(
-        caught instanceof ApiError && typeof caught.body === "string"
-          ? caught.body
-          : "Não foi possível salvar a prova. Revise os dados.",
-      );
+      if (!selectedId && persistedId) {
+        setSelectedId(persistedId);
+        await loadEvents(token);
+        setMessage("Evento salvo como rascunho no servidor. Revise a etapa que falhou e salve novamente.");
+      }
+      setError(describeApiError(caught, "Não foi possível concluir todas as etapas do cadastro."));
     } finally {
       setSaving(false);
     }
@@ -1285,7 +1334,7 @@ export default function AdminEventsPage() {
               <DateField label="Prazo de sincronização" value={form.prazoSincronizacao} onChange={(value) => update("prazoSincronizacao", value)} />
               <label className="flex items-center gap-3 border border-gold-dim/25 bg-void/45 px-4 py-3">
                 <input type="checkbox" checked={form.ativo} onChange={(event) => update("ativo", event.target.checked)} />
-                <span className="text-sm text-text-secondary">Evento ativo e visível</span>
+                <span className="text-sm text-text-secondary">Publicar no aplicativo ao salvar (desmarque para manter rascunho)</span>
               </label>
             </FormSection>
 
@@ -1294,8 +1343,34 @@ export default function AdminEventsPage() {
               <Field label="Endereço" value={form.endereco} onChange={(value) => update("endereco", value)} />
               <Field label="URL do percurso" type="url" value={form.percursoUrl} onChange={(value) => update("percursoUrl", value)} />
               <Field label="URL do regulamento" type="url" value={form.regulamentoUrl} onChange={(value) => update("regulamentoUrl", value)} />
-              <Field label="Imagem do evento" type="url" value={form.imagemUrl} onChange={(value) => update("imagemUrl", value)} />
-              <Field label="Banner do evento" type="url" value={form.bannerUrl} onChange={(value) => update("bannerUrl", value)} />
+              <EventImageUploadField
+                accessToken={token} kind="event" label="Imagem da prova (capa)"
+                value={form.imagemUrl} onChange={(value) => update("imagemUrl", value)}
+                onUploadingChange={(value) => setAssetUploading("event", value)}
+              />
+              <EventImageUploadField
+                accessToken={token} kind="banner" label="Layout / banner do evento"
+                value={form.bannerUrl} onChange={(value) => update("bannerUrl", value)}
+                onUploadingChange={(value) => setAssetUploading("banner", value)}
+              />
+            </FormSection>
+
+            <FormSection title="Medalha oficial" icon={<TrophyIcon className="h-5 w-5" />}>
+              <Field label="Nome da medalha" value={medalForm.nome}
+                onChange={(value) => setMedalForm((current) => ({ ...current, nome: value }))} />
+              <Field label="Descrição da medalha" value={medalForm.descricao}
+                onChange={(value) => setMedalForm((current) => ({ ...current, descricao: value }))} />
+              <div className="sm:col-span-2">
+                <EventImageUploadField
+                  accessToken={token} kind="medal" label="Arquivo da medalha"
+                  value={medalForm.imagemUrl}
+                  onChange={(value) => setMedalForm((current) => ({ ...current, imagemUrl: value }))}
+                  onUploadingChange={(value) => setAssetUploading("medal", value)}
+                />
+              </div>
+              <p className="text-xs text-text-muted sm:col-span-2">
+                A medalha fica vinculada à prova e o backend a entrega após a conclusão da corrida. Sem atualização do aplicativo.
+              </p>
             </FormSection>
 
             {!selectedId && (
@@ -1677,7 +1752,7 @@ export default function AdminEventsPage() {
             </div>
           )}
 
-          <button type="submit" className="button button--primary mt-6 w-full" disabled={saving}>
+          <button type="submit" className="button button--primary mt-6 w-full" disabled={saving || isUploading || (Boolean(selectedId) && !medalLoaded)}>
             <CheckIcon className="h-4 w-4" />
             {saving ? "Salvando..." : selectedId ? "Salvar alterações" : "Criar prova oficial"}
           </button>
