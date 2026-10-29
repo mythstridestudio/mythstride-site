@@ -34,7 +34,7 @@ export function getPublicEarnedMedals(username: string): Promise<EarnedEventMeda
 /** API uploads live on the backend's origin, not on GitHub Pages. */
 export function resolveEventMedalImage(value: string | null | undefined, internalKey?: string): string | null {
   const path = value?.trim();
-  if (/^https:\/\//i.test(path)) return path;
+  if (path && /^https:\/\//i.test(path)) return path;
   // The four launch medals are bundled Flutter files, not API uploads.
   // Serve the exact original artwork from our website when no remote upload exists.
   if (!path || !path.startsWith("/uploads/")) {
