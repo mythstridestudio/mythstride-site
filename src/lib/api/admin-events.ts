@@ -402,7 +402,17 @@ export interface SaveEventRewardRequest {
   itemBaseId?: string | null;
 }
 
+export interface AdminEventMedal {
+  id: string;
+  eventoId: string;
+  internalKey: string;
+  nome: string;
+  descricao?: string | null;
+  imagemUrl?: string | null;
+}
+
 export interface AdminEventDetails extends AdminEvent {
+  medalha?: AdminEventMedal | null;
   chefeId?: string | null;
   recompensas: EventReward[];
 }
@@ -624,5 +634,41 @@ export function grantAdminMedalToPlayer(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ playerId, eventId, reason: reason.trim() }),
+  });
+}
+
+/** Assets are validated, re-encoded and stored by the .NET API, never Next.js. */
+export type EventMediaKind = "event" | "banner" | "medal";
+
+export async function uploadAdminEventMedia(
+  accessToken: string,
+  kind: EventMediaKind,
+  file: File,
+): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+  const result = await apiFetch<{ url: string }>(
+    `/api/Eventos/media/${kind}`,
+    { method: "POST", accessToken, body: formData },
+  );
+  const base = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
+  if (!base || !result.url.startsWith("/uploads/")) {
+    throw new Error("O servidor retornou uma URL de imagem inválida.");
+  }
+  // Persist the public absolute URL: installed app versions already support
+  // Image.network(https://...), without requiring a store release per event.
+  return new URL(result.url, `${base.replace(/\/$/, "")}/`).toString();
+}
+
+export function updateAdminEventMedal(
+  token: string,
+  medalId: string,
+  request: { nome: string; descricao?: string | null; imagemUrl?: string | null },
+) {
+  return apiFetch<AdminEventMedal>(`/api/medalhas/${encodeURIComponent(medalId)}`, {
+    method: "PUT",
+    accessToken: token,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(request),
   });
 }

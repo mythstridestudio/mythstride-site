@@ -113,7 +113,8 @@ test("event creation can configure external registration without changing the ba
 
   assert.match(page, /<FormSection title="Inscrição externa"/);
   assert.match(page, /buildRegistrationRequest\(registrationDraft\)/);
-  assert.match(page, /saveEventExternalRegistration\(token, created\.id, registrationRequest\)/);
-  assert.match(page, /Prova criada, mas o link de inscrição não foi salvo/);
-  assert.match(page, /setEventTab\("registration"\)/);
+  assert.match(page, /saveEventExternalRegistration\(token, saved\.id, registrationRequest\)/);
+  assert.match(page, /persistedId = saved\.id/);
+  assert.match(page, /setSelectedId\(persistedId\)/);
+  assert.match(page, /setError\(describeApiError\(caught,/);
 });
