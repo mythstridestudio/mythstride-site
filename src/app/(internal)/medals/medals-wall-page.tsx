@@ -183,7 +183,7 @@ export default function MedalsWallPage() {
     return () => { active = false; };
   }, [username]);
 
-  const medals = state.kind === "ready" ? state.medals : [];
+  const medals = useMemo(() => state.kind === "ready" ? state.medals : [], [state]);
   const years = useMemo(() => Array.from(new Set(medals.map(medalYear))).sort((a, b) => b.localeCompare(a)), [medals]);
   const visible = useMemo(() => medals
     .filter((medal) => year === "all" || medalYear(medal) === year)
