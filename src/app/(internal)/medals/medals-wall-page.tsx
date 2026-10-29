@@ -190,7 +190,7 @@ export default function MedalsWallPage() {
     .filter((medal) => (medal.eventoNome + " " + medal.medalha.nome).toLocaleLowerCase().includes(search.trim().toLocaleLowerCase(lang)))
     .sort((a, b) => b.earnedAtUtc.localeCompare(a.earnedAtUtc)), [medals, year, search, lang]);
 
-  const activeMedal = medals.find((medal) => medal.id === (selectedId || requestedMedalId)) || null;
+  const activeMedal = medals.find((medal) => medal.id === (selectedId === null ? requestedMedalId : selectedId)) || null;
   const totalDistance = medals.reduce((sum, medal) => sum + (medal.estatisticas?.distanciaKm ?? 0), 0);
   const medalsWithDistance = medals.filter((medal) => typeof medal.estatisticas?.distanciaKm === "number").length;
 
@@ -322,7 +322,7 @@ export default function MedalsWallPage() {
         )}
         {shareNote && <div role="status" className="fixed bottom-6 right-4 z-[120] rounded-xl border border-gold/40 bg-void px-5 py-3 text-sm text-gold shadow-xl">{t("medalWall.linkCopied")}</div>}
       </div>
-      {activeMedal && <MedalDetails medal={activeMedal} locale={locale} close={() => setSelectedId(null)} onShare={(medalId) => void share(medalId)} />}
+      {activeMedal && <MedalDetails medal={activeMedal} locale={locale} close={() => setSelectedId("")} onShare={(medalId) => void share(medalId)} />}
     </main>
   );
 }
