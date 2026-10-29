@@ -7,13 +7,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { getLanguageLocale, useLanguage } from "@/contexts/LanguageContext";
 import { getAssetPath } from "@/lib/assets";
-import { getBossImagePath, getBossMedalPath } from "@/lib/boss-medals";
+import { resolveAchievementImage } from "@/lib/achievement-art";
+import CurrentBossCard from "@/components/relic/CurrentBossCard";
 import { parseApiDate } from "@/lib/dates";
 import { ApiConfigurationError, ApiError, ApiNetworkError } from "@/lib/api/client";
 import { getPublicPlayer, type PublicPlayerResult } from "@/lib/api/public-player";
 import type { AchievementRarity, PublicPlayerProfile } from "@/lib/api/types";
 import { useTranslations } from "@/lib/i18n";
-import MythProgressMeter from "@/components/ui/MythProgressMeter";
 import {
   ArrowRightIcon,
   BookIcon,
@@ -23,7 +23,6 @@ import {
   MapIcon,
   ShareIcon,
   ShieldIcon,
-  SkullIcon,
   SparkleIcon,
   SwordsIcon,
   TrophyIcon,
@@ -134,20 +133,25 @@ function getErrorMessageKey(error: unknown) {
   return "publicProfile.errors.generic";
 }
 
-function getMediaPath(path: string | null | undefined) {
-  return getBossImagePath(path);
-}
-
-function BossImageFallback({ label }: { label: string }) {
-  return (
-    <div className="flex h-full w-full items-center justify-center text-center text-sm text-text-muted p-4">
-      {label}
-    </div>
-  );
-}
-
 function AchievementIconFallback() {
   return <TrophyIcon className="h-10 w-10 text-current opacity-55" />;
+}
+
+function AchievementArtwork({ src, name }: { src: string | null; name: string }) {
+  const [failed, setFailed] = useState(false);
+  if (!src || failed) return <AchievementIconFallback />;
+
+  return (
+    <Image
+      src={src}
+      alt={name}
+      width={96}
+      height={96}
+      unoptimized
+      onError={() => setFailed(true)}
+      className="h-full w-full object-contain drop-shadow-lg"
+    />
+  );
 }
 
 function getSharedStat(value: number | undefined, locale: string, fallback: string, suffix = "") {
@@ -411,105 +415,15 @@ function ChampionCard({ player }: { player: PublicPlayerProfile }) {
 
 function CurrentNemesis({ player }: { player: PublicPlayerProfile }) {
   const { t } = useTranslations();
-  const boss = player.currentBoss;
-  const bossImageSrc = getMediaPath(boss?.imageUrl) ?? getBossMedalPath(boss?.name);
-  const healthPercent = Math.max(0, Math.min(100, boss?.healthPercent ?? 0));
 
   return (
-    <section className="app-panel app-panel-compact rpg-card relative overflow-hidden p-6 sm:p-8">
-      <div className="absolute inset-0 boss-halo opacity-50" />
-      <div className="absolute inset-0 bg-stone-texture opacity-15" />
-      
-      <div className="relative">
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="overflow-hidden">
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-fiery-orange/30 bg-fiery-orange/10 px-4 py-1 text-[10px] uppercase tracking-[0.3em] text-fiery-orange">
-              <SkullIcon className="h-3 w-3" />
-              {t("publicProfile.boss.currentNemesis")}
-            </div>
-            <h2 className="font-display text-3xl text-gold sm:text-4xl md:text-5xl break-words">
-              {boss?.name ?? t("publicProfile.fallbacks.nextShadow")}
-            </h2>
-          </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <div className="h-px w-8 bg-gradient-to-r from-transparent to-fiery-orange/40 hidden sm:block" />
-            <p className="font-display text-lg sm:text-xl text-fiery-orange">
-              {t("publicProfile.boss.mistAdvances")}
-            </p>
-          </div>
-        </div>
-
-        <div className="grid gap-10 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
-          {/* Boss Portrait */}
-          <div className="relative mx-auto w-full max-w-[280px] sm:max-w-[320px] aspect-square lg:mx-0">
-            <div className="absolute inset-0 rounded-[32px] bg-fiery-orange/5 blur-2xl animate-pulse" />
-            <div className="rpg-inset relative h-full w-full overflow-hidden rounded-[32px] border-2 border-fiery-orange/20 bg-rich-brown/20 p-6 sm:p-8 shadow-2xl">
-              <div className="absolute inset-0 bg-stone-texture opacity-10" />
-              {boss && bossImageSrc ? (
-                <motion.img
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                  src={bossImageSrc}
-                  alt={boss.name}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-contain drop-shadow-[0_0_50px_rgba(232,98,42,0.4)]"
-                />
-              ) : (
-                <BossImageFallback label={boss?.name ?? t("publicProfile.fallbacks.noActiveBoss")} />
-              )}
-            </div>
-          </div>
-
-          {/* Versus Divider */}
-          <div className="hidden lg:flex flex-col items-center gap-4">
-            <div className="h-20 w-px bg-gradient-to-b from-transparent via-fiery-orange/30 to-transparent" />
-            <div className="rounded-full border border-fiery-orange/40 bg-void p-3 text-fiery-orange">
-              <SwordsIcon className="h-6 w-6" />
-            </div>
-            <div className="h-20 w-px bg-gradient-to-b from-transparent via-fiery-orange/30 to-transparent" />
-          </div>
-
-          {/* Progress Details */}
-          <div className="flex flex-col justify-center">
-            <div className="mb-10 text-center lg:text-left">
-              <p className="mb-4 text-sm uppercase tracking-[0.2em] text-text-muted">
-                {t("publicProfile.labels.healthRemaining")}
-              </p>
-              <div className="flex items-end justify-center gap-4 lg:justify-start">
-                <span className="font-display text-6xl sm:text-7xl md:text-8xl leading-none text-gold-bright">
-                  {healthPercent}
-                </span>
-                <span className="mb-2 font-display text-3xl sm:text-4xl text-fiery-orange">%</span>
-              </div>
-            </div>
-
-            {boss && (
-              <div className="space-y-6">
-                <MythProgressMeter
-                  value={healthPercent}
-                  label={t("publicProfile.labels.healthRemaining")}
-                  showPercent={false}
-                  size="lg"
-                  framed
-                />
-                <div className="flex flex-col sm:flex-row justify-between gap-2 text-[10px] sm:text-xs uppercase tracking-[0.2em] text-text-muted">
-                  <span className="flex items-center gap-2">
-                    <div className="h-1.5 w-1.5 rounded-full bg-hp-red shrink-0" />
-                    {t<string>("publicProfile.boss.remains").replace("{percent}", String(healthPercent))}
-                  </span>
-                  <span className="flex items-center gap-2 sm:justify-end">
-                    {t<string>("publicProfile.boss.weakened").replace("{percent}", String(100 - healthPercent))}
-                    <div className="h-1.5 w-1.5 rounded-full bg-emerald shrink-0" />
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </section>
+    <CurrentBossCard
+      boss={player.currentBoss}
+      title={t("dashboard.sections.currentBoss")}
+      healthLabel={t("dashboard.labels.healthRemaining")}
+      emptyLabel={t("dashboard.fallbacks.noActiveBoss")}
+      imageUnavailableLabel={t("dashboard.fallbacks.bossImageUnavailable")}
+    />
   );
 }
 
@@ -541,7 +455,7 @@ function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
           {achievements.map((achievement, index) => {
             const rarity = rarityViews[achievement.rarity];
-            const iconSrc = getMediaPath(achievement.iconUrl) ?? getBossMedalPath(achievement.name);
+            const iconSrc = resolveAchievementImage(achievement.code, achievement.iconUrl);
 
             return (
               <motion.div
@@ -559,18 +473,7 @@ function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
                   {/* Achievement Icon with Ornate Well */}
                   <div className={`mx-auto mb-6 flex h-28 w-28 sm:h-32 sm:w-32 items-center justify-center rounded-full border-2 border-dashed transition-transform duration-500 group-hover:rotate-6 ${rarity.className}`}>
                     <div className={`rarity-well ${rarity.wellClassName} flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center p-4 rounded-full bg-void shadow-2xl`}>
-                      {iconSrc ? (
-                        <Image
-                          src={iconSrc}
-                          alt=""
-                          width={96}
-                          height={96}
-                          unoptimized
-                          className="h-full w-full object-contain drop-shadow-lg"
-                        />
-                      ) : (
-                        <AchievementIconFallback />
-                      )}
+                      <AchievementArtwork key={iconSrc ?? achievement.id} src={iconSrc} name={achievement.name} />
                     </div>
                   </div>
 
