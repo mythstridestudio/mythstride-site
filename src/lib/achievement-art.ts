@@ -95,12 +95,12 @@ export function resolveAchievementImage(
   const raw = iconUrl?.trim();
   if (!raw) return null;
 
-  const assetCode = raw.match(/(?:^|\\/)achievement\\/([a-z0-9_]+)\\.(?:png|webp)(?:\\?.*)?$/i)?.[1];
+  const assetCode = raw.match(/(?:^|\/)achievement\/([a-z0-9_]+)\.(?:png|webp)(?:\?.*)?$/i)?.[1];
   const byAssetPath = resolveAchievementArt(assetCode);
   if (byAssetPath) return byAssetPath;
 
   // Only valid external or site-relative art URLs may bypass the built-in map.
-  if (/^https:\\/\\/[^/]+/i.test(raw)) return raw;
+  if (/^https:\/\/[^/]+/i.test(raw)) return raw;
   if (raw.startsWith("/") && !raw.startsWith("//")) return getAssetPath(raw);
   return null;
 }
