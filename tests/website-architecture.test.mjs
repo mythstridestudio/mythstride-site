@@ -28,7 +28,7 @@ test("institutional pages are public content without engineering-status chrome",
   assert.doesNotMatch(shell, /LegalDraftNotice|pendingFields|FeatureStatusBadge/);
 });
 
-test("public marketing contains only the Android closed-beta commercial status", async () => {
+test("public marketing reflects the official app release without engineering-status language", async () => {
   const files = [
     "src/content/site.ts",
     "src/content/pages.ts",
@@ -40,7 +40,7 @@ test("public marketing contains only the Android closed-beta commercial status",
   for (const file of files) {
     assert.doesNotMatch(await read(file), forbidden, file);
   }
-  assert.match(await read("src/content/site.ts"), /BETA FECHADO PARA ANDROID/);
+  assert.match(await read("src/content/site.ts"), /LANÇAMENTO OFICIAL/);
 });
 
 test("the home's product captures are real per-locale media with real alt text", async () => {
