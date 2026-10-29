@@ -7,7 +7,7 @@ export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return publicLocales.flatMap((locale) => {
-    const paths = ["/", ...publicPageSlugs.filter((slug) => slug !== "purchases" && slug !== "closed-beta").map((slug) => `/${slug}`)];
+    const paths = ["/", "/organizadores", ...publicPageSlugs.filter((slug) => slug !== "purchases" && slug !== "closed-beta").map((slug) => `/${slug}`)];
 
     return paths.map((path) => ({
       url: new URL(localePath(locale, path), siteUrl).toString(),

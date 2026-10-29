@@ -49,12 +49,13 @@ export function LocalizedNavigation({ locale }: LocalizedNavigationProps) {
     { href: localePath(locale, "/how-it-works"), label: copy.how },
     { href: `${home}#${homeSectionIds.elyndor}`, label: copy.elyndor },
     { href: localePath(locale, "/community"), label: copy.community },
-    { href: localePath(locale, "/aethron"), label: copy.aethron },
+    { href: localePath(locale, "/organizadores"), label: copy.organizers },
   ];
 
   // Everything the header trims, kept reachable on small screens.
   const secondaryLinks = [
     { href: localePath(locale, "/features"), label: copy.product },
+    { href: localePath(locale, "/aethron"), label: copy.aethron },
     { href: localePath(locale, "/events"), label: copy.events },
     { href: localePath(locale, "/wear-os"), label: copy.integrations },
     { href: localePath(locale, "/faq"), label: copy.faq },

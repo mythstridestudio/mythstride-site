@@ -31,6 +31,7 @@ export function LocalizedFooter({ locale }: LocalizedFooterProps) {
     ["/how-it-works", text("Como funciona", "How it works", "Cómo funciona")],
     ["/features", text("Recursos", "Features", "Funciones")],
     ["/events", text("Eventos", "Events", "Eventos")],
+    ["/organizadores", text("Organizadores", "Organizers", "Organizadores")],
     ["/community", text("Comunidade", "Community", "Comunidad")],
     ["/wear-os", "Wear OS"],
   ];
