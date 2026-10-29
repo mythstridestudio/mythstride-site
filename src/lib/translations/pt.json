@@ -25,7 +25,7 @@
   "medalWall": {
     "kicker": "Sua história, conquista por conquista",
     "title": "Mural de Medalhas",
-    "subtitle": "Cada medalha representa uma prova concluída de verdade. Explore as conquistas de corrida do atleta e os registros de cada evento.",
+    "subtitle": "Cada medalha registra uma conquista real no MythStride. Explore as medalhas recebidas pelo atleta e os resultados vinculados a cada evento.",
     "earned": "Conquistada",
     "awardedOn": "Conquistada em",
     "totalMedals": "Medalhas conquistadas",
@@ -50,7 +50,7 @@
     "chooseRunner": "Entre na sua conta para ver seu mural ou abra o link de um corredor.",
     "login": "Entrar",
     "emptyTitle": "O mural aguarda sua primeira medalha",
-    "emptyDescription": "As medalhas aparecem automaticamente quando o sistema confirma uma conquista em um evento. Nada é adicionado manualmente aqui.",
+    "emptyDescription": "As medalhas aparecem aqui quando o MythStride registra a premiação de um evento ou uma entrega autorizada. O mural mostra apenas conquistas que pertencem ao corredor.",
     "noMatches": "Nenhuma medalha encontrada para este filtro.",
     "notFound": "Corredor não encontrado.",
     "error": "Não foi possível carregar as medalhas. Tente novamente mais tarde."
