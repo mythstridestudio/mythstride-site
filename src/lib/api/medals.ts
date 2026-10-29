@@ -1,4 +1,5 @@
 import { apiFetch } from "./client";
+import { getAssetPath } from "../assets";
 
 export interface EarnedEventMedal {
   id: string;
@@ -7,6 +8,7 @@ export interface EarnedEventMedal {
   earnedAtUtc: string;
   medalha: {
     id: string;
+    internalKey: string;
     nome: string;
     descricao: string | null;
     imagemUrl: string | null;
@@ -30,12 +32,18 @@ export function getPublicEarnedMedals(username: string): Promise<EarnedEventMeda
 }
 
 /** API uploads live on the backend's origin, not on GitHub Pages. */
-export function resolveEventMedalImage(value: string | null | undefined): string | null {
+export function resolveEventMedalImage(value: string | null | undefined, internalKey?: string): string | null {
   const path = value?.trim();
-  if (!path) return null;
-
   if (/^https:\/\//i.test(path)) return path;
-  if (!path.startsWith("/uploads/")) return null;
+  // The four launch medals are bundled Flutter files, not API uploads.
+  // Serve the exact original artwork from our website when no remote upload exists.
+  if (!path || !path.startsWith("/uploads/")) {
+    const allowed = ["barigui", "ibirapuera", "mythstrider", "pampulha"];
+    const key = internalKey?.trim().toLowerCase();
+    return key && allowed.includes(key) && (!path || path.startsWith("assets/evento/medals/"))
+      ? getAssetPath("/images/event-medals/medal_" + key + ".webp")
+      : null;
+  }
 
   const apiOrigin = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
   if (!apiOrigin) return null;
