@@ -36,34 +36,34 @@ type LoadState =
   | { status: "error"; messageKey: string };
 
 type RarityView = {
-  className: string;
-  wellClassName: string;
+  accentClassName: string;
+  glowClassName: string;
 };
 
 const rarityViews: Record<AchievementRarity, RarityView> = {
   common: {
-    className: "border-text-muted/35 text-text-secondary",
-    wellClassName: "rarity-common",
+    accentClassName: "text-[#b9b4ab]",
+    glowClassName: "bg-[#b9b4ab]/10",
   },
   uncommon: {
-    className: "border-emerald/35 text-emerald",
-    wellClassName: "rarity-uncommon",
+    accentClassName: "text-emerald",
+    glowClassName: "bg-emerald/15",
   },
   rare: {
-    className: "border-diamond/40 text-diamond",
-    wellClassName: "rarity-rare",
+    accentClassName: "text-diamond",
+    glowClassName: "bg-diamond/15",
   },
   epic: {
-    className: "border-magic-purple/45 text-magic-purple",
-    wellClassName: "border-magic-purple/45 [--rarity-glow:rgba(141,69,214,0.28)]",
+    accentClassName: "text-[#b98afb]",
+    glowClassName: "bg-magic-purple/20",
   },
   legendary: {
-    className: "border-gold-bright/50 text-gold-bright",
-    wellClassName: "rarity-legendary",
+    accentClassName: "text-gold-bright",
+    glowClassName: "bg-gold-bright/18",
   },
   mythic: {
-    className: "border-fiery-orange/55 text-fiery-orange",
-    wellClassName: "border-fiery-orange/55 [--rarity-glow:rgba(232,98,42,0.36)]",
+    accentClassName: "text-fiery-orange",
+    glowClassName: "bg-fiery-orange/20",
   },
 };
 
@@ -139,17 +139,19 @@ function AchievementIconFallback() {
 
 function AchievementArtwork({ src, name }: { src: string | null; name: string }) {
   const [failed, setFailed] = useState(false);
+
   if (!src || failed) return <AchievementIconFallback />;
 
   return (
     <Image
       src={src}
       alt={name}
-      width={96}
-      height={96}
+      width={192}
+      height={192}
       unoptimized
+      sizes="(max-width: 640px) 152px, 176px"
       onError={() => setFailed(true)}
-      className="h-full w-full object-contain drop-shadow-lg"
+      className="relative h-full w-full object-contain drop-shadow-[0_10px_18px_rgba(0,0,0,0.7)]"
     />
   );
 }
@@ -429,79 +431,90 @@ function CurrentNemesis({ player }: { player: PublicPlayerProfile }) {
 
 function AchievementGrid({ player }: { player: PublicPlayerProfile }) {
   const { t } = useTranslations();
-  const prefersReducedMotion = useReducedMotion();
+  const { lang } = useLanguage();
+  const locale = getLanguageLocale(lang);
   const achievements = player.rareAchievements ?? [];
 
   return (
-    <section className="app-panel app-panel-compact rpg-card p-6 sm:p-8">
-      <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1 text-[10px] uppercase tracking-[0.3em] text-gold">
-            <TrophyIcon className="h-3 w-3" />
+    <section className="app-panel app-panel-compact rpg-card relative overflow-hidden p-5 sm:p-7">
+      <div className="absolute inset-0 pointer-events-none bg-stone-texture opacity-10" />
+
+      <div className="relative mb-6 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-end">
+        <div className="min-w-0">
+          <div className="mb-3 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold">
+            <TrophyIcon className="h-4 w-4" />
             {t("publicProfile.labels.achievements")}
           </div>
-          <h2 className="font-display text-4xl text-gold-bright md:text-5xl">
-            {t("publicProfile.journey.legendaryAchievements")}
+          <h2 className="font-display text-3xl leading-tight text-gold-bright sm:text-4xl">
+            {t("publicProfile.journey.achievementGalleryTitle")}
           </h2>
+          <p className="mt-2 max-w-lg text-sm leading-relaxed text-text-secondary">
+            {achievements.length > 0
+              ? t<string>("publicProfile.journey.featuredAchievementCount").replace("{count}", String(achievements.length))
+              : t("publicProfile.fallbacks.noAchievements")}
+          </p>
         </div>
-        <Link href={"/medals?username=" + encodeURIComponent(player.username)} className="button button--secondary shrink-0">
+        <Link
+          href={"/medals?username=" + encodeURIComponent(player.username)}
+          className="button button--secondary shrink-0 gap-2 text-xs"
+        >
           <TrophyIcon className="h-4 w-4" />
-          {t("medalWall.viewWall")}
+          {t("medalWall.title")}
           <ArrowRightIcon className="h-4 w-4" />
         </Link>
       </div>
 
       {achievements.length > 0 ? (
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
-          {achievements.map((achievement, index) => {
-            const rarity = rarityViews[achievement.rarity];
+        <div className="relative grid grid-cols-[repeat(auto-fit,minmax(min(100%,215px),1fr))] gap-4">
+          {achievements.map((achievement) => {
+            const rarity = rarityViews[achievement.rarity] ?? rarityViews.common;
             const iconSrc = resolveAchievementImage(achievement.code, achievement.iconUrl);
+            const unlockedAt = achievement.unlockedAt
+              ? formatDate(achievement.unlockedAt, locale)
+              : "";
 
             return (
-              <motion.div
-                key={`${achievement.name}-${achievement.rarity}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={prefersReducedMotion ? undefined : { y: -3 }}
-                className={`rpg-inset relative overflow-hidden rounded-[24px] border-2 p-6 transition-colors duration-300 ${rarity.className} group`}
+              <article
+                key={achievement.id}
+                className="group relative flex min-w-0 flex-col overflow-hidden rounded-[18px] border border-gold/20 bg-[linear-gradient(155deg,rgba(40,29,23,0.86),rgba(12,10,9,0.97)_70%)] px-4 pb-5 pt-4 shadow-[inset_0_1px_0_rgba(220,175,108,0.1),0_10px_24px_rgba(0,0,0,0.18)] transition-[border-color,box-shadow,transform] duration-300 hover:-translate-y-1 hover:border-gold/45 hover:shadow-[inset_0_1px_0_rgba(220,175,108,0.18),0_16px_28px_rgba(0,0,0,0.3)]"
               >
-                {/* Rarity Glow Effect */}
-                <div className={`absolute -inset-10 opacity-0 transition-opacity duration-500 group-hover:opacity-20 blur-3xl ${rarity.wellClassName}`} />
-                
-                <div className="relative">
-                  {/* Achievement Icon with Ornate Well */}
-                  <div className={`mx-auto mb-6 flex h-28 w-28 sm:h-32 sm:w-32 items-center justify-center rounded-full border-2 border-dashed transition-transform duration-500 group-hover:rotate-6 ${rarity.className}`}>
-                    <div className={`rarity-well ${rarity.wellClassName} flex h-20 w-20 sm:h-24 sm:w-24 items-center justify-center p-4 rounded-full bg-void shadow-2xl`}>
-                      <AchievementArtwork key={iconSrc ?? achievement.id} src={iconSrc} name={achievement.name} />
-                    </div>
-                  </div>
-
-                  <div className="text-center overflow-hidden">
-                    <h3 className="font-display text-xl sm:text-2xl text-gold-bright transition-colors group-hover:text-white break-words">
-                      {achievement.name}
-                    </h3>
-                    <div className="mt-3 inline-block rounded-full bg-void/50 px-4 py-1 border border-white/5">
-                      <p className="text-[10px] uppercase tracking-[0.25em] font-bold">
-                        {t(`publicProfile.rarities.${achievement.rarity}`)}
-                      </p>
-                    </div>
-                  </div>
+                <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
+                <div className="relative flex justify-center">
+                  <span className={`rounded-full border border-current/20 bg-void/45 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] ${rarity.accentClassName}`}>
+                    {t(`publicProfile.rarities.${achievement.rarity}`)}
+                  </span>
                 </div>
 
-                {/* Corner Decorative Elements */}
-                <div className="absolute top-2 left-2 h-4 w-4 border-t border-l border-current opacity-20" />
-                <div className="absolute top-2 right-2 h-4 w-4 border-t border-r border-current opacity-20" />
-                <div className="absolute bottom-2 left-2 h-4 w-4 border-b border-l border-current opacity-20" />
-                <div className="absolute bottom-2 right-2 h-4 w-4 border-b border-r border-current opacity-20" />
-              </motion.div>
+                <div className="relative mx-auto my-4 flex h-[164px] w-full max-w-[164px] items-center justify-center">
+                  <div
+                    aria-hidden="true"
+                    className={`pointer-events-none absolute inset-6 rounded-full blur-[28px] ${rarity.glowClassName}`}
+                  />
+                  <AchievementArtwork
+                    key={iconSrc ?? achievement.id}
+                    src={iconSrc}
+                    name={achievement.name}
+                  />
+                </div>
+
+                <div className="relative mt-auto border-t border-gold/10 pt-4 text-center">
+                  <h3 className="min-h-[2.7rem] break-words font-display text-lg leading-snug text-gold-bright sm:text-xl">
+                    {achievement.name}
+                  </h3>
+                  {unlockedAt && (
+                    <p className="mt-2 text-xs tracking-wide text-text-muted">
+                      {t("publicProfile.journey.unlockedOn")} {unlockedAt}
+                    </p>
+                  )}
+                </div>
+              </article>
             );
           })}
         </div>
       ) : (
-        <div className="rpg-inset rounded-[20px] p-10 text-center text-text-muted border border-dashed border-gold/10">
-          <TrophyIcon className="mx-auto mb-4 h-12 w-12 opacity-20" />
-          <p className="font-display text-xl">{t("publicProfile.fallbacks.noAchievements")}</p>
+        <div className="relative rounded-[16px] border border-dashed border-gold/20 bg-void/45 px-5 py-10 text-center text-text-secondary">
+          <TrophyIcon className="mx-auto mb-3 h-10 w-10 text-gold/60" />
+          {t("publicProfile.fallbacks.noAchievements")}
         </div>
       )}
     </section>
