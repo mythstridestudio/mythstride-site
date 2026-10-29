@@ -11,6 +11,7 @@ const publicSlugs = [
   "wear-os",
   "events",
   "community",
+  "organizadores",
   "faq",
   "support",
   "privacy",
@@ -35,6 +36,7 @@ async function exists(relativePath) {
 
 const requiredArtifacts = [
   "index.html",
+  "organizadores/index.html",
   "404.html",
   "robots.txt",
   "sitemap.xml",
@@ -56,6 +58,17 @@ for (const locale of locales) {
 
 for (const artifact of requiredArtifacts) {
   if (!(await exists(artifact))) failures.push(`missing build artifact: ${artifact}`);
+}
+
+const campaignLanding = await readFile(
+  path.join(out, "organizadores", "index.html"),
+  "utf8",
+);
+if (!campaignLanding.includes('href="mailto:contato@playmythstride.com?')) {
+  failures.push("organizers campaign URL lacks the contact CTA");
+}
+if (!campaignLanding.includes("Sua prova termina.")) {
+  failures.push("organizers campaign URL lacks the PT-BR sales headline");
 }
 
 for (const locale of locales) {
