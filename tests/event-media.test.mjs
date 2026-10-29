@@ -22,5 +22,5 @@ test("admin uploads event, banner and medal assets to the authenticated API", as
   assert.match(field, /accept="image\/png,image\/jpeg,image\/webp"/);
   assert.match(field, /uploadAdminEventMedia\(accessToken, kind, file\)/);
   assert.match(client, /\x60\/api\/Eventos\/media\/\$\{kind\}\x60/);
-  assert.match(client, /Authorization/);
+  assert.match(client, /method: "POST", accessToken, body: formData/);
 });
