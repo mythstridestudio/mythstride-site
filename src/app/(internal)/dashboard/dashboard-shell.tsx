@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { resolveAchievementImage } from "@/lib/achievement-art";
 import { useRouter } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { ApiConfigurationError, ApiError, ApiNetworkError } from "@/lib/api/client";
@@ -10,8 +11,7 @@ import { getDashboardData, type DashboardData } from "@/lib/api/player";
 import { useAuth } from "@/contexts/AuthContext";
 import { getLanguageLocale, useLanguage } from "@/contexts/LanguageContext";
 import { getAssetPath } from "@/lib/assets";
-import { BossHealthBar } from "@/components/relic";
-import { getBossImagePath, getBossMedalPath } from "@/lib/boss-medals";
+import CurrentBossCard from "@/components/relic/CurrentBossCard";
 import { parseApiDate } from "@/lib/dates";
 import { useTranslations } from "@/lib/i18n";
 import AuthenticatedTopbar from "@/components/AuthenticatedTopbar";
@@ -21,7 +21,6 @@ import {
   CrownIcon,
   HomeIcon,
   ShieldIcon,
-  SkullIcon,
   TrophyIcon,
   WatchIcon,
 } from "@/components/Icons";
@@ -69,10 +68,6 @@ function getErrorMessageKey(error: unknown) {
   }
 
   return "dashboard.errors.generic";
-}
-
-function getImagePath(path: string | null | undefined) {
-  return getBossImagePath(path);
 }
 
 function Panel({
@@ -131,8 +126,6 @@ function DashboardContent({ data }: { data: DashboardData }) {
   const profileHref = username ? `/player?username=${encodeURIComponent(username)}` : null;
   const shownTrophies = trophies.slice(0, 4);
   const recentRuns = history.slice(0, 4);
-  const bossImageSrc = getImagePath(currentBoss?.imageUrl) ?? getBossMedalPath(currentBoss?.name);
-  const bossHealth = Math.max(0, Math.min(100, currentBoss?.healthPercent ?? 0));
   const streakLabel =
     profile.currentStreakDays <= 0
       ? t("dashboardUsability.flameAwaits")
@@ -187,43 +180,14 @@ function DashboardContent({ data }: { data: DashboardData }) {
         </div>
       </Panel>
 
-      <Panel title={t("dashboard.sections.currentBoss")} icon={SkullIcon}>
-        <PartialNotice>{data.partialErrors.currentBoss ? t("dashboard.partialErrors.currentBoss") : undefined}</PartialNotice>
-        {currentBoss ? (
-          <div className="grid gap-5 sm:grid-cols-[0.36fr_1fr] sm:items-center">
-            <div className="rpg-inset aspect-square rounded-[16px] border-fiery-orange/25 p-4">
-              {bossImageSrc ? (
-                <Image
-                  src={bossImageSrc}
-                  alt={currentBoss.name}
-                  width={320}
-                  height={320}
-                  unoptimized
-                  className="h-full w-full object-contain drop-shadow-[0_0_32px_rgba(232,98,42,0.28)]"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center text-center text-xs text-text-muted">{t("dashboard.fallbacks.bossImageUnavailable")}</div>
-              )}
-            </div>
-            <div>
-              <h3 className="font-display text-3xl text-gold-bright">{currentBoss.name}</h3>
-              <div className="mt-5">
-                <div className="mb-2 flex justify-between text-sm text-text-secondary">
-                  <span>{t("dashboard.labels.healthRemaining")}</span>
-                  <span className="text-fiery-orange">{bossHealth}%</span>
-                </div>
-                <BossHealthBar
-                  value={bossHealth}
-                  max={100}
-                  label={`${currentBoss.name} — ${t("dashboard.labels.healthRemaining")}`}
-                />
-              </div>
-            </div>
-          </div>
-        ) : (
-          <EmptyState>{t("dashboard.fallbacks.noActiveBoss")}</EmptyState>
-        )}
-      </Panel>
+      <CurrentBossCard
+        boss={currentBoss}
+        title={t("dashboard.sections.currentBoss")}
+        healthLabel={t("dashboard.labels.healthRemaining")}
+        emptyLabel={t("dashboard.fallbacks.noActiveBoss")}
+        imageUnavailableLabel={t("dashboard.fallbacks.bossImageUnavailable")}
+        notice={data.partialErrors.currentBoss ? t("dashboard.partialErrors.currentBoss") : null}
+      />
 
       <Panel title={t("dashboard.sections.adventureLog")} icon={BookIcon}>
         <PartialNotice>{data.partialErrors.history ? t("dashboard.partialErrors.history") : undefined}</PartialNotice>
@@ -263,12 +227,25 @@ function DashboardContent({ data }: { data: DashboardData }) {
           {shownTrophies.length > 0 ? (
             <div className="grid gap-3 sm:grid-cols-2">
               {shownTrophies.map((trophy) => (
-                <div key={trophy.id} className="rpg-inset rounded-[14px] p-4">
-                  <div className="mb-2 flex items-center gap-2 text-gold">
-                    <TrophyIcon className="h-4 w-4" />
-                    <h3 className="font-display text-lg">{trophy.name}</h3>
+                <div key={trophy.id} className="rpg-inset flex items-center gap-3 rounded-[14px] p-4">
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-gold/25 bg-void/60 p-1.5">
+                    {resolveAchievementImage(trophy.code, trophy.iconUrl) ? (
+                      <Image
+                        src={resolveAchievementImage(trophy.code, trophy.iconUrl)!}
+                        alt={trophy.name}
+                        width={56}
+                        height={56}
+                        unoptimized
+                        className="h-full w-full object-contain"
+                      />
+                    ) : (
+                      <TrophyIcon className="h-7 w-7 text-gold/70" />
+                    )}
                   </div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-fiery-orange">{trophy.rarity}</p>
+                  <div className="min-w-0">
+                    <h3 className="font-display text-lg text-gold">{trophy.name}</h3>
+                    <p className="mt-1 text-xs uppercase tracking-[0.18em] text-fiery-orange">{trophy.rarity}</p>
+                  </div>
                 </div>
               ))}
             </div>

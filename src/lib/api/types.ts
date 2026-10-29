@@ -11,7 +11,8 @@ export interface CurrentBoss {
 }
 
 export interface Trophy {
-  id: number;
+  id: number | string;
+  code?: string | null;
   name: string;
   rarity: AchievementRarity;
   description: string | null;

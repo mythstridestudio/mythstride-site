@@ -1,3 +1,5 @@
+import { getAssetPath } from "./assets";
+
 /** Exact achievement artwork codes from mythstride mobile: lib/widgets/achievement_artwork.dart.
  * Image files must be mirrored from mobile assets/achievement/ before rendering them.
  * This list is not a fixed UI limit: the API determines which achievements exist.
@@ -75,6 +77,30 @@ export const ACHIEVEMENT_ART_CODES = new Set<string>([
 export function resolveAchievementArt(code: string | null | undefined): string | null {
   const normalized = code?.trim().toLowerCase();
   return normalized && ACHIEVEMENT_ART_CODES.has(normalized)
-    ? `/assets/mythstride/achievement/${normalized}.png`
+    ? getAssetPath(`/assets/mythstride/achievement/${normalized}.png`)
     : null;
+}
+
+/**
+ * Resolve the real art by the canonical backend code, never by a translated
+ * achievement name. Supports pre-code API versions that supplied an asset path.
+ */
+export function resolveAchievementImage(
+  code: string | null | undefined,
+  iconUrl: string | null | undefined,
+): string | null {
+  const byCode = resolveAchievementArt(code);
+  if (byCode) return byCode;
+
+  const raw = iconUrl?.trim();
+  if (!raw) return null;
+
+  const assetCode = raw.match(/(?:^|\/)achievement\/([a-z0-9_]+)\.(?:png|webp)(?:\?.*)?$/i)?.[1];
+  const byAssetPath = resolveAchievementArt(assetCode);
+  if (byAssetPath) return byAssetPath;
+
+  // Only valid external or site-relative art URLs may bypass the built-in map.
+  if (/^https:\/\/[^/]+/i.test(raw)) return raw;
+  if (raw.startsWith("/") && !raw.startsWith("//")) return getAssetPath(raw);
+  return null;
 }
