@@ -56,7 +56,7 @@ function medalYear(medal: EarnedEventMedal): string {
 
 function MedalArt({ medal, className = "" }: { medal: EarnedEventMedal; className?: string }) {
   const [imageFailed, setImageFailed] = useState(false);
-  const url = resolveEventMedalImage(medal.medalha.imagemUrl);
+  const url = resolveEventMedalImage(medal.medalha.imagemUrl, medal.medalha.internalKey);
 
   return (
     <div className={"relative flex items-center justify-center " + className}>
