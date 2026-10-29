@@ -166,6 +166,9 @@
     "journey": {
       "relicsTitle": "Reliquias del Viaje",
       "legendaryAchievements": "Logros Legendarios",
+    "achievementGalleryTitle": "Logros destacados",
+    "featuredAchievementCount": "Una selección de {count} logros de esta trayectoria.",
+    "unlockedOn": "Conseguido el",
       "distanceDetail": "Terreno recorrido en el mundo real y llevado a Elyndor.",
       "runsDetail": "Aventuras registradas en la crónica pública del corredor.",
       "streakDetail": "La Llama mantenida viva mediante el esfuerzo constante.",

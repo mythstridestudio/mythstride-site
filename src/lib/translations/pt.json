@@ -166,6 +166,9 @@
     "journey": {
       "relicsTitle": "Relíquias da Jornada",
       "legendaryAchievements": "Conquistas Lendárias",
+    "achievementGalleryTitle": "Conquistas em destaque",
+    "featuredAchievementCount": "Uma seleção de {count} conquistas que marcaram esta jornada.",
+    "unlockedOn": "Conquistada em",
       "distanceDetail": "Terreno percorrido no mundo real e levado para Elyndor.",
       "runsDetail": "Aventuras registradas na crônica pública do corredor.",
       "streakDetail": "A Chama mantida viva através do esforço contínuo.",
