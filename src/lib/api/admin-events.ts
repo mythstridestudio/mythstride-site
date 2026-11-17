@@ -95,7 +95,7 @@ export async function listAdminEvents(accessToken: string): Promise<AdminEvent[]
   let page = 1;
   while (true) {
     const result = await apiFetch<PagedAdminEvents>(
-      `/api/Eventos/paged?page=${page}&pageSize=100`,
+      `/api/Eventos/paged?page=${page}&pageSize=100&includeCancelled=true`,
       { accessToken, cache: "no-store" },
     );
     all.push(...result.items);
