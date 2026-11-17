@@ -12,6 +12,9 @@ export const EVENT_STATUS = {
 
 export type EventStatus = (typeof EVENT_STATUS)[keyof typeof EVENT_STATUS];
 
+/** Backend ModoMetaEvento: 0 = PorAtividade, 1 = DistanciaAcumulada. */
+export type EventGoalMode = 0 | 1;
+
 export interface AdminEvent {
   id: string;
   nome: string;
@@ -23,6 +26,11 @@ export interface AdminEvent {
   fimValidacaoCorrida?: string | null;
   prazoSincronizacao?: string | null;
   distanciaMinimaKm?: number | null;
+  /** Display-only official distances, e.g. "7 km e 15 km". */
+  distanciasOficiais?: string | null;
+  /** 0 = one run of at least distanciaMinimaKm; 1 = accumulated distance. */
+  modoMeta?: EventGoalMode;
+  metaDistanciaAcumuladaKm?: number | null;
   localNome?: string | null;
   endereco?: string | null;
   organizador?: string | null;
@@ -53,6 +61,11 @@ export interface SaveAdminEventRequest {
   fimValidacaoCorrida?: string | null;
   prazoSincronizacao?: string | null;
   distanciaMinimaKm?: number | null;
+  /** Display-only official distances, e.g. "7 km e 15 km". */
+  distanciasOficiais?: string | null;
+  /** 0 = one run of at least distanciaMinimaKm; 1 = accumulated distance. */
+  modoMeta?: EventGoalMode;
+  metaDistanciaAcumuladaKm?: number | null;
   localNome?: string | null;
   endereco?: string | null;
   organizador?: string | null;

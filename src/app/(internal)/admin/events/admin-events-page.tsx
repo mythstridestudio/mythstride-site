@@ -242,6 +242,9 @@ type FormState = {
   fimValidacaoCorrida: string;
   prazoSincronizacao: string;
   distanciaMinimaKm: string;
+  distanciasOficiais: string;
+  modoMeta: "0" | "1";
+  metaDistanciaAcumuladaKm: string;
   localNome: string;
   endereco: string;
   organizador: string;
@@ -264,6 +267,9 @@ const emptyForm: FormState = {
   fimValidacaoCorrida: "",
   prazoSincronizacao: "",
   distanciaMinimaKm: "",
+  distanciasOficiais: "",
+  modoMeta: "0",
+  metaDistanciaAcumuladaKm: "",
   localNome: "",
   endereco: "",
   organizador: "",
@@ -329,6 +335,9 @@ function eventToForm(event: AdminEvent): FormState {
     fimValidacaoCorrida: toLocalInput(event.fimValidacaoCorrida),
     prazoSincronizacao: toLocalInput(event.prazoSincronizacao),
     distanciaMinimaKm: event.distanciaMinimaKm?.toString() ?? "",
+    distanciasOficiais: event.distanciasOficiais ?? "",
+    modoMeta: event.modoMeta === 1 ? "1" : "0",
+    metaDistanciaAcumuladaKm: event.metaDistanciaAcumuladaKm?.toString() ?? "",
     localNome: event.localNome ?? "",
     endereco: event.endereco ?? "",
     organizador: event.organizador ?? "",
@@ -1185,6 +1194,15 @@ export default function AdminEventsPage() {
       return;
     }
 
+    const accumulated = form.modoMeta === "1";
+    if (accumulated) {
+      const goal = Number(form.metaDistanciaAcumuladaKm);
+      if (!form.metaDistanciaAcumuladaKm || !(goal > 0) || goal > 1000) {
+        setError("Informe a distância acumulada da meta (entre 0 e 1000 km).");
+        return;
+      }
+    }
+
     let registrationRequest: SaveExternalRegistrationRequest | null = null;
     if (!selectedId) {
       const validation = buildRegistrationRequest(registrationDraft);
@@ -1207,7 +1225,11 @@ export default function AdminEventsPage() {
       inicioValidacaoCorrida: toIso(form.inicioValidacaoCorrida),
       fimValidacaoCorrida: toIso(form.fimValidacaoCorrida),
       prazoSincronizacao: toIso(form.prazoSincronizacao),
-      distanciaMinimaKm: form.distanciaMinimaKm ? Number(form.distanciaMinimaKm) : null,
+      // The backend rejects a per-run minimum on accumulated-distance events.
+      distanciaMinimaKm: accumulated || !form.distanciaMinimaKm ? null : Number(form.distanciaMinimaKm),
+      distanciasOficiais: nullable(form.distanciasOficiais),
+      modoMeta: accumulated ? 1 : 0,
+      metaDistanciaAcumuladaKm: accumulated ? Number(form.metaDistanciaAcumuladaKm) : null,
       localNome: nullable(form.localNome),
       endereco: nullable(form.endereco),
       organizador: nullable(form.organizador),
@@ -1328,7 +1350,43 @@ export default function AdminEventsPage() {
               <DateField label="Publicação inicia" required value={form.inicio} onChange={(value) => update("inicio", value)} />
               <DateField label="Publicação encerra" required value={form.fim} onChange={(value) => update("fim", value)} />
               <DateField label="Largada oficial" value={form.dataHoraCorrida} onChange={(value) => update("dataHoraCorrida", value)} />
-              <Field label="Distância oficial (km)" type="number" step="0.01" value={form.distanciaMinimaKm} onChange={(value) => update("distanciaMinimaKm", value)} />
+              <Field
+                label="Distâncias oficiais"
+                placeholder="Ex.: 7 km e 15 km"
+                maxLength={120}
+                value={form.distanciasOficiais}
+                onChange={(value) => update("distanciasOficiais", value)}
+              />
+              <SelectField label="Como ganhar a medalha" value={form.modoMeta} onChange={(value) => update("modoMeta", value === "1" ? "1" : "0")}>
+                <option value="0">Uma corrida com distância mínima</option>
+                <option value="1">Distância acumulada no período</option>
+              </SelectField>
+              {form.modoMeta === "1" ? (
+                <Field
+                  label="Distância acumulada da meta (km)"
+                  type="number"
+                  step="0.01"
+                  min="0.01"
+                  max="1000"
+                  required
+                  value={form.metaDistanciaAcumuladaKm}
+                  onChange={(value) => update("metaDistanciaAcumuladaKm", value)}
+                />
+              ) : (
+                <Field
+                  label="Distância mínima para a medalha (km)"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={form.distanciaMinimaKm}
+                  onChange={(value) => update("distanciaMinimaKm", value)}
+                />
+              )}
+              <p className="text-xs leading-relaxed text-text-muted sm:col-span-2">
+                {form.modoMeta === "1"
+                  ? "O atleta soma as corridas feitas entre o início aceito e a conclusão máxima até atingir a meta."
+                  : "As distâncias oficiais só aparecem no app. A medalha vale para uma corrida com pelo menos 95% da distância mínima."}
+              </p>
               <DateField label="Início aceito" value={form.inicioValidacaoCorrida} onChange={(value) => update("inicioValidacaoCorrida", value)} />
               <DateField label="Conclusão máxima" value={form.fimValidacaoCorrida} onChange={(value) => update("fimValidacaoCorrida", value)} />
               <DateField label="Prazo de sincronização" value={form.prazoSincronizacao} onChange={(value) => update("prazoSincronizacao", value)} />
