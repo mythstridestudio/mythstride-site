@@ -124,3 +124,33 @@ test("third-party disclosure names the providers that are actually shipped", asy
   // disclosed as if it were processing player data.
   assert.doesNotMatch(pages, /Firebase|Crashlytics/);
 });
+
+test("diamond purchase disclosures match current in-app billing in all locales", async () => {
+  const pages = await read("src/content/pages.ts");
+
+  for (const obsolete of [
+    "Compras com dinheiro real não estão disponíveis",
+    "Real-money purchases are not available",
+    "Las compras con dinero real no están disponibles",
+    "Se forem oferecidas no futuro, as condições aplicáveis",
+    "If they are offered later, the applicable conditions",
+    "Si se ofrecen más adelante, las condiciones aplicables",
+  ]) {
+    assert.ok(!pages.includes(obsolete), `obsolete billing disclosure: ${obsolete}`);
+  }
+
+  for (const required of [
+    "Google Play e App Store",
+    "Google Play and App Store",
+    "Google Play y App Store",
+    "pagamentos pendentes",
+    "pending payments",
+    "pagos pendientes",
+    "reembolsos",
+    "Refunds",
+    "reembolsos",
+    "contato@playmythstride.com",
+  ]) {
+    assert.ok(pages.includes(required), `missing billing disclosure: ${required}`);
+  }
+});
