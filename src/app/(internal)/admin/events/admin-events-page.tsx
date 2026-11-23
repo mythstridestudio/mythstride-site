@@ -73,9 +73,10 @@ import {
 import { ApiError } from "@/lib/api/client";
 import { isAdminAccessToken } from "@/lib/api/auth";
 import ExternalRegistrationPanel from "./external-registration-panel";
+import AdminEventEnrollmentPanel from "./admin-event-enrollment-panel";
 import EventImageUploadField from "./event-image-upload-field";
 
-type EventTab = "lifecycle" | "rewards" | "codes" | "registration" | "results";
+type EventTab = "participants" | "lifecycle" | "rewards" | "codes" | "registration" | "results";
 
 type LifecycleAction = "publicar" | "ativar" | "finalizar" | "cancelar";
 
@@ -1845,6 +1846,7 @@ export default function AdminEventsPage() {
                   ["rewards", "Recompensas", selectedEvent.quantidadeRecompensas],
                   ["codes", "Códigos", selectedEvent.quantidadeCodigos],
                   ["registration", "Inscrição externa", null],
+                  ["participants", "Participantes do app", null],
                   ["results", "Resultados", null],
                 ] as const
               ).map(([tab, label, count]) => (
@@ -2378,6 +2380,10 @@ export default function AdminEventsPage() {
                   </div>
                 )}
               </div>
+            )}
+
+            {eventTab === "participants" && token && (
+              <AdminEventEnrollmentPanel key={selectedEvent.id + token} token={token} eventId={selectedEvent.id} eventName={selectedEvent.nome} />
             )}
 
             {eventTab === "registration" && token && (

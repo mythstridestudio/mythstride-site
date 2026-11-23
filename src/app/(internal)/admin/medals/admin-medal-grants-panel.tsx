@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   grantAdminMedalToPlayer,
+  revokeAdminPlayerMedal,
   listAdminMedalCatalog,
   listAdminPlayerMedals,
   searchAdminMedalPlayers,
@@ -16,9 +17,10 @@ function explain(error: unknown) {
   if (error instanceof ApiError) {
     if (error.status === 403 || error.status === 401) return "Esta conta não possui autorização administrativa ou a sessão expirou.";
     if (error.status === 404) return "Jogador ou medalha não encontrado. Atualize os dados.";
+    if (error.status === 409) return "A medalha mudou ou tem corrida, progresso ou recompensa registrada. Atualize os dados; a remoção exige revisão específica.";
     if (error.status === 429) return "Muitas operações seguidas. Aguarde um pouco e tente novamente.";
     if (error.status === 400) return "Dados inválidos. Confira o jogador, a medalha e a justificativa.";
-    return `A API retornou o erro ${error.status}. Não foi possível confirmar a entrega.`;
+    return `A API retornou o erro ${error.status}. Não foi possível confirmar a operação.`;
   }
   return "Não foi possível comunicar com a API. Atualize o histórico antes de tentar novamente.";
 }
@@ -70,6 +72,7 @@ export default function AdminMedalGrantsPanel({
   }, [loadCatalog, catalogRefreshKey]);
 
   const searchPlayers = async () => {
+    if (saving || refreshing || lookingUp) return;
     setError(null);
     setNotice(null);
     if (query.trim().length < 3 || query.trim().length > 120) {
@@ -91,6 +94,7 @@ export default function AdminMedalGrantsPanel({
   };
 
   const selectPlayer = async (player: AdminMedalPlayer) => {
+    if (saving || refreshing || lookingUp) return;
     setSelectedPlayer(player);
     setHeld([]);
     setError(null);
@@ -130,11 +134,26 @@ export default function AdminMedalGrantsPanel({
     }
   };
 
+  const revoke = async (owned: AdminPlayerMedal) => {
+    if (!selectedPlayer || !owned.awardId || owned.hasRunEvidence || !validReason || saving || refreshing || lookingUp) return;
+    if (!window.confirm(`REMOVER MEDALHA DE TESTE\n\nJogador: ${selectedPlayer.name} (${selectedPlayer.email})\nMedalha: ${owned.medalName}\nJustificativa: ${reason.trim()}\n\nA medalha será retirada. O jogador poderá conquistá-la ao concluir o evento. Continuar?`)) return;
+    setSaving(true); setError(null); setNotice(null);
+    try {
+      const result = await revokeAdminPlayerMedal(token, selectedPlayer.playerId, owned.eventId, owned.awardId, reason);
+      await refreshOwned(selectedPlayer.playerId);
+      setNotice(result.removed ? "Medalha de teste retirada. O jogador poderá conquistá-la cumprindo as regras do evento." : "Esta medalha já havia sido retirada.");
+      setReason("");
+    } catch (caught) {
+      setError(explain(caught));
+      await refreshOwned(selectedPlayer.playerId).catch(() => {});
+    } finally { setSaving(false); }
+  };
+
   return (
     <section className="app-panel rpg-card p-5 sm:p-7" aria-labelledby="admin-grant-title">
-      <p className="text-xs uppercase tracking-[0.24em] text-fiery-orange">Concessão administrativa · Recompensa permanente</p>
+      <p className="text-xs uppercase tracking-[0.24em] text-fiery-orange">Suporte administrativo · Medalhas</p>
       <h2 id="admin-grant-title" className="mt-2 font-display text-2xl text-gold-bright">
-        Entregar medalha a um jogador
+        Gerenciar medalhas de um jogador
       </h2>
       <p className="mt-2 text-sm leading-relaxed text-text-secondary">
         Para suporte, exceções e recuperação de uma medalha de evento que o jogador perdeu.
@@ -159,7 +178,7 @@ export default function AdminMedalGrantsPanel({
               onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); void searchPlayers(); } }}
               disabled={saving}
             />
-            <button type="button" className="button button--secondary" disabled={lookingUp || saving} onClick={() => void searchPlayers()}>
+            <button type="button" className="button button--secondary" disabled={lookingUp || saving || refreshing} onClick={() => void searchPlayers()}>
               {lookingUp ? "Buscando..." : "Buscar"}
             </button>
           </div>
@@ -223,11 +242,23 @@ export default function AdminMedalGrantsPanel({
         </div>
 
         <div className="grid gap-2">
-          <label htmlFor="admin-medal-reason" className="text-xs uppercase tracking-widest text-gold-muted">Justificativa da entrega (obrigatória)</label>
+          <label htmlFor="admin-medal-reason" className="text-xs uppercase tracking-widest text-gold-muted">Justificativa da entrega ou remoção (obrigatória)</label>
           <textarea id="admin-medal-reason" className="myth-input min-h-24" minLength={10} maxLength={400} value={reason} placeholder="Ex.: Compensação de medalha perdida por falha de sincronização na prova de 2027." onChange={(e) => setReason(e.target.value)} disabled={saving}/>
           <span className="text-xs text-text-muted">{reason.trim().length}/400 caracteres · A ação é registrada na auditoria administrativa.</span>
         </div>
       </div>
+
+      {selectedPlayer && !refreshing && held.length > 0 && <div className="mt-5 grid gap-3">
+        <h3 className="font-display text-lg text-gold-bright">Medalhas deste jogador</h3>
+        <p className="text-xs text-text-secondary">Remova somente entregas de teste. Corridas, conclusões e recompensas registradas são preservadas. Informe a justificativa acima antes de remover.</p>
+        {held.map(owned => <div key={owned.awardId ?? owned.eventId} className="rpg-inset flex flex-wrap items-center justify-between gap-3 rounded-lg p-3">
+          <div><strong className="text-sm">{owned.medalName}</strong><p className="text-xs text-text-muted">Recebida em {new Date(owned.earnedAtUtc).toLocaleString("pt-BR")}</p>
+            {owned.hasRunEvidence && <p className="text-xs text-text-secondary">Conquista com evidência de corrida: remoção bloqueada.</p>}
+            {!owned.awardId && <p className="text-xs text-text-secondary">Atualize a API para habilitar a remoção.</p>}
+          </div>
+          <button type="button" className="button button--secondary" disabled={!owned.awardId || owned.hasRunEvidence || !validReason || saving || refreshing || lookingUp} onClick={() => void revoke(owned)}>Remover medalha de teste</button>
+        </div>)}
+      </div>}
 
       {error && <p role="alert" className="mt-4 border border-hp-red/35 bg-hp-red/10 p-3 text-sm">{error}</p>}
       {notice && <p role="status" className="mt-4 border border-emerald/35 bg-emerald/10 p-3 text-sm">{notice}</p>}
@@ -238,7 +269,7 @@ export default function AdminMedalGrantsPanel({
         onClick={() => void submit()}
         disabled={!selectedPlayer || !medal || alreadyOwned || !validReason || saving || lookingUp || refreshing}
       >
-        {saving ? "Confirmando entrega..." : "Entregar medalha ao jogador selecionado"}
+        {saving ? "Processando..." : "Entregar medalha ao jogador selecionado"}
       </button>
       <p className="mt-3 text-xs leading-relaxed text-text-muted">
         Entrega permanente. Diferente da medalha de teste, não há remoção automática.
