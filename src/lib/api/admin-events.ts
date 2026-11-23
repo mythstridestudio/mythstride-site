@@ -603,6 +603,8 @@ export interface AdminMedalCatalogItem {
 }
 
 export interface AdminPlayerMedal {
+  awardId?: string;
+  hasRunEvidence?: boolean;
   eventId: string;
   medalId: string;
   medalName: string;
@@ -683,5 +685,19 @@ export function updateAdminEventMedal(
     accessToken: token,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(request),
+  });
+}
+
+export function enrollAdminEventPlayers(token: string, eventId: string, playerIds: string[], reason: string, confirmFreeVirtualEvent: boolean) {
+  return apiFetch<{ added: number; alreadyEnrolled: number }>(
+    `/api/admin/event-support/${encodeURIComponent(eventId)}/enroll`,
+    { accessToken: token, method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ playerIds, reason: reason.trim(), confirmFreeVirtualEvent }) },
+  );
+}
+
+export function revokeAdminPlayerMedal(token: string, playerId: string, eventId: string, awardId: string, reason: string) {
+  return apiFetch<{ removed: boolean }>("/api/admin/event-support/revoke-medal", {
+    accessToken: token, method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ playerId, eventId, awardId, reason: reason.trim() }),
   });
 }
