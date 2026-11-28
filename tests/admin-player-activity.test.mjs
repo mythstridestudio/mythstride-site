@@ -20,3 +20,17 @@ test("admin users page shows the selected player's runs and sync state", async (
   // Never surface integration secrets in the admin client contract.
   assert.doesNotMatch(api, /accessToken:\s*string|refreshToken|rawPayload/i);
 });
+
+test("admin user profile enrolls in open events and credits currency safely", async () => {
+  const page = await file("src/app/(internal)/admin/users/users-page.tsx");
+  const panel = await file("src/app/(internal)/admin/users/player-profile-panel.tsx");
+  const api = await file("src/lib/api/admin-players.ts");
+  assert.match(page, /<PlayerProfilePanel key=\{`profile-\$\{selected\.playerId\}`\} token=\{token\} playerId=\{selected\.playerId\} \/>/);
+  assert.match(panel, /enrollAdminEventPlayers\(token, event\.id, \[playerId\], enrollReason, freeConfirmed\)/);
+  assert.match(panel, /creditAdminPlayer\(token, playerId, currency, parsedAmount, creditReason, creditKey\)/);
+  assert.match(panel, /window\.confirm\(/);
+  assert.match(panel, /parsedAmount >= 1 && parsedAmount <= max/);
+  assert.doesNotMatch(panel, /debit|dangerouslySetInnerHTML/i);
+  assert.match(api, /\/api\/admin\/players\/\$\{encodeURIComponent\(playerId\)\}\/credits/);
+  assert.match(api, /idempotencyKey/);
+});

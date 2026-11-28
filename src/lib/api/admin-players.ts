@@ -105,3 +105,72 @@ export function describeIneligibility(reason: string | null | undefined) {
   if (!reason) return null;
   return REASONS[reason] ?? reason;
 }
+
+export interface AdminPlayerProfile {
+  profile: {
+    playerId: string;
+    name: string;
+    email: string;
+    emailVerified: boolean;
+    authProvider: string;
+    role: string;
+    locale: string;
+    level: number;
+    xp: number;
+    gold: number;
+    diamonds: number;
+    lastRunAtUtc: string | null;
+    totalRuns: number;
+    totalDistanceKm: number;
+  };
+  events: {
+    eventId: string;
+    eventName: string;
+    eventStatus: number;
+    startsAtUtc: string;
+    endsAtUtc: string;
+    joinedAtUtc: string;
+    completed: boolean;
+    receivedMedal: boolean;
+    accumulatedKm: number;
+    disqualified: boolean;
+  }[];
+  recentDiamonds: {
+    amount: number;
+    type: string;
+    source: string;
+    description: string | null;
+    balanceAfter: number;
+    createdAtUtc: string;
+  }[];
+  limits: { maxDiamondsPerCredit: number; maxGoldPerCredit: number };
+}
+
+export type AdminCurrency = "diamonds" | "gold";
+
+export function getAdminPlayerProfile(token: string, playerId: string) {
+  return apiFetch<AdminPlayerProfile>(`/api/admin/players/${encodeURIComponent(playerId)}`, {
+    accessToken: token,
+    cache: "no-store",
+  });
+}
+
+/** Credit only. Reuse the same idempotencyKey when retrying one operation. */
+export function creditAdminPlayer(
+  token: string,
+  playerId: string,
+  currency: AdminCurrency,
+  amount: number,
+  reason: string,
+  idempotencyKey: string,
+) {
+  return apiFetch<{ currency: AdminCurrency; amount: number; balanceAfter: number; replayed: boolean }>(
+    `/api/admin/players/${encodeURIComponent(playerId)}/credits`,
+    {
+      accessToken: token,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ currency, amount, reason: reason.trim(), idempotencyKey }),
+    },
+  );
+}
