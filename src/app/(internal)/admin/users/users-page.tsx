@@ -9,6 +9,8 @@ import {
   type AdminMedalPlayer,
   type AdminPlayerMedal,
 } from "@/lib/api/admin-events";
+import PlayerActivityPanel from "./player-activity-panel";
+import PlayerProfilePanel from "./player-profile-panel";
 
 function UsersDirectory({ token }: { token: string }) {
   const [query, setQuery] = useState("");
@@ -59,7 +61,7 @@ function UsersDirectory({ token }: { token: string }) {
       <div className="border-b border-gold-dim/30 pb-5">
         <p className="text-xs uppercase tracking-[0.22em] text-fiery-orange">MythStride · Administração</p>
         <h1 className="mt-2 font-display text-3xl text-gold-bright sm:text-4xl">Usuários</h1>
-        <p className="mt-2 text-sm text-text-secondary">Consulte jogadores e as medalhas já registradas em suas contas.</p>
+        <p className="mt-2 text-sm text-text-secondary">Perfil, saldos, eventos, medalhas e corridas de cada jogador. Inscreva em eventos e credite diamantes ou ouro.</p>
       </div>
 
       <section className="app-panel rpg-card rounded-xl p-5 sm:p-6">
@@ -86,11 +88,13 @@ function UsersDirectory({ token }: { token: string }) {
         </div>
       </section>
 
+      {selected && <PlayerProfilePanel key={`profile-${selected.playerId}`} token={token} playerId={selected.playerId} />}
+
       {selected && (
         <section className="app-panel rpg-card rounded-xl p-5 sm:p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <h2 className="font-display text-xl text-gold-bright">{selected.name}</h2>
+              <h2 className="font-display text-xl text-gold-bright">Medalhas</h2>
               <p className="text-sm text-text-secondary">Medalhas de eventos: {medals.length}</p>
             </div>
             <Link href="/admin/medals" className="button button--secondary">Entregar medalha</Link>
@@ -107,6 +111,8 @@ function UsersDirectory({ token }: { token: string }) {
           <p className="mt-4 text-xs text-text-muted">Para conceder uma medalha, abra Entrega de Medalhas e selecione o destinatário.</p>
         </section>
       )}
+
+      {selected && <PlayerActivityPanel key={selected.playerId} token={token} playerId={selected.playerId} />}
     </div>
   );
 }
